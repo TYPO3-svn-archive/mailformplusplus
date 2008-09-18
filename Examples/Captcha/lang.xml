@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="legend">Captcha types</label>
+			<label index="submit">Send</label>
+			<label index="error_mathguard_answer_mathguard">MathGuard answer is incorrect!</label>
+			<label index="error_freecapfield_sr_freecap">Freecap is not correct</label>
+			<label index="error_captchafield_captcha">Captcha is not correct</label>
+			<label index="error_recaptcha_response_field_jm_recaptcha">Recaptcha is not correct</label>
+		</languageKey>
+	</data>
+</T3locallang>

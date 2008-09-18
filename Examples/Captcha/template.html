@@ -1,0 +1,46 @@
+<!-- ###TEMPLATE_FORM### begin -->
+###ERROR###
+<div id="mailformplusplus_contact_form">
+<form method="post" action="###REL_URL###" enctype="multipart/form-data">
+	<fieldset>
+		<legend>###LLL:legend###</legend>
+		<input type="hidden" name="mailformplusplus[submitted]" value="1" />
+		<div class="row">
+			###error_captchafield###
+			###CAPTCHA###
+			<input type="text" name="mailformplusplus[captchafield]" />
+			<div class="clear"></div>
+		</div>
+		<div class="row">
+			###error_freecapfield###
+			<!--###CAPTCHA_INSERT### this subpart is removed if CAPTCHA is not enabled! -->
+                <div>
+                  <label for="freecapfield">###SR_FREECAP_NOTICE###</label>
+				  <div class="clear"></div>
+                  ###SR_FREECAP_CANT_READ###
+                  <div class="clear"></div>
+                  <input type="text" size="15" id="freecapfield" name="mailformplusplus[freecapfield]" title="###SR_FREECAP_NOTICE###" value="">
+                  ###SR_FREECAP_IMAGE###
+                </div>
+            <!--###CAPTCHA_INSERT###-->
+			<div class="clear"></div>
+		</div>
+		<div class="row">
+			###error_recaptcha_response_field###
+			###RECAPTCHA###
+			<div class="clear"></div>
+		</div>
+		<div class="mathguard">
+			###error_mathguard_answer###
+			###MATHGUARD###
+			<div class="clear"></div>
+		</div>
+		<div class="row">
+			<input type="submit" value="###LLL:submit###"/>
+		</div>
+	</fieldset>
+</form>
+</div>
+<!-- ###TEMPLATE_FORM### end -->
+
+			

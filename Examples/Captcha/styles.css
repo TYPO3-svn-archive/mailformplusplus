@@ -1,0 +1,92 @@
+#mailformplusplus_contact_form {
+	width:800px;
+}
+
+#mailformplusplus_contact_form .row {
+	margin-bottom:10px;
+}
+
+#mailformplusplus_contact_form input.hidden, #mailformplusplus_contact_form input[type="hidden"] {
+        display: none;
+        border: none;
+}
+
+#mailformplusplus_contact_form input.submit, #mailformplusplus_contact_form input[type="submit"] {
+	border:1px solid #ccc;
+	width:auto;
+	display:inline;
+	clear:both;
+}
+
+#mailformplusplus_contact_form .mathguard {
+	padding:0;
+}
+
+#mailformplusplus_contact_form .interests_box {
+	border:1px solid #dedede;
+	padding:8px;
+	width:200px;
+	margin-left:200px;
+	height:180px;
+	float:left;
+}
+
+#mailformplusplus_contact_form .contact_box {
+	border:1px solid #dedede;
+	padding:8px;
+	width:200px;
+	margin-left:200px;
+	float:left;
+}
+
+#mailformplusplus_contact_form .interests_box label,
+#mailformplusplus_contact_form .contact_box label {
+	width:70px;
+}
+
+#mailformplusplus_contact_form fieldset, #mailformplusplus_contact_form input[type="text"], #mailformplusplus_contact_form textarea {
+	border:1px solid #dedede;
+}
+
+#mailformplusplus_contact_form fieldset {
+	padding:30px 10px 10px 10px;
+}
+
+#mailformplusplus_contact_form input {
+	padding:5px;
+}
+
+.error {
+	color:red;
+	font-weight:bold;
+}
+
+#mailformplusplus_contact_form label {
+	display:block;
+	float:left;
+	width:200px;
+}
+
+#mailformplusplus_contact_form input[type="text"], #mailformplusplus_contact_form textarea {
+	display:block;
+	width:200px;
+	float:left;
+}
+
+#mailformplusplus_contact_form .clear {
+	clear:both;
+}
+
+#mailformplusplus_contact_form .contexthelp {
+	border:1px solid #dedede;
+	background-color: #efefef;
+	padding:5px;
+	display:block;
+	font-size:small;
+}
+
+#mailformplusplus_contact_form .info {
+	float:left;
+	width:200px;
+	margin-left:20px;
+}

@@ -1,0 +1,34 @@
+plugin.tx_jmrecaptcha {
+  public_key = xxx
+  private_key = xxx
+}
+
+plugin.F3_MailformPlusPlus.settings.predef.captcha_example {
+  name = Example Captcha
+  addErrorAnchors = 1
+  
+  templateFile = EXT:mailformplusplus/Examples/Captcha/template.html
+  langFile = EXT:mailformplusplus/Examples/Captcha/lang.xml
+  stylesheetFile = EXT:mailformplusplus/Examples/Captcha/styles.css
+  formValuesPrefix = mailformplusplus
+  singleErrorTemplate {
+    singleWrap = <span class="error">|</span><br />
+  }
+  errorListTemplate {
+    totalWrap = <ul>|</ul>
+    singleWrap = <li class="error">|</li>
+  }
+  validators {
+    1 {
+      class = F3_MailformPlusPlus_Validator_Default
+      config {
+	fieldConf {
+	  captchafield.errorCheck.1 = captcha
+	  freecapfield.errorCheck.1 = sr_freecap
+	  recaptcha_response_field.errorCheck.1 = jm_recaptcha
+	  mathguard_answer.errorCheck.1 = mathguard
+	}  
+      }  
+    }
+  }
+}

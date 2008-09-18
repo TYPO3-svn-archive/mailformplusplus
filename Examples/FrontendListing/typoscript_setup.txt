@@ -1,0 +1,25 @@
+includeLibs.F3_MailformPlusPlus_FEListing = EXT:mailformplusplus/Classes/Controller/tx_MailformPlusPlus_Dispatcher.php
+plugin.F3_MailformPlusPlus_FEListing = USER_INT
+plugin.F3_MailformPlusPlus_FEListing.userFunc = tx_MailformPlusPlus_Dispatcher->main
+tt_content.list.20.mailformplusplus_pi2 < plugin.F3_MailformPlusPlus_FEListing
+tt_content.list.20.mailformplusplus_pi2.controller = F3_MailformPlusPlus_Controller_Listing
+
+
+
+
+plugin.F3_MailformPlusPlus.settings.fe_listing {
+  view = F3_MailformPlusPlus_View_Listing
+  templateFile = EXT:mailformplusplus/Examples/FrontendListing/template.html
+  pid = 39
+  table = tt_content
+  orderby = subheader DESC
+  enableDelete = 1
+  mapping {
+    header = name
+    bodytext = subject
+    subheader = sub_datetime
+    crdate = sub_tstamp
+    tstamp = sub_tstamp
+    imagecaption = ip
+  }
+}

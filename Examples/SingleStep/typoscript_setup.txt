@@ -1,0 +1,149 @@
+plugin.F3_MailformPlusPlus.settings.predef.singlestep_example {
+  name = Example SingleStep
+  debug = 0
+  addErrorAnchors = 1
+  singleFileMarkerTemplate {
+    totalWrap = <ul>|</ul>
+    singleWrap = <li style="color:maroon;">|</li>
+  }
+  totalFilesMarkerTemplate {
+    totalWrap = <ul>|</ul>
+    singleWrap = <li style="color:red;">|</li>
+  }
+  files {
+    clearTempFilesOlderThanHours = 24
+    tmpUploadFolder = uploads/MailformPlusPlussplus/tmp2/
+    enableAjaxFileRemoval = 1
+  }
+  templateFile = EXT:mailformplusplus/Examples/SingleStep/template.html
+  langFile = EXT:mailformplusplus/Examples/SingleStep/lang.xml
+  stylesheetFile = EXT:mailformplusplus/Examples/SingleStep/styles.css
+  formValuesPrefix = mailformplusplus
+  singleErrorTemplate {
+    totalWrap = <div>|</div>
+    singleWrap = <span class="error">|</span><br />
+  }
+  errorListTemplate {
+    totalWrap = <ul>|</ul>
+    singleWrap = <li class="error">|</li>
+  }
+  loggers {
+    1 {
+      class = F3_MailformPlusPlus_Logger_DB
+    }
+  }
+  validators {
+    1 {
+      class = F3_MailformPlusPlus_Validator_Default
+      config {
+	fieldConf {
+	  picture {
+            errorCheck.1 = file_allowedTypes
+            errorCheck.1.allowedTypes = jpg,gif
+            errorCheck.2 = file_minSize
+            errorCheck.2.minSize = 20000
+            errorCheck.3 = file_maxSize
+            errorCheck.3.maxSize= 100000
+            errorCheck.4 = file_maxCount
+            errorCheck.4.maxCount = 2
+          
+          }
+	  firstname {
+	    errorCheck.1 = required
+	    errorCheck.2 = maxLength
+	    errorCheck.2.value = 50
+	  }
+	  lastname {
+	    errorCheck.1 = required
+	    errorCheck.2 = maxLength
+	    errorCheck.2.value = 50
+	  }
+	  email {
+	    errorCheck.1 = required
+	    errorCheck.2 = email
+	  }
+	  interests {
+	    errorCheck.1 = minItems
+	    errorCheck.1.value = 2
+	    errorCheck.2 = required
+	  }
+	  contact_via {
+	    errorCheck.1 = required
+	  }
+	}  
+      }  
+    }
+  }
+  initInterceptors {
+    1 {
+      class = F3_MailformPlusPlus_Interceptor_RemoveXSS
+    }
+  }
+  finishers {
+     1 {
+      class = F3_MailformPlusPlus_Finisher_DB
+      config {
+        table = tt_content
+        key = uid
+        fields {
+          header {
+            mapping = name
+            if_is_empty = None given
+          }
+          bodytext {
+            mapping = subject
+            seperator = ,
+          }
+          hidden = 1
+          pid = 39
+          subheader.special = sub_datetime
+          crdate.special = sub_tstamp
+          tstamp.special = sub_tstamp
+          imagecaption.special = ip
+        }
+      }
+    }
+    2.class = F3_MailformPlusPlus_Finisher_Mail
+    2.config {
+      limitMailsToUser = 5
+      admin {
+        to_email = email@host.com
+        to_name = Some Admin
+        subject = SingleStep Request
+        sender_email = email
+        sender_name = lastname
+        replyto_email = email
+        replyto_name = lastname
+        htmlEmailAsAttachment = 1
+        attachment = picture
+      }
+      user {
+       to_email = email
+       to_name = lastname
+       subject = Your SingleStep request
+       sender_email = email@host.com
+       sender_name = Some Company
+       replyto_email = email@host.com
+       replyto_name = TEXT
+       replyto_name.value = Some Company
+       htmlEmailAsAttachment = 1
+       attachment = picture
+       attachPDF.class = F3_MailformPlusPlus_Generator_PDF
+       attachPDF.exportFields = firstname,lastname,email,interests,pid,submission_date,ip
+     }
+    }
+    3.class = F3_MailformPlusPlus_Finisher_Confirmation
+    3.returns = 1
+    3.config {
+      pdf {
+        class = F3_MailformPlusPlus_Generator_PDF
+        exportFields = firstname,lastname,interests,pid,ip,submission_date
+        export2File = 1
+      }
+      csv {
+        class = F3_MailformPlusPlus_Generator_CSV
+        exportFields = firstname,lastname,interests
+      }
+    }
+  }
+}
