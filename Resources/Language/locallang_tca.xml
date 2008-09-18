@@ -39,8 +39,48 @@
 		<languageKey index="dk" type="array">
 		</languageKey>
 		<languageKey index="de" type="array">
+			<label index="mailformplusplus.pi_flexform.sheet_general">Allgemeine Einstellungen</label>
+			<label index="mailformplusplus.pi_flexform.sheet_emailAdminSettings">Admin E-Mail Einstellungen</label>
+			<label index="mailformplusplus.pi_flexform.sheet_emailUserSettings">User E-Mail Einstellungen</label>
+			<label index="mailformplusplus.pi_flexform.sheet_miscSettings">Andere Einstellungen</label>
+			<label index="mailformplusplus.pi_flexform.template_file">Template-Datei</label>
+			<label index="mailformplusplus.pi_flexform.emailRecipient">Empfänger</label>
+			<label index="mailformplusplus.pi_flexform.emailSubject">Betreff</label>
+			<label index="mailformplusplus.pi_flexform.emailFrom">Absender E-mail</label>
+			<label index="mailformplusplus.pi_flexform.emailFromName">Absendername</label>
+			<label index="mailformplusplus.pi_flexform.redirectPage">Redirect Seite</label>
+			<label index="mailformplusplus.pi_flexform.mandatoryFields">Pflichtfelder (Kommaseparierte Liste mit Formularfeldnamen)</label>
+			<label index="mailformplusplus.pi_flexform.replyTo">Reply-To E-mail</label>
+			<label index="mailformplusplus.pi_flexform.replyToName">Reply-To Name</label>			
+
+			<label index="mailformplusplus.pi_flexform.emailConfirm">Sende E-mail an eine Adresse, die im Formular eingegeben wurde (Name des Formularfelds eingeben)</label>
+			<label index="mailformplusplus.pi_flexform.emailConfirmSubject">Betreff dieser E-Mail</label>
+			<label index="mailformplusplus.pi_flexform.template_predefined">Vordefinierte Formulare</label>
+			<label index="mailformplusplus.pi_flexform.template_controller">Typ</label>
+			<label index="mailformplusplus.pi_flexform.template_file">Template-Datei</label>
+			<label index="mailformplusplus.pi_flexform.lang_file">Übersetzungsdatei</label>
 		</languageKey>
 		<languageKey index="en" type="array">
+			<label index="mailformplusplus.pi_flexform.sheet_general">General Settings</label>
+			<label index="mailformplusplus.pi_flexform.sheet_emailAdminSettings">Admin E-Mail Settings</label>
+			<label index="mailformplusplus.pi_flexform.sheet_emailUserSettings">User E-Mail Settings</label>
+			<label index="mailformplusplus.pi_flexform.sheet_miscSettings">Other Settings</label>
+			<label index="mailformplusplus.pi_flexform.template_file">Template File</label>
+			<label index="mailformplusplus.pi_flexform.emailRecipient">Recipient</label>
+			<label index="mailformplusplus.pi_flexform.emailSubject">Subject</label>
+			<label index="mailformplusplus.pi_flexform.emailFrom">Mail From E-mail</label>
+			<label index="mailformplusplus.pi_flexform.emailFromName">Mail From Name</label>
+			<label index="mailformplusplus.pi_flexform.redirectPage">Redirect Page</label>
+			<label index="mailformplusplus.pi_flexform.mandatoryFields">Mandatory fields (enter names of formular fields seperated by ",")</label>
+			<label index="mailformplusplus.pi_flexform.replyTo">Reply-To E-mail (optional, name of input field)</label>
+			<label index="mailformplusplus.pi_flexform.replyToName">Reply-To Name (optional, name of input field)</label>			
+
+			<label index="mailformplusplus.pi_flexform.emailConfirm">Send E-mail to address entered in form (enter name of form field here)</label>
+			<label index="mailformplusplus.pi_flexform.emailConfirmSubject">Subject of the mail to the user:</label>
+			<label index="mailformplusplus.pi_flexform.template_predefined">Predefined forms:</label>
+			<label index="mailformplusplus.pi_flexform.template_controller">Type:</label>
+			<label index="mailformplusplus.pi_flexform.template_file">Template File</label>
+			<label index="mailformplusplus.pi_flexform.lang_file">Translation File</label>
 		</languageKey>
 		<languageKey index="no" type="array">
 		</languageKey>

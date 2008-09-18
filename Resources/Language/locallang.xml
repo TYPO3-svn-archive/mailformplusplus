@@ -10,5 +10,23 @@
 			<label index="welcome">Welcome to the log of MailformPlusPlus!</label>
 			<label index="mathguard_question"> security question, please solve:</label>
 		</languageKey>
+		<languageKey index="en" type="array">
+			<label index="title">MailformPlusPlus</label>
+			<label index="function1">Function #1</label>
+			<label index="function2">Function #2</label>
+			<label index="function3">Function #3</label>
+			<label index="noLogTable">Required table 'tx_mailformplusplus_log' not found. Please add the default logger to your MailformPlusPlus TypoScript setup.</label>
+			<label index="welcome">Welcome to the log of MailformPlusPlus!</label>
+			<label index="mathguard_question"> security question, please solve:</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="title">MailformPlusPlus</label>
+			<label index="function1">Function #1</label>
+			<label index="function2">Function #2</label>
+			<label index="function3">Function #3</label>
+			<label index="noLogTable">Benötigte Datenbanktabelle 'tx_mailformplusplus_log' nicht gefunden. Bitte fügen Sie den Logger F3_MailformPlusPlus_Logger_Default zu Ihrem MailformPlusPlus TypoScript setup hinzu.</label>
+			<label index="welcome">Willkommen zu der Log-Übersicht von MailformPlusPlus!</label>
+			<label index="mathguard_question"> Sicherheitsabfrage. Bitte lösen Sie folgende Rechnung:</label>
+		</languageKey>
 	</data>
 </T3locallang>

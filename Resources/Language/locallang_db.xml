@@ -28,7 +28,7 @@
 			<label index="be_please_select">choose a predefined form</label>
 		</languageKey>
 		<languageKey index="de" type="array">
-			<label index="tt_content.list_type_pi1">mailformplus</label>
+			<label index="tt_content.list_type_pi1">MailformPlusPlus</label>
 			<label index="tt_content.list_type_pi2">Mailformplus Liste</label>
 			<label index="tx_mailformplusplus_main">mailformplus</label>
 			<label index="tx_mailformplusplus_main.email_to">sende die Formularfelder an folgende Email</label>
