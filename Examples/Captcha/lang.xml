@@ -9,5 +9,21 @@
 			<label index="error_captchafield_captcha">Captcha is not correct</label>
 			<label index="error_recaptcha_response_field_jm_recaptcha">Recaptcha is not correct</label>
 		</languageKey>
+		<languageKey index="en" type="array">
+			<label index="legend">Captcha types</label>
+			<label index="submit">Send</label>
+			<label index="error_mathguard_answer_mathguard">MathGuard answer is incorrect!</label>
+			<label index="error_freecapfield_sr_freecap">Freecap is not correct</label>
+			<label index="error_captchafield_captcha">Captcha is not correct</label>
+			<label index="error_recaptcha_response_field_jm_recaptcha">Recaptcha is not correct</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="legend">Captcha-Arten</label>
+			<label index="submit">Absenden</label>
+			<label index="error_mathguard_answer_mathguard">MathGuard-Antwort ist nicht korrekt!</label>
+			<label index="error_freecapfield_sr_freecap">Freecap ist nicht korrekt!</label>
+			<label index="error_captchafield_captcha">Captcha ist nicht korrekt!</label>
+			<label index="error_recaptcha_response_field_jm_recaptcha">Recaptcha ist nicht korrekt!</label>
+		</languageKey>
 	</data>
 </T3locallang>
