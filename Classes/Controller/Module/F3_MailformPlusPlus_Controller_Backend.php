@@ -98,6 +98,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			
 			//show table
 			$table = $this->getTable($records);
+			
 			return $table;
 		}
 		
@@ -822,6 +823,10 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function getTable(&$records) {
+		if(count($records) == 0) {
+			return "<div>No records found!</div>";
+		}
+		
 		
 		//init gp params
 		$params = t3lib_div::_GP('mailformplusplus');
@@ -854,16 +859,16 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		
 		//start table
 		$table .= '
-			<script src="../../../Resources/JS/sorttable.js"></script>
+			<!--<script src="../../../Resources/JS/sorttable.js"></script>-->
 			
 			<table class="sortable">
-				<tr style="cursor:pointer;background: #cccccc;">
-					<th>PID</th>
-					<th>Submission date</th>
-					<th>IP</th>
-					<th>Detail View</th>
-					<th>Export</th>
-					<th>&nbsp;</th>
+				<tr style="font-size:large;font-weight:bold;background: #cccccc;">
+					<td>PID</th>
+					<td>Submission date</th>
+					<td>IP</th>
+					<td>Detail View</th>
+					<td>Export</th>
+					<td>&nbsp;</th>
 				</tr>
 			';
 		

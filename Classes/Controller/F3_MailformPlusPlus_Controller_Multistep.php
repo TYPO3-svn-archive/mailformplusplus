@@ -132,7 +132,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			
 			//set stylesheet
 			$GLOBALS['TSFE']->additionalHeaderData['special_css'] .= 
-				'<link rel="stylesheet" href="'.$stylesheetFile.'" type="text/css" media="screen" />';
+				'<link rel="stylesheet" href="'.F3_MailformPlusPlus_StaticFuncs::resolveRelPathFromSiteRoot($stylesheetFile).'" type="text/css" media="screen" />';
 		}
 		
 		//init view

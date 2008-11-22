@@ -243,6 +243,8 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 							$files['name'][$field] = $uploadedFileName;
 							
 							//move from temp folder to temp upload folder
+							print $files['tmp_name'][$field];
+							print $uploadPath.$uploadedFileName;
 							move_uploaded_file($files['tmp_name'][$field],$uploadPath.$uploadedFileName);
 							$files['uploaded_name'][$field] = $uploadedFileName;
 							
@@ -331,7 +333,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			
 			// set stylesheet
 			$GLOBALS['TSFE']->additionalHeaderData['special_css'] .= 
-				'<link rel="stylesheet" href="'.F3_MailformPlusPlus_StaticFuncs::resolveRelPath($stylesheetFile).'" type="text/css" media="screen" />';
+				'<link rel="stylesheet" href="'.F3_MailformPlusPlus_StaticFuncs::resolveRelPathFromSiteRoot($stylesheetFile).'" type="text/css" media="screen" />';
 		}
 		
 		//add some JavaScript for fancy form stuff

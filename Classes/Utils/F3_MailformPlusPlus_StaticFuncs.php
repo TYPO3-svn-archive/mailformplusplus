@@ -292,6 +292,26 @@ class F3_MailformPlusPlus_StaticFuncs {
 		$path = str_replace("//","/",$path);
 		return $path;
 	}
+	
+	/**
+     * Substitutes EXT: with extension path in a file path and returns the relative path from site root.
+     * 
+     * @author	Reinhard Führicht <rf@typoheads.at>
+     * @param string The path
+     * @return string The resolved path
+     * @static
+     */
+	public static function resolveRelPathFromSiteRoot($path) {
+		$path = explode("/",$path);
+		if(strpos($path[0],"EXT") > -1) {
+			$parts = explode(":",$path[0]);
+			$path[0] = t3lib_extMgm::extRelPath($parts[1]);
+		}
+		$path = implode("/",$path);
+		$path = str_replace("//","/",$path);
+		$path = str_replace("../","",$path);
+		return $path;
+	}
 }
 
 ?>

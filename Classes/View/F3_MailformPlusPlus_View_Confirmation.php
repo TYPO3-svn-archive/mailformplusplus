@@ -43,10 +43,8 @@ class F3_MailformPlusPlus_View_Confirmation extends F3_MailformPlusPlus_View_Def
 		#print_r($this->settings);
 		
 		//set language file
-		if(is_array($this->settings['langFile.'])) {
-			$this->langFile = $this->cObj->cObjGetSingle($this->settings['langFile'],$this->settings['langFile.']);
-		} else {
-			$this->langFile = F3_MailformPlusPlus_StaticFuncs::resolvePath($this->settings['langFile']);
+		if(!$this->langFile) {
+			$this->readLangFile();
 		}
 		
 		//fill Typoscript markers

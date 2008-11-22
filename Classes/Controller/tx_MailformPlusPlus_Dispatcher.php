@@ -56,6 +56,8 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	public function main($content, $setup) {
+		
+		$this->pi_USER_INT_obj = 1;
 		$this->componentManager = F3_GimmeFive_Component_Manager::getInstance();
 		$componentManager = $this->componentManager;
 		

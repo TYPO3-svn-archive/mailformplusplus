@@ -56,9 +56,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 				}
 			}
 		}
-		
-		
-		#print "hallo";
 
         // Add the content to or Result Box: #formResult
 		if(is_array($_SESSION['mailformplusplusFiles'])) {
@@ -115,11 +112,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		
 		//set language file
 		if(!$this->langFile) {
-			if(is_array($this->settings['langFile.'])) {
-				$this->langFile = $this->cObj->cObjGetSingle($this->settings['langFile'],$this->settings['langFile.']);
-			} else {
-				$this->langFile = F3_MailformPlusPlus_StaticFuncs::resolvePath($this->settings['langFile']);
-			}
+			$this->readLangFile();
 		}
 		
 		if(!$this->gp['submitted']) {
@@ -159,6 +152,20 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		
 		
 		return $this->pi_wrapInBaseClass($content);
+	}
+	
+	/**
+	 * Reads the translation file entered in TS setup.
+	 *
+	 * @return void
+	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 */
+	protected function readLangFile() {
+		if(is_array($this->settings['langFile.'])) {
+			$this->langFile = $this->cObj->cObjGetSingle($this->settings['langFile'],$this->settings['langFile.']);
+		} else {
+			$this->langFile = F3_MailformPlusPlus_StaticFuncs::resolveRelPathFromSiteRoot($this->settings['langFile']);
+		}
 	}
 	
 	/**
@@ -575,7 +582,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		if ($this->langFile != '') {
 			$aLLMarkerList = array();
 			preg_match_all('/###LLL:.+?###/Ssm', $this->template, $aLLMarkerList);
-			
 			foreach($aLLMarkerList[0] as $LLMarker){
 				$llKey =  strtolower(substr($LLMarker,7,strlen($LLMarker)-10));
 				$marker = $llKey;
