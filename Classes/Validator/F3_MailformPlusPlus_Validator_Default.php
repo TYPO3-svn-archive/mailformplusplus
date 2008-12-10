@@ -996,12 +996,15 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$pattern = $check['params']['pattern'];
 		eregi('^[h|m]*(.)[h|m]*', $pattern, $res);
 		$sep = $res[1];			    
-		$timeCheck = explode($sep, $this->gp[$name]);
+		$timeCheck = explode($sep, $this->get_post[$fieldname]);
 		if (is_array($timeCheck)) {
-			foreach ($timeCheck as $tc) {
-				if (!is_numeric($tc) || $tc < 0 || $tc > 59) {
-					$checkFailed = $this->getCheckFailed($check);
-				}
+			$hours = $tc[0];
+			if (!is_numeric($hours) || $hours < 0 || $hours > 23) {
+				$checkFailed = $this->getCheckFailed($check);
+			}
+			$minutes = $tc[1];
+			if (!is_numeric($minutes) || $minutes < 0 || $minutes > 59) {
+				$checkFailed = $this->getCheckFailed($check);
 			}
 		}
 		return $checkFailed;
