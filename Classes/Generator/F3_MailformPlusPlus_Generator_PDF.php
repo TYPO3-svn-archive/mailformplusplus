@@ -151,16 +151,16 @@ class F3_MailformPlusPlus_Generator_PDF {
      * 
      * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The values to export
-     * @param string $langFile The translation file configured in TypoScript of FormHandler
+     * @param string $langFile The translation file configured in TypoScript of MailformPlusPlus
      * @param array $exportFields A list of fields to export. If not set all fields are exported
      * @param string $file A filename to save the PDF in. If not set, the PDF will be rendered directly to screen
      * @param boolean $returns If set, the PDF will be rendered into the given file, if not set, the PDF will be rendered into the file and afterwards directly to screen
-     * @see F3_FormHandler_Finisher_Confirmation::process()
-     * @see F3_FormHandler_Finisher_Mail::parseMailSettings()
+     * @see F3_MailformPlusPlus_Finisher_Confirmation::process()
+     * @see F3_MailformPlusPlus_Finisher_Mail::parseMailSettings()
      * @return void|filename
      */
 	function generateFrontendPDF($gp,$langFile,$exportFields = array(),$file = "",$returns = false) {
-		$this->pdf = $this->componentManager->getComponent("F3_FormHandler_Template_PDF");
+		$this->pdf = $this->componentManager->getComponent("F3_MailformPlusPlus_Template_PDF");
 		$this->pdf->AliasNbPages();
 		$this->pdf->AddPage();
 		$this->pdf->SetFont('Arial','',12);
@@ -219,7 +219,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 
 		if(strlen($file) > 0) {
 			$this->pdf->Output($file, 'F');
-			$downloadpath = F3_FormHandler_StaticFuncs::getHostname().$file;
+			$downloadpath = F3_MailformPlusPlus_StaticFuncs::getHostname().$file;
 			if($returns) {
 				return $downloadpath;
 			}

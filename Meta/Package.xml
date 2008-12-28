@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <package xmlns="http://typo3.org/ns/2008/flow3/package">
-    <key>FormHandler</key>
+    <key>MailformPlusPlus</key>
     <title>Mailformplus MVC</title>
     <description>The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. Result: Flexibility, Flexibility, Flexibility  :-).</description>
     <version>0.8.0</version>

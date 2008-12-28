@@ -195,7 +195,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 					$v = trim($v);
 					if ($v != "") {
 						if(get_magic_quotes_gpc()) {
-							$markers['###value_'.$k.'###'] = stripslashes($this->reverse_htmlspecialchars($v));
+							$markers['###value_'.$k.'###'] = stripslashes(self::reverse_htmlspecialchars($v));
 						} else {
 							$markers['###value_'.$k.'###'] = self::reverse_htmlspecialchars($v);
 						}

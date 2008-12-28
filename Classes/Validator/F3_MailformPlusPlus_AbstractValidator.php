@@ -33,7 +33,7 @@ abstract class F3_MailformPlusPlus_AbstractValidator {
      * The global MailformPlusPlus configuration
      * 
      * @access protected
-     * @var F3_FormHandler_Configuration
+     * @var F3_MailformPlusPlus_Configuration
      */
 	protected $configuration;
 	

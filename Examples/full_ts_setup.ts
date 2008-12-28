@@ -14,7 +14,7 @@
 * Singe step forms
 **********************************************************
 */      
-plugin.F3_FormHandler.settings {
+plugin.F3_MailformPlusPlus.settings {
   
   /*
   * Path to template file or TS object 
@@ -33,15 +33,15 @@ plugin.F3_FormHandler.settings {
   
   /*
   * The view class to use. You can write your own view class.
-  * Default: F3_FormHandler_View_Default  
+  * Default: F3_MailformPlusPlus_View_Default  
   */  
-  view = F3_FormHandler_View_Default
+  view = F3_MailformPlusPlus_View_Default
   
   /*
   * The controller class to use. You can write your own controller class.
-  * Default: F3_FormHandler_Controller_Default  
+  * Default: F3_MailformPlusPlus_Controller_Default  
   */  
-  controller = F3_FormHandler_Controller_Default
+  controller = F3_MailformPlusPlus_Controller_Default
   
   /*
   * Prefix of form fields. Use this if you use a prefix for your forms to avoid
@@ -52,13 +52,13 @@ plugin.F3_FormHandler.settings {
   * 
   * Example:      
   *
-  * <input type="text" name="formhandler[email]" value="###value_email###" />
+  * <input type="text" name="mailformplusplus[email]" value="###value_email###" />
   * 
   * If you do not set formValuesPrefix, you will not be able to use the marker 
   * ###value_email###.      
   *
   */      
-  formValuesPrefix = formhandler
+  formValuesPrefix = mailformplusplus
   
   /*
   * A quite nice little feature.
@@ -148,7 +148,7 @@ plugin.F3_FormHandler.settings {
     /*
     * parent id of the form elements
     */ 
-    parentId = formhandler_contact_form
+    parentId = mailformplusplus_contact_form
     
     /*
     * how many times to add parent() call for traversing in DOM tree to get to a 
@@ -199,7 +199,7 @@ plugin.F3_FormHandler.settings {
     /*
     *  Uploaded files will be stored in this folder
     */
-    tmpUploadFolder = uploads/formhandler/tmp2/
+    tmpUploadFolder = uploads/mailformplusplus/tmp2/
     
     /*
     *  Adds a remove link to every filename in ###[fieldname]_uploadedFiles### 
@@ -210,20 +210,20 @@ plugin.F3_FormHandler.settings {
   }
 
   /*
-  * Add a list of classes subclassing F3_FormHandler_AbstractLogger.
+  * Add a list of classes subclassing F3_MailformPlusPlus_AbstractLogger.
   * The loggers will be called just before the finishers. A default
-  * implementation of a logger is F3_FormHandler_Logger_DB.
-  * This class logs into tx_formhandler_log.
+  * implementation of a logger is F3_MailformPlusPlus_Logger_DB.
+  * This class logs into tx_mailformplusplus_log.
   */
   loggers {
     1 {
-      class = F3_FormHandler_Logger_DB
+      class = F3_MailformPlusPlus_Logger_DB
     }
   }
 
   /*
-  * Add a list of classes subclassing F3_FormHandler_AbstractValidator.
-  * A default implementation of a validator is F3_FormHandler_Validator_Default,
+  * Add a list of classes subclassing F3_MailformPlusPlus_AbstractValidator.
+  * A default implementation of a validator is F3_MailformPlusPlus_Validator_Default,
   * which provides plenty of error checks. 
   * 
   * If you use an error check which needs a parameter to be set 
@@ -234,7 +234,7 @@ plugin.F3_FormHandler.settings {
   * 
   * validators {
   *   1 {
-  *     class = F3_FormHandler_Validator_Default
+  *     class = F3_MailformPlusPlus_Validator_Default
   *       config {
   *         fieldConf {
   *           firstname {
@@ -262,7 +262,7 @@ plugin.F3_FormHandler.settings {
   */
   validators {
     1 {
-      class = F3_FormHandler_Validator_Default
+      class = F3_MailformPlusPlus_Validator_Default
       config {
         
         /*
@@ -294,39 +294,39 @@ plugin.F3_FormHandler.settings {
   }
 
   /*
-  * Add a list of classes subclassing F3_FormHandler_AbstractInterceptor.
+  * Add a list of classes subclassing F3_MailformPlusPlus_AbstractInterceptor.
   * The init interceptors will be called each time before the form is processed. 
   * A default implementation of an init interceptor is 
-  * F3_FormHandler_Interceptor_RemoveXSS.
+  * F3_MailformPlusPlus_Interceptor_RemoveXSS.
   * This class scans the submitted GET/POST values and removes malicious stuff.
   */
   initInterceptors {
     1 {
-      class = F3_FormHandler_Interceptor_RemoveXSS
+      class = F3_MailformPlusPlus_Interceptor_RemoveXSS
     }
   }
 	
 	/*
-  * Add a list of classes subclassing F3_FormHandler_AbstractInterceptor.
+  * Add a list of classes subclassing F3_MailformPlusPlus_AbstractInterceptor.
   * The save interceptors will be called before the finishers are called.
   * Use them to prepare the submitted data for sending via e-mail or saving 
   * them to database.  
   */
 	saveInterceptors {
     1 {
-      class = F3_FormHandler_Interceptor_Default
+      class = F3_MailformPlusPlus_Interceptor_Default
     }
   }
 
   /*
-  * Add a list of classes subclassing F3_FormHandler_AbstractPreProcessor.
+  * Add a list of classes subclassing F3_MailformPlusPlus_AbstractPreProcessor.
   * The pre processors will be called only when the form is shown the first
   * time.
   * Use them to prepare data for prefilling form fields with default values.  
   */
   preProcessors {
     1 {
-      class = F3_FormHandler_PreProcessor_Default
+      class = F3_MailformPlusPlus_PreProcessor_Default
       config {
         
       }
@@ -334,18 +334,18 @@ plugin.F3_FormHandler.settings {
   }
 
   /*
-  * Add a list of classes subclassing F3_FormHandler_AbstractFinisher.
+  * Add a list of classes subclassing F3_MailformPlusPlus_AbstractFinisher.
   * The finishers will be called when the form is successfully submitted.
   * 
   * There are some default implementations of a finisher:
   * 
-  * - F3_FormHandler_Finisher_DB
-  * - F3_FormHandler_Finisher_DifferentDB  
-  * - F3_FormHandler_Finisher_Mail
-  * - F3_FormHandler_Finisher_Redirect
-  * - F3_FormHandler_Finisher_StoreUploadedFiles
-  * - F3_FormHandler_Finisher_ClearCache 
-  * - F3_FormHandler_Finisher_Confirmation                  
+  * - F3_MailformPlusPlus_Finisher_DB
+  * - F3_MailformPlusPlus_Finisher_DifferentDB  
+  * - F3_MailformPlusPlus_Finisher_Mail
+  * - F3_MailformPlusPlus_Finisher_Redirect
+  * - F3_MailformPlusPlus_Finisher_StoreUploadedFiles
+  * - F3_MailformPlusPlus_Finisher_ClearCache 
+  * - F3_MailformPlusPlus_Finisher_Confirmation                  
   */
   finishers {
      1 {
@@ -354,7 +354,7 @@ plugin.F3_FormHandler.settings {
       * Stores submited values in a table in TYPO3_DB according to the 
       * configured mapping.         
       */
-      class = F3_FormHandler_Finisher_DB
+      class = F3_MailformPlusPlus_Finisher_DB
       config {
         
         /*
@@ -462,7 +462,7 @@ plugin.F3_FormHandler.settings {
       * 
       *             
       */
-      class = F3_FormHandler_Finisher_Mail
+      class = F3_MailformPlusPlus_Finisher_Mail
       config {
         
         /*
@@ -525,10 +525,10 @@ plugin.F3_FormHandler.settings {
           /*
           * Attaches a PDF file including the submitted values.
           * A default implementation for a generator is 
-          * F3_FormHandler_Generator_PDF.
+          * F3_MailformPlusPlus_Generator_PDF.
           * Feel free to wirte your own generators and templates.                          
           */
-          attachPDF.class = F3_FormHandler_Generator_PDF
+          attachPDF.class = F3_MailformPlusPlus_Generator_PDF
           
           /*
           * Use this so that fields like submitted=1 get not exported to the 
@@ -552,13 +552,13 @@ plugin.F3_FormHandler.settings {
           replyto_name.value = Reinhard Führicht
           htmlEmailAsAttachment = 1
           attachment = picture
-          attachPDF.class = F3_FormHandler_Generator_PDF
+          attachPDF.class = F3_MailformPlusPlus_Generator_PDF
           attachPDF.exportFields = firstname,lastname,email,interests
         }
       }
     }
     3 {
-      class = F3_FormHandler_Finisher_DifferentDB
+      class = F3_MailformPlusPlus_Finisher_DifferentDB
       config {
         host = 10.50.50.60
         port = 666
@@ -569,7 +569,7 @@ plugin.F3_FormHandler.settings {
         driver = mysql
         
         /*
-        * The rest of the config equals the config of F3_FormHandler_Finisher_DB
+        * The rest of the config equals the config of F3_MailformPlusPlus_Finisher_DB
         */            
       }
     }
@@ -584,7 +584,7 @@ plugin.F3_FormHandler.settings {
       * successful form submission and delete files uploaded while an 
       * interrupted form process.            
       */      
-      class = F3_FormHandler_Finisher_StoreUploadedFiles
+      class = F3_MailformPlusPlus_Finisher_StoreUploadedFiles
       config {
         finishedUploadFolder = fileadmin/savedFiles
       }
@@ -594,7 +594,7 @@ plugin.F3_FormHandler.settings {
       /*
       * Clears cache for this page. Needs no further configuration
       */      
-      class = F3_FormHandler_Finisher_ClearCache
+      class = F3_MailformPlusPlus_Finisher_ClearCache
     }
     6 {
       
@@ -604,7 +604,7 @@ plugin.F3_FormHandler.settings {
       * No other finisher is called after this one, because it redirects.
       * Make sure this is the last one in the chain.                  
       */ 
-      class = F3_FormHandler_Finisher_Redirect
+      class = F3_MailformPlusPlus_Finisher_Redirect
       config {
         redirectPage = 23
         
@@ -648,7 +648,7 @@ plugin.F3_FormHandler.settings {
       * </div>
       * <!-- ###TEMPLATE_CONFIRMATION### end -->                                                                
       */
-      class = F3_FormHandler_Finisher_Confirmation
+      class = F3_MailformPlusPlus_Finisher_Confirmation
       
       /*
       * Since this finishers returns HTML code to show, you have to add this
@@ -662,7 +662,7 @@ plugin.F3_FormHandler.settings {
         * Config for PDF export
         */        
         pdf {
-          class = F3_FormHandler_Generator_PDF
+          class = F3_MailformPlusPlus_Generator_PDF
           exportFields = firstname,lastname,interests,pid,ip,submission_date
           
           /*
@@ -672,7 +672,7 @@ plugin.F3_FormHandler.settings {
           export2File = 1
         }
         csv {
-          class = F3_FormHandler_Generator_CSV
+          class = F3_MailformPlusPlus_Generator_CSV
           exportFields = firstname,lastname,interests
         }
       }
@@ -687,8 +687,8 @@ plugin.F3_FormHandler.settings {
 * Predefined forms
 **********************************************************
 */ 
-plugin.F3_FormHandler.settings.predef.contactform < plugin.F3_FormHandler.settings
-plugin.F3_FormHandler.settings.predef.contactform.name = Contact Form
+plugin.F3_MailformPlusPlus.settings.predef.contactform < plugin.F3_MailformPlusPlus.settings
+plugin.F3_MailformPlusPlus.settings.predef.contactform.name = Contact Form
 
 /*
 **********************************************************    
@@ -697,7 +697,7 @@ plugin.F3_FormHandler.settings.predef.contactform.name = Contact Form
 *
 * Overwrite settings made before for a specific step.
 */ 
-plugin.F3_FormHandler.settings.1 {
+plugin.F3_MailformPlusPlus.settings.1 {
   validators.1.config.fieldConf {
     
   }
@@ -712,7 +712,7 @@ plugin.F3_FormHandler.settings.1 {
   radionButtonFields = contact_via
 }
 
-plugin.F3_FormHandler.settings.2 {
+plugin.F3_MailformPlusPlus.settings.2 {
   validators.1.config.fieldConf {
     
   }
@@ -725,8 +725,8 @@ plugin.F3_FormHandler.settings.2 {
 *
 * Set different settings and template subparts according to user input.
 */ 
-[globalVar = GP:formhandler|surname=typoheads]
-plugin.F3_FormHandler.settings.2 {
+[globalVar = GP:mailformplusplus|surname=typoheads]
+plugin.F3_MailformPlusPlus.settings.2 {
   templateSuffix = _typoheads
 }
 [global]
@@ -745,16 +745,16 @@ plugin.F3_FormHandler.settings.2 {
 * This is needed to call the right dispatcher, but maybe it's better to put 
 * this into a static template file.
 */
-includeLibs.F3_FormHandler_FEListing = EXT:formhandler/Classes/Controller/tx_FormHandler_Dispatcher.php
-plugin.F3_FormHandler_FEListing = USER_INT
-plugin.F3_FormHandler_FEListing.userFunc = tx_FormHandler_Dispatcher->main
-tt_content.list.20.formhandler_pi2 < plugin.F3_FormHandler_FEListing
-tt_content.list.20.formhandler_pi2.controller = F3_FormHandler_Controller_Listing
+includeLibs.F3_MailformPlusPlus_FEListing = EXT:mailformplusplus/Classes/Controller/tx_MailformPlusPlus_Dispatcher.php
+plugin.F3_MailformPlusPlus_FEListing = USER_INT
+plugin.F3_MailformPlusPlus_FEListing.userFunc = tx_MailformPlusPlus_Dispatcher->main
+tt_content.list.20.mailformplusplus_pi2 < plugin.F3_MailformPlusPlus_FEListing
+tt_content.list.20.mailformplusplus_pi2.controller = F3_MailformPlusPlus_Controller_Listing
 
 
-plugin.F3_FormHandler.settings.fe_listing {
-  view = F3_FormHandler_View_Listing
-  templateFile = fileadmin/templates/ext/formhandler/listing.html
+plugin.F3_MailformPlusPlus.settings.fe_listing {
+  view = F3_MailformPlusPlus_View_Listing
+  templateFile = fileadmin/templates/ext/mailformplusplus/listing.html
   pid = 39
   table = tt_content
   orderby = subheader DESC

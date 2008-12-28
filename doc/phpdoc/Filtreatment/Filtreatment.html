@@ -1,0 +1,567 @@
+<html>
+<head>
+<title>Docs For Class Filtreatment</title>
+<link rel="stylesheet" type="text/css" href="../media/style.css">
+</head>
+<body>
+
+<table border="0" cellspacing="0" cellpadding="0" height="48" width="100%">
+  <tr>
+    <td class="header_top">Filtreatment</td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+  <tr>
+    <td class="header_menu">
+        
+                                                        
+                              		  [ <a href="../classtrees_Filtreatment.html" class="menu">class tree: Filtreatment</a> ]
+		  [ <a href="../elementindex_Filtreatment.html" class="menu">index: Filtreatment</a> ]
+		  	    [ <a href="../elementindex.html" class="menu">all elements</a> ]
+    </td>
+  </tr>
+  <tr><td class="header_line"><img src="../media/empty.png" width="1" height="1" border="0" alt=""  /></td></tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="200" class="menu">
+      <b>Packages:</b><br />
+              <a href="../li_F3_MailformPlusPlus.html">F3_MailformPlusPlus</a><br />
+              <a href="../li_Filtreatment.html">Filtreatment</a><br />
+            <br /><br />
+                        <b>Files:</b><br />
+      	  <div class="package">
+			<a href="../Filtreatment/_Resources---PHP---filtreatment---Filtreatment.php.html">		Filtreatment.php
+		</a><br>
+	  </div><br />
+      
+      
+            <b>Classes:</b><br />
+        <div class="package">
+		    		<a href="../Filtreatment/Filtreatment.html">Filtreatment</a><br />
+	  </div>
+                </td>
+    <td>
+      <table cellpadding="10" cellspacing="0" width="100%" border="0"><tr><td valign="top">
+
+<h1>Class: Filtreatment</h1>
+Source Location: /Resources/PHP/filtreatment/Filtreatment.php<br /><br />
+
+
+<table width="100%" border="0">
+<tr><td valign="top">
+
+<h3><a href="#class_details">Class Overview</a></h3>
+<pre></pre><br />
+<div class="description">CLASS DEFINITION</div><br /><br />
+
+
+
+
+
+
+        
+</td>
+
+<td valign="top">
+<h3><a href="#class_vars">Variables</a></h3>
+<ul>
+    <li><a href="../Filtreatment/Filtreatment.html#var$error">$error</a></li>
+    <li><a href="../Filtreatment/Filtreatment.html#var$maxval">$maxval</a></li>
+    <li><a href="../Filtreatment/Filtreatment.html#var$minval">$minval</a></li>
+  </ul>
+</td>
+
+
+<td valign="top">
+<h3><a href="#class_methods">Methods</a></h3>
+<ul>
+    <li><a href="../Filtreatment/Filtreatment.html#method__construct">__construct</a></li>
+    <li><a href="../Filtreatment/Filtreatment.html#methoddisplay_error">display_error</a></li>
+    <li><a href="../Filtreatment/Filtreatment.html#methodft_dbsql">ft_dbsql</a></li>
+    <li><a href="../Filtreatment/Filtreatment.html#methodft_email">ft_email</a></li>
+    <li><a href="../Filtreatment/Filtreatment.html#methodft_float">ft_float</a></li>
+    <li><a href="../Filtreatment/Filtreatment.html#methodft_integer">ft_integer</a></li>
+    <li><a href="../Filtreatment/Filtreatment.html#methodft_strregex">ft_strregex</a></li>
+    <li><a href="../Filtreatment/Filtreatment.html#methodft_validdate">ft_validdate</a></li>
+    <li><a href="../Filtreatment/Filtreatment.html#methodft_xss">ft_xss</a></li>
+  </ul>
+</td>
+
+</tr></table>
+<hr />
+
+<table width="100%" border="0"><tr>
+
+
+
+
+
+
+</tr></table>
+<hr />
+
+<a name="class_details"></a>
+<h3>Class Details</h3>
+<div class="tags">
+[line 29]<br />
+CLASS DEFINITION<br /><br /><p>This class can be used to sanitize user inputs and prevent  most of known vulnerabilities  it requires at least PHP 5.0</p><br /></div><br /><br />
+<div class="top">[ <a href="#top">Top</a> ]</div><br />
+
+<hr />
+<a name="class_vars"></a>
+<h3>Class Variables</h3>
+<div class="tags">
+	<a name="var$error"></a>
+	<p></p>
+	<h4>$error = <span class="value">&nbsp;''</span></h4>
+	<p>[line 33]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$maxval"></a>
+	<p></p>
+	<h4>$maxval = <span class="value">&nbsp;0</span></h4>
+	<p>[line 32]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+	<a name="var$minval"></a>
+	<p></p>
+	<h4>$minval = <span class="value">&nbsp;0</span></h4>
+	<p>[line 31]</p>
+  <br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+
+  <br />
+	<div class="tags">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><b>Type:</b>&nbsp;&nbsp;</td>
+      <td>mixed</td>
+    </tr>
+      </table>
+	</div><br /><br />
+	<div class="top">[ <a href="#top">Top</a> ]</div><br />
+</div><br />
+
+<hr />
+<a name="class_methods"></a>
+<h3>Class Methods</h3>
+<div class="tags">
+
+  <hr />
+	<a name="method__construct"></a>
+	<h3>constructor __construct <span class="smalllinenumber">[line 43]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void __construct(
+none
+0)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		CONSTRUCTOR<br /><br /><p>do some settings at init</p><br /><br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">none&nbsp;&nbsp;</td>
+        <td><b>0</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methoddisplay_error"></a>
+	<h3>method display_error <span class="smalllinenumber">[line 447]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void display_error(
+[int
+$mode = 1])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		DISPLAY ERRORS<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">int&nbsp;&nbsp;</td>
+        <td><b>$mode</b>&nbsp;&nbsp;</td>
+        <td>- if 1 then echo the string; if 2 then echo the string</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodft_dbsql"></a>
+	<h3>method ft_dbsql <span class="smalllinenumber">[line 208]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string|bool ft_dbsql(
+string
+$value, [string
+$db_type = 'MYSQL'])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		PREPARES THE INPUT FOR DATABASE<br /><br /><p>works with mysql/postgresql  NOTE: mysql_real_escape_string() requires that a valid mysql connection (mysql_connect()) exists to work</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>sanitized value</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$value</b>&nbsp;&nbsp;</td>
+        <td>- email to validate</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$db_type</b>&nbsp;&nbsp;</td>
+        <td>- allow two constants MYSQL | PGSQL</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodft_email"></a>
+	<h3>method ft_email <span class="smalllinenumber">[line 164]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string|bool ft_email(
+
+$email, string
+$str)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		VALIDATES AN EMAIL<br /><br /><p>implies RFC 2822</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>- the string itselfs only for valid email</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$str</b>&nbsp;&nbsp;</td>
+        <td>- email to validate</td>
+      </tr>
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$email</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodft_float"></a>
+	<h3>method ft_float <span class="smalllinenumber">[line 96]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int|bool ft_float(
+int
+$input)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		CHECKS FOR A FLOAT<br /><br /><p>if the $minval and|or $maxval are set, a comparison will be performed</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">int&nbsp;&nbsp;</td>
+        <td><b>$input</b>&nbsp;&nbsp;</td>
+        <td>- what to check/transform</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodft_integer"></a>
+	<h3>method ft_integer <span class="smalllinenumber">[line 61]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>int|bool ft_integer(
+int
+$input)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		CHECKS FOR AN INTEGER<br /><br /><p>if the $minval and|or $maxval are set, a comparison will be performed</p><p>NOTE: because the function can return 0 also as a valid result, check with === the return value</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">int&nbsp;&nbsp;</td>
+        <td><b>$input</b>&nbsp;&nbsp;</td>
+        <td>- what to check/transform</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodft_strregex"></a>
+	<h3>method ft_strregex <span class="smalllinenumber">[line 240]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string|bool ft_strregex(
+string
+$value, string
+$regex, [int
+$cv = 1])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		WORKS ON A STRING WITH REGEX EXPRESSION<br /><br /><p>checks a string for specified characters</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>return string if check succeed ($cv = 1) or string with replaced chars</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$value</b>&nbsp;&nbsp;</td>
+        <td>- variable to sanitize</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$regex</b>&nbsp;&nbsp;</td>
+        <td>- is in a special form detailed below:  it contains ONLY allowed characters, ANY other characters making invalid string  it must NOT contain begin/end delimitators  /[... ]/  eg: 0-9, 0-9A-Za-z, AERS</td>
+      </tr>
+          <tr>
+        <td class="type">int&nbsp;&nbsp;</td>
+        <td><b>$cv</b>&nbsp;&nbsp;</td>
+        <td>- 1 or 2</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodft_validdate"></a>
+	<h3>method ft_validdate <span class="smalllinenumber">[line 143]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string|bool ft_validdate(
+string
+$str)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		VALIDATES A DATE<br /><br /><p>must be in YYYY-MM-DD format</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>- the string itselfs only for valid date</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$str</b>&nbsp;&nbsp;</td>
+        <td>- date in requested format</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodft_xss"></a>
+	<h3>method ft_xss <span class="smalllinenumber">[line 274]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>string|bool ft_xss(
+string
+$str, [string
+$charset = 'ISO-8859-1'])</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		CLEANS AGAINST XSS<br /><br /><p>NOTE all credits goes to codeigniter.com</p><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>sanitized string</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$str</b>&nbsp;&nbsp;</td>
+        <td>- string to check</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$charset</b>&nbsp;&nbsp;</td>
+        <td>- character set (default ISO-8859-1)</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+</div><br />
+
+
+        <div class="credit">
+		    <hr />
+		    Documentation generated on Sun, 28 Dec 2008 01:17:14 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+	      </div>
+      </td></tr></table>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
