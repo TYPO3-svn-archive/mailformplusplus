@@ -65,6 +65,14 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
      */
 	protected $settings;
 	
+	/**
+     * An array containing the values enterd in the plugin record.
+     * 
+     * @access protected
+     * @var array
+     */
+	protected $emailSettings;
+	
 	
 	
 	/**
@@ -83,34 +91,12 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		//set settings
 		$this->settings = $settings;
 		$this->init();
-		$mailSettings = $this->parseMailSettings($settings['admin.']);
-		$this->mergeSettingsWithPluginData($mailSettings,"admin");
-		$mailSettings = $this->parseMailSettings($mailSettings);
-		$template['plain'] = $this->parseTemplate("admin","plain");
-		$template['html'] = $this->parseTemplate("admin","html");
-		$this->sendMail($mailSettings,$template);
-		$mailSettings = $this->parseMailSettings($settings['user.']);
-		$this->mergeSettingsWithPluginData($mailSettings,"user");
-		$mailSettings = $this->parseMailSettings($mailSettings);
-		$template['plain'] = $this->parseTemplate("user","plain");
-		$template['html'] = $this->parseTemplate("user","html");
-		$this->sendMail($mailSettings,$template);
+		
+		//send emails
+		$this->sendMail('admin');
+		$this->sendMail('user');
+		
 		return $this->gp;
-	}
-	
-	/**
-     * Merges settings from TypoScript with settings made in plugin record.
-     * The settings in plugin record override the TypoScript settings.
-     * 
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @param array &$mailSettings The parsed TypoScript settings
-     * @param string $type admin/user
-     * @return void
-     */
-	public function mergeSettingsWithPluginData(&$mailSettings,$type) {
-		foreach($this->emailSettings[$type] as $key=>$value) {
-			$mailSettings[$key] = $value;
-		}
 	}
 	
 	/**
@@ -207,7 +193,13 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
      * @param array &$template Array holding the templates for plain text and html
      * @return void
      */
-	protected function sendMail(&$settings,&$template) {
+	protected function sendMail($type) {
+		
+		$mailSettings = $this->parseMailSettings($this->settings[$type.'.'],$type);
+		$template['plain'] = $this->parseTemplate($type,"plain");
+		$template['html'] = $this->parseTemplate($type,"html");
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('E-Mail settings for '.$type);
+		F3_MailformPlusPlus_StaticFuncs::debugArray($mailSettings);
 		
 		//init mailer object
 		require_once(PATH_t3lib.'class.t3lib_htmlmail.php');
@@ -215,31 +207,31 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	    $emailObj->start();
 		
 		//set e-mail options
-	    $emailObj->subject = $settings['subject'];
+	    $emailObj->subject = $mailSettings['subject'];
 	    
-	    $sender = $settings['sender_email'];
-	    if(is_array($settings['sender_email'])) {
-	    	$sender = implode(",",$settings['sender_email']);
+	    $sender = $mailSettings['sender_email'];
+	    if(is_array($mailSettings['sender_email'])) {
+	    	$sender = implode(",",$mailSettings['sender_email']);
 	    }
 	    $emailObj->from_email = $sender;
-	    $emailObj->from_name = $settings['sender_name'];
+	    $emailObj->from_name = $mailSettings['sender_name'];
 	    
-		$replyto = $settings['replyto_email'];
-	    if(is_array($settings['replyto_email'])) {
-	    	$replyto = implode(",",$settings['replyto_email']);
+		$replyto = $mailSettings['replyto_email'];
+	    if(is_array($mailSettings['replyto_email'])) {
+	    	$replyto = implode(",",$mailSettings['replyto_email']);
 	    }
 	    $emailObj->replyto_email = $replyto;
-	    $emailObj->replyto_name = $settings['replyto_name'];
+	    $emailObj->replyto_name = $mailSettings['replyto_name'];
 	    $emailObj->returnPath = '';
-	    if($settings['email_header']) {
-	    	$emailObj->add_header($settings['header']);
+	    if($mailSettings['email_header']) {
+	    	$emailObj->add_header($mailSettings['header']);
 	    }
 	    if($template['plain']) {
 	    	$emailObj->setPlain($template['plain']);
 	    }
 		
 		if($template['html']) {
-			if($settings['htmlEmailAsAttachment']) {
+			if($mailSettings['htmlEmailAsAttachment']) {
 				$tmphtml=tempnam("typo3temp/","/mailformplusplus_").".html";
 				$tmphandle=fopen($tmphtml,"wb");
 				if ($tmphandle) {
@@ -252,19 +244,19 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			}
 	    }
 		
-		if(!is_array($settings['attachment'])) {
-			$settings['attachment'] = array($settings['attachment']);
+		if(!is_array($mailSettings['attachment'])) {
+			$mailSettings['attachment'] = array($mailSettings['attachment']);
 		}
-		foreach($settings['attachment'] as $attachment) {
+		foreach($mailSettings['attachment'] as $attachment) {
 			if(strlen($attachment) > 0) {
 				$emailObj->addAttachment($attachment);
 			}
 		}
 		
 		#print_r($settings);
-		if($settings['attachPDF']) {
+		if($mailSettings['attachPDF']) {
 			#print "adding pdf";
-			$emailObj->addAttachment($settings['attachPDF']);
+			$emailObj->addAttachment($mailSettings['attachPDF']);
 		}
 	    
 		//parse max count of mails to send
@@ -273,10 +265,10 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	    if(!$max) {
 	    	$max = 2;
 	    }
-		if(!is_array($settings['to_email'])) {
-			$settings['to_email'] = array($settings['to_email']);
+		if(!is_array($mailSettings['to_email'])) {
+			$settings['to_email'] = array($mailSettings['to_email']);
 		}
-		reset($settings['to_email']);
+		reset($mailSettings['to_email']);
 		
 		$markers = F3_MailformPlusPlus_StaticFuncs::substituteIssetSubparts($template['html']);
 		$template['html'] = $this->cObj->substituteMarkerArray($template['html'], $markers);
@@ -284,7 +276,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		$template['plain'] = $this->cObj->substituteMarkerArray($template['plain'], $markers);
 		
 		//send e-mails
-	    foreach($settings['to_email'] as $mailto) {
+	    foreach($mailSettings['to_email'] as $mailto) {
 	    	
 	    	if($count < $max) {
 	    		if (strstr($mailto, '@') && !eregi("\r",$mailto) && !eregi("\n",$mailto)) {
@@ -314,114 +306,154 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 	
 	/**
-     * Parses the given TypoScript E-Mail settings array and builds a new array with parsed and processed values.
+     * Explodes the given list seperated by $sep. Substitutes values with according value in GET/POST, if set.
      * 
      * @author Reinhard Führicht <rf@typoheads.at>
-     * @param array &$settings The E-Mail settings
-     * @return array Array containing the processed values
+     * @param string $list
+     * @param string $sep
+     * @return array
      */
-	protected function parseMailSettings(&$settings) {
-		if(!is_array($settings)) {
-			return array();
-		}
-		$options = array();
-		
-		//parse recipients
-		$addresses = array();
-		if(is_array($settings['to_email.'])) {
-			$options['to_email'] = $this->cObj->cObjGetSingle($settings['to_email'],$settings['to_email.']); 
-		} else {
-			$addresses = t3lib_div::trimExplode(",",$settings['to_email']);
-			$options['to_email'] = array();
-			foreach($addresses as $address) {
-				if(isset($this->gp[$address]) && strstr($this->gp[$address],"@")) {
-					 array_push($options['to_email'],$this->gp[$address]);
-				} else {
-					array_push($options['to_email'],$address);
-				}
-			}
-		}
-		
-		//parse subject
-		if(is_array($settings['subject.'])) {
-			$options['subject'] = $this->cObj->cObjGetSingle($settings['subject'],$settings['subject.']);
-		} elseif(isset($this->gp[$settings['subject']])) {
-			$options['subject'] = $this->gp[$settings['subject']];
-		} else {
-			$options['subject'] = $settings['subject'];
-		}
-		
-		//parse sender
-		if(is_array($settings['sender_email.'])) {
-			$options['sender_email'] = $this->cObj->cObjGetSingle($settings['sender_email'],$settings['sender_email.']);
-		} else {
-			$addresses = t3lib_div::trimExplode(",",$settings['sender_email']);
-			$options['sender_email'] = array();
-			foreach($addresses as $address) {
-				if(isset($this->gp[$address]) && strstr($this->gp[$address],"@")) {
-					 array_push($options['sender_email'],$this->gp[$address]);
-				} else {
-					array_push($options['sender_email'],$address);
-				}
-			}
-		}
-		
-		//parse sender name
-		if(is_array($settings['sender_name.'])) {
-			$options['sender_name'] = $this->cObj->cObjGetSingle($settings['sender_name'],$settings['sender_name.']);
-		} else {
-			if(isset($this->gp[$settings['sender_name']])) {
-				 $options['sender_name'] = $this->gp[$settings['sender_name']];
+	private function explodeList($list,$sep = ",") {
+		$addresses = t3lib_div::trimExplode($sep,$list);
+		print "<br /> addresses";
+		print_r($addresses);
+		$splitArray = array();
+		foreach($addresses as $address) {
+			if(isset($this->gp[$address])) {
+				 array_push($splitArray,$this->gp[$address]);
 			} else {
-				$options['sender_name'] = $settings['sender_name'];
+				array_push($splitArray,$address);
 			}
 		}
-		
-		//parse reply to
-		if(is_array($settings['replyto_email.'])) {
-			$options['replyto_email'] = $this->cObj->cObjGetSingle($settings['replyto_email'],$settings['replyto_email.']);
+		return $splitArray;
+	}
+	
+	/**
+     * Substitutes values with according value in GET/POST, if set.
+     * 
+     * @author Reinhard Führicht <rf@typoheads.at>
+     * @param string $value
+     * @return string
+     */
+	private function parseSettingValue($value) {
+		if(isset($this->gp[$value])) {
+			$parsed = $this->gp[$value];
 		} else {
-			$addresses = t3lib_div::trimExplode(",",$settings['replyto_email']);
-			$options['replyto_email'] = array();
-			foreach($addresses as $address) {
-				if(isset($this->gp[$address]) && strstr($this->gp[$address],"@")) {
-					 array_push($options['replyto_email'],$this->gp[$address]);
-				} else {
-					array_push($options['replyto_email'],$address);
-				}
-			}
+			$parsed = $value;
 		}
+		return $parsed;
 		
-		//parse reply to name
-		if(is_array($settings['replyto_name.'])) {
-			$options['replyto_name'] = $this->cObj->cObjGetSingle($settings['replyto_name'],$settings['replyto_name.']);
+	}
+	
+	/**
+     * Parses a setting in TypoScript and overrides it with setting in plugin record if set.
+     * The settings contains a single value or a TS object.
+     * 
+     * @author Reinhard Führicht <rf@typoheads.at>
+     * @param array $settings The settings array containing the mail settings
+     * @param string $type admin|user
+     * @param string $key The key to parse in the settings array
+     * @return string
+     */
+	private function parseValue($settings,$type,$key) {
+		if(isset($this->emailSettings[$type][$key])) {
+			$parsed = $this->parseSettingValue($this->emailSettings[$type][$key]);
+		} else if(is_array($settings[$key.'.'])) {
+			$parsed = $this->cObj->cObjGetSingle($settings[$key],$settings[$key.'.']);
 		} else {
-			if(isset($this->gp[$settings['replyto_name']])) {
-				 $options['replyto_name'] = $this->gp[$settings['replyto_name']];
-			} else {
-				$options['replyto_name'] = $settings['replyto_name'];
-			}
+			$parsed = $this->parseSettingValue($settings[$key]);
 		}
-		
-		//parse attachment
-		if(is_array($settings['attachment.'])) {
-			$options['attachment'] = $this->cObj->cObjGetSingle($settings['attachment'],$settings['attachment.']);
-		} elseif($settings['attachment']) {
-			$files = t3lib_div::trimExplode(",",$settings['attachment']);
-			$options['attachment'] = array();
+		return $parsed;
+	}
+	
+	/**
+     * Parses a setting in TypoScript and overrides it with setting in plugin record if set.
+     * The settings contains a list of values or a TS object.
+     * 
+     * @author Reinhard Führicht <rf@typoheads.at>
+     * @param array $settings The settings array containing the mail settings
+     * @param string $type admin|user
+     * @param string $key The key to parse in the settings array
+     * @return string|array
+     */
+	private function parseList($settings,$type,$key) {
+		if(isset($this->emailSettings[$type][$key])) {
+			$parsed = $this->explodeList($this->emailSettings[$type][$key]);
+		} else if(is_array($settings[$key.'.'])) {
+			$parsed = $this->cObj->cObjGetSingle($settings[$key],$settings[$key.'.']); 
+		} else {
+			$parsed = $this->explodeList($settings[$key]);
+		}
+		return $parsed;
+	}
+	
+	/**
+     * Parses a list of file names or field names set in TypoScript and overrides it with setting in plugin record if set.
+     * 
+     * @author Reinhard Führicht <rf@typoheads.at>
+     * @param array $settings The settings array containing the mail settings
+     * @param string $type admin|user
+     * @param string $key The key to parse in the settings array
+     * @return string
+     */
+	private function parseFilesList($settings,$type,$key) {
+		if(is_array($settings[$key.'.'])) {
+			$parsed = $this->cObj->cObjGetSingle($settings[$key],$settings[$key.'.']);
+		} elseif($settings[$key]) {
+			$files = t3lib_div::trimExplode(",",$settings[$key]);
+			$parsed = array();
 			session_start();
 			foreach($files as $file) {
 				#print $file.":";
 				#print_r($_SESSION['mailformplusplusFiles']);
 				if(isset($_SESSION['mailformplusplusFiles'][$file])) {
 					foreach($_SESSION['mailformplusplusFiles'][$file] as $uploadedFile) {
-						array_push($options['attachment'],$uploadedFile['uploaded_path'].$uploadedFile['uploaded_name']);
+						array_push($parsed,$uploadedFile['uploaded_path'].$uploadedFile['uploaded_name']);
 					}
 				} else {
-					array_push($options['attachment'],$file);
+					array_push($parsed,$file);
 				}
 			}
 		}
+		return $parsed;
+	}
+	
+	/**
+     * Parses the given TypoScript E-Mail settings array and builds a new array with parsed and processed values.
+     * 
+     * @author Reinhard Führicht <rf@typoheads.at>
+     * @param array &$settings The E-Mail settings
+     * @return array Array containing the processed values
+     */
+	protected function parseMailSettings(&$settings,$type) {
+		if(!is_array($settings)) {
+			return array();
+		}
+		$options = array();
+		
+		//parse recipients
+		$options['to_email'] = $this->parseList($settings,$type,"to_email");
+		
+		//parse recipient name(s)
+		$options['to_name'] = $this->parseList($settings,$type,"to_name");
+		
+		//parse subject
+		$options['subject'] = $this->parseValue($settings,$type,"subject");
+		
+		//parse sender
+		$options['sender_email'] = $this->parseList($settings,$type,"sender_email");
+		
+		//parse sender name
+		$options['sender_name'] = $this->parseValue($settings,$type,"sender_name");
+		
+		//parse reply to
+		$options['replyto_email'] = $this->parseList($settings,$type,"replyto_email");
+		
+		//parse reply to name
+		$options['replyto_name'] = $this->parseValue($settings,$type,"replyto_name");
+		
+		//parse attachment
+		$options['attachment'] = $this->parseFilesList($settings,$type,"attachment");
 		#print_r($settings);
 		if(is_array($settings['attachPDF.'])) {
 			#print "call";

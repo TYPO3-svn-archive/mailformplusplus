@@ -138,8 +138,11 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		}
 		
 		//if the set directory doesn't exist, print a message
-		if(!is_dir(F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder)) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Folder: '".F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder."' doesn't exist!");
+		#if(!is_dir(F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder)) {
+	#		F3_MailformPlusPlus_StaticFuncs::debugMessage("Folder: '".F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder."' doesn't exist!");
+	#	}
+	if(!is_dir(F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder)) {
+			F3_MailformPlusPlus_StaticFuncs::debugMessage("Folder: '".F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder."' doesn't exist!");
 		}
 		return $uploadFolder;
 	}
@@ -188,8 +191,12 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			$uploadFolder = $this->getTempUploadFolder();
 			
 			//build absolute path to upload folder
-			$uploadPath = F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder;
-			
+			#$uploadPath = F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder;
+			$uploadPath = F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder;
+			if(!file_exists($uploadPath)) {
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("Folder: ".$uploadPath." doesn't exist!");
+				return;
+			}
 			//for all file properties
 			/*
 			 * $_FILES looks like this:
@@ -243,8 +250,8 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 							$files['name'][$field] = $uploadedFileName;
 							
 							//move from temp folder to temp upload folder
-							print $files['tmp_name'][$field];
-							print $uploadPath.$uploadedFileName;
+							#print $files['tmp_name'][$field];
+							#print $uploadPath.$uploadedFileName;
 							move_uploaded_file($files['tmp_name'][$field],$uploadPath.$uploadedFileName);
 							$files['uploaded_name'][$field] = $uploadedFileName;
 							
@@ -277,6 +284,14 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
      */
 	public function setTemplateFile($template) {
 		$this->templateFile = $template;
+	}
+	
+	private function runClasses($classesArray) {
+		foreach($classesArray as $tsConfig) {
+			F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling: ".$tsConfig['class']);
+			$obj = $this->componentManager->getComponent($tsConfig['class']);
+			$this->gp = $obj->process($this->gp,$tsConfig['config.']);
+		}
 	}
 	
 	/**
@@ -369,20 +384,12 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			
 			//run preProcessors
 			if(is_array($settings['preProcessors.'])) {
-				foreach($settings['preProcessors.'] as $tsConfig) {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling PreProcessor: ".$tsConfig['class']);
-					$preProcessor = $this->componentManager->getComponent($tsConfig['class']);
-					$this->gp = $preProcessor->process($this->gp,$tsConfig['config.']);
-				}
+				$this->runClasses($settings['preProcessors.']);
 			}
 			
 			//run init interceptors
 			if(is_array($settings['initInterceptors.'])) {
-				foreach($settings['initInterceptors.'] as $tsConfig) {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling InitInterceptor: ".$tsConfig['class']);
-					$interceptor = $this->componentManager->getComponent($tsConfig['class']);
-					$this->gp = $interceptor->process($this->gp,$tsConfig['config.']);
-				}
+				$this->runClasses($settings['initInterceptors.']);
 			}
 			
 			//display form
@@ -394,11 +401,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			
 			//run init interceptors
 			if(is_array($settings['initInterceptors.']) && !$_SESSION['submitted_ok']) {
-				foreach($settings['initInterceptors.'] as $tsConfig) {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling InitInterceptor: ".$tsConfig['class']);
-					$interceptor = $this->componentManager->getComponent($tsConfig['class']);
-					$this->gp = $interceptor->process($this->gp,$tsConfig['config.']);
-				}
+				$this->runClasses($settings['initInterceptors.']);
 			}
 			
 			//run validation
@@ -425,11 +428,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 				
 				//run save interceptors
 				if(is_array($settings['saveInterceptors.'])  && !$_SESSION['submitted_ok']) {
-					foreach($settings['saveInterceptors.'] as $tsConfig) {
-						F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling SaveInterceptor: ".$tsConfig['class']);
-						$interceptor = $this->componentManager->getComponent($tsConfig['class']);
-						$this->gp = $interceptor->process($this->gp,$tsConfig['config.']);
-					}
+					$this->runClasses($settings['saveInterceptors.']);
 				}
 				
 				//run loggers
@@ -449,7 +448,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 						//check if the form was finished before. This flag is set by the F3_Finisher_Confirmation
 						if(!$_SESSION['submitted_ok']) {
 							F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Finisher: ".$tsConfig['class']);
-							
+							$tsConfig['config.']['returns'] = $tsConfig['returns']; 
 							$tsConfig['config.']['templateFile'] = $settings['templateFile'];
 							$tsConfig['config.']['langFile'] = $settings['langFile'];
 							$tsConfig['config.']['formValuesPrefix'] = $settings['formValuesPrefix'];

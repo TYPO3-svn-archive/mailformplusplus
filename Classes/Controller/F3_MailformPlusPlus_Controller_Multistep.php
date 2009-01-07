@@ -164,32 +164,18 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			
 			//run preProcessors
 			if(is_array($settings['preProcessors.'])) {
-				foreach($settings['preProcessors.'] as $tsConfig) {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling PreProcessor: ".$tsConfig['class']);
-					$preProcessor = $this->componentManager->getComponent($tsConfig['class']);
-					$this->gp = $preProcessor->process($this->gp,$tsConfig['config.']);
-				}
+				$this->runClasses($settings['preProcessors.']);
 			}
 			
 			//run init interceptors
 			if(is_array($settings['initInterceptors.'])) {
-				foreach($settings['initInterceptors.'] as $tsConfig) {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling InitInterceptor: ".$tsConfig['class']);
-					$interceptor = $this->componentManager->getComponent($tsConfig['class']);
-					$this->gp = $interceptor->process($this->gp,$tsConfig['config.']);
-				}
+				$this->runClasses($settings['initInterceptors.']);
 			}
 			
 			//debug GET/POST parameters
 			if(is_array($this->gp) && $this->debugMode) {
-				$fields = array();
-				foreach($this->gp as $key=>$value) {
-					if(is_array($value)) {
-						$value = implode(",",$value);
-					}
-					$fields[] = $key."=".$value;
-				}
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("These are the GET/POST fields: <br />".implode("<br />",$fields),false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("The current GET/POST values:<br />",false);
+				F3_MailformPlusPlus_StaticFuncs::debugArray($this->gp);
 			}
 				
 			//display form
@@ -203,22 +189,13 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			
 			//run init interceptors
 			if(is_array($settings['initInterceptors.'])  && !$_SESSION['submitted_ok']) {
-				foreach($settings['initInterceptors.'] as $tsConfig) {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling InitInterceptor: ".$tsConfig['class']);
-					$interceptor = $this->componentManager->getComponent($tsConfig['class']);
-					$this->gp = $interceptor->process($this->gp,$tsConfig['config.']);
-				}
+				$this->runClasses($settings['initInterceptors.']);
 			}
 			
 			//debug GET/POST parameters
 			if(is_array($this->gp) && $this->debugMode) {
-				foreach($this->gp as $key=>$value) {
-					if(is_array($value)) {
-						$value = implode(",",$value);
-					}
-					$fields[] = $key."=".$value;
-				}
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("These are the GET/POST fields: <br />".implode("<br />",$fields),false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("The current GET/POST values:<br />",false);
+				F3_MailformPlusPlus_StaticFuncs::debugArray($this->gp);
 			}
 			
 			//load settings from right step for error checks, ...
@@ -272,11 +249,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 					
 					//run save interceptors
 					if(is_array($settings['saveInterceptors.']) && !$_SESSION['submitted_ok']) {
-						foreach($settings['saveInterceptors.'] as $tsConfig) {
-							F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling SaveInterceptor: ".$tsConfig['class']);
-							$interceptor = $this->componentManager->getComponent($tsConfig['class']);
-							$this->gp = $interceptor->process($this->gp,$tsConfig['config.']);
-						}
+						$this->runClasses($settings['saveInterceptors.']);
 					}
 					
 					//run loggers

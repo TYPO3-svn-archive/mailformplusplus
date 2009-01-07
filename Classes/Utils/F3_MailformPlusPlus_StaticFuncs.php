@@ -31,6 +31,12 @@ class F3_MailformPlusPlus_StaticFuncs {
 		return t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT');
 	}
 	
+	public static function getTYPO3Root() {
+		$path = t3lib_div::getIndpEnv('SCRIPT_FILENAME');
+		$path = str_replace("/index.php","",$path);
+		return $path;
+	}
+	
 	/**
      * Helper method used by substituteIssetSubparts()
      * 
@@ -71,6 +77,8 @@ class F3_MailformPlusPlus_StaticFuncs {
 		}
 		return $return;
 	}
+	
+	
 	
 	/**
 	 * Use or remove subparts with ISSET_[fieldname] patterns (thx to Stephan Bauer <stephan_bauer(at)gmx.de>)
@@ -159,9 +167,7 @@ class F3_MailformPlusPlus_StaticFuncs {
      * @static
      */
 	public static function getFilledLangMarkers(&$template,$langFile) {
-		global $LANG;
-		#global $LANG;
-		$LANG->includeLLFile($langFile);
+		$GLOBALS['TSFE']->readLLfile($langFile);
 		$langMarkers = array();
 		if ($langFile != '') {
 			$aLLMarkerList = array();
@@ -170,7 +176,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 			foreach($aLLMarkerList[0] as $LLMarker){
 				$llKey =  strtolower(substr($LLMarker,7,strlen($LLMarker)-10));
 				$marker = $llKey;
-				$langMarkers['###LLL:'.$marker.'###'] = trim($LANG->getLL($llKey));
+				$langMarkers['###LLL:'.$marker.'###'] = trim($GLOBALS['TSFE']->sL($llKey));
 				$langMarkers['###LLL:'.strtoupper($marker).'###'] = $langMarkers['###LLL:'.$marker.'###'];
 			}
 		}
@@ -242,6 +248,29 @@ class F3_MailformPlusPlus_StaticFuncs {
 			print $message."<br />";
 		}
 	}
+	
+	/**
+	 * Method to print the contents of an array
+	 *
+	 * @param array $arr The array to print
+	 * @return void
+	 * @static
+	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 */
+	public static function debugArray($arr) {
+		if(!is_array($arr)) {
+			return;
+		}
+		foreach($arr as $key=>$value) {
+			if(is_array($value)) {
+				$value = implode(",",$value);
+			}
+			$fields[] = $key."=".$value;
+		}
+		F3_MailformPlusPlus_StaticFuncs::debugMessage(implode("<br />",$fields),false);
+	}
+	
+	
 	
 	/**
      * Removes unfilled markers from given template code.
