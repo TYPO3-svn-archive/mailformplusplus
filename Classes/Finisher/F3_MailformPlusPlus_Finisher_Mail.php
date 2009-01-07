@@ -198,8 +198,8 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		$mailSettings = $this->parseMailSettings($this->settings[$type.'.'],$type);
 		$template['plain'] = $this->parseTemplate($type,"plain");
 		$template['html'] = $this->parseTemplate($type,"html");
-		F3_MailformPlusPlus_StaticFuncs::debugMessage('E-Mail settings for '.$type);
-		F3_MailformPlusPlus_StaticFuncs::debugArray($mailSettings);
+		//F3_MailformPlusPlus_StaticFuncs::debugMessage('E-Mail settings for '.$type);
+		//F3_MailformPlusPlus_StaticFuncs::debugArray($mailSettings);
 		
 		//init mailer object
 		require_once(PATH_t3lib.'class.t3lib_htmlmail.php');
@@ -314,15 +314,13 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
      * @return array
      */
 	private function explodeList($list,$sep = ",") {
-		$addresses = t3lib_div::trimExplode($sep,$list);
-		print "<br /> addresses";
-		print_r($addresses);
+		$items = t3lib_div::trimExplode($sep,$list);
 		$splitArray = array();
-		foreach($addresses as $address) {
-			if(isset($this->gp[$address])) {
-				 array_push($splitArray,$this->gp[$address]);
+		foreach($items as $item) {
+			if(isset($this->gp[$item])) {
+				 array_push($splitArray,$this->gp[$item]);
 			} else {
-				array_push($splitArray,$address);
+				array_push($splitArray,$item);
 			}
 		}
 		return $splitArray;
