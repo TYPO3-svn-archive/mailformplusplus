@@ -289,11 +289,13 @@ Source Location: /Classes/Utils/F3_MailformPlusPlus_StaticFuncs.php<br /><br />
 <td valign="top">
 <h3><a href="#class_methods">Methods</a></h3>
 <ul>
+    <li><a href="../../F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methoddebugArray">debugArray</a></li>
     <li><a href="../../F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methoddebugMessage">debugMessage</a></li>
     <li><a href="../../F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodgetDocumentRoot">getDocumentRoot</a></li>
     <li><a href="../../F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodgetFilledLangMarkers">getFilledLangMarkers</a></li>
     <li><a href="../../F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodgetFilledValueMarkers">getFilledValueMarkers</a></li>
     <li><a href="../../F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodgetHostname">getHostname</a></li>
+    <li><a href="../../F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodgetTYPO3Root">getTYPO3Root</a></li>
     <li><a href="../../F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodmarkersCountAsSet">markersCountAsSet</a></li>
     <li><a href="../../F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodremoveUnfilledMarkers">removeUnfilledMarkers</a></li>
     <li><a href="../../F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodresolvePath">resolvePath</a></li>
@@ -340,8 +342,47 @@ A class providiing static helper functions for MailformPlusPlus<br /><br /><br /
 <h3>Class Methods</h3>
 <div class="tags">
   <hr />
+	<a name="methoddebugArray"></a>
+	<h3>static method debugArray <span class="smalllinenumber">[line 260]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>static void debugArray(
+array
+$arr)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Method to print the contents of an array<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">array&nbsp;&nbsp;</td>
+        <td><b>$arr</b>&nbsp;&nbsp;</td>
+        <td>The array to print</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
 	<a name="methoddebugMessage"></a>
-	<h3>static method debugMessage <span class="smalllinenumber">[line 236]</span></h3>
+	<h3>static method debugMessage <span class="smalllinenumber">[line 242]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -414,7 +455,7 @@ $extended = true])</code>
   </div>
   <hr />
 	<a name="methodgetFilledLangMarkers"></a>
-	<h3>static method getFilledLangMarkers <span class="smalllinenumber">[line 161]</span></h3>
+	<h3>static method getFilledLangMarkers <span class="smalllinenumber">[line 169]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -468,7 +509,7 @@ $template)</code>
   </div>
   <hr />
 	<a name="methodgetFilledValueMarkers"></a>
-	<h3>static method getFilledValueMarkers <span class="smalllinenumber">[line 188]</span></h3>
+	<h3>static method getFilledValueMarkers <span class="smalllinenumber">[line 194]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -510,7 +551,7 @@ array
   </div>
   <hr />
 	<a name="methodgetHostname"></a>
-	<h3>static method getHostname <span class="smalllinenumber">[line 125]</span></h3>
+	<h3>static method getHostname <span class="smalllinenumber">[line 133]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -537,8 +578,33 @@ array
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
   <hr />
+	<a name="methodgetTYPO3Root"></a>
+	<h3>static method getTYPO3Root <span class="smalllinenumber">[line 34]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>static void getTYPO3Root(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
 	<a name="methodmarkersCountAsSet"></a>
-	<h3>static method markersCountAsSet <span class="smalllinenumber">[line 41]</span></h3>
+	<h3>static method markersCountAsSet <span class="smalllinenumber">[line 47]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -586,7 +652,7 @@ $conditionValue)</code>
   </div>
   <hr />
 	<a name="methodremoveUnfilledMarkers"></a>
-	<h3>static method removeUnfilledMarkers <span class="smalllinenumber">[line 254]</span></h3>
+	<h3>static method removeUnfilledMarkers <span class="smalllinenumber">[line 283]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -628,7 +694,7 @@ $content)</code>
   </div>
   <hr />
 	<a name="methodresolvePath"></a>
-	<h3>static method resolvePath <span class="smalllinenumber">[line 266]</span></h3>
+	<h3>static method resolvePath <span class="smalllinenumber">[line 295]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -670,7 +736,7 @@ $path)</code>
   </div>
   <hr />
 	<a name="methodresolveRelPath"></a>
-	<h3>static method resolveRelPath <span class="smalllinenumber">[line 285]</span></h3>
+	<h3>static method resolveRelPath <span class="smalllinenumber">[line 314]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -712,7 +778,7 @@ $path)</code>
   </div>
   <hr />
 	<a name="methodresolveRelPathFromSiteRoot"></a>
-	<h3>static method resolveRelPathFromSiteRoot <span class="smalllinenumber">[line 304]</span></h3>
+	<h3>static method resolveRelPathFromSiteRoot <span class="smalllinenumber">[line 333]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -754,7 +820,7 @@ $path)</code>
   </div>
   <hr />
 	<a name="methodreverse_htmlspecialchars"></a>
-	<h3>static method reverse_htmlspecialchars <span class="smalllinenumber">[line 219]</span></h3>
+	<h3>static method reverse_htmlspecialchars <span class="smalllinenumber">[line 225]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -796,7 +862,7 @@ $mixed)</code>
   </div>
   <hr />
 	<a name="methodsanitizePath"></a>
-	<h3>static method sanitizePath <span class="smalllinenumber">[line 142]</span></h3>
+	<h3>static method sanitizePath <span class="smalllinenumber">[line 150]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -838,7 +904,7 @@ $path)</code>
   </div>
   <hr />
 	<a name="methodsubstituteIssetSubparts"></a>
-	<h3>static method substituteIssetSubparts <span class="smalllinenumber">[line 83]</span></h3>
+	<h3>static method substituteIssetSubparts <span class="smalllinenumber">[line 91]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -902,7 +968,7 @@ $markers:)</code>
 
         <div class="credit">
 		    <hr />
-		    Documentation generated on Sun, 28 Dec 2008 01:17:11 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Thu, 08 Jan 2009 00:34:33 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>
