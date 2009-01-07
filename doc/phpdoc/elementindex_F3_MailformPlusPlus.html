@@ -599,6 +599,8 @@
 				<dd>in file calendar.php, method <a href="F3_MailformPlusPlus/Resources/DHTML_Calendar.html#methodDHTML_Calendar">DHTML_Calendar::DHTML_Calendar()</a></dd>
 							<dt><b>DHTML_Calendar</b></dt>
 				<dd>in file calendar.php, class <a href="F3_MailformPlusPlus/Resources/DHTML_Calendar.html">DHTML_Calendar</a><br>&nbsp;&nbsp;&nbsp;&nbsp;PHP file for jscalendar</dd>
+							<dt><b>debugArray</b></dt>
+				<dd>in file F3_MailformPlusPlus_StaticFuncs.php, method <a href="F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methoddebugArray">F3_MailformPlusPlus_StaticFuncs::debugArray()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Method to print the contents of an array</dd>
 							<dt><b>debugMessage</b></dt>
 				<dd>in file F3_MailformPlusPlus_StaticFuncs.php, method <a href="F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methoddebugMessage">F3_MailformPlusPlus_StaticFuncs::debugMessage()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Method to print a debug message to screen</dd>
 					</dl>
@@ -615,6 +617,8 @@
 				<dd>procedural page <a href="F3_MailformPlusPlus/_ext_tables.php.html">ext_tables.php</a></dd>
 							<dt><b>$emailSettings</b></dt>
 				<dd>in file F3_MailformPlusPlus_AbstractController.php, variable <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_AbstractController.html#var$emailSettings">F3_MailformPlusPlus_AbstractController::$emailSettings</a><br>&nbsp;&nbsp;&nbsp;&nbsp;An array with email settings entered by the user</dd>
+							<dt><b>$emailSettings</b></dt>
+				<dd>in file F3_MailformPlusPlus_Finisher_Mail.php, variable <a href="F3_MailformPlusPlus/Finisher/F3_MailformPlusPlus_Finisher_Mail.html#var$emailSettings">F3_MailformPlusPlus_Finisher_Mail::$emailSettings</a><br>&nbsp;&nbsp;&nbsp;&nbsp;An array containing the values enterd in the plugin record.</dd>
 							<dt><b>encode</b></dt>
 				<dd>in file ClassMathGuard.php, method <a href="F3_MailformPlusPlus/Resources/MathGuard.html#methodencode">MathGuard::encode()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A main hashing function: concat of user's answer, hour and the additional prime number (default 37)</dd>
 							<dt><b>Error</b></dt>
@@ -937,6 +941,8 @@
 				<dd>in file F3_MailformPlusPlus_StaticFuncs.php, method <a href="F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodgetFilledValueMarkers">F3_MailformPlusPlus_StaticFuncs::getFilledValueMarkers()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Finds and fills value markers using given GET/POST parameters.</dd>
 							<dt><b>getHostname</b></dt>
 				<dd>in file F3_MailformPlusPlus_StaticFuncs.php, method <a href="F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodgetHostname">F3_MailformPlusPlus_StaticFuncs::getHostname()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Returns the http path to the site</dd>
+							<dt><b>getTYPO3Root</b></dt>
+				<dd>in file F3_MailformPlusPlus_StaticFuncs.php, method <a href="F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodgetTYPO3Root">F3_MailformPlusPlus_StaticFuncs::getTYPO3Root()</a></dd>
 							<dt><b>$gp</b></dt>
 				<dd>in file F3_MailformPlusPlus_AbstractValidator.php, variable <a href="F3_MailformPlusPlus/Validator/F3_MailformPlusPlus_AbstractValidator.html#var$gp">F3_MailformPlusPlus_AbstractValidator::$gp</a><br>&nbsp;&nbsp;&nbsp;&nbsp;The GET/POST parameters</dd>
 							<dt><b>getCheckFailed</b></dt>
@@ -1093,8 +1099,6 @@
 				<dd>in file F3_MailformPlusPlus_Controller_Multistep.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Multistep.html#methodmergeGPWithSession">F3_MailformPlusPlus_Controller_Multistep::mergeGPWithSession()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Merges the current GET/POST parameters with the stored ones in SESSION</dd>
 							<dt><b>moduleContent</b></dt>
 				<dd>in file index.php, method <a href="F3_MailformPlusPlus/Controller/tx_mailformplusplus_module1.html#methodmoduleContent">tx_mailformplusplus_module1::moduleContent()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Generates the module content</dd>
-							<dt><b>mergeSettingsWithPluginData</b></dt>
-				<dd>in file F3_MailformPlusPlus_Finisher_Mail.php, method <a href="F3_MailformPlusPlus/Finisher/F3_MailformPlusPlus_Finisher_Mail.html#methodmergeSettingsWithPluginData">F3_MailformPlusPlus_Finisher_Mail::mergeSettingsWithPluginData()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Merges settings from TypoScript with settings made in plugin record.</dd>
 							<dt><b>moveUploadedFiles</b></dt>
 				<dd>in file F3_MailformPlusPlus_Finisher_StoreUploadedFiles.php, method <a href="F3_MailformPlusPlus/Finisher/F3_MailformPlusPlus_Finisher_StoreUploadedFiles.html#methodmoveUploadedFiles">F3_MailformPlusPlus_Finisher_StoreUploadedFiles::moveUploadedFiles()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Moves uploaded files from temporary upload folder to a specified new folder.</dd>
 							<dt><b>MakeFont</b></dt>
@@ -1682,7 +1686,7 @@
 	<a href="elementindex_F3_MailformPlusPlus.html#top">top</a><br>
         <div class="credit">
 		    <hr />
-		    Documentation generated on Sun, 28 Dec 2008 01:16:59 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Thu, 08 Jan 2009 00:34:19 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>
