@@ -77,7 +77,7 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 	protected function moveUploadedFiles() {
 		session_start();
 		$filesToCopy = array();
-		if(is_array($_SESSION['mailformplusplusFiles'])) {
+		if(isset($_SESSION['mailformplusplusFiles']) && is_array($_SESSION['mailformplusplusFiles'])) {
 			foreach($_SESSION['mailformplusplusFiles'] as $field=>$files) {
 				foreach($files as $file) {
 					$fullFilename['path'] = $file['uploaded_path'];

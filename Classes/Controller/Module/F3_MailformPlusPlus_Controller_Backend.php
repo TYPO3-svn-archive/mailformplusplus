@@ -88,7 +88,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		$params = t3lib_div::_GP('mailformplusplus');
 		
 		//should delete records
-		if($params[delete] && is_array($params['markedUids'])) {
+		if($params[delete] && isset($params['markedUids']) && is_array($params['markedUids'])) {
 			
 			//delete records
 			$this->deleteRecords($params['markedUids']);
@@ -137,7 +137,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 					return $this->generatePDF($params['detailId']);
 					
 				//render many records to PDF
-				} elseif(is_array($params['markedUids'])) {
+				} elseif(isset($params['markedUids']) && is_array($params['markedUids'])) {
 					return $this->generatePDF($params['markedUids']);
 				}
 				
@@ -149,7 +149,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 					return $this->generateCSV($params['detailId']);
 					
 				//save many records as CSV
-				} elseif(is_array($params['markedUids'])) {
+				} elseif(isset($params['markedUids'] && is_array($params['markedUids'])) {
 					return $this->generateCSV($params['markedUids']);
 				}
 				
@@ -521,7 +521,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		foreach($formats as $key=>$format) {
 			
 			//if format is valid
-			if(is_array($format)) {
+			if(isset($format) && is_array($format)) {
 				
 				//start a form
 				$selector .= '
@@ -595,7 +595,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			';
 			
 			//add the submitted params
-			if(is_array($params)) {
+			if(isset($params) && is_array($params)) {
 				$view .= '<table>';
 				foreach($params as $key=>$value) {
 					if(is_array($value)) {
@@ -892,7 +892,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'&mailformplusplus[renderMethod]=csv">CSV</a>
 					</td>
 					<td><input type="checkbox" name="mailformplusplus[markedUids][]" value="'.$record['uid'].'" ';
-				if(is_array($params['markedUids']) && in_array($record['uid'],$params['markedUids'])) {
+				if(isset($params['markedUids']) && is_array($params['markedUids']) && in_array($record['uid'],$params['markedUids'])) {
 					$table .= 'checked="checked"';
 				}
 				$table .= '	

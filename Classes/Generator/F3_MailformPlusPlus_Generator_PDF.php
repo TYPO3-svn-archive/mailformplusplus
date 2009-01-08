@@ -71,7 +71,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 		//if no valid record is found render an error message in pdf file 
 		foreach($records as $data) {
 			$valid = false;
-			if(is_array($data['params'])) {
+			if(isset($data['params']) && is_array($data['params'])) {
 				foreach($data['params'] as $key=>$value) {
 					if(count($exportFields) == 0 || in_array($key,$exportFields)) {
 						$valid = true;
@@ -181,7 +181,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 			$this->pdf->Cell($standardWidth,"15",t3lib_div::getIndpEnv('REMOTE_ADDR'),0,1);
 		}
 		$this->pdf->Cell($standardWidth,"15","Submitted values:",0,1);
-		if(is_array($gp)) {
+		if(isset($gp) && is_array($gp)) {
 			$this->pdf->SetLineWidth(.3);
 			$this->pdf->Cell($feedWidth);
 			$this->pdf->SetFillColor(255,255,255);
@@ -219,7 +219,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 
 		if(strlen($file) > 0) {
 			$this->pdf->Output($file, 'F');
-			$downloadpath = F3_MailformPlusPlus_StaticFuncs::getHostname().$file;
+			$downloadpath = $file;
 			if($returns) {
 				return $downloadpath;
 			}

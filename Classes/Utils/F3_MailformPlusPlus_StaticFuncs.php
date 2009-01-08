@@ -192,7 +192,7 @@ class F3_MailformPlusPlus_StaticFuncs {
      * @static
      */
 	public static function getFilledValueMarkers(&$gp) {
-		if (is_array($gp)) {
+		if (isset($gp) && is_array($gp)) {
 			foreach($gp as $k=>$v) {
 				if (!ereg('EMAIL_', $k)) {
 					if (is_array($v)) {

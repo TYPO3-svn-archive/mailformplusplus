@@ -117,11 +117,15 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 		
 		//set fields to insert/update
 		$queryFields = $this->parseFields();
-		
+		$this->escapeFields($queryFields,$this->table);
 		//query the database
 		$this->save($queryFields);
 		
 		return $this->gp;
+	}
+	
+	protected function escapeFields(&$queryFields,$table) {
+		return $GLOBALS['TYPO3_DB']->fullQuoteArray($queryFields,$table);
 	}
 	
 	/**
@@ -198,7 +202,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 		foreach($this->settings['fields.'] as $fieldname=>$options) {
 			$fieldname = str_replace(".","",$fieldname);
 			
-			if(is_array($options) && !isset($options['special'])) {
+			if(isset($options) && is_array($options) && !isset($options['special'])) {
 			
 				//if no mapping default to the name of the form field
 				if(!$options['mapping']) {
@@ -210,7 +214,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 				if($options['ifIsEmpty'] && strlen($this->gp[$options['mapping']]) == 0) {
 					
 					//if given settings is a TypoScript object
-					if(is_array($options['if_is_empty.'])) {
+					if(isset($options['if_is_empty.']) && is_array($options['if_is_empty.'])) {
 						$queryFields[$fieldname] = $this->cObj->cObjGetSingle($options['ifIsEmpty'],$options['ifIsEmpty.']);
 					} else {
 						$queryFields[$fieldname] = $options['ifIsEmpty'];
@@ -218,7 +222,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 				}
 				
 				//process array handling
-				if(is_array($this->gp[$options['mapping']])) {
+				if(isset($this->gp[$options['mapping']]) && is_array($this->gp[$options['mapping']])) {
 					$seperator = ",";
 					if($options['seperator']) {
 						$seperator = $options['seperator'];
@@ -227,7 +231,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 				}
 				
 			//special mapping
-			} elseif(is_array($options) && isset($options['special'])) {
+			} elseif(isset($options) && is_array($options) && isset($options['special'])) {
 				switch($options['special']) {
 					case "sub_datetime":
 						$now = date("Y-m-d H:i:s", time());

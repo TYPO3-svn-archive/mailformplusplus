@@ -144,7 +144,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 		
 		//set template file
 		$templateFile = $settings['templateFile'];
-		if(is_array($settings['templateFile.'])) {
+		if(isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
 			$this->templateFile = $this->cObj->cObjGetSingle($settings['templateFile'],$settings['templateFile.']);
 		} else {
 			$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));

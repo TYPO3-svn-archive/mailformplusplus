@@ -59,7 +59,7 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 		//read template file
 		if(!$this->templateFile) {
 			$templateFile = $settings['templateFile'];
-			if(is_array($settings['templateFile.'])) {
+			if(isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
 				$this->templateFile = $this->cObj->cObjGetSingle($settings['templateFile'],$settings['templateFile.']);
 			} else {
 				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
@@ -74,7 +74,7 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 		if(!strcasecmp($gp['renderMethod'],"pdf")) {
 			
 			//set language file
-			if(is_array($settings['langFile.'])) {
+			if(isset($settings['langFile.']) && is_array($settings['langFile.'])) {
 				$langFile = $this->cObj->cObjGetSingle($settings['langFile'],$settings['langFile.']);
 			} else {
 				$langFile = F3_MailformPlusPlus_StaticFuncs::resolvePath($settings['langFile']);
@@ -90,7 +90,11 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 			}
 			$file = "";
 			if($settings['pdf.']['export2File']) {
-				$file = tempnam("typo3temp/","/mailformplusplus_").".pdf";
+				//tempnam seems to be buggy and insecure
+				//$file = tempnam("typo3temp/","/mailformplusplus_").".pdf";
+				
+				//using random numbered file for now
+				$file = 'typo3temp/mailformplusplus__'.rand(0,getrandmax()).".pdf";
 			}
 			$generator->generateFrontendPDF($gp,$langFile,$exportFields,$file);
 			

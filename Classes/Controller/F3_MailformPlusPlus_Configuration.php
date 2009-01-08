@@ -54,7 +54,7 @@ class F3_MailformPlusPlus_Configuration implements ArrayAccess {
      * @return void
      */
 	public function merge($setup) {
-		if (is_array($setup)) {
+		if (isset($setup) && is_array($setup)) {
 			$settings = $this->setup['settings.'];
 			$settings = t3lib_div::array_merge_recursive_overrule($settings, $setup);
 			$this->setup['settings.'] = $settings;			

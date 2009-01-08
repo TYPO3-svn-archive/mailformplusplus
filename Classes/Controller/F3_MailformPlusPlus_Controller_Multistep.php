@@ -47,7 +47,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		$_SESSION['mailformplusplusSettings']['debugMode'] = $this->debugMode;
 		
 		//find current step
-		if(is_array($this->gp)) {
+		if(isset($this->gp) && is_array($this->gp)) {
 			$highest = 0;
 			foreach (array_keys($this->gp) as $pname) {
 				
@@ -85,7 +85,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		$this->totalSteps = $stepCount;
 		
 		//merge settings with specific settings for current step
-		if(is_array($settings[$this->currentStep."."])) {
+		if(isset($settings[$this->currentStep."."]) && is_array($settings[$this->currentStep."."])) {
 			$settings = array_merge($settings,$settings[$this->currentStep."."]);
 		}
 		
@@ -115,7 +115,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		//read template file
 		if(!$this->templateFile) {
 			$templateFile = $settings['templateFile'];
-			if(is_array($settings['templateFile.'])) {
+			if(isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
 				$this->templateFile = $this->cObj->cObjGetSingle($settings['templateFile'],$settings['templateFile.']);
 			} else {
 				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
@@ -163,12 +163,12 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			$this->clearTempFiles($settings['files.']['clearTempFilesOlderThanHours']);
 			
 			//run preProcessors
-			if(is_array($settings['preProcessors.'])) {
+			if(isset($settings['preProcessors.']) && is_array($settings['preProcessors.'])) {
 				$this->runClasses($settings['preProcessors.']);
 			}
 			
 			//run init interceptors
-			if(is_array($settings['initInterceptors.'])) {
+			if(isset($settings['initInterceptors.']) && is_array($settings['initInterceptors.'])) {
 				$this->runClasses($settings['initInterceptors.']);
 			}
 			
@@ -188,12 +188,12 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			$oldSettings = $settings;
 			
 			//run init interceptors
-			if(is_array($settings['initInterceptors.'])  && !$_SESSION['submitted_ok']) {
+			if(isset($settings['initInterceptors.']) && is_array($settings['initInterceptors.'])  && !$_SESSION['submitted_ok']) {
 				$this->runClasses($settings['initInterceptors.']);
 			}
 			
 			//debug GET/POST parameters
-			if(is_array($this->gp) && $this->debugMode) {
+			if(isset($this->gp) && is_array($this->gp) && $this->debugMode) {
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("The current GET/POST values:<br />",false);
 				F3_MailformPlusPlus_StaticFuncs::debugArray($this->gp);
 			}
@@ -209,7 +209,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			
 			//run validation
 			$valid = array(true);
-			if(is_array($settings['validators.'])  && !$_SESSION['submitted_ok'] && !$disableErrorChecks) {
+			if(isset($settings['validators.']) && is_array($settings['validators.'])  && !$_SESSION['submitted_ok'] && !$disableErrorChecks) {
 				foreach($settings['validators.'] as $tsConfig) {
 					F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Validator: ".$tsConfig['class']);
 					$validator = $this->componentManager->getComponent($tsConfig['class']);
@@ -248,12 +248,12 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 					#$this->gp = array_merge($this->gp,$_SESSION['mailformplusplusValues']);
 					
 					//run save interceptors
-					if(is_array($settings['saveInterceptors.']) && !$_SESSION['submitted_ok']) {
+					if(isset($settings['saveInterceptors.']) && is_array($settings['saveInterceptors.']) && !$_SESSION['submitted_ok']) {
 						$this->runClasses($settings['saveInterceptors.']);
 					}
 					
 					//run loggers
-					if(is_array($settings['loggers.']) && !$_SESSION['submitted_ok']) {
+					if(isset($settings['loggers.']) && is_array($settings['loggers.']) && !$_SESSION['submitted_ok']) {
 						foreach($settings['loggers.'] as $tsConfig) {
 							F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Logger: ".$tsConfig['class']);
 							$logger = $this->componentManager->getComponent($tsConfig['class']);
@@ -262,7 +262,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 					}
 					
 					//run finishers
-					if(is_array($settings['finishers.'])) {
+					if(isset($settings['finishers.']) && is_array($settings['finishers.'])) {
 						foreach($settings['finishers.'] as $tsConfig) {
 							$finisher = $this->componentManager->getComponent($tsConfig['class']);
 							
@@ -335,7 +335,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		
 				if($this->currentStep > $this->lastStep) {
 					$settings = $this->getSettings();
-					if(is_array($settings[($this->currentStep-1)."."])) {
+					if(isset($settings[($this->currentStep-1)."."]) && is_array($settings[($this->currentStep-1)."."])) {
 						$settings = array_merge($settings,$settings[($this->currentStep-1).'.']);
 					}
 					$_SESSION['mailformplusplusSettings']['settings'] = $settings;

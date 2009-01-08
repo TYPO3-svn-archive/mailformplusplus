@@ -172,7 +172,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	protected function getTemplate($mode,$suffix) {
 		$settings = $this->settings;
 		$templateFile = $settings['templateFile'];
-		if(is_array($settings['templateFile.'])) {
+		if(isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
 			$templateFile = $this->cObj->cObjGetSingle($settings['templateFile'],$settings['templateFile.']);
 		} else {
 			$templateFile = F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile);
@@ -210,14 +210,14 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	    $emailObj->subject = $mailSettings['subject'];
 	    
 	    $sender = $mailSettings['sender_email'];
-	    if(is_array($mailSettings['sender_email'])) {
+	    if(isset($mailSettings['sender_email']) && is_array($mailSettings['sender_email'])) {
 	    	$sender = implode(",",$mailSettings['sender_email']);
 	    }
 	    $emailObj->from_email = $sender;
 	    $emailObj->from_name = $mailSettings['sender_name'];
 	    
 		$replyto = $mailSettings['replyto_email'];
-	    if(is_array($mailSettings['replyto_email'])) {
+	    if(isset($mailSettings['replyto_email']) && is_array($mailSettings['replyto_email'])) {
 	    	$replyto = implode(",",$mailSettings['replyto_email']);
 	    }
 	    $emailObj->replyto_email = $replyto;
@@ -356,7 +356,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	private function parseValue($settings,$type,$key) {
 		if(isset($this->emailSettings[$type][$key])) {
 			$parsed = $this->parseSettingValue($this->emailSettings[$type][$key]);
-		} else if(is_array($settings[$key.'.'])) {
+		} else if(isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
 			$parsed = $this->cObj->cObjGetSingle($settings[$key],$settings[$key.'.']);
 		} else {
 			$parsed = $this->parseSettingValue($settings[$key]);
@@ -377,7 +377,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	private function parseList($settings,$type,$key) {
 		if(isset($this->emailSettings[$type][$key])) {
 			$parsed = $this->explodeList($this->emailSettings[$type][$key]);
-		} else if(is_array($settings[$key.'.'])) {
+		} else if(isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
 			$parsed = $this->cObj->cObjGetSingle($settings[$key],$settings[$key.'.']); 
 		} else {
 			$parsed = $this->explodeList($settings[$key]);
@@ -395,7 +395,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
      * @return string
      */
 	private function parseFilesList($settings,$type,$key) {
-		if(is_array($settings[$key.'.'])) {
+		if(isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
 			$parsed = $this->cObj->cObjGetSingle($settings[$key],$settings[$key.'.']);
 		} elseif($settings[$key]) {
 			$files = t3lib_div::trimExplode(",",$settings[$key]);
@@ -453,7 +453,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		//parse attachment
 		$options['attachment'] = $this->parseFilesList($settings,$type,"attachment");
 		#print_r($settings);
-		if(is_array($settings['attachPDF.'])) {
+		if(isset($settings['attachPDF.']) && is_array($settings['attachPDF.'])) {
 			#print "call";
 			$generatorClass = $settings['attachPDF.']['class'];
 			if(!$generatorClass) {
@@ -488,7 +488,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
      */
 	protected function fillLangMarkersInSettings(&$settings) {
 		foreach($settings as &$value) {
-			if(is_array($value)) {
+			if(isset($value) && is_array($value)) {
 				$this->fillLangMarkersInSettings($value);
 			} else {
 				$langMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($value,$this->langFile);
@@ -521,7 +521,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		$settings = $this->settings;
 		
 		//set language file
-		if(is_array($settings['langFile.'])) {
+		if(isset($settings['langFile.']) && is_array($settings['langFile.'])) {
 			$this->langFile = $this->cObj->cObjGetSingle($settings['langFile'],$settings['langFile.']);
 		} else {
 			$this->langFile = F3_MailformPlusPlus_StaticFuncs::resolvePath($settings['langFile']);

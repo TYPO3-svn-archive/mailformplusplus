@@ -185,7 +185,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		session_start();
 		
 		//if files were uploaded
-		if(is_array($_FILES)) {
+		if(isset($_FILES) && is_array($_FILES)) {
 			
 			//get upload folder
 			$uploadFolder = $this->getTempUploadFolder();
@@ -229,7 +229,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			foreach($_FILES as $sthg=>&$files) {
 				
 				//if a file was uploaded
-				if(is_array($files['name'])) {
+				if(isset($files['name']) && is_array($files['name'])) {
 					
 					//for all file names
 					foreach($files['name'] as $field=>$name) {
@@ -331,7 +331,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		//read template file
 		if(!$this->templateFile) {
 			$templateFile = $settings['templateFile'];
-			if(is_array($settings['templateFile.'])) {
+			if(isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
 				$this->templateFile = $this->cObj->cObjGetSingle($settings['templateFile'],$settings['templateFile.']);
 			} else {
 				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
@@ -383,12 +383,12 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			unset($_SESSION['submitted_ok']);
 			
 			//run preProcessors
-			if(is_array($settings['preProcessors.'])) {
+			if(isset($settings['preProcessors.']) && is_array($settings['preProcessors.'])) {
 				$this->runClasses($settings['preProcessors.']);
 			}
 			
 			//run init interceptors
-			if(is_array($settings['initInterceptors.'])) {
+			if(isset($settings['initInterceptors.']) && is_array($settings['initInterceptors.'])) {
 				$this->runClasses($settings['initInterceptors.']);
 			}
 			
@@ -400,13 +400,13 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		} else {
 			
 			//run init interceptors
-			if(is_array($settings['initInterceptors.']) && !$_SESSION['submitted_ok']) {
+			if(isset($settings['initInterceptors.']) && is_array($settings['initInterceptors.']) && !$_SESSION['submitted_ok']) {
 				$this->runClasses($settings['initInterceptors.']);
 			}
 			
 			//run validation
 			$valid = array(true);
-			if(is_array($settings['validators.'])  && !$_SESSION['submitted_ok']) {
+			if(isset($settings['validators.']) && is_array($settings['validators.'])  && !$_SESSION['submitted_ok']) {
 				foreach($settings['validators.'] as $tsConfig) {
 					F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Validator: ".$tsConfig['class']);
 					$validator = $this->componentManager->getComponent($tsConfig['class']);
@@ -427,12 +427,12 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 				}
 				
 				//run save interceptors
-				if(is_array($settings['saveInterceptors.'])  && !$_SESSION['submitted_ok']) {
+				if(isset($settings['saveInterceptors.'])  && is_array($settings['saveInterceptors.'])  && !$_SESSION['submitted_ok']) {
 					$this->runClasses($settings['saveInterceptors.']);
 				}
 				
 				//run loggers
-				if(is_array($settings['loggers.'])  && !$_SESSION['submitted_ok']) {
+				if(isset($settings['loggers.']) && is_array($settings['loggers.']) && !$_SESSION['submitted_ok']) {
 					foreach($settings['loggers.'] as $tsConfig) {
 						F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Logger: ".$tsConfig['class']);
 						$logger = $this->componentManager->getComponent($tsConfig['class']);
@@ -441,7 +441,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 				}
 				
 				//run finishers
-				if(is_array($settings['finishers.'])) {
+				if(isset($settings['finishers.']) && is_array($settings['finishers.'])) {
 					foreach($settings['finishers.'] as $tsConfig) {
 						
 						$finisher = $this->componentManager->getComponent($tsConfig['class']);
