@@ -15,7 +15,7 @@
 /**
  * Default controller for MailformPlusPlus
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  */
@@ -51,7 +51,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	/**
      * The constructor for a finisher setting the component manager and the configuration.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @param F3_GimmeFive_Component_Manager $componentManager
      * @param F3_MailformPlusPlus_Configuration $configuration
      * @return void
@@ -74,7 +74,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 * 
 	 * @param integer $olderThan Delete files older than $olderThan hours.
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function clearTempFiles($olderThan) {
 		if(!$olderThan) {
@@ -124,7 +124,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 * The default upload folder is: '/uploads/mailformplusplus/tmp/'
 	 * 
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function getTempUploadFolder() {
 		
@@ -160,7 +160,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 * The session only gets cleared, when the form is shown for the first time (submitted == 0).
 	 *
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function clearSession() {
 		session_start();
@@ -179,7 +179,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 * 
 	 * 
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function processFiles() {
 		session_start();
@@ -278,7 +278,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	/**
      * Sets the template file attribute to $template
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard Fï¿½hricht <rf@typoheads.at>
      * @param string $template
      * @return void
      */
@@ -286,7 +286,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		$this->templateFile = $template;
 	}
 	
-	private function runClasses($classesArray) {
+	protected function runClasses($classesArray) {
 		foreach($classesArray as $tsConfig) {
 			F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling: ".$tsConfig['class']);
 			$obj = $this->componentManager->getComponent($tsConfig['class']);
@@ -297,9 +297,9 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	/**
 	 * Main method of the form handler.
 	 * 
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 	 * @return rendered view
-	 * @author Reinhard Führicht
+	 * @author Reinhard Fï¿½hricht
 	 */
 	public function process() {
 		session_start();
@@ -329,13 +329,19 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		}
 		
 		//read template file
+		
+		//template file was not set in flexform, search TypoScript for setting
 		if(!$this->templateFile) {
 			$templateFile = $settings['templateFile'];
 			if(isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
 				$this->templateFile = $this->cObj->cObjGetSingle($settings['templateFile'],$settings['templateFile.']);
 			} else {
+				print F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile);
 				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
 			}
+		} else {
+				$templateFile = $this->templateFile;
+				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
 		}
 		
 		if(!$this->templateFile) {
@@ -344,7 +350,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		
 		// set stylesheet file
 		$stylesheetFile = $settings['stylesheetFile'];
-		if ($stylesheetFile != "") {
+		if (strlen($stylesheetFile) > 0) {
 			
 			// set stylesheet
 			$GLOBALS['TSFE']->additionalHeaderData['special_css'] .= 
@@ -531,7 +537,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 *
 	 * @param $settings The mailformplusplus settings
 	 * @return string JavaScript
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function addSpecialJS($settings) {
 		
@@ -635,7 +641,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 * 
 	 * @param $valid Array with the return values of each validator
 	 * @return boolean
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function isValid($valid) {
 		foreach($valid as $item) {
@@ -650,7 +656,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 * Possibly unnecessary
 	 *
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function initializeController($value='') {
 		$this->piVars = t3lib_div::GParrayMerged($this->configuration->getPrefixedPackageKey());

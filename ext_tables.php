@@ -2,12 +2,13 @@
 /**
  * ext tables config file for ext: "mailformplusplus"
  * 
- * @author Reinhard Führicht <rf@typoheads.at>
+ * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 
  * @package	F3_MailformPlusPlus
  */
 
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
+
 
 
 # dynamic flexform

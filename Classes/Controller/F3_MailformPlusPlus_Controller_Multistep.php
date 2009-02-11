@@ -15,7 +15,7 @@
 /**
  * Multistep forms controller for MailformPlusPlus
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  */
@@ -25,7 +25,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 	 * Main method of the form handler.
 	 *
 	 * @return rendered view
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	public function process() {
 		
@@ -118,8 +118,12 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			if(isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
 				$this->templateFile = $this->cObj->cObjGetSingle($settings['templateFile'],$settings['templateFile.']);
 			} else {
+				print F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile);
 				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
 			}
+		} else {
+				$templateFile = $this->templateFile;
+				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
 		}
 		
 		if(!$this->templateFile) {
@@ -363,7 +367,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 	 * @param array &$settings Reference to the settings array
 	 * @param integer $step The current step
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function setViewSubpart(&$view,&$settings,$step) {
 		$this->finished = 0;
@@ -394,7 +398,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 	 * Merges the current GET/POST parameters with the stored ones in SESSION
 	 *
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function mergeGPWithSession() {
 		session_start();
@@ -422,7 +426,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 	 *
 	 * @param array &$settings Reference to the settings array to get information about checkboxes and radiobuttons.
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function storeGPinSession(&$settings) {
 		session_start();

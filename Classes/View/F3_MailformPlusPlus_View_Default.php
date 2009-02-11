@@ -15,7 +15,7 @@
 /**
  * A default view for MailformPlusPlus
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	View
  */
@@ -24,7 +24,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	/**
      * Removes an uploaded file from $_SESSION. This method is called via an AJAX request.
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
      * @param string $fieldname The field holding the file to delete
      * @param string $filename The file to delete
      * @return void
@@ -43,14 +43,12 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		session_start();
 		
 		if(is_array($_SESSION['mailformplusplusFiles'])) {
-			#$markers['###'.$field.'_uploadedFiles###'] = '<div id="F3_MailformPlusPlus_UploadedFiles">';
 			foreach($_SESSION['mailformplusplusFiles'] as $field=>$files) {
 				
 				if(!strcmp($field,$fieldname)) {
 					foreach($files as $key=>&$fileInfo) {
 						if(!strcmp($fileInfo['uploaded_name'],$filename)) {
 							unset($_SESSION['mailformplusplusFiles'][$field][$key]);
-							#unset($fileInfo);
 						}
 					}
 				}
@@ -59,35 +57,24 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 
         // Add the content to or Result Box: #formResult
 		if(is_array($_SESSION['mailformplusplusFiles'])) {
-			#$markers['###'.$field.'_uploadedFiles###'] = '<div id="F3_MailformPlusPlus_UploadedFiles">';
 			$markers = array();
 			$this->fillFileMarkers($markers);
-			#print_r($markers);
 			$content = $markers['###'.$fieldname.'_uploadedFiles###'];
-			
-				$objResponse->addAssign("F3_MailformPlusPlus_UploadedFiles_".$fieldname, "innerHTML", $content);
-			
-			#$markers['###'.$field.'_uploadedFiles###'] .= '</div>';
+			$objResponse->addAssign("F3_MailformPlusPlus_UploadedFiles_".$fieldname, "innerHTML", $content);
 			
 		} else {
 			$objResponse->addAssign("F3_MailformPlusPlus_UploadedFiles_".$fieldname, "innerHTML", "");
 		}
-		#print "call";
-		#var_dump($_SESSION);
-        #$objResponse->addAssign("F3_MailformPlusPlus_UploadedFiles_".$fieldname, "innerHTML", "Response: ".implode(",",array_keys($_SESSION)));
-        #$objResponse->addAssign("F3_MailformPlusPlus_UploadedFiles_".$fieldname, "innerHTML", "Response: ".$response);
-		#print $content;
-        //return the XML response
 
+        //return the XML response
         return $objResponse->getXML();
-		
 	}
 
 
 	/**
      * Main method called by the controller.
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
      * @param array $gp The current GET/POST parameters
      * @param array $errors The errors occurred in validation
      * @return string content
@@ -96,8 +83,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		
 		
 		session_start();
-		#$this->removeUploadedFile("picture","Sonnenuntergang_23.jpg");
-		#print_r($_SESSION['mailformplusplusFiles']);
 		
 		//set GET/POST parameters
 		$this->gp = $gp;
@@ -114,6 +99,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		if(!$this->langFile) {
 			$this->readLangFile();
 		}
+		
 		
 		if(!$this->gp['submitted']) {
 			$this->storeStartEndBlock();
@@ -145,8 +131,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 			$this->fillErrorMarkers($errors);
 		}
 		
-		#print_r($this->template);
-		
 		//remove markers that were not substituted
 		$content = F3_MailformPlusPlus_StaticFuncs::removeUnfilledMarkers($this->template);
 		
@@ -158,7 +142,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * Reads the translation file entered in TS setup.
 	 *
 	 * @return void
-	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function readLangFile() {
 		if(is_array($this->settings['langFile.'])) {
@@ -173,19 +157,23 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * This is needed to replace the markers ###FORM_STARTBLOCK### and ###FORM_ENDBLOCK### in the next steps.
 	 *
 	 * @return void
-	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function storeStartEndBlock() {
 		session_start();
-		$_SESSION['startblock'] = $this->cObj->getSubpart($this->template, '###FORM_STARTBLOCK###');
-		$_SESSION['endblock'] = $this->cObj->getSubpart($this->template, '###FORM_ENDBLOCK###');
+		if(!isset($_SESSION['startblock'])) {
+			$_SESSION['startblock'] = $this->cObj->getSubpart($this->template, '###FORM_STARTBLOCK###');
+		}
+		if(!isset($_SESSION['endblock'])) {
+			$_SESSION['endblock'] = $this->cObj->getSubpart($this->template, '###FORM_ENDBLOCK###');
+		}
 	}
 	
 	/**
 	 * Fills the markers ###FORM_STARTBLOCK### and ###FORM_ENDBLOCK### with the stored values from $_SESSION.
 	 *
 	 * @return void
-	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function fillStartEndBlock() {
 		session_start();
@@ -197,7 +185,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	/**
      * Returns the global TypoScript settings of MailformPlusPlus
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
      * @return array The settings
      */
 	protected function parseSettings() {
@@ -221,7 +209,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
      * 		###checked_[fieldname]_[value]###
      * in $this->template
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
      * @return void
      */
 	protected function fillSelectedMarkers() {
@@ -229,7 +217,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 			foreach($this->gp as $k=>$v) {
 				if (is_array($v)) {
 					foreach ($v as $field=>$value) {
-						#print '###selected_'.$k.'_'.$value.'###<br />';
 						$markers['###checked_'.$k.'_'.$value.'###'] = 'checked="checked"';
 						$markers['###selected_'.$k.'_'.$value.'###'] = 'selected="selected"';
 					}
@@ -245,7 +232,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	/**
      * Substitutes default markers in $this->template.
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
      * @return void
      */
 	protected function fillDefaultMarkers() {
@@ -262,7 +249,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		$this->fillCaptchaMarkers($markers);
 		$this->fillFEUserMarkers($markers);
 		$this->fillFileMarkers($markers);
-		#print_r($markers);
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 	}
 	
@@ -271,7 +257,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * 
 	 * @param array &$markers Reference to the markers array
 	 * @return void
-	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function fillCaptchaMarkers(&$markers) {
 		global $LANG;
@@ -304,7 +290,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * 
 	 * @param array &$markers Reference to the markers array
 	 * @return void
-	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function fillFEUserMarkers(&$markers) {
 		if (is_array($GLOBALS["TSFE"]->fe_user->user)) {
@@ -332,7 +318,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * 
 	 * @param array &$markers Reference to the markers array
 	 * @return void
-	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
 	 */
 	protected function fillFileMarkers(&$markers) {
 		session_start();
@@ -421,7 +407,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
      * 		###ERROR###
      * in $this->template
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
      * @return void
      */
 	protected function fillErrorMarkers(&$errors) {
@@ -486,7 +472,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 			$markers['###ERROR_'.strtoupper($field).'###'] = $errorMessage;
 			$errorMessage = $clearErrorMessage;
 			if($this->settings['addErrorAnchors']) {
-				$errorMessage = '<a href="#'.$field.'">'.$errorMessage.'</a>';
+				$errorMessage = '<a href="' . t3lib_div::getIndpEnv('REQUEST_URI') . '#'.$field.'">'.$errorMessage.'</a>';
 				
 			} 
 			//list settings
@@ -509,12 +495,10 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	/**
      * Substitutes markers defined in TypoScript in $this->template
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
      * @return void
      */
 	protected function fillTypoScriptMarkers() {
-		#print_r($this->settings);
-		#print "call";
 		$markers = array();
 		foreach($this->settings['markers.'] as $name=>$options) {
 			if(!strstr($name,".")) {
@@ -537,7 +521,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
      * 		###[FIELDNAME]###
      * in $this->template
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
      * @return void
      */
 	protected function fillValueMarkers() {
@@ -572,13 +556,12 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
      * 		###LLL:[languageKey]###
      * in $this->template
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard Fï¿½hricht <rf@typoheads.at>
      * @return void
      */
 	protected function fillLangMarkers() {
 		global $LANG;
 		$langMarkers = array();
-		#print_r("LangFile: ".$this->langFile);
 		if ($this->langFile != '') {
 			$aLLMarkerList = array();
 			preg_match_all('/###LLL:.+?###/Ssm', $this->template, $aLLMarkerList);
