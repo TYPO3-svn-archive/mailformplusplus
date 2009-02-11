@@ -56,10 +56,10 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 	 * @author Reinhard F�hricht <rf@typoheads.at>
 	 */
 	public function main($content, $setup) {
-		
+
+
 		$this->pi_USER_INT_obj = 1;
 		$this->componentManager = F3_GimmeFive_Component_Manager::getInstance();
-		$componentManager = $this->componentManager;
 		
 		//handle AJAX stuff
 		$this->handleAjax();
@@ -80,7 +80,7 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		if(!$controller) {
 			$controller = "F3_MailformPlusPlus_Controller_Default";
 		}
-		$controller = $componentManager->getComponent($controller);
+		$controller = $this->componentManager->getComponent($controller);
 		
 		/*
 		 * Parse values from flexform:
@@ -106,7 +106,7 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		}
 		
 		if (isset($content)) {
-			$controller->setContent($componentManager->getComponent('F3_MailformPlusPlus_Content', $content));
+			$controller->setContent($this->componentManager->getComponent('F3_MailformPlusPlus_Content', $content));
 		}
 		$controller->setEmailSettings($emailSettings);
 		if(strlen($templateFile) > 0) {

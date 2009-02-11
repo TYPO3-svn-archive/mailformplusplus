@@ -27,6 +27,19 @@ t3lib_extMgm::addPiFlexFormValue($_EXTKEY."_pi1", 'FILE:EXT:' . $_EXTKEY . '/Res
 if (TYPO3_MODE=="BE")   {
 	//t3lib_extMgm::addModule('web','txtestingmoduleM1','',t3lib_extMgm::extPath($_EXTKEY).'mod1/');
     t3lib_extMgm::addModule("web","txmailformplusplusmoduleM1","",t3lib_extMgm::extPath($_EXTKEY)."Classes/Controller/Module/");
+} elseif($GLOBALS['TSFE']->id) {
+	
+	$sysPageObj = t3lib_div::makeInstance('t3lib_pageSelect');
+	$rootLine = $sysPageObj->getRootLine($GLOBALS['TSFE']->id);
+	$TSObj = t3lib_div::makeInstance('t3lib_tsparser_ext');
+	$TSObj->tt_track = 0;
+	$TSObj->init();
+	$TSObj->runThroughTemplates($rootLine);
+	$TSObj->generateConfig();
+	if(!$TSObj->setup['plugin.']['F3_MailformPlusPlus.']['userFunc']) {
+		throw new Exception('No static template found! Make sure to include "Settings (mailformplusplus)" in your TypoScript template!');	
+	}
+
 }
 
 
