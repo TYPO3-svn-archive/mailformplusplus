@@ -13,7 +13,7 @@
   <tr>
     <td class="header_menu">
         
-                                    
+                                                        
                                                   		  [ <a href="../../classtrees_F3_MailformPlusPlus.html" class="menu">class tree: F3_MailformPlusPlus</a> ]
 		  [ <a href="../../elementindex_F3_MailformPlusPlus.html" class="menu">index: F3_MailformPlusPlus</a> ]
 		  	    [ <a href="../../elementindex.html" class="menu">all elements</a> ]
@@ -26,6 +26,7 @@
   <tr valign="top">
     <td width="200" class="menu">
       <b>Packages:</b><br />
+              <a href="../../li_default.html">default</a><br />
               <a href="../../li_F3_MailformPlusPlus.html">F3_MailformPlusPlus</a><br />
               <a href="../../li_Filtreatment.html">Filtreatment</a><br />
             <br /><br />
@@ -275,7 +276,7 @@ Source Location: /Classes/Controller/F3_MailformPlusPlus_Controller_Default.php<
 <div class="description">Default controller for MailformPlusPlus</div><br /><br />
 <h4>Author(s):</h4>
 <ul>
-          <li>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</li>
+          <li>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</li>
       </ul>
 
 
@@ -309,6 +310,9 @@ Source Location: /Classes/Controller/F3_MailformPlusPlus_Controller_Default.php<
     <li><a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodisValid">isValid</a></li>
     <li><a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodprocess">process</a></li>
     <li><a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodprocessFiles">processFiles</a></li>
+    <li><a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodreadTemplateFile">readTemplateFile</a></li>
+    <li><a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodrunClasses">runClasses</a></li>
+    <li><a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodsetStyleSheet">setStyleSheet</a></li>
     <li><a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodsetTemplateFile">setTemplateFile</a></li>
   </ul>
 </td>
@@ -439,12 +443,12 @@ Source Location: /Classes/Controller/F3_MailformPlusPlus_Controller_Default.php<
 <h3>Class Details</h3>
 <div class="tags">
 [line 22]<br />
-Default controller for MailformPlusPlus<br /><br /><br /><br />
+Default controller for MailformPlusPlus<br /><br /><p>* @author	Reinhard FÃ¼hricht &lt;rf@typoheads.at&gt;</p><br /><br /><br />
 <h4>Tags:</h4>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
 </table>
 </div>
@@ -576,7 +580,7 @@ $configuration)</code>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
@@ -605,7 +609,7 @@ $configuration)</code>
   </div>
   <hr />
 	<a name="methodaddSpecialJS"></a>
-	<h3>method addSpecialJS <span class="smalllinenumber">[line 536]</span></h3>
+	<h3>method addSpecialJS <span class="smalllinenumber">[line 565]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -615,7 +619,7 @@ $settings)</code>
     </td></tr></table>
     </td></tr></table><br />
 	
-		Returns some JavaScript code used for fany form stuff.<br /><br /><p>Example code:</p><p><ol><li><div class="src-line">&nbsp;<span class="src-comm">#enable&nbsp;fany&nbsp;form</span></div></li>
+		Returns some JavaScript code used for fany form stuff.<br /><br /><p>Example code:</p><p><ol><li><div class="src-line">&nbsp;<span class="src-comm">#enable&nbsp;fancy&nbsp;form</span></div></li>
 <li><div class="src-line">&nbsp;<span class="src-id">plugin</span>.<span class="src-id">F3_MailformPlusPlus</span>.<span class="src-id">settings</span>.<span class="src-id">fancyForm&nbsp;</span>=&nbsp;<span class="src-num">1</span></div></li>
 <li><div class="src-line">&nbsp;</div></li>
 <li><div class="src-line">&nbsp;<span class="src-comm">#the&nbsp;id&nbsp;of&nbsp;the&nbsp;parent&nbsp;element&nbsp;(e.g.&nbsp;the&nbsp;form&nbsp;element)</span></div></li>
@@ -644,7 +648,7 @@ $settings)</code>
     <td><b>return:</b>&nbsp;&nbsp;</td><td>JavaScript</td>
   </tr>
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
@@ -682,7 +686,7 @@ $settings)</code>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
@@ -713,7 +717,7 @@ $olderThan)</code>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
@@ -752,7 +756,7 @@ $olderThan)</code>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
@@ -766,7 +770,7 @@ $olderThan)</code>
   </div>
   <hr />
 	<a name="methodinitializeController"></a>
-	<h3>method initializeController <span class="smalllinenumber">[line 655]</span></h3>
+	<h3>method initializeController <span class="smalllinenumber">[line 684]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -781,7 +785,7 @@ $value = ''])</code>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
@@ -805,7 +809,7 @@ $value = ''])</code>
   </div>
   <hr />
 	<a name="methodisValid"></a>
-	<h3>method isValid <span class="smalllinenumber">[line 640]</span></h3>
+	<h3>method isValid <span class="smalllinenumber">[line 669]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -820,7 +824,7 @@ $valid)</code>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
@@ -861,10 +865,10 @@ $valid)</code>
     <td><b>return:</b>&nbsp;&nbsp;</td><td>view</td>
   </tr>
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Fï¿½hricht</td>
   </tr>
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
@@ -898,7 +902,7 @@ $valid)</code>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
@@ -908,6 +912,120 @@ $valid)</code>
 <br /><br />
 
 	
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodreadTemplateFile"></a>
+	<h3>method readTemplateFile <span class="smalllinenumber">[line 509]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void readTemplateFile(
+$settings
+&$settings)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Read template file set in flexform or TypoScript, read the file's contents to $this-&gt;templateFile<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">$settings&nbsp;&nbsp;</td>
+        <td><b>&$settings</b>&nbsp;&nbsp;</td>
+        <td>The mailformplusplus settings</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodrunClasses"></a>
+	<h3>method runClasses <span class="smalllinenumber">[line 289]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void runClasses(
+
+$classesArray)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		<br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">&nbsp;&nbsp;</td>
+        <td><b>$classesArray</b>&nbsp;&nbsp;</td>
+        <td></td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
+	<a name="methodsetStyleSheet"></a>
+	<h3>method setStyleSheet <span class="smalllinenumber">[line 492]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void setStyleSheet(
+$settings
+&$settings)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Read stylesheet file set in TypoScript. If set add to header data<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">$settings&nbsp;&nbsp;</td>
+        <td><b>&$settings</b>&nbsp;&nbsp;</td>
+        <td>The mailformplusplus settings</td>
+      </tr>
+        </table>
+    </div><br />
         <div class="top">[ <a href="#top">Top</a> ]</div>
   </div>
   <hr />
@@ -927,7 +1045,7 @@ $template)</code>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
@@ -954,7 +1072,7 @@ $template)</code>
 
         <div class="credit">
 		    <hr />
-		    Documentation generated on Thu, 08 Jan 2009 00:34:27 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Thu, 12 Feb 2009 20:01:20 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

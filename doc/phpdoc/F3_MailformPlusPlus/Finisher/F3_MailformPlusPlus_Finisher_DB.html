@@ -13,7 +13,7 @@
   <tr>
     <td class="header_menu">
         
-                                    
+                                                        
                                                   		  [ <a href="../../classtrees_F3_MailformPlusPlus.html" class="menu">class tree: F3_MailformPlusPlus</a> ]
 		  [ <a href="../../elementindex_F3_MailformPlusPlus.html" class="menu">index: F3_MailformPlusPlus</a> ]
 		  	    [ <a href="../../elementindex.html" class="menu">all elements</a> ]
@@ -26,6 +26,7 @@
   <tr valign="top">
     <td width="200" class="menu">
       <b>Packages:</b><br />
+              <a href="../../li_default.html">default</a><br />
               <a href="../../li_F3_MailformPlusPlus.html">F3_MailformPlusPlus</a><br />
               <a href="../../li_Filtreatment.html">Filtreatment</a><br />
             <br /><br />
@@ -275,7 +276,7 @@ Source Location: /Classes/Finisher/F3_MailformPlusPlus_Finisher_DB.php<br /><br 
 <div class="description">This finisher stores the submitted values into a table in the TYPO3 database according to the configuration</div><br /><br />
 <h4>Author(s):</h4>
 <ul>
-          <li>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</li>
+          <li>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</li>
       </ul>
 
 
@@ -301,6 +302,7 @@ Source Location: /Classes/Finisher/F3_MailformPlusPlus_Finisher_DB.php<br /><br 
 <td valign="top">
 <h3><a href="#class_methods">Methods</a></h3>
 <ul>
+    <li><a href="../../F3_MailformPlusPlus/Finisher/F3_MailformPlusPlus_Finisher_DB.html#methodescapeFields">escapeFields</a></li>
     <li><a href="../../F3_MailformPlusPlus/Finisher/F3_MailformPlusPlus_Finisher_DB.html#methodinit">init</a></li>
     <li><a href="../../F3_MailformPlusPlus/Finisher/F3_MailformPlusPlus_Finisher_DB.html#methodparseFields">parseFields</a></li>
     <li><a href="../../F3_MailformPlusPlus/Finisher/F3_MailformPlusPlus_Finisher_DB.html#methodprocess">process</a></li>
@@ -416,7 +418,7 @@ This finisher stores the submitted values into a table in the TYPO3 database acc
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
 </table>
 </div>
@@ -559,8 +561,53 @@ This finisher stores the submitted values into a table in the TYPO3 database acc
 <div class="tags">
 
   <hr />
+	<a name="methodescapeFields"></a>
+	<h3>method escapeFields <span class="smalllinenumber">[line 134]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>array escapeFields(
+array
+$queryFields, string
+$table)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Escapes all values in given array for insert query into given table.<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>return:</b>&nbsp;&nbsp;</td><td>The input array with the values quoted</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <h4>Parameters:</h4>
+    <div class="tags">
+    <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+        <td class="type">array&nbsp;&nbsp;</td>
+        <td><b>$queryFields</b>&nbsp;&nbsp;</td>
+        <td>Array with values (either associative or non-associative array)</td>
+      </tr>
+          <tr>
+        <td class="type">string&nbsp;&nbsp;</td>
+        <td><b>$table</b>&nbsp;&nbsp;</td>
+        <td>Table name for which to quote</td>
+      </tr>
+        </table>
+    </div><br />
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
 	<a name="methodinit"></a>
-	<h3>method init <span class="smalllinenumber">[line 162]</span></h3>
+	<h3>method init <span class="smalllinenumber">[line 171]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -573,9 +620,6 @@ This finisher stores the submitted values into a table in the TYPO3 database acc
 <h4>Tags:</h4>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
-  </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
   </tr>
@@ -594,7 +638,7 @@ This finisher stores the submitted values into a table in the TYPO3 database acc
   </div>
   <hr />
 	<a name="methodparseFields"></a>
-	<h3>method parseFields <span class="smalllinenumber">[line 194]</span></h3>
+	<h3>method parseFields <span class="smalllinenumber">[line 202]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -611,9 +655,6 @@ This finisher stores the submitted values into a table in the TYPO3 database acc
     <td><b>return:</b>&nbsp;&nbsp;</td><td>The query fields</td>
   </tr>
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
-  </tr>
-  <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
   </tr>
 </table>
@@ -625,7 +666,7 @@ This finisher stores the submitted values into a table in the TYPO3 database acc
   </div>
   <hr />
 	<a name="methodprocess"></a>
-	<h3>method process <span class="smalllinenumber">[line 107]</span></h3>
+	<h3>method process <span class="smalllinenumber">[line 106]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -642,9 +683,6 @@ $settings)</code>
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td><b>return:</b>&nbsp;&nbsp;</td><td>The probably modified GET/POST parameters</td>
-  </tr>
-  <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
@@ -673,7 +711,7 @@ $settings)</code>
   </div>
   <hr />
 	<a name="methodsave"></a>
-	<h3>method save <span class="smalllinenumber">[line 134]</span></h3>
+	<h3>method save <span class="smalllinenumber">[line 144]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -687,9 +725,6 @@ array
 <h4>Tags:</h4>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
-  </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
   </tr>
@@ -721,7 +756,7 @@ array
 
         <div class="credit">
 		    <hr />
-		    Documentation generated on Thu, 08 Jan 2009 00:34:30 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Thu, 12 Feb 2009 20:01:22 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

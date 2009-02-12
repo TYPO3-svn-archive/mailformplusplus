@@ -13,7 +13,7 @@
   <tr>
     <td class="header_menu">
         
-                                    
+                                                        
                                                   		  [ <a href="../../classtrees_F3_MailformPlusPlus.html" class="menu">class tree: F3_MailformPlusPlus</a> ]
 		  [ <a href="../../elementindex_F3_MailformPlusPlus.html" class="menu">index: F3_MailformPlusPlus</a> ]
 		  	    [ <a href="../../elementindex.html" class="menu">all elements</a> ]
@@ -26,6 +26,7 @@
   <tr valign="top">
     <td width="200" class="menu">
       <b>Packages:</b><br />
+              <a href="../../li_default.html">default</a><br />
               <a href="../../li_F3_MailformPlusPlus.html">F3_MailformPlusPlus</a><br />
               <a href="../../li_Filtreatment.html">Filtreatment</a><br />
             <br /><br />
@@ -277,7 +278,7 @@ Source Location: /Classes/Controller/F3_MailformPlusPlus_Controller_Multistep.ph
 <div class="description">Multistep forms controller for MailformPlusPlus</div><br /><br />
 <h4>Author(s):</h4>
 <ul>
-          <li>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</li>
+          <li>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</li>
       </ul>
 
 
@@ -293,6 +294,7 @@ Source Location: /Classes/Controller/F3_MailformPlusPlus_Controller_Multistep.ph
 <td valign="top">
 <h3><a href="#class_methods">Methods</a></h3>
 <ul>
+    <li><a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Multistep.html#methodfindCurrentStep">findCurrentStep</a></li>
     <li><a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Multistep.html#methodmergeGPWithSession">mergeGPWithSession</a></li>
     <li><a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Multistep.html#methodprocess">process</a></li>
     <li><a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Multistep.html#methodsetViewSubpart">setViewSubpart</a></li>
@@ -442,6 +444,24 @@ Source Location: /Classes/Controller/F3_MailformPlusPlus_Controller_Multistep.ph
     Processes uploaded files, moves them to a temporary upload folder, renames them if they already exist and  stores the information in $_SESSION['mailformplusplusFiles']
   </dd>
     <dt>
+    <a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodreadTemplateFile">F3_MailformPlusPlus_Controller_Default::readTemplateFile()</a>
+  </dt>
+  <dd>
+    Read template file set in flexform or TypoScript, read the file's contents to $this-&gt;templateFile
+  </dd>
+    <dt>
+    <a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodrunClasses">F3_MailformPlusPlus_Controller_Default::runClasses()</a>
+  </dt>
+  <dd>
+    
+  </dd>
+    <dt>
+    <a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodsetStyleSheet">F3_MailformPlusPlus_Controller_Default::setStyleSheet()</a>
+  </dt>
+  <dd>
+    Read stylesheet file set in TypoScript. If set add to header data
+  </dd>
+    <dt>
     <a href="../../F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodsetTemplateFile">F3_MailformPlusPlus_Controller_Default::setTemplateFile()</a>
   </dt>
   <dd>
@@ -514,7 +534,7 @@ Multistep forms controller for MailformPlusPlus<br /><br /><br /><br />
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
 </table>
 </div>
@@ -528,8 +548,36 @@ Multistep forms controller for MailformPlusPlus<br /><br /><br /><br />
 <div class="tags">
 
   <hr />
+	<a name="methodfindCurrentStep"></a>
+	<h3>method findCurrentStep <span class="smalllinenumber">[line 313]</span></h3>
+	<div class="function">
+    <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
+    <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
+		<code>void findCurrentStep(
+)</code>
+    </td></tr></table>
+    </td></tr></table><br />
+	
+		Searches for current step and sets $this-&gt;currentStep according<br /><br /><br /><br />
+<h4>Tags:</h4>
+<div class="tags">
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+  </tr>
+  <tr>
+    <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
+  </tr>
+</table>
+</div>
+<br /><br />
+
+	
+        <div class="top">[ <a href="#top">Top</a> ]</div>
+  </div>
+  <hr />
 	<a name="methodmergeGPWithSession"></a>
-	<h3>method mergeGPWithSession <span class="smalllinenumber">[line 399]</span></h3>
+	<h3>method mergeGPWithSession <span class="smalllinenumber">[line 379]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -543,7 +591,7 @@ Multistep forms controller for MailformPlusPlus<br /><br /><br /><br />
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
@@ -574,7 +622,7 @@ Multistep forms controller for MailformPlusPlus<br /><br /><br /><br />
     <td><b>return:</b>&nbsp;&nbsp;</td><td>view</td>
   </tr>
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>public</td>
@@ -588,7 +636,7 @@ Multistep forms controller for MailformPlusPlus<br /><br /><br /><br />
   </div>
   <hr />
 	<a name="methodsetViewSubpart"></a>
-	<h3>method setViewSubpart <span class="smalllinenumber">[line 368]</span></h3>
+	<h3>method setViewSubpart <span class="smalllinenumber">[line 348]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -605,7 +653,7 @@ $step)</code>
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
@@ -639,7 +687,7 @@ $step)</code>
   </div>
   <hr />
 	<a name="methodstoreGPinSession"></a>
-	<h3>method storeGPinSession <span class="smalllinenumber">[line 427]</span></h3>
+	<h3>method storeGPinSession <span class="smalllinenumber">[line 407]</span></h3>
 	<div class="function">
     <table width="90%" border="0" cellspacing="0" cellpadding="1"><tr><td class="code_border">
     <table width="100%" border="0" cellspacing="0" cellpadding="2"><tr><td class="code">
@@ -654,7 +702,7 @@ array
 <div class="tags">
 <table border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard Führicht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
+    <td><b>author:</b>&nbsp;&nbsp;</td><td>Reinhard FÃ¼hricht &lt;<a href="mailto:rf@typoheads.at">rf@typoheads.at</a>&gt;</td>
   </tr>
   <tr>
     <td><b>access:</b>&nbsp;&nbsp;</td><td>protected</td>
@@ -681,7 +729,7 @@ array
 
         <div class="credit">
 		    <hr />
-		    Documentation generated on Thu, 08 Jan 2009 00:34:29 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Thu, 12 Feb 2009 20:01:21 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>

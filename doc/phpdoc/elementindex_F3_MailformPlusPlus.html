@@ -14,7 +14,7 @@
     <td class="header_menu">
         
                                     
-                                                  		  [ <a href="classtrees_F3_MailformPlusPlus.html" class="menu">class tree: F3_MailformPlusPlus</a> ]
+                                                                      		  [ <a href="classtrees_F3_MailformPlusPlus.html" class="menu">class tree: F3_MailformPlusPlus</a> ]
 		  [ <a href="elementindex_F3_MailformPlusPlus.html" class="menu">index: F3_MailformPlusPlus</a> ]
 		  	    [ <a href="elementindex.html" class="menu">all elements</a> ]
     </td>
@@ -27,6 +27,7 @@
     <td width="200" class="menu">
       <b>Packages:</b><br />
               <a href="li_F3_MailformPlusPlus.html">F3_MailformPlusPlus</a><br />
+              <a href="li_default.html">default</a><br />
               <a href="li_Filtreatment.html">Filtreatment</a><br />
             <br /><br />
                         <b>Files:</b><br />
@@ -619,6 +620,8 @@
 				<dd>in file F3_MailformPlusPlus_AbstractController.php, variable <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_AbstractController.html#var$emailSettings">F3_MailformPlusPlus_AbstractController::$emailSettings</a><br>&nbsp;&nbsp;&nbsp;&nbsp;An array with email settings entered by the user</dd>
 							<dt><b>$emailSettings</b></dt>
 				<dd>in file F3_MailformPlusPlus_Finisher_Mail.php, variable <a href="F3_MailformPlusPlus/Finisher/F3_MailformPlusPlus_Finisher_Mail.html#var$emailSettings">F3_MailformPlusPlus_Finisher_Mail::$emailSettings</a><br>&nbsp;&nbsp;&nbsp;&nbsp;An array containing the values enterd in the plugin record.</dd>
+							<dt><b>escapeFields</b></dt>
+				<dd>in file F3_MailformPlusPlus_Finisher_DB.php, method <a href="F3_MailformPlusPlus/Finisher/F3_MailformPlusPlus_Finisher_DB.html#methodescapeFields">F3_MailformPlusPlus_Finisher_DB::escapeFields()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Escapes all values in given array for insert query into given table.</dd>
 							<dt><b>encode</b></dt>
 				<dd>in file ClassMathGuard.php, method <a href="F3_MailformPlusPlus/Resources/MathGuard.html#methodencode">MathGuard::encode()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A main hashing function: concat of user's answer, hour and the additional prime number (default 37)</dd>
 							<dt><b>Error</b></dt>
@@ -671,6 +674,8 @@
 				<dd>in file F3_MailformPlusPlus_Controller_Multistep.php, class <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Multistep.html">F3_MailformPlusPlus_Controller_Multistep</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Multistep forms controller for MailformPlusPlus</dd>
 							<dt><b>fetchRecords</b></dt>
 				<dd>in file F3_MailformPlusPlus_Controller_Backend.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Backend.html#methodfetchRecords">F3_MailformPlusPlus_Controller_Backend::fetchRecords()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;This function selects all logged records from the log table using the filter settings.</dd>
+							<dt><b>findCurrentStep</b></dt>
+				<dd>in file F3_MailformPlusPlus_Controller_Multistep.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Multistep.html#methodfindCurrentStep">F3_MailformPlusPlus_Controller_Multistep::findCurrentStep()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Searches for current step and sets $this-&gt;currentStep according</dd>
 							<dt><b>F3_MailformPlusPlus_AbstractFinisher.php</b></dt>
 				<dd>procedural page <a href="F3_MailformPlusPlus/Finisher/_Classes---Finisher---F3_MailformPlusPlus_AbstractFinisher.php.html">F3_MailformPlusPlus_AbstractFinisher.php</a></dd>
 							<dt><b>F3_MailformPlusPlus_Finisher_ClearCache.php</b></dt>
@@ -820,7 +825,7 @@
 							<dt><b>F3_MailformPlusPlus_View_Default</b></dt>
 				<dd>in file F3_MailformPlusPlus_View_Default.php, class <a href="F3_MailformPlusPlus/View/F3_MailformPlusPlus_View_Default.html">F3_MailformPlusPlus_View_Default</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A default view for MailformPlusPlus</dd>
 							<dt><b>F3_MailformPlusPlus_View_Listing</b></dt>
-				<dd>in file F3_MailformPlusPlus_View_Listing.php, class <a href="F3_MailformPlusPlus/View/F3_MailformPlusPlus_View_Listing.html">F3_MailformPlusPlus_View_Listing</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A default view for MailformPlusPlus</dd>
+				<dd>in file F3_MailformPlusPlus_View_Listing.php, class <a href="F3_MailformPlusPlus/View/F3_MailformPlusPlus_View_Listing.html">F3_MailformPlusPlus_View_Listing</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A default view for MailformPlusPlus frontend listing</dd>
 							<dt><b>F3_MailformPlusPlus_View_Multistep</b></dt>
 				<dd>in file F3_MailformPlusPlus_View_Multistep.php, class <a href="F3_MailformPlusPlus/View/F3_MailformPlusPlus_View_Multistep.html">F3_MailformPlusPlus_View_Multistep</a><br>&nbsp;&nbsp;&nbsp;&nbsp;A view class for multistep forms</dd>
 							<dt><b>fillCaptchaMarkers</b></dt>
@@ -942,7 +947,7 @@
 							<dt><b>getHostname</b></dt>
 				<dd>in file F3_MailformPlusPlus_StaticFuncs.php, method <a href="F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodgetHostname">F3_MailformPlusPlus_StaticFuncs::getHostname()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Returns the http path to the site</dd>
 							<dt><b>getTYPO3Root</b></dt>
-				<dd>in file F3_MailformPlusPlus_StaticFuncs.php, method <a href="F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodgetTYPO3Root">F3_MailformPlusPlus_StaticFuncs::getTYPO3Root()</a></dd>
+				<dd>in file F3_MailformPlusPlus_StaticFuncs.php, method <a href="F3_MailformPlusPlus/Utils/F3_MailformPlusPlus_StaticFuncs.html#methodgetTYPO3Root">F3_MailformPlusPlus_StaticFuncs::getTYPO3Root()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Returns the absolute path to the TYPO3 root</dd>
 							<dt><b>$gp</b></dt>
 				<dd>in file F3_MailformPlusPlus_AbstractValidator.php, variable <a href="F3_MailformPlusPlus/Validator/F3_MailformPlusPlus_AbstractValidator.html#var$gp">F3_MailformPlusPlus_AbstractValidator::$gp</a><br>&nbsp;&nbsp;&nbsp;&nbsp;The GET/POST parameters</dd>
 							<dt><b>getCheckFailed</b></dt>
@@ -1279,6 +1284,10 @@
 				<dd>in file F3_MailformPlusPlus_AbstractController.php, variable <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_AbstractController.html#var$redirectPage">F3_MailformPlusPlus_AbstractController::$redirectPage</a><br>&nbsp;&nbsp;&nbsp;&nbsp;The page ID to redirect to, the user may have entered in the plugin record.</dd>
 							<dt><b>$requiredFields</b></dt>
 				<dd>in file F3_MailformPlusPlus_AbstractController.php, variable <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_AbstractController.html#var$requiredFields">F3_MailformPlusPlus_AbstractController::$requiredFields</a><br>&nbsp;&nbsp;&nbsp;&nbsp;An array of possibly entered required fields</dd>
+							<dt><b>readTemplateFile</b></dt>
+				<dd>in file F3_MailformPlusPlus_Controller_Default.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodreadTemplateFile">F3_MailformPlusPlus_Controller_Default::readTemplateFile()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Read template file set in flexform or TypoScript, read the file's contents to $this-&gt;templateFile</dd>
+							<dt><b>runClasses</b></dt>
+				<dd>in file F3_MailformPlusPlus_Controller_Default.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodrunClasses">F3_MailformPlusPlus_Controller_Default::runClasses()</a></dd>
 							<dt><b>$rMargin</b></dt>
 				<dd>in file fpdf.php, variable <a href="F3_MailformPlusPlus/Resources/FPDF.html#var$rMargin">FPDF::$rMargin</a></dd>
 							<dt><b>$row_end</b></dt>
@@ -1338,9 +1347,9 @@
 							<dt><b>$setup</b></dt>
 				<dd>in file F3_MailformPlusPlus_Configuration.php, variable <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Configuration.html#var$setup">F3_MailformPlusPlus_Configuration::$setup</a><br>&nbsp;&nbsp;&nbsp;&nbsp;The TS setup</dd>
 							<dt><b>setContent</b></dt>
-				<dd>in file F3_MailformPlusPlus_ControllerInterface.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_ControllerInterface.html#methodsetContent">F3_MailformPlusPlus_ControllerInterface::setContent()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Sets the content object</dd>
-							<dt><b>setContent</b></dt>
 				<dd>in file F3_MailformPlusPlus_AbstractController.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_AbstractController.html#methodsetContent">F3_MailformPlusPlus_AbstractController::setContent()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Sets the content attribute of the controller</dd>
+							<dt><b>setContent</b></dt>
+				<dd>in file F3_MailformPlusPlus_ControllerInterface.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_ControllerInterface.html#methodsetContent">F3_MailformPlusPlus_ControllerInterface::setContent()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Sets the content object</dd>
 							<dt><b>setContent</b></dt>
 				<dd>in file F3_MailformPlusPlus_Content.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Content.html#methodsetContent">F3_MailformPlusPlus_Content::setContent()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Sets the internal attribute &quot;content&quot;</dd>
 							<dt><b>setEmailSettings</b></dt>
@@ -1353,10 +1362,12 @@
 				<dd>in file F3_MailformPlusPlus_AbstractController.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_AbstractController.html#methodsetRedirectPage">F3_MailformPlusPlus_AbstractController::setRedirectPage()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Sets the internal attribute &quot;redirectPage&quot;</dd>
 							<dt><b>setRequiredFields</b></dt>
 				<dd>in file F3_MailformPlusPlus_AbstractController.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_AbstractController.html#methodsetRequiredFields">F3_MailformPlusPlus_AbstractController::setRequiredFields()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Sets the internal attribute &quot;requiredFields&quot;</dd>
-							<dt><b>setTemplateFile</b></dt>
-				<dd>in file F3_MailformPlusPlus_Controller_Listing.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Listing.html#methodsetTemplateFile">F3_MailformPlusPlus_Controller_Listing::setTemplateFile()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Sets the template file attribute to $template</dd>
+							<dt><b>setStyleSheet</b></dt>
+				<dd>in file F3_MailformPlusPlus_Controller_Default.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodsetStyleSheet">F3_MailformPlusPlus_Controller_Default::setStyleSheet()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Read stylesheet file set in TypoScript. If set add to header data</dd>
 							<dt><b>setTemplateFile</b></dt>
 				<dd>in file F3_MailformPlusPlus_Controller_Default.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Default.html#methodsetTemplateFile">F3_MailformPlusPlus_Controller_Default::setTemplateFile()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Sets the template file attribute to $template</dd>
+							<dt><b>setTemplateFile</b></dt>
+				<dd>in file F3_MailformPlusPlus_Controller_Listing.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Listing.html#methodsetTemplateFile">F3_MailformPlusPlus_Controller_Listing::setTemplateFile()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Sets the template file attribute to $template</dd>
 							<dt><b>setViewSubpart</b></dt>
 				<dd>in file F3_MailformPlusPlus_Controller_Multistep.php, method <a href="F3_MailformPlusPlus/Controller/F3_MailformPlusPlus_Controller_Multistep.html#methodsetViewSubpart">F3_MailformPlusPlus_Controller_Multistep::setViewSubpart()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Sets the template of the view.</dd>
 							<dt><b>showSingleView</b></dt>
@@ -1627,6 +1638,8 @@
 				<dd>in file F3_MailformPlusPlus_Validator_Default.php, method <a href="F3_MailformPlusPlus/Validator/F3_MailformPlusPlus_Validator_Default.html#methodvalidateNotDefaultValue">F3_MailformPlusPlus_Validator_Default::validateNotDefaultValue()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Validates that a specified field doesn't equal a specified default value.</dd>
 							<dt><b>validateRequired</b></dt>
 				<dd>in file F3_MailformPlusPlus_Validator_Default.php, method <a href="F3_MailformPlusPlus/Validator/F3_MailformPlusPlus_Validator_Default.html#methodvalidateRequired">F3_MailformPlusPlus_Validator_Default::validateRequired()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Validates that a specified field is filled out</dd>
+							<dt><b>validateSimpleCaptcha</b></dt>
+				<dd>in file F3_MailformPlusPlus_Validator_Default.php, method <a href="F3_MailformPlusPlus/Validator/F3_MailformPlusPlus_Validator_Default.html#methodvalidateSimpleCaptcha">F3_MailformPlusPlus_Validator_Default::validateSimpleCaptcha()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Validates that the correct image of possible images displayed by the extension &quot;simple_captcha&quot; got selected.</dd>
 							<dt><b>validateSrFreecap</b></dt>
 				<dd>in file F3_MailformPlusPlus_Validator_Default.php, method <a href="F3_MailformPlusPlus/Validator/F3_MailformPlusPlus_Validator_Default.html#methodvalidateSrFreecap">F3_MailformPlusPlus_Validator_Default::validateSrFreecap()</a><br>&nbsp;&nbsp;&nbsp;&nbsp;Validates that a specified field's value matches the generated word of the extension &quot;sr_freecap&quot;</dd>
 							<dt><b>validateTime</b></dt>
@@ -1686,7 +1699,7 @@
 	<a href="elementindex_F3_MailformPlusPlus.html#top">top</a><br>
         <div class="credit">
 		    <hr />
-		    Documentation generated on Thu, 08 Jan 2009 00:34:19 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
+		    Documentation generated on Thu, 12 Feb 2009 20:01:12 +0100 by <a href="http://www.phpdoc.org">phpDocumentor 1.4.1</a>
 	      </div>
       </td></tr></table>
     </td>
