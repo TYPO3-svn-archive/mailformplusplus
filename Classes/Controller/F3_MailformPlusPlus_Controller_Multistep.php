@@ -43,31 +43,11 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		$this->mergeGPWithSession();
 		
 		//set debug mode
-		$this->debugMode = ($settings['debug'] == "1")?TRUE:FALSE;
+		$this->debugMode = ($settings['debug'] == '1')?TRUE:FALSE;
 		$_SESSION['mailformplusplusSettings']['debugMode'] = $this->debugMode;
 		
 		//find current step
-		if(isset($this->gp) && is_array($this->gp)) {
-			$highest = 0;
-			foreach (array_keys($this->gp) as $pname) {
-				
-				if (strstr($pname,'step-')) {
-					$mpPage = substr($pname,strpos($pname,'step-'),6);
-					
-					if (strpos($mpPage, '-')) {
-						$mpPage = substr($mpPage,strrpos ($mpPage, '-')+1);
-					} //if end
-					
-					if(intVal($mpPage) > $highest) {
-						$highest = intVal($mpPage);
-					}
-				} // if end
-			} // foreach end
-			$this->currentStep = $highest;
-		}
-		if(!$this->currentStep) {
-			$this->currentStep = 1;
-		}
+		$this->findCurrentStep();
 		
 		//set last step
 		$this->lastStep = $_SESSION['mailformplusplusSettings']['currentStep'];
@@ -85,15 +65,15 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		$this->totalSteps = $stepCount;
 		
 		//merge settings with specific settings for current step
-		if(isset($settings[$this->currentStep."."]) && is_array($settings[$this->currentStep."."])) {
-			$settings = array_merge($settings,$settings[$this->currentStep."."]);
+		if(isset($settings[$this->currentStep.'.']) && is_array($settings[$this->currentStep.'.'])) {
+			$settings = array_merge($settings,$settings[$this->currentStep.'.']);
 		}
 		
 		//set debug mode again. Maybe it is turned off for this step
-		$this->debugMode = ($settings['debug'] == "1")?TRUE:FALSE;
+		$this->debugMode = ($settings['debug'] == '1')?TRUE:FALSE;
 		$_SESSION['mailformplusplusSettings']['debugMode'] = $this->debugMode;
 		
-		F3_MailformPlusPlus_StaticFuncs::debugMessage("Using controller \"F3_MailformPlusPlus_Controller_Default\"");
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('Using controller "F3_MailformPlusPlus_Controller_Default"');
 		
 		//store step values in session
 		$_SESSION['mailformplusplusSettings']['settings'] = $settings;
@@ -113,45 +93,24 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		$submitted = $this->gp['submitted'];
 		
 		//read template file
-		if(!$this->templateFile) {
-			$templateFile = $settings['templateFile'];
-			if(isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
-				$this->templateFile = $this->cObj->cObjGetSingle($settings['templateFile'],$settings['templateFile.']);
-			} else {
-				print F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile);
-				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
-			}
-		} else {
-				$templateFile = $this->templateFile;
-				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
-		}
+		$this->readTemplateFile($settings);
 		
-		if(!$this->templateFile) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Could not find template file");
-		}
-		
-		//set stylesheet file
-		$stylesheetFile = $settings['stylesheetFile'];
-		if ($stylesheetFile != "") {
-			
-			//set stylesheet
-			$GLOBALS['TSFE']->additionalHeaderData['special_css'] .= 
-				'<link rel="stylesheet" href="'.F3_MailformPlusPlus_StaticFuncs::resolveRelPathFromSiteRoot($stylesheetFile).'" type="text/css" media="screen" />';
-		}
+		// set stylesheet file
+		$this->setStyleSheet($settings);
 		
 		//init view
 		$viewClass = $settings['view'];
 		if(!$viewClass) {
-			$viewClass = "F3_MailformPlusPlus_View_Multistep";
+			$viewClass = 'F3_MailformPlusPlus_View_Multistep';
 		}
 		$view = $this->componentManager->getComponent($viewClass);
 		$view->setLangFile($this->langFile);
 		$this->setViewSubpart($view,$settings,$this->currentStep);
 		
 		if($this->finished) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Form is finished!");
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('Form is finished!');
 		}
-		F3_MailformPlusPlus_StaticFuncs::debugMessage("Using view \"".$viewClass."\"");
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('Using view "'.$viewClass.'"');
 		
 		$errors = array();
 		
@@ -178,7 +137,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			
 			//debug GET/POST parameters
 			if(is_array($this->gp) && $this->debugMode) {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("The current GET/POST values:<br />",false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('The current GET/POST values:<br />',false);
 				F3_MailformPlusPlus_StaticFuncs::debugArray($this->gp);
 			}
 				
@@ -198,14 +157,14 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			
 			//debug GET/POST parameters
 			if(isset($this->gp) && is_array($this->gp) && $this->debugMode) {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("The current GET/POST values:<br />",false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('The current GET/POST values:<br />',false);
 				F3_MailformPlusPlus_StaticFuncs::debugArray($this->gp);
 			}
 			
 			//load settings from right step for error checks, ...
 			if($this->currentStep > $this->lastStep) {
 				$settings = $this->getSettings();
-				if(is_array($settings[($this->currentStep-1)."."])) {
+				if(is_array($settings[($this->currentStep-1).'.'])) {
 					$settings = array_merge($settings,$settings[($this->currentStep-1).'.']);
 				}
 				$_SESSION['mailformplusplusSettings']['settings'] = $settings;
@@ -215,7 +174,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			$valid = array(true);
 			if(isset($settings['validators.']) && is_array($settings['validators.'])  && !$_SESSION['submitted_ok'] && !$disableErrorChecks) {
 				foreach($settings['validators.'] as $tsConfig) {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Validator: ".$tsConfig['class']);
+					F3_MailformPlusPlus_StaticFuncs::debugMessage('Calling Validator: '.$tsConfig['class']);
 					$validator = $this->componentManager->getComponent($tsConfig['class']);
 					
 					//add requiredFields settings from plugin record, if class is the default validator or a subclass.
@@ -233,7 +192,6 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			
 			//if form is valid
 			if($this->isValid($valid)) {
-				#unset($this->gp['step-'.$this->currentStep]);
 				if(!$_SESSION['submitted_ok']) {
 					$this->processFiles();
 				}
@@ -241,15 +199,9 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 				//if no more steps
 				if($this->finished) {
 					
-					
-					//merge SESSION parameters and GET/POST parameters
 					if(!is_array($this->gp)) {
 						$this->gp = array();
 					}
-				#	if(!is_array($_SESSION['mailformplusplusValues'])) {
-				#		$_SESSION['mailformplusplusValues'] = array();
-					#}
-					#$this->gp = array_merge($this->gp,$_SESSION['mailformplusplusValues']);
 					
 					//run save interceptors
 					if(isset($settings['saveInterceptors.']) && is_array($settings['saveInterceptors.']) && !$_SESSION['submitted_ok']) {
@@ -331,12 +283,6 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 				}
 				
 				//load settings from last step again because an error occurred
-				#$settings = $this->getSettings();
-				#if(is_array($settings[($this->currentStep-1)."."])) {
-			#		$settings = array_merge($settings,$settings[($this->currentStep-1).'.']);
-			#	}
-		#		$_SESSION['mailformplusplusSettings']['settings'] = $settings;
-		
 				if($this->currentStep > $this->lastStep) {
 					$settings = $this->getSettings();
 					if(isset($settings[($this->currentStep-1)."."]) && is_array($settings[($this->currentStep-1)."."])) {
@@ -356,6 +302,36 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		}
 		
 		
+	}
+	
+	/**
+	 * Searches for current step and sets $this->currentStep according
+	 *
+	 * @return void
+	 * @author Reinhard F�hricht <rf@typoheads.at>
+	 */
+	protected function findCurrentStep() {
+		if(isset($this->gp) && is_array($this->gp)) {
+			$highest = 0;
+			foreach (array_keys($this->gp) as $pname) {
+				
+				if (strstr($pname,'step-')) {
+					$mpPage = substr($pname,strpos($pname,'step-'),6);
+					
+					if (strpos($mpPage, '-')) {
+						$mpPage = substr($mpPage,strrpos ($mpPage, '-')+1);
+					} //if end
+					
+					if(intVal($mpPage) > $highest) {
+						$highest = intVal($mpPage);
+					}
+				} // if end
+			} // foreach end
+			$this->currentStep = $highest;
+		}
+		if(!$this->currentStep) {
+			$this->currentStep = 1;
+		}
 	}
 	
 	

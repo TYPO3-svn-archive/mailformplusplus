@@ -312,12 +312,12 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		$_SESSION['mailformplusplusSettings']['debugMode'] = ($settings['debug'] == "1")?TRUE:FALSE;
 		
 		F3_MailformPlusPlus_StaticFuncs::debugMessage("Using controller \"F3_MailformPlusPlus_Controller_Default\"");
+		
 		//set gp vars
 		$this->gp = array_merge(t3lib_div::_GET(), t3lib_div::_POST());
 		if($settings['formValuesPrefix']) {
 			$this->gp = $this->gp[$settings['formValuesPrefix']];
 		}
-		
 		
 		//set submitted
 		$submitted = $this->gp['submitted'];
@@ -329,33 +329,10 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		}
 		
 		//read template file
-		
-		//template file was not set in flexform, search TypoScript for setting
-		if(!$this->templateFile) {
-			$templateFile = $settings['templateFile'];
-			if(isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
-				$this->templateFile = $this->cObj->cObjGetSingle($settings['templateFile'],$settings['templateFile.']);
-			} else {
-				print F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile);
-				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
-			}
-		} else {
-				$templateFile = $this->templateFile;
-				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
-		}
-		
-		if(!$this->templateFile) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Could not find template file");
-		}
+		$this->readTemplateFile($settings);
 		
 		// set stylesheet file
-		$stylesheetFile = $settings['stylesheetFile'];
-		if (strlen($stylesheetFile) > 0) {
-			
-			// set stylesheet
-			$GLOBALS['TSFE']->additionalHeaderData['special_css'] .= 
-				'<link rel="stylesheet" href="'.F3_MailformPlusPlus_StaticFuncs::resolveRelPathFromSiteRoot($stylesheetFile).'" type="text/css" media="screen" />';
-		}
+		$this->setStyleSheet($settings);
 		
 		//add some JavaScript for fancy form stuff
 		$this->addSpecialJS($settings);
@@ -506,13 +483,59 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	}
 	
 	/**
+	 * Read stylesheet file set in TypoScript. If set add to header data
+	 * 
+	 * @param $settings The mailformplusplus settings
+	 * @return void
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 */
+	protected function setStyleSheet(&$settings) {
+		$stylesheetFile = $settings['stylesheetFile'];
+		if (strlen($stylesheetFile) > 0) {
+			
+			// set stylesheet
+			$GLOBALS['TSFE']->additionalHeaderData['special_css'] .= 
+				'<link rel="stylesheet" href="'.F3_MailformPlusPlus_StaticFuncs::resolveRelPathFromSiteRoot($stylesheetFile).'" type="text/css" media="screen" />';
+		}
+	}
+	
+	/**
+	 * Read template file set in flexform or TypoScript, read the file's contents to $this->templateFile
+	 * 
+	 * @param $settings The mailformplusplus settings
+	 * @return void
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 */
+	protected function readTemplateFile(&$settings) {
+		
+		//template file was not set in flexform, search TypoScript for setting
+		if(!$this->templateFile) {
+			
+			$templateFile = $settings['templateFile'];
+			if(isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
+				$this->templateFile = $this->cObj->cObjGetSingle($settings['templateFile'],$settings['templateFile.']);
+			} else {
+				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
+			}
+		} else {
+				$templateFile = $this->templateFile;
+				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
+		}
+		
+		if(!$this->templateFile) {
+			F3_MailformPlusPlus_StaticFuncs::debugMessage("Could not find template file");
+		}
+		
+	}
+	
+	/**
 	 * Returns some JavaScript code used for fany form stuff.
 	 * 
 	 * Example code:
 	 * 
 	 * <code>
 	 * 
-	 * #enable fany form
+	 * #enable fancy form
 	 * plugin.F3_MailformPlusPlus.settings.fancyForm = 1
 	 * 
 	 * #the id of the parent element (e.g. the form element)
