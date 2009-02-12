@@ -15,7 +15,7 @@
 /**
  * Controller for Backend Module of MailformPlusPlus
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  */
@@ -51,7 +51,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
      * 
      * @param F3_GimmeFive_Component_Manager $componentManager
      * @param F3_MailformPlusPlus_Configuration $configuration
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return void
      */
 	public function __construct(F3_GimmeFive_Component_Manager $componentManager, F3_MailformPlusPlus_Configuration $configuration) {
@@ -64,7 +64,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 *
 	 * @global $LANG
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function init() {
 		global $LANG;
@@ -76,7 +76,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * Main method of the controller.
 	 *
 	 * @return string rendered view
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	public function process() {
 		global $LANG;
@@ -149,7 +149,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 					return $this->generateCSV($params['detailId']);
 					
 				//save many records as CSV
-				} elseif(isset($params['markedUids'] && is_array($params['markedUids'])) {
+				} elseif(isset($params['markedUids']) && is_array($params['markedUids'])) {
 					return $this->generateCSV($params['markedUids']);
 				}
 				
@@ -162,7 +162,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 *
 	 * @param array $uids The record uids to delete
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function deleteRecords($uids) {
 		$GLOBALS['TYPO3_DB']->exec_DELETEquery($this->logTable,"uid IN (".implode(",",$uids).")");
@@ -175,7 +175,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 *
 	 * @param misc $detailId The record uids to export to pdf
 	 * @return void/string selection view
-	 * @author Reinhard Führicht
+	 * @author Reinhard FÃ¼hricht
 	 */
 	protected function generatePDF($detailId) {
 		
@@ -235,7 +235,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 *
 	 * @param misc $detailId The record uids to export to csv
 	 * @return void/string selection view
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function generateCSV($detailId) {
 		
@@ -326,7 +326,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 *
 	 * @param array $params The available fields to export.
 	 * @return string fields selection view
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function generateCSVExportFieldsSelector($params) {
 		
@@ -396,7 +396,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 *
 	 * @param array $params The available fields to export.
 	 * @return string fields selection view
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function generatePDFExportFieldsSelector($params) {
 		
@@ -466,7 +466,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * This function returns JavaScript code to select/deselect all checkboxes in a form
 	 *
 	 * @return string JavaScript code
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function getSelectionJS() {
 		return '<script type="text/javascript">
@@ -500,7 +500,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @param array $formats The available formats
 	 * @param array $detailId The selected records to export
 	 * @return string formats selection view
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function generateFormatsSelector($formats,$detailId) {
 		/* 
@@ -557,7 +557,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 *
 	 * @param int $singleUid The UID of the record to show
 	 * @return string single view
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function showSingleView($singleUid) {
 		
@@ -633,7 +633,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * This function returns an error message if the log table was not found
 	 *
 	 * @return string HTML code with error message
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function getErrorMessage() {
 		return '
@@ -656,7 +656,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * This function selects all logged records from the log table using the filter settings.
 	 *
 	 * @return array The selected records
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */ 
 	protected function fetchRecords() {
 		$records = array();
@@ -682,7 +682,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * This function applies the filter settings and builds an according WHERE clause for the SELECT statement
 	 *
 	 * @return string WHERE clause for the SELECT statement
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function buildWhereClause() {
 		
@@ -719,7 +719,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @param long $date The timestamp to format
 	 * @param boolean $end Is end date or start date
 	 * @return string formatted date
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function dateToTimestamp($date,$end = false) {
 		$dateArr = explode(".",$date);
@@ -733,7 +733,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * This function returns the filter fields on top.
 	 *
 	 * @return string HTML
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function getFilterSection() {
 		
@@ -787,7 +787,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * This function returns the JavaScript code to initialize the popup calendar
 	 *
 	 * @return string HTML and JavaScript
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function getCalendarJS() {
 		return '<style type="text/css">@import url(../../../Resources/JS/jscalendar-1.0/skins/aqua/theme.css);</style>
@@ -820,7 +820,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 *
 	 * @param array &$records The records to show in table
 	 * @return string HTML
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function getTable(&$records) {
 		if(count($records) == 0) {

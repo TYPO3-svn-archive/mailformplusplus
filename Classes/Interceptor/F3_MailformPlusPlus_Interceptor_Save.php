@@ -15,7 +15,7 @@
 /**
  * An interceptor preparing values of a form used by ControlPanel for storing them in LDAP
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Interceptor
  */
@@ -24,7 +24,6 @@ class F3_MailformPlusPlus_Interceptor_Save extends F3_MailformPlusPlus_AbstractI
 	/**
      * The main method called by the controller
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The GET/POST parameters
      * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters

@@ -2,7 +2,7 @@
 /**
  * Extension Manager/Repository config file for ext: "mailformplusplus"
  * 
- * @author Reinhard Führicht <rf@typoheads.at>
+ * @author Reinhard FÃ¼hricht <rf@typoheads.at>
 
  * @package	F3_MailformPlusPlus
  */
@@ -30,7 +30,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'module' => '',
 	'clearcacheonload' => 1,
 	'lockType' => '',
-	'author' => 'Reinhard Führicht',
+	'author' => 'Reinhard Fï¿½hricht',
 	'author_email' => 'rf@typoheads.at',
 	'author_company' => 'Typoheads GmbH',
 	'CGLcompliance' => '',

@@ -15,7 +15,7 @@
 /**
  * Abstract class for validators for MailformPlusPlus
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Validator
  */
@@ -56,7 +56,6 @@ abstract class F3_MailformPlusPlus_AbstractValidator {
 	/**
      * The constructor for an interceptor setting the component manager and the configuration.
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
      * @param F3_GimmeFive_Component_Manager $componentManager
      * @param F3_MailformPlusPlus_Configuration $configuration
      * @return void
@@ -75,7 +74,6 @@ abstract class F3_MailformPlusPlus_AbstractValidator {
 	 * @param array $settings The TypoScript settings for the validator
 	 * @param array $errors Reference to the errors array to store the errors occurred
 	 * @return boolean
-	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
 	abstract public function validate($gp,$settings,&$errors);
 	

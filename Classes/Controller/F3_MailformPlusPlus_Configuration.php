@@ -15,7 +15,7 @@
 /**
  * The configuration of the MailformPlusPlus
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  */
@@ -39,7 +39,7 @@ class F3_MailformPlusPlus_Configuration implements ArrayAccess {
 	/**
      * The constructor reading the TS setup into the according attribute
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return void
      */
 	public function __construct() {
@@ -49,7 +49,7 @@ class F3_MailformPlusPlus_Configuration implements ArrayAccess {
 	/**
      * Merges the values of $setup with plugin.[xxx].settings
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @param array $setup
      * @return void
      */
@@ -84,7 +84,7 @@ class F3_MailformPlusPlus_Configuration implements ArrayAccess {
 	/**
      * Returns the TS settings for mailformplusplus.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return array The settings
      */
 	public function getSettings() {
@@ -94,7 +94,7 @@ class F3_MailformPlusPlus_Configuration implements ArrayAccess {
 	/**
      * Returns the sources config for mailformplusplus
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return array The config
      */
 	public function getSourcesConfiguration() {
@@ -104,7 +104,7 @@ class F3_MailformPlusPlus_Configuration implements ArrayAccess {
 	/**
      * Returns the package key
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return string
      */
 	public function getPackageKey() {
@@ -114,7 +114,7 @@ class F3_MailformPlusPlus_Configuration implements ArrayAccess {
 	/**
      * Returns the package key in lower case
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return string
      */
 	public function getPackageKeyLowercase() {
@@ -124,7 +124,7 @@ class F3_MailformPlusPlus_Configuration implements ArrayAccess {
 	/**
      * Returns the prefixed package key
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return string
      */
 	public function getPrefixedPackageKey() {
@@ -134,7 +134,7 @@ class F3_MailformPlusPlus_Configuration implements ArrayAccess {
 	/**
      * Returns the prefixed package key in lower case
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return string
      */
 	public function getPrefixedPackageKeyLowercase() {

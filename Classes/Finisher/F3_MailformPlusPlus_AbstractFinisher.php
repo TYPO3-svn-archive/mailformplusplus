@@ -15,7 +15,7 @@
 /**
  * Abstract class for Finisher Classes used by MailformPlusPlus
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Finisher
  * @abstract
@@ -57,7 +57,6 @@ abstract class F3_MailformPlusPlus_AbstractFinisher {
 	/**
      * The constructor for a finisher setting the component manager, configuration and the repository.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param F3_GimmeFive_Component_Manager $componentManager
      * @param F3_MailformPlusPlus_Configuration $configuration
      * @param F3_DataProvider_Repository $repository
@@ -75,7 +74,6 @@ abstract class F3_MailformPlusPlus_AbstractFinisher {
 	/**
      * The main method called by the controller
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The GET/POST parameters
      * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters

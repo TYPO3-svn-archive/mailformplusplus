@@ -15,7 +15,7 @@
 /**
  * A logger to store submission information in TYPO3 database
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Logger
  */
@@ -24,7 +24,6 @@ class F3_MailformPlusPlus_Logger_DB {
 	/**
      * Logs the given values.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The current GET/POST parameters
      * @param array $settings The settings for the logger
      * @return void
@@ -45,6 +44,7 @@ class F3_MailformPlusPlus_Logger_DB {
 		$fields['params'] = $serialized;
 		$fields['key_hash'] = $hash;
 		
+		$fields = $GLOBALS['TYPO3_DB']->fullQuoteArray($fields,$table);
 		
 		//query the database
 		$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery($table,$fields);

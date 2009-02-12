@@ -15,7 +15,7 @@
 /**
  * Abstract class for Controller Classes used by MailformPlusPlus.
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  * @abstract
@@ -74,7 +74,7 @@ abstract class F3_MailformPlusPlus_AbstractController implements F3_MailformPlus
      * Sets the content attribute of the controller
      * 
      * @param F3_MailformPlusPlus_Content $content
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return void
      */
 	public function setContent($content) {
@@ -84,7 +84,7 @@ abstract class F3_MailformPlusPlus_AbstractController implements F3_MailformPlus
 	/**
      * Returns the content attribute of the controller
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return F3_MailformPlusPlus_Content
      */
 	public function getContent() {
@@ -94,7 +94,7 @@ abstract class F3_MailformPlusPlus_AbstractController implements F3_MailformPlus
 	/**
      * Sets the internal attribute "predefined"
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @param string $key
      * @return void
      */
@@ -105,7 +105,7 @@ abstract class F3_MailformPlusPlus_AbstractController implements F3_MailformPlus
 	/**
      * Sets the internal attribute "redirectPage"
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @param integer $new
      * @return void
      */
@@ -116,7 +116,7 @@ abstract class F3_MailformPlusPlus_AbstractController implements F3_MailformPlus
 	/**
      * Sets the internal attribute "requiredFields"
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @param array $new
      * @return void
      */
@@ -127,7 +127,7 @@ abstract class F3_MailformPlusPlus_AbstractController implements F3_MailformPlus
 	/**
      * Sets the internal attribute "langFile"
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @param string $langFile
      * @return void
      */
@@ -138,7 +138,7 @@ abstract class F3_MailformPlusPlus_AbstractController implements F3_MailformPlus
 	/**
      * Sets the internal attribute "emailSettings"
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @param array $new
      * @return void
      */
@@ -149,7 +149,7 @@ abstract class F3_MailformPlusPlus_AbstractController implements F3_MailformPlus
 	/**
      * Returns the right settings for the mailformplusplus (Checks if predefined form was selected)
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return array The settings
      */
 	public function getSettings() {

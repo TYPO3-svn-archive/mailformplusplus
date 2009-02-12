@@ -34,7 +34,7 @@
  * plugin.F3_MailformPlusPlus.settings.validators.1.config.fieldConf.lastname.errorCheck.2 = minLength
  * plugin.F3_MailformPlusPlus.settings.validators.1.config.fieldConf.lastname.errorCheck.2.value = 2
  *
- * @author	Reinhard F�hricht <rf@typoheads.at>
+ * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Validator
  */
@@ -47,7 +47,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array $settings The TypoScript settings for the validator
 	 * @param array $errors Reference to the errors array to store the errors occurred
 	 * @return boolean
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	public function validate($gp,$settings,&$errors) {
 		
@@ -305,7 +304,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateMinFileSize(&$check,$name) {
 		$checkFailed = "";
@@ -328,7 +326,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateMaxFileSize(&$check,$name) {
 		$checkFailed = "";
@@ -351,7 +348,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateMaxFileCount(&$check,$name) {
 		$checkFailed = "";
@@ -383,7 +379,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateFileRequired(&$check,$name) {
 		$checkFailed = "";
@@ -406,7 +401,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateRequired(&$check,$name) {
 		$checkFailed = "";
@@ -422,7 +416,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateContainsNone($check,$name) {
 		$checkFailed = "";
@@ -458,7 +451,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateEquals($check,$name) {
 		$checkFailed = "";
@@ -486,7 +478,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateContainsOne($check,$name) {
 		$checkFailed = "";
@@ -524,7 +515,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateContainsAll($check,$name) {
 		$checkFailed = "";
@@ -559,7 +549,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateEmail(&$check,$name) {
 		$checkFailed = "";
@@ -577,7 +566,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateNotDefaultValue(&$check,$name) {
 		$checkFailed = "";
@@ -599,7 +587,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateInteger(&$check,$name) {
 		$checkFailed = "";
@@ -619,7 +606,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateFloat(&$check,$name) {
 		$checkFailed = "";
@@ -636,7 +622,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateMinValue(&$check,$name) {
 		$checkFailed = "";
@@ -657,7 +642,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateMaxValue(&$check,$name) {
 		$checkFailed = "";
@@ -678,7 +662,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateBetweenValue(&$check,$name) {
 		$checkFailed = "";
@@ -701,7 +684,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateMinLength(&$check,$name) {
 		$checkFailed = "";
@@ -722,7 +704,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateMaxLength(&$check,$name) {
 		
@@ -744,7 +725,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateBetweenLength(&$check,$name) {
 		$checkFailed = "";
@@ -767,7 +747,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateMinItems(&$check,$name) {
 		$checkFailed = "";
@@ -788,7 +767,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateMaxItems(&$check,$name) {
 		$checkFailed = "";
@@ -808,7 +786,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateBetweenItems(&$check,$name) {
 		$checkFailed = "";
@@ -832,7 +809,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateIsInDBTable(&$check,$name) {
 		$checkFailed = "";
@@ -856,7 +832,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateIsNotInDBTable(&$check,$name) {
 		$checkFailed = "";
@@ -881,7 +856,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateEreg(&$check,$name) {
 		$checkFailed = "";
@@ -898,7 +872,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateEregi(&$check,$name) {
 		$checkFailed = "";
@@ -915,7 +888,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateCaptcha(&$check,$name) {
 		$checkFailed = "";
@@ -936,7 +908,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateSrFreecap(&$check,$name) {
 		$checkFailed = "";
@@ -956,7 +927,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateSimpleCaptcha(&$check,$name) {
 		$checkFailed = "";
@@ -977,7 +947,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateJmRecaptcha(&$check,$name) {
 		$checkFailed = "";
@@ -998,7 +967,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateMathGuard(&$check,$name) {
 		$checkFailed = "";
@@ -1015,7 +983,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateTime(&$check,$name) {
 		$checkFailed = "";
@@ -1042,7 +1009,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateAllowedFileTypes(&$check,$name) {
 		$checkFailed = "";
@@ -1052,6 +1018,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 				if($allowed) {
 					$types = t3lib_div::trimExplode(",",$allowed);
 					$fileext = substr($files['name'][$name], strrpos($files['name'][$name], '.') + 1);
+					$fileext = strtolower($fileext);
 					if(!in_array($fileext,$types)) {
 						unset($files);
 						$checkFailed = $this->getCheckFailed($check);
@@ -1068,7 +1035,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateDate(&$check,$name) {
 		$checkFailed = "";
@@ -1104,7 +1070,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param array &$check The TypoScript settings for this error check
 	 * @param string $name The field name
 	 * @return string The error string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function validateDateRange(&$check,$name) {
 		
@@ -1164,7 +1129,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @param string $pattern The pattern
 	 * @param string $sep The seperator character
 	 * @return string The normalized pattern
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function normalizeDatePattern($pattern,$sep) {
 		$pattern = strtoupper($pattern);
@@ -1183,7 +1147,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 *
 	 * @param array $check The parsed check settings
 	 * @return string The check failed string
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function getCheckFailed($check) {
 		$checkFailed = $check['check'];

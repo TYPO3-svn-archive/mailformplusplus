@@ -13,9 +13,9 @@
  *                                                                        */
 
 /**
- * A default view for MailformPlusPlus
+ * A default view for MailformPlusPlus frontend listing
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	View
  */
@@ -27,7 +27,6 @@ class F3_MailformPlusPlus_View_Listing extends F3_MailformPlusPlus_AbstractView 
      * @param array $gp The current GET/POST parameters
      * @param array $errors The errors occurred in validation
      * @return string content
-     * @author Reinhard Führicht <rf@typoheads.at>
      */
 	public function render($gp,$errors) {
 		
@@ -74,7 +73,6 @@ class F3_MailformPlusPlus_View_Listing extends F3_MailformPlusPlus_AbstractView 
      * 
      * @param array &$markers reference to the marker array
      * @param array &$row reference to the current record
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @return void
      */
 	protected function fillDefaultMarkers(&$markers,&$row = array()) {
@@ -95,7 +93,6 @@ class F3_MailformPlusPlus_View_Listing extends F3_MailformPlusPlus_AbstractView 
 	 * Function to parse the db field <-> marker name settings in TypoScript
 	 *
 	 * @return array The parsed mapping
-	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function getMapping() {
 		if(!is_array($this->settings['mapping.'])) {
@@ -114,7 +111,6 @@ class F3_MailformPlusPlus_View_Listing extends F3_MailformPlusPlus_AbstractView 
 	 *
 	 * @param &$row The current record
 	 * @return array The marker array
-	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function getValueMarkers(&$row) {
 		$markers = array();

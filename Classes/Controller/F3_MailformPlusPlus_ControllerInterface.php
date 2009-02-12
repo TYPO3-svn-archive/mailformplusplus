@@ -15,7 +15,7 @@
 /**
  * Controller interface for Controller Classes of MailformPlusPlus
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  */
@@ -25,7 +25,6 @@ interface F3_MailformPlusPlus_ControllerInterface {
 	 * Sets the content object
 	 *
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	public function setContent($content);
 
@@ -33,7 +32,6 @@ interface F3_MailformPlusPlus_ControllerInterface {
 	 * Returns the content object
 	 *
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	public function getContent();
 
@@ -41,7 +39,6 @@ interface F3_MailformPlusPlus_ControllerInterface {
 	 * Process all
 	 *
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	public function process();
 }

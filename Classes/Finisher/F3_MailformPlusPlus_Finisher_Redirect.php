@@ -23,7 +23,7 @@
  * finishers.4.config.redirectPage = 65
  * </code>
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Finisher
  */
@@ -35,7 +35,6 @@ class F3_MailformPlusPlus_Finisher_Redirect extends F3_MailformPlusPlus_Abstract
 	/**
      * The main method called by the controller
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The GET/POST parameters
      * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters

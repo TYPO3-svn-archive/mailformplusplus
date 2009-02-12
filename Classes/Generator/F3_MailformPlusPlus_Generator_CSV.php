@@ -15,7 +15,7 @@
 /**
  * Class to generate CSV files in Backend and Frontend
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Generator
  * @uses export2CSV in csv.lib.php
@@ -41,7 +41,6 @@ class F3_MailformPlusPlus_Generator_CSV {
 	/**
      * Default Constructor
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param F3_GimmeFive_Component_Manager $componentManager The component manager of GimmeFive
      * @return void
      */
@@ -53,7 +52,6 @@ class F3_MailformPlusPlus_Generator_CSV {
 	/**
      * Function to generate a CSV file from submitted form values. This function is called by F3_MailformPlusPlus_Controller_Backend
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $records The records to export to CSV
      * @param array $exportParams A list of fields to export. If not set all fields are exported
      * @see F3_MailformPlusPlus_Controller_Backend::generateCSV()
@@ -101,7 +99,6 @@ class F3_MailformPlusPlus_Generator_CSV {
 	/**
      * Function to generate a CSV file from submitted form values. This function is called by F3_MailformPlusPlus_Finisher_Confirmation
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $params The values to export to CSV
      * @param array $exportParams A list of fields to export. If not set all fields are exported
      * @see F3_MailformPlusPlus_Finisher_Confirmation::process()

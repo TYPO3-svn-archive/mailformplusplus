@@ -50,7 +50,7 @@
  * plugin.F3_MailformPlusPlus.settings.fe_listing.mapping.imagecaption = ip
  * </code>
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  */
@@ -86,7 +86,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 	/**
      * The constructor setting the component manager and the configuration.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
      * @param F3_GimmeFive_Component_Manager $componentManager
      * @param F3_MailformPlusPlus_Configuration $configuration
      * @return void
@@ -100,7 +100,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 	/**
      * Sets the template file attribute to $template
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
      * @param string $template
      * @return void
      */
@@ -111,9 +111,8 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 	/**
 	 * Main method of the listing controller.
 	 * 
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
 	 * @return rendered view
-	 * @author Reinhard Führicht
 	 */
 	public function process() {
 		$this->gp = t3lib_div::_GP('mailformplusplus');
@@ -207,7 +206,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 	 *
 	 * @param &$settings The settings
 	 * @return array The parsed mapping
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function getMapping(&$settings) {
 		if(!is_array($settings['mapping.'])) {
@@ -224,7 +223,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 	 * Possibly unnecessary
 	 *
 	 * @return void
-	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
 	 */
 	protected function initializeController($value='') {
 		$this->piVars = t3lib_div::GParrayMerged($this->configuration->getPrefixedPackageKey());

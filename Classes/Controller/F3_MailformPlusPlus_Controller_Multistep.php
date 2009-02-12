@@ -15,7 +15,7 @@
 /**
  * Multistep forms controller for MailformPlusPlus
  *
- * @author	Reinhard F�hricht <rf@typoheads.at>
+ * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  */
@@ -25,7 +25,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 	 * Main method of the form handler.
 	 *
 	 * @return rendered view
-	 * @author Reinhard F�hricht <rf@typoheads.at>
+	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
 	public function process() {
 		
@@ -308,7 +308,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 	 * Searches for current step and sets $this->currentStep according
 	 *
 	 * @return void
-	 * @author Reinhard F�hricht <rf@typoheads.at>
+	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function findCurrentStep() {
 		if(isset($this->gp) && is_array($this->gp)) {
@@ -343,7 +343,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 	 * @param array &$settings Reference to the settings array
 	 * @param integer $step The current step
 	 * @return void
-	 * @author Reinhard F�hricht <rf@typoheads.at>
+	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function setViewSubpart(&$view,&$settings,$step) {
 		$this->finished = 0;
@@ -374,7 +374,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 	 * Merges the current GET/POST parameters with the stored ones in SESSION
 	 *
 	 * @return void
-	 * @author Reinhard F�hricht <rf@typoheads.at>
+	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function mergeGPWithSession() {
 		session_start();
@@ -402,7 +402,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 	 *
 	 * @param array &$settings Reference to the settings array to get information about checkboxes and radiobuttons.
 	 * @return void
-	 * @author Reinhard F�hricht <rf@typoheads.at>
+	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function storeGPinSession(&$settings) {
 		session_start();

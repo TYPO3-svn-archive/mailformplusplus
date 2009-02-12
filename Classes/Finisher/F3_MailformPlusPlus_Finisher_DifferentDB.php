@@ -30,7 +30,6 @@
  * 
  * Further configuration equals the configuration of F3_MailformPlusPlus_Finisher_DB.
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Finisher
  * @see F3_MailformPlusPlus_Finisher_DB
@@ -88,7 +87,6 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 	/**
      * Method to query the database making an insert or update statement using the given fields.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @see F3_MailformPlusPlus_Finisher_DB::save()
      * @param array &$queryFields Array holding the query fields
      * @return void
@@ -160,7 +158,6 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 	/**
      * Inits the finisher mapping settings values to internal attributes.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @see F3_MailformPlusPlus_Finisher_DB::init
      * @return void
      */

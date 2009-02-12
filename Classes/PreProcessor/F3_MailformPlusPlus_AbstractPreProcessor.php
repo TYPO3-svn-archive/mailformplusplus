@@ -15,7 +15,7 @@
 /**
  * An abstract class for pre processors used by MailformPlusPlus
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	PreProcessor
  */
@@ -48,7 +48,6 @@ abstract class F3_MailformPlusPlus_AbstractPreProcessor {
 	/**
      * The constructor for an interceptor setting the component manager and the configuration.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param F3_GimmeFive_Component_Manager $componentManager
      * @param F3_MailformPlusPlus_Configuration $configuration
      * @return void
@@ -61,7 +60,6 @@ abstract class F3_MailformPlusPlus_AbstractPreProcessor {
 	/**
      * Main method called by the controller.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The current GET/POST parameters
      * @param array $settings The settings for the logger
      * @return array The probably modified GET/POST parameters

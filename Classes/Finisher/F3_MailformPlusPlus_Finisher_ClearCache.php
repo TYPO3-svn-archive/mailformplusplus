@@ -15,7 +15,7 @@
 /**
  * This finisher clears the cache for the current page. It needs no further configuration.
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Finisher
  */
@@ -24,7 +24,6 @@ class F3_MailformPlusPlus_Finisher_ClearCache extends F3_MailformPlusPlus_Abstra
 	/**
      * The main method called by the controller
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The GET/POST parameters
      * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters

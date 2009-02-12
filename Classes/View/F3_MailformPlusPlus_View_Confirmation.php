@@ -15,7 +15,7 @@
 /**
  * A view for Finisher_Confirmation used by MailformPlusPlus
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	View
  */
@@ -24,7 +24,6 @@ class F3_MailformPlusPlus_View_Confirmation extends F3_MailformPlusPlus_View_Def
 	/**
      * Main method called by the controller.
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The current GET/POST parameters
      * @param array $errors The errors occurred in validation
      * @return string content
@@ -77,7 +76,6 @@ class F3_MailformPlusPlus_View_Confirmation extends F3_MailformPlusPlus_View_Def
      * ###PDF_LINK###
      * ###CSV_LINK###
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
      * @return string Template with replaced markers
      */
 	protected function fillDefaultMarkers() {

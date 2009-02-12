@@ -51,7 +51,7 @@
  * finishers.1.config.fields.imagecaption.special = ip
  * </code>
  * 
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Finisher
  */
@@ -99,7 +99,6 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 	/**
      * The main method called by the controller
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The GET/POST parameters
      * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters
@@ -117,21 +116,28 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 		
 		//set fields to insert/update
 		$queryFields = $this->parseFields();
-		$this->escapeFields($queryFields,$this->table);
+		$queryFields = $this->escapeFields($queryFields,$this->table);
+		
 		//query the database
 		$this->save($queryFields);
 		
 		return $this->gp;
 	}
 	
-	protected function escapeFields(&$queryFields,$table) {
+	/**
+     * Escapes all values in given array for insert query into given table.
+     * 
+     * @param array $queryFields Array with values (either associative or non-associative array) 
+     * @param string $table Table name for which to quote 
+     * @return array The input array with the values quoted
+     */
+	protected function escapeFields($queryFields,$table) {
 		return $GLOBALS['TYPO3_DB']->fullQuoteArray($queryFields,$table);
 	}
 	
 	/**
      * Method to query the database making an insert or update statement using the given fields.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array &$queryFields Array holding the query fields
      * @return void
      */
@@ -160,7 +166,6 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 	/**
      * Inits the finisher mapping settings values to internal attributes.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @return void
      */
 	protected function init() {
@@ -192,7 +197,6 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 	/**
      * Parses mapping settings and builds an array holding the query fields information.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @return array The query fields
      */
 	protected function parseFields() {

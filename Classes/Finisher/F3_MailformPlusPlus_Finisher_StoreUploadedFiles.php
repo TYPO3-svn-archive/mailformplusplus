@@ -24,7 +24,7 @@
  * finishers.1.config.finishedUploadFolder = uploads/mailformplusplus/finished/
  * </code>
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Finisher
  */
@@ -33,7 +33,6 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 	/**
      * The main method called by the controller
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The GET/POST parameters
      * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters
@@ -72,7 +71,6 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
      * </code>
      * 
      * @return void
-     * @author Reinhard Führicht <rf@typoheads.at>
      */
 	protected function moveUploadedFiles() {
 		session_start();

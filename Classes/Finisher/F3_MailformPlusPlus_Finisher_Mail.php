@@ -23,7 +23,7 @@
  * finishers.2.config.checkBinaryCfLr = firstname,text,email
  * finishers.2.config.admin.header = 
  * finishers.2.config.admin.to_email = rf@typoheads.at
- * finishers.2.config.admin.to_name = Reinhard Führicht
+ * finishers.2.config.admin.to_name = Reinhard Fï¿½hricht
  * finishers.2.config.admin.subject = SingleStep Request
  * finishers.2.config.admin.sender_email = email
  * finishers.2.config.admin.sender_name = lastname
@@ -35,10 +35,10 @@
  * finishers.2.config.user.to_name = lastname
  * finishers.2.config.user.subject = Your SingleStep request
  * finishers.2.config.user.sender_email = rf@typoheads.at
- * finishers.2.config.user.sender_name = Reinhard Führicht
+ * finishers.2.config.user.sender_name = Reinhard Fï¿½hricht
  * finishers.2.config.user.replyto_email = rf@typoheads.at
  * finishers.2.config.user.replyto_name = TEXT
- * finishers.2.config.user.replyto_name.value = Reinhard Führicht
+ * finishers.2.config.user.replyto_name.value = Reinhard Fï¿½hricht
  * 
  * # sends only plain text mails and adds the HTML mail as attachment
  * finishers.2.config.user.htmlEmailAsAttachment = 1
@@ -51,7 +51,7 @@
  * finishers.2.config.user.attachPDF.exportFields = firstname,lastname,email,interests,pid,submission_date,ip
  * </code>
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Finisher
  */
@@ -78,7 +78,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * The main method called by the controller
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The GET/POST parameters
      * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters
@@ -102,7 +101,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * Sets the internal "emailSettings" attribute holding the settings made in plugin record.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $new The settings to set
      * @return void
      */
@@ -113,7 +111,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * Returns the final template code for given mode and suffix with substituted markers.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param string $mode user/admin
      * @param string $suffix plain/html
      * @return string The template code
@@ -133,7 +130,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * Sanitizes E-mail markers by processing the 'checkBinaryCrLf' setting in TypoScript
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array &$markers The E-mail markers
      * @return void
      */
@@ -164,7 +160,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * Parses the globally defined template file for E-mail template with given mode and suffix
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param string $mode user/admin
      * @param string $suffix plain/html
      * @return string The template code
@@ -188,7 +183,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * Parses the given TypoScript E-Mail settings array and builds a new array with parsed and processed values.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array &$settings The E-Mail settings
      * @param array &$template Array holding the templates for plain text and html
      * @return void
@@ -308,7 +302,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * Explodes the given list seperated by $sep. Substitutes values with according value in GET/POST, if set.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param string $list
      * @param string $sep
      * @return array
@@ -329,7 +322,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * Substitutes values with according value in GET/POST, if set.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param string $value
      * @return string
      */
@@ -347,7 +339,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
      * Parses a setting in TypoScript and overrides it with setting in plugin record if set.
      * The settings contains a single value or a TS object.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $settings The settings array containing the mail settings
      * @param string $type admin|user
      * @param string $key The key to parse in the settings array
@@ -368,7 +359,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
      * Parses a setting in TypoScript and overrides it with setting in plugin record if set.
      * The settings contains a list of values or a TS object.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $settings The settings array containing the mail settings
      * @param string $type admin|user
      * @param string $key The key to parse in the settings array
@@ -388,7 +378,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * Parses a list of file names or field names set in TypoScript and overrides it with setting in plugin record if set.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $settings The settings array containing the mail settings
      * @param string $type admin|user
      * @param string $key The key to parse in the settings array
@@ -419,7 +408,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * Parses the given TypoScript E-Mail settings array and builds a new array with parsed and processed values.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array &$settings The E-Mail settings
      * @return array Array containing the processed values
      */
@@ -482,7 +470,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * Substitutes markers like ###LLL:langKey### in given TypoScript settings array.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array &$settings The E-Mail settings
      * @return void
      */
@@ -502,7 +489,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * Fetches the global TypoScript settings of the MailformPlusPlus
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @return void
      */
 	protected function getSettings() {
@@ -512,7 +498,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	/**
      * Inits the finisher mapping settings values to internal attributes.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @return void
      */
 	protected function init() {

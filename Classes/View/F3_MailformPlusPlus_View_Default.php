@@ -15,7 +15,7 @@
 /**
  * A default view for MailformPlusPlus
  *
- * @author	Reinhard F�hricht <rf@typoheads.at>
+ * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	View
  */
@@ -24,7 +24,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	/**
      * Removes an uploaded file from $_SESSION. This method is called via an AJAX request.
      * 
-     * @author	Reinhard F�hricht <rf@typoheads.at>
      * @param string $fieldname The field holding the file to delete
      * @param string $filename The file to delete
      * @return void
@@ -74,7 +73,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	/**
      * Main method called by the controller.
      * 
-     * @author	Reinhard F�hricht <rf@typoheads.at>
      * @param array $gp The current GET/POST parameters
      * @param array $errors The errors occurred in validation
      * @return string content
@@ -142,7 +140,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * Reads the translation file entered in TS setup.
 	 *
 	 * @return void
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function readLangFile() {
 		if(is_array($this->settings['langFile.'])) {
@@ -157,7 +154,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * This is needed to replace the markers ###FORM_STARTBLOCK### and ###FORM_ENDBLOCK### in the next steps.
 	 *
 	 * @return void
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function storeStartEndBlock() {
 		session_start();
@@ -173,7 +169,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * Fills the markers ###FORM_STARTBLOCK### and ###FORM_ENDBLOCK### with the stored values from $_SESSION.
 	 *
 	 * @return void
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function fillStartEndBlock() {
 		session_start();
@@ -185,7 +180,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	/**
      * Returns the global TypoScript settings of MailformPlusPlus
      * 
-     * @author	Reinhard F�hricht <rf@typoheads.at>
      * @return array The settings
      */
 	protected function parseSettings() {
@@ -209,7 +203,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
      * 		###checked_[fieldname]_[value]###
      * in $this->template
      * 
-     * @author	Reinhard F�hricht <rf@typoheads.at>
      * @return void
      */
 	protected function fillSelectedMarkers() {
@@ -232,7 +225,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	/**
      * Substitutes default markers in $this->template.
      * 
-     * @author	Reinhard F�hricht <rf@typoheads.at>
      * @return void
      */
 	protected function fillDefaultMarkers() {
@@ -257,7 +249,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * 
 	 * @param array &$markers Reference to the markers array
 	 * @return void
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function fillCaptchaMarkers(&$markers) {
 		global $LANG;
@@ -297,7 +288,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * 
 	 * @param array &$markers Reference to the markers array
 	 * @return void
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function fillFEUserMarkers(&$markers) {
 		if (is_array($GLOBALS["TSFE"]->fe_user->user)) {
@@ -325,7 +315,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * 
 	 * @param array &$markers Reference to the markers array
 	 * @return void
-	 * @author	Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function fillFileMarkers(&$markers) {
 		session_start();
@@ -414,7 +403,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
      * 		###ERROR###
      * in $this->template
      * 
-     * @author	Reinhard F�hricht <rf@typoheads.at>
      * @return void
      */
 	protected function fillErrorMarkers(&$errors) {
@@ -502,7 +490,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	/**
      * Substitutes markers defined in TypoScript in $this->template
      * 
-     * @author	Reinhard F�hricht <rf@typoheads.at>
      * @return void
      */
 	protected function fillTypoScriptMarkers() {
@@ -528,7 +515,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
      * 		###[FIELDNAME]###
      * in $this->template
      * 
-     * @author	Reinhard F�hricht <rf@typoheads.at>
      * @return void
      */
 	protected function fillValueMarkers() {
@@ -563,7 +549,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
      * 		###LLL:[languageKey]###
      * in $this->template
      * 
-     * @author	Reinhard F�hricht <rf@typoheads.at>
      * @return void
      */
 	protected function fillLangMarkers() {

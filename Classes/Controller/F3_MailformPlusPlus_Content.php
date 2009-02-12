@@ -15,7 +15,7 @@
 /**
  * Content to be parsed.
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  */
@@ -32,7 +32,7 @@ class F3_MailformPlusPlus_Content {
 	/**
      * The constructor settings the internal attribute "content"
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return void
      */
 	public function __construct($content) {
@@ -42,7 +42,7 @@ class F3_MailformPlusPlus_Content {
 	/**
      * Sets the internal attribute "content"
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author Reinhard FÃ¼hricht <rf@typoheads.at>
      * @param string $content
      * @return void
      */
@@ -53,7 +53,7 @@ class F3_MailformPlusPlus_Content {
 	/**
      * Returns the internal attribute "content"
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return string The content
      */
 	public function getContent() {
@@ -63,7 +63,7 @@ class F3_MailformPlusPlus_Content {
 	/**
      * Actually only returns the internal attribute "content"
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
+     * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
      * @return string The content
      */
 	public function toString() {

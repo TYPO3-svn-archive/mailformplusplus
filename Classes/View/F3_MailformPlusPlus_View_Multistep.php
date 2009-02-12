@@ -15,7 +15,7 @@
 /**
  * A view class for multistep forms
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	View
  * @link F3_MailformPlusPlus_View_Default
@@ -26,7 +26,6 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 	/**
 	 * Get the right settings for current step.
 	 * 
-	 * @author Reinhard Führicht <rf@typoheads.at>
 	 * @return 	array The settings
 	 */
 	protected function parseSettings() {
@@ -47,7 +46,6 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 	 * ###submit_reload###
 	 * ###step_bar###
 	 * 
-	 * @author Reinhard Führicht <rf@typoheads.at>
 	 * @param	integer	$currentStep current step (begins with 1)
 	 * @param	integer	$lastStep last step
 	 * @param	string	$buttonNameBack name attribute of the back button
@@ -107,7 +105,6 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 	 * 
 	 * Needed in conditional forms.
 	 * 
-	 * @author Reinhard Führicht <rf@typoheads.at>
 	 * @param	array	&$markers The markers to put the new one into
 	 * @return 	void
 	 */
@@ -143,7 +140,6 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 	 * 
 	 * Returns HTML of a box with a step counter and "back" and "next" buttons
 	 * 
-	 * @author Reinhard Führicht <rf@typoheads.at>
 	 * @param	integer	$currentStep current step (begins with 1)
 	 * @param	integer	$lastStep last step
 	 * @param	string	$buttonNameBack name attribute of the back button

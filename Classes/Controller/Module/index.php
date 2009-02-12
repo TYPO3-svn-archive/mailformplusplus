@@ -2,7 +2,7 @@
 /**
  * index.php for the backend module of ext: "mailformplusplus"
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  */
@@ -47,7 +47,7 @@ require_once (t3lib_extMgm::extPath('gimmefive') . 'Classes/Component/F3_GimmeFi
 /**
  * Module 'MailformPlusPlus' for the 'mailformplusplus' extension.
  *
- * @author	 Reinhard Führicht <rf@typoheads.at>
+ * @author	 Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  */

@@ -15,7 +15,7 @@
 /**
  * A class providiing static helper functions for MailformPlusPlus
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Utils
  */
@@ -24,13 +24,17 @@ class F3_MailformPlusPlus_StaticFuncs {
 	/**
      * Returns the absolute path to the document root
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
      * @return string
      */
 	public static function getDocumentRoot() {
 		return t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT');
 	}
 	
+	/**
+     * Returns the absolute path to the TYPO3 root
+     * 
+     * @return string
+     */
 	public static function getTYPO3Root() {
 		$path = t3lib_div::getIndpEnv('SCRIPT_FILENAME');
 		$path = str_replace("/index.php","",$path);
@@ -127,7 +131,6 @@ class F3_MailformPlusPlus_StaticFuncs {
 	/**
      * Returns the http path to the site
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
      * @return string
      */
 	public static function getHostname() {
@@ -143,7 +146,6 @@ class F3_MailformPlusPlus_StaticFuncs {
      * uploads/temp				--> /uploads/temp/
      * uploads/temp/file.ext	--> /uploads/temp/file.ext
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
      * @param string $path
      * @return string Sanitized path
      */
@@ -160,7 +162,6 @@ class F3_MailformPlusPlus_StaticFuncs {
 	/**
      * Finds and fills language markers in given template code.
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
      * @param string $template The template code
      * @param string $langFile The path to the language file
      * @return array The filled language markers
@@ -186,7 +187,6 @@ class F3_MailformPlusPlus_StaticFuncs {
 	/**
      * Finds and fills value markers using given GET/POST parameters.
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
      * @param array &$gp Reference to the GET/POST parameters
      * @return array The filled value markers
      * @static
@@ -237,7 +237,6 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @param boolean $extended Print a header style message or default output
 	 * @return void
 	 * @static
-	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
 	public static function debugMessage($message,$extended = true) {
 		session_start();
@@ -255,7 +254,6 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @param array $arr The array to print
 	 * @return void
 	 * @static
-	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
 	public static function debugArray($arr) {
 		if(!is_array($arr)) {
@@ -275,7 +273,6 @@ class F3_MailformPlusPlus_StaticFuncs {
 	/**
      * Removes unfilled markers from given template code.
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
      * @param string $content The template code
      * @return string The template code without markers
      * @static
@@ -287,7 +284,6 @@ class F3_MailformPlusPlus_StaticFuncs {
 	/**
      * Substitutes EXT: with extension path in a file path
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
      * @param string The path
      * @return string The resolved path
      * @static
@@ -306,7 +302,6 @@ class F3_MailformPlusPlus_StaticFuncs {
 	/**
      * Substitutes EXT: with extension path in a file path and returns the relative path.
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
      * @param string The path
      * @return string The resolved path
      * @static
@@ -325,7 +320,6 @@ class F3_MailformPlusPlus_StaticFuncs {
 	/**
      * Substitutes EXT: with extension path in a file path and returns the relative path from site root.
      * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
      * @param string The path
      * @return string The resolved path
      * @static

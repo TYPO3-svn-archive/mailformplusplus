@@ -15,7 +15,7 @@
 /**
  * Abstract class for loggers
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Logger
  * @abstract
@@ -49,7 +49,6 @@ abstract class F3_MailformPlusPlus_AbstractLogger {
 	/**
      * The constructor for an interceptor setting the component manager and the configuration.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param F3_GimmeFive_Component_Manager $componentManager
      * @param F3_MailformPlusPlus_Configuration $configuration
      * @return void
@@ -62,7 +61,6 @@ abstract class F3_MailformPlusPlus_AbstractLogger {
 	/**
      * Logs the given values.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The current GET/POST parameters
      * @param array $settings The settings for the logger
      * @return void

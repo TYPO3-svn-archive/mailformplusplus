@@ -15,7 +15,7 @@
 /**
  * A default pre processor for MailformPlusPlus
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	PreProcessor
  */
@@ -24,7 +24,6 @@ class F3_MailformPlusPlus_PreProcessor_Default extends F3_MailformPlusPlus_Abstr
 	/**
      * Main method called by the controller.
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The current GET/POST parameters
      * @param array $settings The settings for the logger
      * @return array The probably modified GET/POST parameters

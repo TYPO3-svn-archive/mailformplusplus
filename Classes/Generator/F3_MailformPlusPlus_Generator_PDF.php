@@ -15,7 +15,7 @@
 /**
  * Class to generate PDF files in Backend and Frontend
  *
- * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Generator
  * @uses F3_MailformPlusPlus_Template_PDF
@@ -41,7 +41,6 @@ class F3_MailformPlusPlus_Generator_PDF {
 	/**
      * Default Constructor
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param F3_GimmeFive_Component_Manager $componentManager The component manager of GimmeFive
      * @return void
      */
@@ -53,7 +52,6 @@ class F3_MailformPlusPlus_Generator_PDF {
 	/**
      * Function to generate a PDF file from submitted form values. This function is called by F3_MailformPlusPlus_Controller_Backend
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $records The records to export to PDF
      * @param array $exportFields A list of fields to export. If not set all fields are exported
      * @see F3_MailformPlusPlus_Controller_Backend::generatePDF()
@@ -149,7 +147,6 @@ class F3_MailformPlusPlus_Generator_PDF {
 	/**
      * Function to generate a PDF file from submitted form values. This function is called by F3_MailformPlusPlus_Finisher_Confirmation and F3_MailformPlusPlus_Finisher_Mail 
      * 
-     * @author Reinhard Führicht <rf@typoheads.at>
      * @param array $gp The values to export
      * @param string $langFile The translation file configured in TypoScript of MailformPlusPlus
      * @param array $exportFields A list of fields to export. If not set all fields are exported
@@ -205,8 +202,6 @@ class F3_MailformPlusPlus_Generator_PDF {
 					}
 					$fill = !$fill;
 				} elseif(count($exportFields) == 0 || in_array($key,$exportFields)) {
-					#print $key;
-					#print_r($exportFields);
 					$this->pdf->Cell($feedWidth);
 					$this->pdf->Cell($nameWidth,"6",trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key)),0,0,'L',$fill);
 					$this->pdf->Cell($valueWidth,"6",$value,0,0,'L',$fill);

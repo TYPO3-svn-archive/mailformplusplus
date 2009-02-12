@@ -20,7 +20,7 @@ require_once(PATH_tslib.'class.tslib_pibase.php');
 /**
  * The Dispatcher instatiates the Component Manager and delegates the process to the given controller.
  *
- * @author	Reinhard F�hricht <rf@typoheads.at>
+ * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  */
@@ -31,7 +31,6 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 	 * Passes AJAX requests to requested methods.
 	 *
 	 * @return void
-	 * @author Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function handleAjax() {
 		if(t3lib_extMgm::isLoaded('xajax')) {
@@ -53,7 +52,6 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 	 * @return string rendered view
 	 * @param string $content
 	 * @param array $setup The TypoScript config
-	 * @author Reinhard F�hricht <rf@typoheads.at>
 	 */
 	public function main($content, $setup) {
 
@@ -125,7 +123,6 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 	 * Parses the email settings in flexform and stores them in an array.
 	 *
 	 * @return array The parsed email settings
-	 * @author Reinhard F�hricht <rf@typoheads.at>
 	 */
 	protected function parseEmailSettings() {
 		$emailSettings = array();
@@ -157,7 +154,6 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 	 * @param string $type (admin|user)
 	 * @param array $optionsToParse Mapping array with flexform name as key and key in parsed array as value.
 	 * @return array The parsed email settings
-	 * @author Reinhard F�hricht <rf@typoheads.at>
 	 */
 	private function parseEmailSettingsByType($type,$optionsToParse = array()) {
 		$typeLower = strtolower($type);
@@ -182,7 +178,6 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 	 * @param string $name Name of the flexform value
 	 * @param string $section Section in flexform where the value is stored
 	 * @return string The requested value
-	 * @author Reinhard F�hricht <rf@typoheads.at>
 	 */
 	private function getFFvalue($name,$section) {
 		$value = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], $name,$section);
