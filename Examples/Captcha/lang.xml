@@ -27,5 +27,14 @@
 			<label index="error_captchafield_captcha">Captcha ist nicht korrekt!</label>
 			<label index="error_recaptcha_response_field_jm_recaptcha">Recaptcha ist nicht korrekt!</label>
 		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="legend">Types de captcha</label>
+			<label index="submit">Envoyer</label>
+			<label index="error_mathguard_answer_mathguard">MathGuard réponse incorrect!</label>
+			<label index="error_freecapfield_sr_freecap">Freecap incorrect</label>
+			<label index="error_simplecaptchafield_simple_captcha">Simple Captcha incorrect</label>
+			<label index="error_captchafield_captcha">Captcha incorrect</label>
+			<label index="error_recaptcha_response_field_jm_recaptcha">Recaptcha incorrect</label>
+		</languageKey>
 	</data>
 </T3locallang>

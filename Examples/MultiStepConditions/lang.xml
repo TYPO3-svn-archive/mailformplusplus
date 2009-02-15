@@ -93,5 +93,34 @@
 			<label index="phone">Telefonnummer</label>
 			<label index="error_phone_required">Telefonnummer ist nicht ausgefüllt!</label>
 		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="legend">Informations personnelles</label>
+			<label index="firstname">Prénom</label>
+			<label index="lastname">Nom</label>
+			<label index="email">Email</label>
+			<label index="interests">Intérêts</label>
+			<label index="interests_sports">Sports</label>
+			<label index="interests_music">Musique</label>
+			<label index="interests_science">Science</label>
+			<label index="interests_cars">Voitures</label>
+			<label index="contact_via">Contacter via</label>
+			<label index="contact_via_email">Email</label>
+			<label index="contact_via_phone">Téléphone</label>
+			<label index="street">Rue</label>
+			<label index="submit">Envoyer</label>
+			<label index="next">Suivant</label>
+			<label index="prev">Retour</label>
+			
+			<label index="error_firstname_required">Il manque le prénom!</label>
+			<label index="error_firstname_maxLength">Le prénom doit comprendre moins de ###value### caractères!</label>
+			<label index="error_lastname_required">Il manque le nom!</label>
+			<label index="error_lastname_maxLength">Le nom doit comprendre moins de ###value### caractères!</label>
+			<label index="error_interests_minItems">Sélectionner au moins ###value### intérêts!</label>
+			<label index="error_interests_required">Sélectionner quelques intérêts!</label>
+			<label index="error_email_required">Saisir votre adresse email!</label>
+			<label index="error_email_email">L'adresse email doit être valide!</label>
+			<label index="error_contact_via_required">Sélectionner le mode de contact!</label>
+			<label index="required_fields">Les champs marqués de * sont obligatoires!</label>
+		</languageKey>
 	</data>
 </T3locallang>

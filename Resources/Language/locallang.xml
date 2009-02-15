@@ -28,5 +28,14 @@
 			<label index="welcome">Willkommen zu der Log-Übersicht von MailformPlusPlus!</label>
 			<label index="mathguard_question"> Sicherheitsabfrage. Bitte lösen Sie folgende Rechnung:</label>
 		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="title">MailformPlusPlus</label>
+			<label index="function1">Function #1</label>
+			<label index="function2">Function #2</label>
+			<label index="function3">Function #3</label>
+			<label index="noLogTable">La table 'tx_mailformplusplus_log' est requise. Veuillez ajouter le 'loger' par défaut au setup TypoScript MailformPlusPlus.</label>
+			<label index="welcome">Bienvenue dans le log de MailformPlusPlus!</label>
+			<label index="mathguard_question"> Veuillez résoudre:</label>
+		</languageKey>
 	</data>
 </T3locallang>

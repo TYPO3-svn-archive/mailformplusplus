@@ -87,6 +87,26 @@
 		<languageKey index="it" type="array">
 		</languageKey>
 		<languageKey index="fr" type="array">
+			<label index="mailformplusplus.pi_flexform.sheet_general">Configuration générale</label>
+			<label index="mailformplusplus.pi_flexform.sheet_emailAdminSettings">Configuration email admin</label>
+			<label index="mailformplusplus.pi_flexform.sheet_emailUserSettings">Configuration email utilisateur</label>
+			<label index="mailformplusplus.pi_flexform.sheet_miscSettings">Autres configurations</label>
+			<label index="mailformplusplus.pi_flexform.template_file">Fichier de template</label>
+			<label index="mailformplusplus.pi_flexform.emailRecipient">Destinataire</label>
+			<label index="mailformplusplus.pi_flexform.emailSubject">Sujet</label>
+			<label index="mailformplusplus.pi_flexform.emailFrom">Email expéditeur</label>
+			<label index="mailformplusplus.pi_flexform.emailFromName">Nom expéditeur</label>
+			<label index="mailformplusplus.pi_flexform.redirectPage">Page redirigé</label>
+			<label index="mailformplusplus.pi_flexform.mandatoryFields">Champs obligatoires (saisir le nom des champs du formulaire séparé par des ",")</label>
+			<label index="mailformplusplus.pi_flexform.replyTo">Email de réponse (optionel)</label>
+			<label index="mailformplusplus.pi_flexform.replyToName">Nom de réponse (optionel)</label>			
+
+			<label index="mailformplusplus.pi_flexform.emailConfirm">Envoyer un email à l'adresse inscrite dans le formulaire (saisir le nom des champs ici)</label>
+			<label index="mailformplusplus.pi_flexform.emailConfirmSubject">Sujet de l'email pour l'utilisateur:</label>
+			<label index="mailformplusplus.pi_flexform.template_predefined">Formulaire prédéfini:</label>
+			<label index="mailformplusplus.pi_flexform.template_controller">Type:</label>
+			<label index="mailformplusplus.pi_flexform.template_file">Fichier de template</label>
+			<label index="mailformplusplus.pi_flexform.lang_file">Fichier de traduction</label>
 		</languageKey>
 		<languageKey index="es" type="array">
 		</languageKey>
