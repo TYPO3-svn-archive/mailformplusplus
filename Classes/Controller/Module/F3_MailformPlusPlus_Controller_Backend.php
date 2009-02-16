@@ -329,6 +329,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function generateCSVExportFieldsSelector($params) {
+		global $LANG;
 		
 		//if there are no params, initialize the array to ensure that foreach loops will not crash
 		if(!is_array($params)) {
@@ -339,11 +340,11 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		$gp = t3lib_div::_GP('mailformplusplus');
 				
 		//header
-		$selector = '<h3>Please select the fields to export:</h3><br />';
+		$selector = '<h3>' . $LANG->getLL('select_export_fields') . '</h3><br />';
 		$selector .= '
 			<div style="width:200px;float:right">
-				<input type="button" onclick="selectAll()" value="Select all" />
-				<input type="button" onclick="deselectAll()" value="Deselect all" />
+				<input type="button" onclick="selectAll()" value="'.$LANG->getLL('select_all').'" />
+				<input type="button" onclick="deselectAll()" value="'.$LANG->getLL('deselect_all').'" />
 			</div>
 		';
 		
@@ -383,7 +384,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		}
 		
 		//add submite button and close form
-		$selector .= '</table><input type="submit" value="Export" /></form>';
+		$selector .= '</table><input type="submit" value="'.$LANG->getLL('export').'" /></form>';
 		
 		//add javascript for "select all" and "deselect all"
 		$selector .= $this->getSelectionJS();
@@ -399,6 +400,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function generatePDFExportFieldsSelector($params) {
+		global $LANG;
 		
 		//if there are no params, initialize the array to ensure that foreach loops will not crash
 		if(!is_array($params)) {
@@ -409,11 +411,11 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		$gp = t3lib_div::_GP('mailformplusplus');
 		
 		//header
-		$selector = '<h3>Please select the fields to export:</h3><br />';
+		$selector = '<h3>' . $LANG->getLL('select_export_fields') . '</h3><br />';
 		$selector .= '
 			<div style="width:200px;float:right">
-				<input type="button" onclick="selectAll()" value="Select all" />
-				<input type="button" onclick="deselectAll()" value="Deselect all" />
+				<input type="button" onclick="selectAll()" value="'.$LANG->getLL('select_all').'" />
+				<input type="button" onclick="deselectAll()" value="'.$LANG->getLL('deselect_all').'" />
 			</div>
 		';
 		
@@ -443,9 +445,9 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		
 		//start output table with the default fields that can be exported (ip address, submission date and PID)
 		$selector .= '<table>';
-		$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="ip">IP address</td></tr>';
-		$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="submission_date">Submission date</td></tr>';
-		$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="pid">Page ID</td></tr>';
+		$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="ip">'.$LANG->getLL('ip_address').'</td></tr>';
+		$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="submission_date">'.$LANG->getLL('submission_date').'</td></tr>';
+		$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="pid">'.$LANG->getLL('page_id').'</td></tr>';
 		$selector .= '</table>';
 		$selector .= '<table>';
 		
@@ -455,7 +457,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		}
 		
 		//add submit button and close form
-		$selector .= '</table><input type="submit" value="Export" /></form>';
+		$selector .= '</table><input type="submit" value="'.$LANG->getLL('export').'" /></form>';
 		
 		//add javascript for "select all" and "deselect all"
 		$selector .= $this->getSelectionJS();
@@ -503,6 +505,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function generateFormatsSelector($formats,$detailId) {
+		global $LANG;
 		/* 
 		 * if there is only one record to export, initialize an array with the one uid
 		 * to ensure that foreach loops will not crash.
@@ -512,7 +515,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		}
 		
 		//header
-		$selector .= '<h3>'.count($formats).' formats found please export them in seperate files!</h3><br />';
+		$selector .= '<h3>'.sprintf($LANG->getLL('formats_found'),count($formats)).'</h3><br />';
 		
 		//start table
 		$selector .= '<table>';
@@ -538,7 +541,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				$selector .= '
 							<input type="hidden" name="mailformplusplus[csvFormat]" value="'.$key.'" />
 							<input type="hidden" name="mailformplusplus[renderMethod]" value="csv" />
-							<input type="submit" value="Export" />
+							<input type="submit" value="'.$LANG->getLL('export').'" />
 							</form>
 						</td>
 						<td>'.implode(",",array_keys($format)).'</td>
@@ -548,7 +551,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		}
 		
 		//close table, add back link and return
-		$selector .= '</table><br /><hr /><a href="'.$_SERVER['PHP_SELF'].'">Back</a>';
+		$selector .= '</table><br /><hr /><a href="'.$_SERVER['PHP_SELF'].'">'.$LANG->getLL('back').'</a>';
 		return $selector;
 	}
 	
@@ -560,6 +563,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function showSingleView($singleUid) {
+		global $LANG;
 		
 		//select the record
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery("uid,pid,crdate,ip,params",$this->logTable,"uid=".$singleUid);
@@ -575,22 +579,22 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			$view = '
 				<div>
 					<div>
-						<div style="width:100px;float:left"><h4>PID</h4></div>
+						<div style="width:100px;float:left"><h4>'.$LANG->getLL('page_id').'</h4></div>
 						<div style="width:100px;float:left">'.$row['pid'].'</div>
 						<div style="clear:both"></div>
 					</div>
 					<div>
-						<div style="width:100px;float:left"><h4>Date</h4></div>
-						<div style="width:200px;float:left">'.date("d.m.Y H:i",$row['crdate']).'</div>
+						<div style="width:100px;float:left"><h4>'.$LANG->getLL('crdate').'</h4></div>
+						<div style="width:200px;float:left">'.date("Y/m/d H:i",$row['crdate']).'</div>
 						<div style="clear:both"></div>
 					</div>
 					<div>
-						<div style="width:100px;float:left"><h4>IP</h4></div>
+						<div style="width:100px;float:left"><h4>'.$LANG->getLL('ip_address').'</h4></div>
 						<div style="width:100px;float:left">'.$row['ip'].'</div>
 						<div style="clear:both"></div>
 					</div>
 					<div>
-						<div style="width:100px;"><h4>Params</h4></div>
+						<div style="width:100px;"><h4>'.$LANG->getLL('params').'</h4></div>
 						<div style="width:300px;margin-left:30px;">
 			';
 			
@@ -617,11 +621,11 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 					</div>
 					<hr />
 					<div>
-						<strong>Export as:  </strong><a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=pdf">PDF</a>
-						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=csv">CSV</a>
+						<strong>'.$LANG->getLL('export_as').' </strong><a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=pdf">'.$LANG->getLL('pdf').'</a>
+						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=csv">'.$LANG->getLL('csv').'</a>
 					</div>
 					<div style="margin-top:30px;font-weight:bold;text-decoration:underline;">
-						<a href="'.$_SERVER['PHP_SELF'].'">back</a>
+						<a href="'.$_SERVER['PHP_SELF'].'">'.$LANG->getLL('back').'</a>
 					</div>
 				</div>
 			';
@@ -736,6 +740,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function getFilterSection() {
+		global $LANG;
 		
 		//init gp params
 		$params = t3lib_div::_GP('mailformplusplus');
@@ -744,30 +749,30 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		$filter = '
 			<form action="'.$_SERVER['PHP_SELF'].'" method="post">
 			<div>
-				<h2 style="text-align:center">Filter</h2>
+				<h2 style="text-align:center">'.$LANG->getLL('filter').'</h2>
 				<table>
 					<tr>
-						<td><strong>PID (comma seperated)</strong></td>
+						<td><strong>'.$LANG->getLL('pid_label').'</strong></td>
 						<td>
 							<input type="text" name="mailformplusplus[pidFilter]" value="'.$params['pidFilter'].'"/>
 						</td>
 					</tr>
 					<tr>
-						<td><strong>Startdate</strong></td>
+						<td><strong>'.$LANG->getLL('startdate').'</strong></td>
 						<td>
 							<input type="text" readonly="readonly" id="startdate" value="'.$params['startdateFilter'].'" name="mailformplusplus[startdateFilter]" />
-							<input type="button" id="trigger_startdate" value="Cal"/>
+							<input type="button" id="trigger_startdate" value="'.$LANG->getLL('cal').'"/>
 						</td>
 					</tr>
 					<tr>
-						<td><strong>Enddate</strong></td>
+						<td><strong>'.$LANG->getLL('enddate').'</strong></td>
 						<td>
 							<input type="text" readonly="readonly" id="enddate" value="'.$params['enddateFilter'].'" name="mailformplusplus[enddateFilter]" />
-							<input type="button" id="trigger_enddate" value="Cal"/>
+							<input type="button" id="trigger_enddate" value="'.$LANG->getLL('cal').'"/>
 						</td>
 					</tr>
 					<tr>
-						<td><input type="submit" value="Filter" /></td>
+						<td><input type="submit" value="'.$LANG->getLL('filter').'" /></td>
 						<td>&nbsp;</td>
 					</tr>
 				</table>
@@ -823,8 +828,10 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function getTable(&$records) {
+		global $LANG;
+		
 		if(count($records) == 0) {
-			return "<div>No records found!</div>";
+			return "<div>'.$LANG->getLL('no_records').'</div>";
 		}
 		
 		
@@ -843,15 +850,15 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			<div>
 			<div style="width:250px;float:left">
 				Export selected as: 
-				<input type="submit" value="PDF" name="mailformplusplus[renderMethod]" />
-				<input type="submit" value="CSV" name="mailformplusplus[renderMethod]" />
+				<input type="submit" value="'.$LANG->getLL('pdf').'" name="mailformplusplus[renderMethod]" />
+				<input type="submit" value="'.$LANG->getLL('csv').'" name="mailformplusplus[renderMethod]" />
 			</div>
 			<div style="width:200px;float:left;">
-				<input type="submit" value="Delete selected" name="mailformplusplus[delete]" />
+				<input type="submit" value="'.$LANG->getLL('delete_selected').'" name="mailformplusplus[delete]" />
 			</div>
 			<div style="width:200px;float:right">
-				<input type="button" onclick="selectAll()" value="Select all" />
-				<input type="button" onclick="deselectAll()" value="Deselect all" />
+				<input type="button" onclick="selectAll()" value="'.$LANG->getLL('select_all').'" />
+				<input type="button" onclick="deselectAll()" value="'.$LANG->getLL('deselect_all').'" />
 			</div>
 			<div style="clear:both;"></div>
 			</div>
@@ -863,11 +870,11 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			
 			<table class="sortable">
 				<tr style="font-size:large;font-weight:bold;background: #cccccc;">
-					<td>PID</th>
-					<td>Submission date</th>
-					<td>IP</th>
-					<td>Detail View</th>
-					<td>Export</th>
+					<td>'.$LANG->getLL('page_id').'</th>
+					<td>'.$LANG->getLL('submission_date').'</th>
+					<td>'.$LANG->getLL('ip_address').'</th>
+					<td>'.$LANG->getLL('detail_view').'</th>
+					<td>'.$LANG->getLL('export').'</th>
 					<td>&nbsp;</th>
 				</tr>
 			';
@@ -884,9 +891,9 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			$table .= '
 				<tr style="'.$style.'">
 					<td>'.$record['pid'].'</td>
-					<td>'.date('d.m.Y H:i',$record['crdate']).'</td>
+					<td>'.date('Y/m/d H:i',$record['crdate']).'</td>
 					<td>'.$record['ip'].'</td>
-					<td><a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'">Show</a></td>
+					<td><a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'">'.$LANG->getLL('show').'</a></td>
 					<td>
 						<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'&mailformplusplus[renderMethod]=pdf">PDF</a>
 						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'&mailformplusplus[renderMethod]=csv">CSV</a>
