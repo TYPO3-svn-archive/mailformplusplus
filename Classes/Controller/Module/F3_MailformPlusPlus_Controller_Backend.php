@@ -849,7 +849,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			<form id="mailformplusplus_module_form" action="'.$_SERVER['PHP_SELF'].'" method="post">
 			<div>
 			<div style="width:250px;float:left">
-				Export selected as: 
+				' . $LANG->getLL('export_as') . ': 
 				<input type="submit" value="'.$LANG->getLL('pdf').'" name="mailformplusplus[renderMethod]" />
 				<input type="submit" value="'.$LANG->getLL('csv').'" name="mailformplusplus[renderMethod]" />
 			</div>
