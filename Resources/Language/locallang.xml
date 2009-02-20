@@ -103,8 +103,35 @@
 			<label index="function2">Function #2</label>
 			<label index="function3">Function #3</label>
 			<label index="noLogTable">La table 'tx_mailformplusplus_log' est requise. Veuillez ajouter le 'loger' par défaut au setup TypoScript MailformPlusPlus.</label>
+			<label index="select_export_fields">Sélectionner les champs à exporter:</label>
+			<label index="select_all">Tout sélectionner</label>
+			<label index="deselect_all">Tout déselectionner</label>
+			<label index="export">Exporter</label>
+			<label index="export_as">Exporter comme</label>
+			<label index="ip_address">IP adresse</label>
+			<label index="submission_date">Date envoie</label>
+			<label index="page_id">Page ID</label>
+			<label index="params">Paramètres</label>
+			<label index="back">Retour</label>
+			<label index="pdf">PDF</label>
+			<label index="csv">CSV</label>
+			<label index="filter">Filtre</label>
+			<label index="pid_label">PID (séparé par des virgules)</label>
+			<label index="startdate">Date de départ</label>
+			<label index="enddate">Date de fin</label>
+			<label index="detail_view">Vue de détail</label>
+			<label index="delete_selected">Supprimer la sélection</label>
+			<label index="show">Afficher</label>
+			<label index="cal">Calendrier</label>
+			<label index="no_records">Pas d'enregistrement trouvé!</label>
+			<label index="formats_found">%d format détecté! Exporter dans un fichier séparé!</label>
+			<label index="crdate">Date</label>
 			<label index="welcome">Bienvenue dans le log de MailformPlusPlus!</label>
 			<label index="mathguard_question"> Veuillez résoudre:</label>
+			
+			
+			
+
 		</languageKey>
 	</data>
 </T3locallang>
