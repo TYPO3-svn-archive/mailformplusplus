@@ -286,6 +286,13 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		$this->templateFile = $template;
 	}
 
+	/**
+	 * Runs the class by calling process() method.
+	 *
+	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 * @param array $classesArray: the configuration array
+	 * @return void
+	 */
 	protected function runClasses($classesArray) {
 		foreach($classesArray as $tsConfig) {
 			F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling: ".$tsConfig['class']);
