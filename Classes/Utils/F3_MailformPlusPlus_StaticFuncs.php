@@ -177,7 +177,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 			foreach($aLLMarkerList[0] as $LLMarker){
 				$llKey =  strtolower(substr($LLMarker,7,strlen($LLMarker)-10));
 				$marker = $llKey;
-				$langMarkers['###LLL:'.$marker.'###'] = trim($GLOBALS['TSFE']->sL($llKey));
+				$langMarkers['###LLL:'.$marker.'###'] = trim($GLOBALS['TSFE']->sL('LLL:' . $langFile. ':' . $llKey));
 				$langMarkers['###LLL:'.strtoupper($marker).'###'] = $langMarkers['###LLL:'.$marker.'###'];
 			}
 		}
