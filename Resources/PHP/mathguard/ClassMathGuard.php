@@ -39,7 +39,7 @@ class MathGuard {
 		</table>';
 		
 
-		return "<pre>".$output."</pre>";
+		return $output;
 	}
 
 	/** function that converts the decimal number to line of 3 random characters 
