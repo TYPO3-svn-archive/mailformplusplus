@@ -2,7 +2,7 @@
 /**
  * ext tables config file for ext: "mailformplusplus"
  * 
- * @author Reinhard F�hricht <rf@typoheads.at>
+ * @author Reinhard Führicht <rf@typoheads.at>
 
  * @package	F3_MailformPlusPlus
  */
