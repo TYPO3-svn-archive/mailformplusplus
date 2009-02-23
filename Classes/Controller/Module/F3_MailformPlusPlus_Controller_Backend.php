@@ -46,6 +46,10 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
      */
 	protected $logTable;
 	
+	protected $templatePath;
+	protected $templateFile;
+	protected $templateCode;
+	
 	/**
      * The constructor for a finisher setting the component manager and the configuration.
      * 
@@ -57,6 +61,10 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	public function __construct(F3_GimmeFive_Component_Manager $componentManager, F3_MailformPlusPlus_Configuration $configuration) {
 		$this->componentManager = $componentManager;
 		$this->configuration = $configuration;
+		$this->templatePath = t3lib_extMgm::extPath('mailformplusplus').'Resources/HTML/backend/';
+		$this->templateFile = $this->templatePath.'template.html';
+		$this->templateCode = t3lib_div::getURL($this->templateFile);
+		
 	}
 	
 	/**
@@ -471,28 +479,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function getSelectionJS() {
-		return '<script type="text/javascript">
-				function selectAll() {
-				  var form = document.getElementById("mailformplusplus_module_form");
-				  var inputs = form.getElementsByTagName("input");
-				  for(var i=0;i<inputs.length;i++) {
-				    if(inputs[i].type == "checkbox") {
-				      inputs[i].checked = "checked";	
-					}	
-				  }	
-				}
-				
-				function deselectAll() {
-				  var form = document.getElementById("mailformplusplus_module_form");
-				  var inputs = form.getElementsByTagName("input");
-				  for(var i=0;i<inputs.length;i++) {
-				    if(inputs[i].type == "checkbox") {
-				      inputs[i].checked = null;	
-					}	
-				  }	
-				}
-			</script>
-		';
+		return $this->getSubpart("JS_CODE");
 	}
 	
 	/**
@@ -565,6 +552,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	protected function showSingleView($singleUid) {
 		global $LANG;
 		
+		
 		//select the record
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery("uid,pid,crdate,ip,params",$this->logTable,"uid=".$singleUid);
 		
@@ -572,64 +560,49 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 			
+			$viewCode = $this->getSubpart('DETAIL_VIEW');
+			
 			//unserialize params
 			$params = unserialize($row['params']);
 			
+			$markers = array();
+			
 			//start with default fields (IP address, submission date, PID)
-			$view = '
-				<div>
-					<div>
-						<div style="width:100px;float:left"><h4>'.$LANG->getLL('page_id').'</h4></div>
-						<div style="width:100px;float:left">'.$row['pid'].'</div>
-						<div style="clear:both"></div>
-					</div>
-					<div>
-						<div style="width:100px;float:left"><h4>'.$LANG->getLL('crdate').'</h4></div>
-						<div style="width:200px;float:left">'.date("Y/m/d H:i",$row['crdate']).'</div>
-						<div style="clear:both"></div>
-					</div>
-					<div>
-						<div style="width:100px;float:left"><h4>'.$LANG->getLL('ip_address').'</h4></div>
-						<div style="width:100px;float:left">'.$row['ip'].'</div>
-						<div style="clear:both"></div>
-					</div>
-					<div>
-						<div style="width:100px;"><h4>'.$LANG->getLL('params').'</h4></div>
-						<div style="width:300px;margin-left:30px;">
-			';
+			$markers['###PID###'] = $row['pid'];
+			$markers['###CRDATE###'] = date("Y/m/d H:i",$row['crdate']);
+			$markers['###IP###'] = $row['ip'];
+			
+			$markers['###LLL:page_id###'] = $LANG->getLL('page_id');
+			$markers['###LLL:crdate###'] = $LANG->getLL('crdate');
+			$markers['###LLL:ip_address###'] = $LANG->getLL('ip_address');
 			
 			//add the submitted params
 			if(isset($params) && is_array($params)) {
-				$view .= '<table>';
+				$paramsTable .= '<table>';
 				foreach($params as $key=>$value) {
 					if(is_array($value)) {
 						$value = implode(",",$value);
 					}
-					$view .= '
+					$paramsTable .= '
 						<tr>
 							<td style="font-weight:bold">'.$key.'</td>
 							<td>'.$value.'</td>
 						</tr>
 					';
 				}
-				$view .= '</table>';
+				$paramsTable .= '</table>';
 			}
+			$markers['###LLL:params###'] = $LANG->getLL('params');
+			$markers['###PARAMS###'] = $paramsTable;
 			
-			//add buttons to export the record and a back link
-			$view .= '			
-						</div>
-					</div>
-					<hr />
-					<div>
-						<strong>'.$LANG->getLL('export_as').' </strong><a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=pdf">'.$LANG->getLL('pdf').'</a>
-						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=csv">'.$LANG->getLL('csv').'</a>
-					</div>
-					<div style="margin-top:30px;font-weight:bold;text-decoration:underline;">
-						<a href="'.$_SERVER['PHP_SELF'].'">'.$LANG->getLL('back').'</a>
-					</div>
-				</div>
-			';
-			return $view;
+			
+			$markers['###LLL:export_as###'] = $LANG->getLL('export_as');
+			$markers['###EXPORT_LINKS###'] = '<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=pdf">'.$LANG->getLL('pdf').'</a>
+						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=csv">'.$LANG->getLL('csv').'</a>';
+			$markers['###BACK_LINK###'] = '<a href="'.$_SERVER['PHP_SELF'].'">'.$LANG->getLL('back').'</a>';
+			$content = $this->substituteMarkerArray($viewCode,$markers);
+			$content = $this->addCSS($content);
+			return $content;
 		}
 	}
 	
@@ -745,47 +718,50 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		//init gp params
 		$params = t3lib_div::_GP('mailformplusplus');
 		
-		//generate form
-		$filter = '
-			<form action="'.$_SERVER['PHP_SELF'].'" method="post">
-			<div>
-				<h2 style="text-align:center">'.$LANG->getLL('filter').'</h2>
-				<table>
-					<tr>
-						<td><strong>'.$LANG->getLL('pid_label').'</strong></td>
-						<td>
-							<input type="text" name="mailformplusplus[pidFilter]" value="'.$params['pidFilter'].'"/>
-						</td>
-					</tr>
-					<tr>
-						<td><strong>'.$LANG->getLL('startdate').'</strong></td>
-						<td>
-							<input type="text" readonly="readonly" id="startdate" value="'.$params['startdateFilter'].'" name="mailformplusplus[startdateFilter]" />
-							<input type="button" id="trigger_startdate" value="'.$LANG->getLL('cal').'"/>
-						</td>
-					</tr>
-					<tr>
-						<td><strong>'.$LANG->getLL('enddate').'</strong></td>
-						<td>
-							<input type="text" readonly="readonly" id="enddate" value="'.$params['enddateFilter'].'" name="mailformplusplus[enddateFilter]" />
-							<input type="button" id="trigger_enddate" value="'.$LANG->getLL('cal').'"/>
-						</td>
-					</tr>
-					<tr>
-						<td><input type="submit" value="'.$LANG->getLL('filter').'" /></td>
-						<td>&nbsp;</td>
-					</tr>
-				</table>
-			</div>
-			</form>';
-			
-		//add JavaScript for Popup calendar
-		$filter .= '
-			<hr />
-		';
+		$filter = $this->getSubpart("FILTER_FORM");
+		
+		$markers = array();
+		$markers['###URL###'] = $_SERVER['PHP_SELF'];
+		$markers['###LLL:filter###'] = $LANG->getLL('filter');
+		$markers['###LLL:pid_label###'] = $LANG->getLL('pid_label');
+		$markers['###LLL:cal###'] = $LANG->getLL('cal');
+		$markers['###LLL:startdate###'] = $LANG->getLL('startdate');
+		$markers['###LLL:enddate###'] = $LANG->getLL('enddate');
+		
+		$this->addValueMarkers($markers,$params);
+		
+		
 		$filter .= $this->getCalendarJS();
-			
-		return $filter;
+
+		
+		return $this->substituteMarkerArray($filter,$markers);
+	}
+	
+	/**
+	 * copied from class tslib_content
+	 * 
+	 * Substitutes markers in given template string with data of marker array
+	 * 
+	 * @param 	string
+	 * @param	array	
+	 * @return	string
+	 */
+	function substituteMarkerArray($content,$markContentArray) {
+		if (is_array($markContentArray))	{
+			reset($markContentArray);
+			while(list($marker,$markContent)=each($markContentArray))	{
+				$content=str_replace($marker,$markContent,$content);
+			}
+		}
+		return $content;
+	}
+	
+	protected function addValueMarkers(&$markers,$params) {
+		if(is_array($params)) {
+			foreach($params as $key=>$value) {
+				$markers['###value_'.$key.'###'] = $value;
+			}
+		}
 	}
 
 	/**
@@ -795,29 +771,61 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function getCalendarJS() {
-		return '<style type="text/css">@import url(../../../Resources/JS/jscalendar-1.0/skins/aqua/theme.css);</style>
-			<script type="text/javascript" src="../../../Resources/JS/jscalendar-1.0/calendar.js"></script>
-			<script type="text/javascript" src="../../../Resources/JS/jscalendar-1.0/lang/calendar-en.js"></script>
-			<script type="text/javascript" src="../../../Resources/JS/jscalendar-1.0/calendar-setup.js"></script>
-
-			<script type="text/javascript">
-				Calendar.setup(
-				    {
-				      inputField  : "startdate",         // ID of the input field
-				      ifFormat    : "%d.%m.%Y",    // the date format
-				      button      : "trigger_startdate"       // ID of the button
-				    }
-				  );
-				 Calendar.setup(
-				    {
-				      inputField  : "enddate",         // ID of the input field
-				      ifFormat    : "%d.%m.%Y",    // the date format
-				      button      : "trigger_enddate"       // ID of the button
-				    }
-				  );
+		return $this->getSubpart("CALENDAR_JS");
+	}
 	
-			</script>
-		';
+	/**
+	 * copied from class t3lib_parsehtml
+	 * 
+	 * Returns the first subpart encapsulated in the marker, $marker (possibly present in $content as a HTML comment)
+	 *
+	 * @param	string		Content with subpart wrapped in fx. "###CONTENT_PART###" inside.
+	 * @param	string		Marker string, eg. "###CONTENT_PART###"
+	 * @return	string
+	 */
+	function getSubpart($marker)	{
+		$content = $this->templateCode;
+		$marker = '###'.$marker.'###';
+		$start = strpos($content, $marker);
+		if ($start===false)	{ return ''; }
+		$start += strlen($marker);
+		$stop = strpos($content, $marker, $start);
+			// Q: What shall get returned if no stop marker is given /*everything till the end*/ or nothing
+		if ($stop===false)	{ return /*substr($content, $start)*/ ''; }
+		$content = substr($content, $start, $stop-$start);
+		$matches = array();
+		if (preg_match('/^([^\<]*\-\-\>)(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches)===1)	{
+			return $matches[2];
+		}
+		$matches = array();
+		if (preg_match('/(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches)===1)	{
+			return $matches[1];
+		}
+		$matches = array();
+		if (preg_match('/^([^\<]*\-\-\>)(.*)$/s', $content, $matches)===1)	{
+			return $matches[2];
+		}
+		return $content;
+	}
+	
+	protected function getFunctionArea() {
+		
+		$code = $this->getSubpart("FUNCTION_AREA");
+		$markers = array(); 
+		$markers['###URL###'] = $_SERVER['PHP_SELF'];
+		$markers['###EXPORT_FIELDS_MARKER###'] = $this->getSubpart("EXPORT_FIELDS");
+		$markers['###DELETE_FIELDS_MARKER###'] = $this->getSubpart("DELETE_FIELDS");
+		$markers['###SELECTION_BOX_MARKER###'] = $this->getSelectionBox();
+		return $this->substituteMarkerArray($code,$markers);
+	}
+	
+	protected function getSelectionBox() {
+		global $LANG;
+		$code = $this->getSubpart('SELECTION_BOX');
+		$markers = array(); 
+		$markers['###LLL:select_all###'] = $LANG->getLL('select_all');
+		$markers['###LLL:deselect_all###'] = $LANG->getLL('deselect_all');
+		return $this->substituteMarkerArray($code,$markers);
 	}
 	
 	/**
@@ -837,50 +845,24 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		
 		//init gp params
 		$params = t3lib_div::_GP('mailformplusplus');
+
 		
 		//get filter
 		$table = $this->getFilterSection();
-		
 		//add JavaScript
 		$table .= $this->getSelectionJS();
+		$table .= $this->getFunctionArea();
+		$tableCode = $this->getSubpart('LIST_TABLE');
 		
-		//add "Export as" and "Select all", "Deselect all" options
-		$table .= '
-			<form id="mailformplusplus_module_form" action="'.$_SERVER['PHP_SELF'].'" method="post">
-			<div>
-			<div style="width:250px;float:left">
-				' . $LANG->getLL('export_as') . ': 
-				<input type="submit" value="'.$LANG->getLL('pdf').'" name="mailformplusplus[renderMethod]" />
-				<input type="submit" value="'.$LANG->getLL('csv').'" name="mailformplusplus[renderMethod]" />
-			</div>
-			<div style="width:200px;float:left;">
-				<input type="submit" value="'.$LANG->getLL('delete_selected').'" name="mailformplusplus[delete]" />
-			</div>
-			<div style="width:200px;float:right">
-				<input type="button" onclick="selectAll()" value="'.$LANG->getLL('select_all').'" />
-				<input type="button" onclick="deselectAll()" value="'.$LANG->getLL('deselect_all').'" />
-			</div>
-			<div style="clear:both;"></div>
-			</div>
-		';
-		
-		//start table
-		$table .= '
-			<!--<script src="../../../Resources/JS/sorttable.js"></script>-->
-			
-			<table class="sortable">
-				<tr style="font-size:large;font-weight:bold;background: #cccccc;">
-					<td>'.$LANG->getLL('page_id').'</th>
-					<td>'.$LANG->getLL('submission_date').'</th>
-					<td>'.$LANG->getLL('ip_address').'</th>
-					<td>'.$LANG->getLL('detail_view').'</th>
-					<td>'.$LANG->getLL('export').'</th>
-					<td>&nbsp;</th>
-				</tr>
-			';
+		$tableMarkers = array();
+		$tableMarkers['###LLL:PAGE_ID###'] = $LANG->getLL('page_id');
+		$tableMarkers['###LLL:SUBMISSION_DATE###'] = $LANG->getLL('submission_date');
+		$tableMarkers['###LLL:IP###'] = $LANG->getLL('ip_address');
+		$tableMarkers['###LLL:DETAIL_VIEW###'] = $LANG->getLL('detail_view');
+		$tableMarkers['###LLL:EXPORT###'] = $LANG->getLL('export');
 		
 		$count = 1;
-		
+		$tableMarkers['###ROWS###'] = '';
 		//add records
 		foreach($records as $record) {
 			if($count % 2 == 0) {
@@ -888,36 +870,41 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			} else {
 				$style="background-color:#dedede";
 			}
-			$table .= '
-				<tr style="'.$style.'">
-					<td>'.$record['pid'].'</td>
-					<td>'.date('Y/m/d H:i',$record['crdate']).'</td>
-					<td>'.$record['ip'].'</td>
-					<td><a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'">'.$LANG->getLL('show').'</a></td>
-					<td>
-						<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'&mailformplusplus[renderMethod]=pdf">PDF</a>
-						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'&mailformplusplus[renderMethod]=csv">CSV</a>
-					</td>
-					<td><input type="checkbox" name="mailformplusplus[markedUids][]" value="'.$record['uid'].'" ';
-				if(isset($params['markedUids']) && is_array($params['markedUids']) && in_array($record['uid'],$params['markedUids'])) {
-					$table .= 'checked="checked"';
+			$rowCode = $this->getSubpart('LIST_TABLE_ROW');
+			$markers = array();
+			$markers['###ROW_STYLE###'] = $stlye;
+			$markers['###PID###'] = $record['pid'];
+			$markers['###SUBMISSION_DATE###'] = date('Y/m/d H:i',$record['crdate']);
+			$markers['###IP###'] = $_SERVER['REMOTE_ADDR'];
+			$markers['###DETAIL_LINK###'] = '<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'">'.$LANG->getLL('show').'</a>';
+			$markers['###EXPORT_LINKS###'] = '<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'&mailformplusplus[renderMethod]=pdf">PDF</a>
+						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'&mailformplusplus[renderMethod]=csv">CSV</a>';
+			$checkbox = '<input type="checkbox" name="mailformplusplus[markedUids][]" value="'.$record['uid'].'" ';
+			if(isset($params['markedUids']) && is_array($params['markedUids']) && in_array($record['uid'],$params['markedUids'])) {
+					$checkbox .= 'checked="checked"';
 				}
-				$table .= '	
-					/></td>
-				</tr>
-			';
+			$checkbox .= '/>';
+			$markers['###CHECKBOX###'] = $checkbox;
 			$count++;
+			$tableMarkers['###ROWS###'] .= $this->substituteMarkerArray($rowCode,$markers);
 		}
 		
 		//add Export as option
-		$table .= '
-			</table>
-			Export selected as: 
-			<input type="submit" value="PDF" name="mailformplusplus[renderMethod]" />
-			<input type="submit" value="CSV" name="mailformplusplus[renderMethod]" />
-			</form>
+		$table .= $this->substituteMarkerArray($tableCode,$tableMarkers);
+		$table .= $this->getSubpart('EXPORT_FIELDS');
+		$table = $this->addCSS($table);
+		return F3_MailformPlusPlus_StaticFuncs::removeUnfilledMarkers($table);
+	}
+	
+	protected function addCSS($content) {
+		#$cssLink = '<link rel="stylesheet" type="text/css" href="'.t3lib_extMgm::extRelPath('mailformplusplus').'Resources/CSS/backend/styles.css'.'" />';
+		$cssLink = '
+			<link 	rel="stylesheet" 
+					type="text/css" 
+					href="../../../Resources/CSS/backend/styles.css" 
+			/>
 		';
-		return $table;
+		return $cssLink.$content;
 	}
 
 }
