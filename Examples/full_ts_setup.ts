@@ -2,7 +2,7 @@
 //	Project:	mailformplusplus
 //	Version:	0.0.2
 //	Date:     10.09.2008 
-//	Auhor:		Reinhard Führicht <rf@typoheads.at>
+//	Auhor:		Reinhard FÃ¼hricht <rf@typoheads.at>
 // 
 // Done with SweeTS - delicious TypoScript development. 
 // http://typo3.area42.de
@@ -487,7 +487,7 @@ plugin.F3_MailformPlusPlus.settings {
           /*
           * Name to be added to the receiver's e-mail address        
           */ 
-          to_name = Reinhard Führicht
+          to_name = Reinhard FÃ¼hricht
           
           /*
           * Subject of the e-mail          
@@ -546,10 +546,10 @@ plugin.F3_MailformPlusPlus.settings {
           to_name = lastname
           subject = Your SingleStep request
           sender_email = rf@typoheads.at
-          sender_name = Reinhard Führicht
+          sender_name = Reinhard FÃ¼hricht
           replyto_email = rf@typoheads.at
           replyto_name = TEXT
-          replyto_name.value = Reinhard Führicht
+          replyto_name.value = Reinhard FÃ¼hricht
           htmlEmailAsAttachment = 1
           attachment = picture
           attachPDF.class = F3_MailformPlusPlus_Generator_PDF

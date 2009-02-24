@@ -12,7 +12,7 @@ DEFINE('QUESTION', "security question, please solve:");
  *
  * @author Matej Koval
  * @link http://www.codegravity.com/projects/mathguard
- * @author Reinhard Führicht <rf@typoheads.at>
+ * @author Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Resources
  */
