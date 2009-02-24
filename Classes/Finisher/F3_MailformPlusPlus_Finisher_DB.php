@@ -111,17 +111,53 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 		//set settings
 		$this->settings = $settings;
 		
-		//initialize
-		$this->init();
+		$evaluation = TRUE;	
+		if(isset($this->settings['condition'])) {
+			$condition = $this->parseCondition($this->settings['condition']);
+			eval('$evaluation = ' . $condition . ';');
+			$evaluationMessage = ($evaluation === TRUE) ?  'TRUE' : 'FALSE'; 
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('Condition was evaluated as '. $evaluationMessage . ': ' . $condition);
+			
+		}
 		
-		//set fields to insert/update
-		$queryFields = $this->parseFields();
-		$queryFields = $this->escapeFields($queryFields,$this->table);
-		
-		//query the database
-		$this->save($queryFields);
+		if($evaluation) {
+			F3_MailformPlusPlus_StaticFuncs::debugMessage("Data gets stored!");
+			
+			//initialize
+			$this->init();
+			
+			//set fields to insert/update
+			$queryFields = $this->parseFields();
+			$queryFields = $this->escapeFields($queryFields,$this->table);
+			
+			//query the database
+			$this->save($queryFields);
+		}
 		
 		return $this->gp;
+	}
+	
+	/**
+     * Parses condition statement given by the typoscript configuration. Replaces field with real content for a proper PHP eval().
+     * 
+     * @author	Fabien Udriot <fabien.udriot@ecodev.ch>
+     * @param	string	$condition: the condition given by the typoscript configuration.
+     * @return	string	$condition: the condition formated for evaluation.
+     */
+	protected function parseCondition($condition) {
+		$pattern = '/[\w]+/is';
+		preg_match_all($pattern, $condition, $fields);
+		foreach($fields[0] as $fieldName) {
+			if (isset($this->gp[$fieldName])) {
+				 
+				// Formats the value by surrounding it with '.
+				$value = "'" . str_replace("'", "\'", $this->gp[$fieldName]) . "'";
+				
+				// Replace conditions
+				$condition = str_replace($fieldName, $value, $condition);
+			}
+		}
+		return $condition;
 	}
 	
 	/**
