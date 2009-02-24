@@ -23,7 +23,7 @@
  * finishers.2.config.checkBinaryCfLr = firstname,text,email
  * finishers.2.config.admin.header = 
  * finishers.2.config.admin.to_email = rf@typoheads.at
- * finishers.2.config.admin.to_name = Reinhard F�hricht
+ * finishers.2.config.admin.to_name = Reinhard Führicht
  * finishers.2.config.admin.subject = SingleStep Request
  * finishers.2.config.admin.sender_email = email
  * finishers.2.config.admin.sender_name = lastname
@@ -35,10 +35,10 @@
  * finishers.2.config.user.to_name = lastname
  * finishers.2.config.user.subject = Your SingleStep request
  * finishers.2.config.user.sender_email = rf@typoheads.at
- * finishers.2.config.user.sender_name = Reinhard F�hricht
+ * finishers.2.config.user.sender_name = Reinhard Führicht
  * finishers.2.config.user.replyto_email = rf@typoheads.at
  * finishers.2.config.user.replyto_name = TEXT
- * finishers.2.config.user.replyto_name.value = Reinhard F�hricht
+ * finishers.2.config.user.replyto_name.value = Reinhard Führicht
  * 
  * # sends only plain text mails and adds the HTML mail as attachment
  * finishers.2.config.user.htmlEmailAsAttachment = 1
