@@ -32,7 +32,11 @@ class F3_MailformPlusPlus_Logger_DB {
 		
 		//set params
 		$table = "tx_mailformplusplus_log";
+		
 		$fields['ip'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
+		if(isset($settings['disableIPlog']) && intval($settings['disableIPlog']) == 1) {
+			$fields['ip'] = NULL;
+		}
 		$fields['tstamp'] = time();
 		$fields['crdate'] = time();
 		$fields['pid'] = $GLOBALS['TSFE']->id;
@@ -44,14 +48,13 @@ class F3_MailformPlusPlus_Logger_DB {
 		$fields['params'] = $serialized;
 		$fields['key_hash'] = $hash;
 		
-		$fields = $GLOBALS['TYPO3_DB']->fullQuoteArray($fields,$table);
+		#$fields = $GLOBALS['TYPO3_DB']->fullQuoteArray($fields,$table);
 		
 		//query the database
 		$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery($table,$fields);
-		if($res && !$settings['nodebug']) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Logged into table \"".$table."\". Inserted fields: ".implode(",",$fields),false);
-		} elseif(!$settings['nodebug']) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Failed to log into table \"".$table."\". Inserted fields: ".implode(",",$fields),false);
+		if(!$settings['nodebug']) {
+			F3_MailformPlusPlus_StaticFuncs::debugMessage("Logging into table \"".$table."\". Inserted fields: ".implode(",",$fields),false);
+			F3_MailformPlusPlus_StaticFuncs::debugMessage($GLOBALS['TYPO3_DB']->sql_error());
 		}
 	}
 	
