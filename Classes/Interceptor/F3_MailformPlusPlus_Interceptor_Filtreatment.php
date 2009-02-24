@@ -52,8 +52,8 @@ class F3_MailformPlusPlus_Interceptor_Filtreatment extends F3_MailformPlusPlus_A
 		foreach ($values as $key => $value) {
 			if(is_array($value)) {
 				$sanitizedArray[$key] = $this->sanitizeValues($value);
-			} elseif(!empty($value) && !is_numeric($value)) {
-				
+			} elseif(!empty($value)) {
+
 				$value = str_replace("\t","",$value);
 				$isUTF8 = true;
 				if(!$this->isUTF8($value)) {
