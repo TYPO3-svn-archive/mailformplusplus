@@ -276,6 +276,15 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 			$markers["###recaptcha###"] = $markers['###RECAPTCHA###'];
 		}
 		
+		if (t3lib_extMgm::isLoaded('wt_calculating_captcha')) {
+			require_once(t3lib_extMgm::extPath('wt_calculating_captcha').'class.tx_wtcalculatingcaptcha.php');
+
+			$captcha = t3lib_div::makeInstance('tx_wtcalculatingcaptcha');
+
+			$markers["###WT_CALCULATING_CAPTCHA###"] = $captcha->generateCaptcha();
+			$markers["###wt_calculating_captcha###"] = $markers['###WT_CALCULATING_CAPTCHA###'];
+		}
+		
 		require_once(t3lib_extMgm::extPath('mailformplusplus')."Resources/PHP/mathguard/ClassMathGuard.php");
 		$langFile = "EXT:mailformplusplus/Resources/Language/locallang.xml";
 		$question = trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':mathguard_question'));
