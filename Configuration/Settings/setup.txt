@@ -3,3 +3,55 @@ plugin.F3_MailformPlusPlus = USER_INT
 plugin.F3_MailformPlusPlus.userFunc = tx_MailformPlusPlus_Dispatcher->main
 tt_content.list.20.mailformplusplus_pi1 < plugin.F3_MailformPlusPlus
 tt_content.list.20.mailformplusplus_pi1.controller = F3_MailformPlusPlus_Controller_Default
+
+plugin.F3_MailformPlusPlus.settings.predef.default {
+
+	# Defines the name
+	name = Default
+	debug = 0
+	addErrorAnchors = 1
+
+	singleFileMarkerTemplate {
+		totalWrap = <ul>|</ul>
+		singleWrap = <li style="color:maroon;">|</li>
+	}
+	totalFilesMarkerTemplate {
+		totalWrap = <ul>|</ul>
+		singleWrap = <li style="color:red;">|</li>
+	}
+	files {
+		clearTempFilesOlderThanHours = 24
+		tmpUploadFolder = uploads/MailformPlusPlussplus/tmp2/
+		enableAjaxFileRemoval = 1
+	}
+
+	formValuesPrefix = mailformplusplus
+	singleErrorTemplate {
+		totalWrap = <div>|</div>
+		singleWrap = <span class="error">|</span><br />
+	}
+	errorListTemplate {
+		totalWrap = <ul>|</ul>
+		singleWrap = <li class="error">|</li>
+	}
+	loggers {
+		1 {
+			class = F3_MailformPlusPlus_Logger_DB
+		}
+	}
+	initInterceptors {
+		1 {
+			class = F3_MailformPlusPlus_Interceptor_RemoveXSS
+		}
+	}
+	finishers {
+		1.class = F3_MailformPlusPlus_Finisher_Mail
+		1.config {
+			limitMailsToUser = 5
+			admin {
+			}
+			user {
+		 }
+		}
+	}
+}

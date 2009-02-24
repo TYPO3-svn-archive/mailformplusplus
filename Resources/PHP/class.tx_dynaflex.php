@@ -20,7 +20,7 @@ require_once(PATH_t3lib."class.t3lib_tsparser_ext.php");
  * Flexform class for MailformPlusPlus spcific needs
  *
  * @author Thomas Hempel <thomas@typo3-unleashed.net>
- * @author Reinhard Führicht <rf@typoheads.at>
+ * @author Reinhard FÃ¼hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Resources
  */
@@ -31,7 +31,7 @@ class tx_dynaflex_mailformplusplus {
 	 *
 	 * @param array $config
 	 * @return array The config including the items for the dropdown
-	 * @author Reinhard Führicht
+	 * @author Reinhard FÃ¼hricht
 	 */
 	function addFields_controller($config) {
 		$optionList[0] = array(0 => "Single Page", 1 => "F3_MailformPlusPlus_Controller_Default");
@@ -45,7 +45,7 @@ class tx_dynaflex_mailformplusplus {
 	 *
 	 * @param array $config
 	 * @return array The config including the items for the dropdown
-	 * @author Reinhard Führicht
+	 * @author Reinhard FÃ¼hricht
 	 */
 	function addFields_predefined ($config) {
 		
@@ -53,11 +53,12 @@ class tx_dynaflex_mailformplusplus {
 
 		$ts = $this->loadTS($config['row']['pid']);
 
-			# no config available
-		if (!is_array($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.']) || sizeof($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.']) == 0) {
-			$optionList[] = array(0 => $LANG->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_db.xml:be_missing_config'), 1 => '');
-			return $config['items'] = array_merge($config['items'],$optionList);
-		}
+		# no config available
+		# TODO: OBSOLETE CODE SINCE A DEFAULT CONFIG IS LOADED. WAITING A BIT BEFORE DELETING THIS
+		#if (!is_array($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.']) || sizeof($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.']) == 0) {
+		#	$optionList[] = array(0 => $LANG->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_db.xml:be_missing_config'), 1 => '');
+		#	return $config['items'] = array_merge($config['items'],$optionList);
+		#}
 
 		$predef = array();
 		# for each view
@@ -70,7 +71,8 @@ class tx_dynaflex_mailformplusplus {
 		}
 		
 		$optionList = array();
-		$optionList[] = array(0 => $LANG->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_db.xml:be_please_select'), 1 => '');
+		# TODO: OBSOLETE CODE SINCE A DEFAULT CONFIG IS LOADED. WAITING A BIT BEFORE DELETING THIS
+		#$optionList[] = array(0 => $LANG->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_db.xml:be_please_select'), 1 => '');
 		foreach($predef as $k => $v) {
 			$optionList[] = array(0 => $v, 1 => $k);
 		}
@@ -83,7 +85,7 @@ class tx_dynaflex_mailformplusplus {
 	 *
 	 * @param int $pageUid
 	 * @return array The TypoScript setup
-	 * @author Reinhard Führicht
+	 * @author Reinhard FÃ¼hricht
 	 */
 	function loadTS($pageUid) {
 		$sysPageObj = t3lib_div::makeInstance('t3lib_pageSelect');
