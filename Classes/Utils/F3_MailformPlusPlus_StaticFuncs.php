@@ -129,6 +129,73 @@ class F3_MailformPlusPlus_StaticFuncs {
 	}
 	
 	/**
+	 * copied from class tslib_content
+	 * 
+	 * Substitutes markers in given template string with data of marker array
+	 * 
+	 * @param 	string
+	 * @param	array	
+	 * @return	string
+	 */
+	public static function substituteMarkerArray($content,$markContentArray) {
+		if (is_array($markContentArray))	{
+			reset($markContentArray);
+			while(list($marker,$markContent) = each($markContentArray))	{
+				$content = str_replace($marker,$markContent,$content);
+			}
+		}
+		return $content;
+	}
+	
+	/**
+	 * copied from class t3lib_parsehtml
+	 * 
+	 * Returns the first subpart encapsulated in the marker, $marker (possibly present in $content as a HTML comment)
+	 *
+	 * @param	string		Content with subpart wrapped in fx. "###CONTENT_PART###" inside.
+	 * @param	string		Marker string, eg. "###CONTENT_PART###"
+	 * @return	string
+	 */
+	public static function getSubpart($content,$marker)	{
+		$start = strpos($content, $marker);
+		if ($start===false)	{ return ''; }
+		$start += strlen($marker);
+		$stop = strpos($content, $marker, $start);
+			// Q: What shall get returned if no stop marker is given /*everything till the end*/ or nothing
+		if ($stop===false)	{ return /*substr($content, $start)*/ ''; }
+		$content = substr($content, $start, $stop-$start);
+		$matches = array();
+		if (preg_match('/^([^\<]*\-\-\>)(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches)===1)	{
+			return $matches[2];
+		}
+		$matches = array();
+		if (preg_match('/(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches)===1)	{
+			return $matches[1];
+		}
+		$matches = array();
+		if (preg_match('/^([^\<]*\-\-\>)(.*)$/s', $content, $matches)===1)	{
+			return $matches[2];
+		}
+		return $content;
+	}
+	
+	/**
+	 * This function formats a date
+	 *
+	 * @param long $date The timestamp to format
+	 * @param boolean $end Is end date or start date
+	 * @return string formatted date
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 */
+	public static function dateToTimestamp($date,$end = false) {
+		$dateArr = explode(".",$date);
+		if($end) {
+			return mktime(23,59,59,$dateArr[1],$dateArr[0],$dateArr[2]);
+		}
+		return mktime(0,0,0,$dateArr[1],$dateArr[0],$dateArr[2]);
+	}
+	
+	/**
      * Returns the http path to the site
      * 
      * @return string

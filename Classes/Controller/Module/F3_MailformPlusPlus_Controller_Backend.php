@@ -46,8 +46,28 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
      */
 	protected $logTable;
 	
+	/**
+     * The absolute path to the template folder
+     * 
+     * @access protected
+     * @var string
+     */
 	protected $templatePath;
+	
+	/**
+     * The template file name
+     * 
+     * @access protected
+     * @var string
+     */
 	protected $templateFile;
+	
+	/**
+     * The contents of the template file
+     * 
+     * @access protected
+     * @var string
+     */
 	protected $templateCode;
 	
 	/**
@@ -479,7 +499,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function getSelectionJS() {
-		return $this->getSubpart("JS_CODE");
+		return F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###JS_CODE###');
 	}
 	
 	/**
@@ -560,7 +580,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 			
-			$viewCode = $this->getSubpart('DETAIL_VIEW');
+			$viewCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###DETAIL_VIEW###');
 			
 			//unserialize params
 			$params = unserialize($row['params']);
@@ -600,7 +620,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			$markers['###EXPORT_LINKS###'] = '<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=pdf">'.$LANG->getLL('pdf').'</a>
 						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=csv">'.$LANG->getLL('csv').'</a>';
 			$markers['###BACK_LINK###'] = '<a href="'.$_SERVER['PHP_SELF'].'">'.$LANG->getLL('back').'</a>';
-			$content = $this->substituteMarkerArray($viewCode,$markers);
+			$content = F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($viewCode,$markers);
 			$content = $this->addCSS($content);
 			return $content;
 		}
@@ -674,13 +694,13 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		
 		//only records submitted after given timestamp
 		if(strlen(trim($params['startdateFilter'])) > 0) {
-			$tstamp = $this->dateToTimestamp($params['startdateFilter']);
+			$tstamp = F3_MailformPlusPlus_StaticFuncs::dateToTimestamp($params['startdateFilter']);
 			$where[] = "crdate >= ".$tstamp;
 		}
 		
 		//only records submitted before given timestamp
 		if(strlen(trim($params['enddateFilter'])) > 0) {
-			$tstamp = $this->dateToTimestamp($params['enddateFilter'],true);
+			$tstamp = F3_MailformPlusPlus_StaticFuncs::dateToTimestamp($params['enddateFilter'],true);
 			$where[] = "crdate <= ".$tstamp;
 		}
 		
@@ -688,22 +708,6 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		if(count($where) > 0) {
 			return implode(" AND ",$where);
 		}
-	}
-	
-	/**
-	 * This function formats a date
-	 *
-	 * @param long $date The timestamp to format
-	 * @param boolean $end Is end date or start date
-	 * @return string formatted date
-	 * @author Reinhard Führicht <rf@typoheads.at>
-	 */
-	protected function dateToTimestamp($date,$end = false) {
-		$dateArr = explode(".",$date);
-		if($end) {
-			return mktime(23,59,59,$dateArr[1],$dateArr[0],$dateArr[2]);
-		}
-		return mktime(0,0,0,$dateArr[1],$dateArr[0],$dateArr[2]);
 	}
 	
 	/**
@@ -718,7 +722,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		//init gp params
 		$params = t3lib_div::_GP('mailformplusplus');
 		
-		$filter = $this->getSubpart("FILTER_FORM");
+		$filter = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###FILTER_FORM###');
 		
 		$markers = array();
 		$markers['###URL###'] = $_SERVER['PHP_SELF'];
@@ -734,28 +738,18 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		$filter .= $this->getCalendarJS();
 
 		
-		return $this->substituteMarkerArray($filter,$markers);
+		return F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($filter,$markers);
 	}
 	
 	/**
-	 * copied from class tslib_content
+	 * This function fills a marker array with ###value_[xxx]### markers.
+	 * [xxx] are the keys of the given array $params.
 	 * 
-	 * Substitutes markers in given template string with data of marker array
-	 * 
-	 * @param 	string
-	 * @param	array	
-	 * @return	string
+	 * @param array &$markers
+	 * @param array $params
+	 * @return void
+	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
-	function substituteMarkerArray($content,$markContentArray) {
-		if (is_array($markContentArray))	{
-			reset($markContentArray);
-			while(list($marker,$markContent)=each($markContentArray))	{
-				$content=str_replace($marker,$markContent,$content);
-			}
-		}
-		return $content;
-	}
-	
 	protected function addValueMarkers(&$markers,$params) {
 		if(is_array($params)) {
 			foreach($params as $key=>$value) {
@@ -767,65 +761,44 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	/**
 	 * This function returns the JavaScript code to initialize the popup calendar
 	 *
-	 * @return string HTML and JavaScript
+	 * @return string JavaScript code
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function getCalendarJS() {
-		return $this->getSubpart("CALENDAR_JS");
+		return F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###CALENDAR_JS###');
 	}
 	
 	/**
-	 * copied from class t3lib_parsehtml
+	 * This function returns HTML code of the function area consisting of buttons to select/deselect all table items, to export selected items
+	 * and to delete selected items.
 	 * 
-	 * Returns the first subpart encapsulated in the marker, $marker (possibly present in $content as a HTML comment)
-	 *
-	 * @param	string		Content with subpart wrapped in fx. "###CONTENT_PART###" inside.
-	 * @param	string		Marker string, eg. "###CONTENT_PART###"
-	 * @return	string
+	 * @return string HTML and JavaScript
+	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
-	function getSubpart($marker)	{
-		$content = $this->templateCode;
-		$marker = '###'.$marker.'###';
-		$start = strpos($content, $marker);
-		if ($start===false)	{ return ''; }
-		$start += strlen($marker);
-		$stop = strpos($content, $marker, $start);
-			// Q: What shall get returned if no stop marker is given /*everything till the end*/ or nothing
-		if ($stop===false)	{ return /*substr($content, $start)*/ ''; }
-		$content = substr($content, $start, $stop-$start);
-		$matches = array();
-		if (preg_match('/^([^\<]*\-\-\>)(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches)===1)	{
-			return $matches[2];
-		}
-		$matches = array();
-		if (preg_match('/(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches)===1)	{
-			return $matches[1];
-		}
-		$matches = array();
-		if (preg_match('/^([^\<]*\-\-\>)(.*)$/s', $content, $matches)===1)	{
-			return $matches[2];
-		}
-		return $content;
-	}
-	
 	protected function getFunctionArea() {
 		
-		$code = $this->getSubpart("FUNCTION_AREA");
+		$code = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###FUNCTION_AREA###');
 		$markers = array(); 
 		$markers['###URL###'] = $_SERVER['PHP_SELF'];
-		$markers['###EXPORT_FIELDS_MARKER###'] = $this->getSubpart("EXPORT_FIELDS");
-		$markers['###DELETE_FIELDS_MARKER###'] = $this->getSubpart("DELETE_FIELDS");
+		$markers['###EXPORT_FIELDS_MARKER###'] = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###EXPORT_FIELDS###');
+		$markers['###DELETE_FIELDS_MARKER###'] = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###DELETE_FIELDS###');
 		$markers['###SELECTION_BOX_MARKER###'] = $this->getSelectionBox();
-		return $this->substituteMarkerArray($code,$markers);
+		return F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($code,$markers);
 	}
 	
+	/**
+	 * This function returns HTML code of the buttons to select/deselect all table items
+	 * 
+	 * @return string HTML
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 */
 	protected function getSelectionBox() {
 		global $LANG;
-		$code = $this->getSubpart('SELECTION_BOX');
+		$code = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###SELECTION_BOX###');
 		$markers = array(); 
 		$markers['###LLL:select_all###'] = $LANG->getLL('select_all');
 		$markers['###LLL:deselect_all###'] = $LANG->getLL('deselect_all');
-		return $this->substituteMarkerArray($code,$markers);
+		return F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($code,$markers);
 	}
 	
 	/**
@@ -852,7 +825,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		//add JavaScript
 		$table .= $this->getSelectionJS();
 		$table .= $this->getFunctionArea();
-		$tableCode = $this->getSubpart('LIST_TABLE');
+		$tableCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###LIST_TABLE###');
 		
 		$tableMarkers = array();
 		$tableMarkers['###LLL:PAGE_ID###'] = $LANG->getLL('page_id');
@@ -870,7 +843,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			} else {
 				$style="background-color:#dedede";
 			}
-			$rowCode = $this->getSubpart('LIST_TABLE_ROW');
+			$rowCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###LIST_TABLE_ROW###');
 			$markers = array();
 			$markers['###ROW_STYLE###'] = $stlye;
 			$markers['###PID###'] = $record['pid'];
@@ -886,16 +859,23 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			$checkbox .= '/>';
 			$markers['###CHECKBOX###'] = $checkbox;
 			$count++;
-			$tableMarkers['###ROWS###'] .= $this->substituteMarkerArray($rowCode,$markers);
+			$tableMarkers['###ROWS###'] .= F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($rowCode,$markers);
 		}
 		
 		//add Export as option
-		$table .= $this->substituteMarkerArray($tableCode,$tableMarkers);
-		$table .= $this->getSubpart('EXPORT_FIELDS');
+		$table .= F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($tableCode,$tableMarkers);
+		$table .= F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###EXPORT_FIELDS###');
 		$table = $this->addCSS($table);
 		return F3_MailformPlusPlus_StaticFuncs::removeUnfilledMarkers($table);
 	}
 	
+	/**
+	 * Adds HTML code to include the CSS file to given HTML content.
+	 * 
+	 * @param string The HTML content
+	 * @return string The changed HML content
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 */
 	protected function addCSS($content) {
 		#$cssLink = '<link rel="stylesheet" type="text/css" href="'.t3lib_extMgm::extRelPath('mailformplusplus').'Resources/CSS/backend/styles.css'.'" />';
 		$cssLink = '
