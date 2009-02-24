@@ -375,22 +375,69 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 			foreach($_SESSION['mailformplusplusFiles'] as $field=>$files) {
 				foreach($files as $fileInfo) {
 					$filename = $fileInfo['name'];
+					$thumb = '';
+					if($settings['singleFileMarkerTemplate.']['showThumbnails'] == '1') {
+						$imgConf['image'] = 'IMAGE';
+						$imgConf['image.']['altText'] = $filename;
+						$imgConf['image.']['titleText'] = $filename;
+						
+						$relPath = substr($fileInfo['uploaded_folder'].$filename,1);
+						$imgConf['image.']['file'] = $relPath;
+						if($settings['singleFileMarkerTemplate.']['thumbnailWidth']) {
+							$imgConf['image.']['file.']['width'] = $settings['singleFileMarkerTemplate.']['thumbnailWidth'];
+						}
+						if($settings['singleFileMarkerTemplate.']['thumbnailHeight']) {
+							$imgConf['image.']['file.']['height'] = $settings['singleFileMarkerTemplate.']['thumbnailHeight'];
+						}
+						$thumb = $this->cObj->IMAGE($imgConf['image.']);
+					}
 					if(t3lib_extMgm::isLoaded('xajax') && $settings['files.']['enableAjaxFileRemoval']) {
 						$filename .= '<a href="javascript:void" class="mailformplusplus_removelink" onclick="xajax_'.$this->prefixId.'_removeUploadedFile(\''.$field.'\',\''.$fileInfo['uploaded_name'].'\')">X</a>';
+						$thumb .= '<a href="javascript:void" class="mailformplusplus_removelink" onclick="xajax_'.$this->prefixId.'_removeUploadedFile(\''.$field.'\',\''.$fileInfo['uploaded_name'].'\')">X</a>';
 					}
 					if(strlen($singleWrap) > 0 && strstr($singleWrap,"|")) {
 						$wrappedFilename = str_replace("|",$filename,$singleWrap);
+						$wrappedThumb = str_replace("|",$thumb,$singleWrap);
 					} else {
 						$wrappedFilename = $filename;
+						$wrappedThumb = $thumb;
 					}
-					$markers['###'.$field.'_uploadedFiles###'] .= $wrappedFilename;
+					if($settings['singleFileMarkerTemplate.']['showThumbnails'] == '1') {
+						$markers['###'.$field.'_uploadedFiles###'] .= $wrappedThumb;
+					} else {
+						$markers['###'.$field.'_uploadedFiles###'] .= $wrappedFilename;	
+					}
+					
+					if($settings['totalFilesMarkerTemplate.']['showThumbnails'] == '1') {
+						$imgConf['image'] = 'IMAGE';
+						$imgConf['image.']['altText'] = $filename;
+						$imgConf['image.']['titleText'] = $filename;
+						
+						$relPath = substr($fileInfo['uploaded_folder'].$filename,1);
+						$imgConf['image.']['file'] = $relPath;
+						if($settings['totalFilesMarkerTemplate.']['thumbnailWidth']) {
+							$imgConf['image.']['file.']['width'] = $settings['totalFilesMarkerTemplate.']['thumbnailWidth'];
+						}
+						if($settings['totalFilesMarkerTemplate.']['thumbnailHeight']) {
+							$imgConf['image.']['file.']['height'] = $settings['totalFilesMarkerTemplate.']['thumbnailHeight'];
+						}
+						$thumb = $this->cObj->IMAGE($imgConf['image.']);
+					}
 					
 					if(strlen($totalMarkerSingleWrap) > 0 && strstr($totalMarkerSingleWrap,"|")) {
+						
 						$wrappedFilename = str_replace("|",$filename,$totalMarkerSingleWrap);
+						$wrappedThumb = str_replace("|",$thumb,$totalMarkerSingleWrap);
 					} else {
 						$wrappedFilename = $filename;
+						$wrappedThumb = $thumb;
 					}
-					$markers['###total_uploadedFiles###'] .= $wrappedFilename;
+					
+					if($settings['totalFilesMarkerTemplate.']['showThumbnails'] == '1') {
+						$markers['###total_uploadedFiles###'] .= $wrappedThumb;
+					} else {
+						$markers['###total_uploadedFiles###'] .= $wrappedFilename;	
+					}
 					
 					
 				}

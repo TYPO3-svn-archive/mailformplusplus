@@ -185,7 +185,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		session_start();
 
 		//if files were uploaded
-		if(isset($_FILES) && is_array($_FILES)) {
+		if(isset($_FILES) && is_array($_FILES) && !empty($_FILES)) {
 
 			//get upload folder
 			$uploadFolder = $this->getTempUploadFolder();
@@ -193,6 +193,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			//build absolute path to upload folder
 			#$uploadPath = F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder;
 			$uploadPath = F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder;
+			
 			if(!file_exists($uploadPath)) {
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Folder: ".$uploadPath." doesn't exist!");
 				return;
@@ -259,6 +260,8 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 							$tmp['name'] = $name;
 							$tmp['uploaded_name'] = $uploadedFileName;
 							$tmp['uploaded_path'] = $uploadPath;
+							$tmp['uploaded_folder'] = $uploadFolder;
+							$tmp['uploaded_url'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL').$uploadFolder.$uploadedFileName;
 							$tmp['size'] = $files['size'][$field];
 							$tmp['type'] = $files['type'][$field];
 							if(!is_array($_SESSION['mailformplusplusFiles'][$field]) && strlen($field)) {
@@ -270,7 +273,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 				}
 			}
 		}
-
+		
 		session_commit();
 		session_start();
 	}
@@ -328,12 +331,14 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 
 		//set submitted
 		$submitted = $this->gp['submitted'];
-
-		if($this->gp['step-1']) {
+		
+		if($this->gp['step-1'] && !$submitted) {
 			$submitted = false;
 			$submit_reload = true;
-			$this->processFiles();
+			
 		}
+		
+		$this->processFiles();
 
 		//read template file
 		$this->readTemplateFile($settings);

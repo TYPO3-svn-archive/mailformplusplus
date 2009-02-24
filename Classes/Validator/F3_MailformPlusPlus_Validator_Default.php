@@ -357,8 +357,9 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$checkFailed = "";
 		
 		session_start();
-								
+		#print_r($_SESSION['mailformplusplusFiles'][$name]);		
 		$maxCount = $check['params']['maxCount'];
+		#print $maxCount.' == '.count($_SESSION['mailformplusplusFiles'][$name]);
 		if(	is_array($_SESSION['mailformplusplusFiles'][$name]) && 
 			count($_SESSION['mailformplusplusFiles'][$name]) >= $maxCount &&
 			$_SESSION['mailformplusplusSettings']['currentStep'] == $_SESSION['mailformplusplusSettings']['lastStep']) {
