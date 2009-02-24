@@ -108,7 +108,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 		
 					// set nowrite flag if required until the next ISSET_xyz
 					// (only if not already set by envelop)
-					if((!$this->markersCountAsSet($markers, $matches[1])) && (!$nowrite)) {
+					if((!F3_MailformPlusPlus::markersCountAsSet($markers, $matches[1])) && (!$nowrite)) {
 						$nowrite = $matches[1];
 					}
 				} else { // close it
