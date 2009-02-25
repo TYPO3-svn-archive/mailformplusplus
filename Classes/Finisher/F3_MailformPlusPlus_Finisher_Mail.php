@@ -58,37 +58,13 @@
 class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFinisher {
 	
 	/**
-     * The settings array passed to the finisher.
-     * 
-     * @access protected
-     * @var array
-     */
-	protected $settings;
-	
-	/**
-     * An array containing the values enterd in the plugin record.
-     * 
-     * @access protected
-     * @var array
-     */
-	protected $emailSettings;
-	
-	
-	
-	/**
      * The main method called by the controller
      * 
-     * @param array $gp The GET/POST parameters
-     * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters
      */
-	public function process($gp,$settings) {
+	public function process() {
+
 		
-		//set GET/POST parameters
-		$this->gp = $gp;
-		
-		//set settings
-		$this->settings = $settings;
 		$this->init();
 		
 		//send emails
@@ -96,16 +72,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		$this->sendMail('user');
 		
 		return $this->gp;
-	}
-	
-	/**
-     * Sets the internal "emailSettings" attribute holding the settings made in plugin record.
-     * 
-     * @param array $new The settings to set
-     * @return void
-     */
-	public function setEmailSettings($new) {
-		$this->emailSettings = $new;
 	}
 	
 	/**
@@ -165,10 +131,9 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
      * @return string The template code
      */
 	protected function getTemplate($mode,$suffix) {
-		$settings = $this->settings;
-		$templateFile = $settings['templateFile'];
-		if(isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
-			$templateFile = $this->cObj->cObjGetSingle($settings['templateFile'],$settings['templateFile.']);
+		$templateFile = $this->settings['templateFile'];
+		if(isset($this->settings['templateFile.']) && is_array($this->settings['templateFile.'])) {
+			$templateFile = $this->cObj->cObjGetSingle($this->settings['templateFile'],$this->settings['templateFile.']);
 		} else {
 			$templateFile = F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile);
 		}
@@ -177,19 +142,21 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		if(!$template) {
 			$template = $this->cObj->getSubpart($template,"###template_email_".strtolower($mode)."_".strtolower($suffix)."###");
 		}
+		if(!$template) {
+			throw new Exception("No template file to read E-Mail templates!");
+		}
 		return $template;
 	}
 	
 	/**
-     * Parses the given TypoScript E-Mail settings array and builds a new array with parsed and processed values.
+     * Sends mail according to given type.
      * 
-     * @param array &$settings The E-Mail settings
-     * @param array &$template Array holding the templates for plain text and html
+     * @param string $type (admin|user)
      * @return void
      */
 	protected function sendMail($type) {
+		$mailSettings = $this->settings[$type];
 		
-		$mailSettings = $this->parseMailSettings($this->settings[$type.'.'],$type);
 		$template['plain'] = $this->parseTemplate($type,"plain");
 		$template['html'] = $this->parseTemplate($type,"html");
 		//F3_MailformPlusPlus_StaticFuncs::debugMessage('E-Mail settings for '.$type);
@@ -247,7 +214,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			}
 		}
 		
-		#print_r($settings);
 		if($mailSettings['attachPDF']) {
 			#print "adding pdf";
 			$emailObj->addAttachment($mailSettings['attachPDF']);
@@ -260,7 +226,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	    	$max = 2;
 	    }
 		if(!is_array($mailSettings['to_email'])) {
-			$settings['to_email'] = array($mailSettings['to_email']);
+			$mailSettings['to_email'] = array($mailSettings['to_email']);
 		}
 		reset($mailSettings['to_email']);
 		
@@ -406,68 +372,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 	
 	/**
-     * Parses the given TypoScript E-Mail settings array and builds a new array with parsed and processed values.
-     * 
-     * @param array &$settings The E-Mail settings
-     * @return array Array containing the processed values
-     */
-	protected function parseMailSettings(&$settings,$type) {
-		if(!is_array($settings)) {
-			return array();
-		}
-		$options = array();
-		
-		//parse recipients
-		$options['to_email'] = $this->parseList($settings,$type,"to_email");
-		
-		//parse recipient name(s)
-		$options['to_name'] = $this->parseList($settings,$type,"to_name");
-		
-		//parse subject
-		$options['subject'] = $this->parseValue($settings,$type,"subject");
-		
-		//parse sender
-		$options['sender_email'] = $this->parseList($settings,$type,"sender_email");
-		
-		//parse sender name
-		$options['sender_name'] = $this->parseValue($settings,$type,"sender_name");
-		
-		//parse reply to
-		$options['replyto_email'] = $this->parseList($settings,$type,"replyto_email");
-		
-		//parse reply to name
-		$options['replyto_name'] = $this->parseValue($settings,$type,"replyto_name");
-		
-		//parse attachment
-		$options['attachment'] = $this->parseFilesList($settings,$type,"attachment");
-		#print_r($settings);
-		if(isset($settings['attachPDF.']) && is_array($settings['attachPDF.'])) {
-			#print "call";
-			$generatorClass = $settings['attachPDF.']['class'];
-			if(!$generatorClass) {
-				$generatorClass = "F3_MailformPlusPlus_Generator_PDF";
-			}
-			$generator = $this->componentManager->getComponent($generatorClass);
-			$exportFields = array();
-			if($settings['attachPDF.']['exportFields']) {
-				$exportFields = t3lib_div::trimExplode(",",$settings['attachPDF.']['exportFields']);
-			}
-			#print_r($exportFields);
-			$file = tempnam("typo3temp/","/mailformplusplus_").".pdf";
-			$generator->generateFrontendPDF($this->gp,$this->settings['langFile'],$exportFields,$file,true);
-			$options['attachPDF'] = $file;
-		} elseif ($settings['attachPDF']) {
-			$options['attachPDF'] = $settings['attachPDF'];
-		}
-		if(isset($settings['htmlEmailAsAttachment']) && !strcmp($settings['htmlEmailAsAttachment'],"1")) {
-			$options['htmlEmailAsAttachment'] = 1;
-		}
-		$this->fillLangMarkersInSettings($options);
-		#print_r($options);
-		return $options;
-	}
-	
-	/**
      * Substitutes markers like ###LLL:langKey### in given TypoScript settings array.
      * 
      * @param array &$settings The E-Mail settings
@@ -502,22 +406,140 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
      */
 	protected function init() {
 		
-		//fetch global settings
-		$settings = $this->settings;
-		
 		//set language file
-		if(isset($settings['langFile.']) && is_array($settings['langFile.'])) {
-			$this->langFile = $this->cObj->cObjGetSingle($settings['langFile'],$settings['langFile.']);
+		if(isset($this->settings['langFile.']) && is_array($this->settings['langFile.'])) {
+			$this->langFile = $this->cObj->cObjGetSingle($this->settings['langFile'],$this->settings['langFile.']);
 		} else {
-			$this->langFile = F3_MailformPlusPlus_StaticFuncs::resolvePath($settings['langFile']);
+			$this->langFile = F3_MailformPlusPlus_StaticFuncs::resolvePath($this->settings['langFile']);
 		}
-		
-		//make cObj instance
-		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
-		$this->cObj->setCurrentVal($GLOBALS['TSFE']->id);
 	}
 	
+	/**
+     * Method to set GET/POST for this class and load the configuration
+     * 
+     * @param array The GET/POST values
+     * @param array The TypoScript configuration
+     * @return void
+     */
+	public function loadConfig($gp,$tsConfig) {
+		$this->gp = $gp;
+		$this->settings = $this->parseEmailSettings($tsConfig);
+		#print_r($this->emailSettings);
+		#$this->settings = $tsConfig;
+		#$this->settings['admin'] = $this->parseMailSettings($this->settings['admin.'],'admin');
+		#$this->settings['user'] = $this->parseMailSettings($this->settings['user.'],'user');
+		unset($this->settings['admin.']);
+		unset($this->settings['user.']);
+		#print_r($this->settings);
+	}
 	
+	/**
+	 * Parses the email settings in flexform and stores them in an array.
+	 *
+	 * @param array The TypoScript configuration
+	 * @return array The parsed email settings
+	 */
+	protected function parseEmailSettings($tsConfig) {
+		$emailSettings = $tsConfig;
+		$options = array (
+			'to_email',
+			'subject',
+			'sender_email',
+			'sender_name',
+			'replyto_email',
+			'replyto_name',
+			'to_name',
+			'attachment',
+			'attachPDF',
+			'htmlEmailAsAttachment'
+		);
+		
+		//*************************
+		//ADMIN settings
+		//*************************
+		$emailSettings['admin'] = $this->parseEmailSettingsByType($emailSettings['admin.'],'admin',$options);
+		
+		//*************************
+		//USER settings
+		//*************************
+		$emailSettings['user'] = $this->parseEmailSettingsByType($emailSettings['user.'],'user',$options);
+		
+		return $emailSettings;
+	}
+	
+	/**
+	 * Parses the email settings in flexform of a specific type (admin|user]
+	 * 
+	 * @param array $currentSettings The current settings array containing the settings made via TypoScript
+	 * @param string $type (admin|user)
+	 * @param array $optionsToParse Array containing all option names to parse.
+	 * @return array The parsed email settings
+	 */
+	private function parseEmailSettingsByType($currentSettings,$type,$optionsToParse = array()) {
+		$typeLower = strtolower($type);
+		$typeUpper = strtoupper($type);
+		$section = 'sEMAIL'.$typeUpper;
+		$emailSettings = $currentSettings;
+		foreach($optionsToParse as $option) {
+			$value = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],$option,$section);
+			if(strlen($value) > 0) {
+				$emailSettings[$option] = $value;
+				if(isset($this->gp[$value])) {
+					$emailSettings[$option] = $this->gp[$value];
+				}
+				
+			} else {
+				switch($option) {
+					case "to_email";
+					case "to_name":
+					case "sender_email":
+					case "replyto_email":
+						$emailSettings[$option] = $this->parseList($currentSettings,$type,$option);
+					break;
+					
+					case "subject":
+					case "sender_name":
+					case "replyto_name":
+						$emailSettings[$option] = $this->parseValue($currentSettings,$type,$option);
+					break;
+					
+					case "attachment":
+						$emailSettings[$option] = $this->parseFilesList($currentSettings,$type,$option);
+					break;
+					
+					case "attachPDF":
+						if(isset($currentSettings['attachPDF.']) && is_array($currentSettings['attachPDF.'])) {
+							#print "call";
+							$generatorClass = $currentSettings['attachPDF.']['class'];
+							if(!$generatorClass) {
+								$generatorClass = "F3_MailformPlusPlus_Generator_PDF";
+							}
+							$generator = $this->componentManager->getComponent($generatorClass);
+							$exportFields = array();
+							if($emailSettings['attachPDF.']['exportFields']) {
+								$exportFields = t3lib_div::trimExplode(",",$currentSettings['attachPDF.']['exportFields']);
+							}
+							#print_r($exportFields);
+							$file = tempnam("typo3temp/","/mailformplusplus_").".pdf";
+							$generator->generateFrontendPDF($this->gp,$this->settings['langFile'],$exportFields,$file,true);
+							$emailSettings['attachPDF'] = $file;
+						} elseif ($currentSettings['attachPDF']) {
+							$emailSettings['attachPDF'] = $currentSettings['attachPDF'];
+						}
+					break;
+					
+					case "":
+						if(isset($currentSettings['htmlEmailAsAttachment']) && !strcmp($currentSettings['htmlEmailAsAttachment'],"1")) {
+							$emailSettings['htmlEmailAsAttachment'] = 1;
+						}
+		
+					break;
+				}
+			}
+		}
+		$this->fillLangMarkersInSettings($emailSettings);
+		return $emailSettings;
+	}
 	
 }
 ?>

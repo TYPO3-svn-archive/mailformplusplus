@@ -24,13 +24,9 @@ class F3_MailformPlusPlus_Finisher_ClearCache extends F3_MailformPlusPlus_Abstra
 	/**
      * The main method called by the controller
      * 
-     * @param array $gp The GET/POST parameters
-     * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters
      */
-	public function process($gp,$settings) {
-		$this->gp = $gp;
-		$this->settings = $settings;
+	public function process() {
 		
 		require_once("t3lib/class.t3lib_tcemain.php");
 		$tce = t3lib_div::makeInstance('t3lib_tcemain'); 

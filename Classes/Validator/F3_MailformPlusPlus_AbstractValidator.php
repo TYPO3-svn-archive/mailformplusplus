@@ -64,20 +64,29 @@ abstract class F3_MailformPlusPlus_AbstractValidator {
 		$this->componentManager = $componentManager;
 		$this->configuration = $configuration;
 		if($GLOBALS['TSFE']->id) {
-			$this->cObj = @t3lib_div::makeInstance('tslib_cObj');
-			$this->cObj->setCurrentVal($GLOBALS['TSFE']->id);
+			$this->cObj = F3_MailformPlusPlus_StaticFuncs::$cObj;
 		}
 	}
 	
 	/**
 	 * Validates the submitted values using given settings
 	 *
-	 * @param array $gp The current GET/POST parameters
-	 * @param array $settings The TypoScript settings for the validator
 	 * @param array $errors Reference to the errors array to store the errors occurred
 	 * @return boolean
 	 */
-	abstract public function validate($gp,$settings,&$errors);
+	abstract public function validate(&$errors);
+	
+	/**
+     * Method to set GET/POST for this class and load the configuration
+     * 
+     * @param array The GET/POST values
+     * @param array The TypoScript configuration
+     * @return void
+     */
+	public function loadConfig($gp,$tsConfig) {
+		$this->settings = $tsConfig;
+		$this->gp = $gp;
+	}
 	
 }
 ?>

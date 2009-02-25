@@ -82,34 +82,11 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 	protected $doUpdate;
 	
 	/**
-     * The settings array passed to the finisher.
-     * 
-     * @access protected
-     * @var array
-     */
-	protected $settings;
-	
-	/**
-     * A cObj to be able to call cObjGetSingle, ...
-     * @access protected
-     * @var tslib_cObj
-     */
-	protected $cObj;
-	
-	/**
      * The main method called by the controller
      * 
-     * @param array $gp The GET/POST parameters
-     * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters
      */
-	public function process($gp,$settings) {
-		
-		//set GET/POST parameters
-		$this->gp = $gp;
-		
-		//set settings
-		$this->settings = $settings;
+	public function process() {
 		
 		$evaluation = TRUE;	
 		if(isset($this->settings['condition'])) {

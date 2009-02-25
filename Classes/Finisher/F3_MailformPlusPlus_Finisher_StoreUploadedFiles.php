@@ -33,16 +33,10 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 	/**
      * The main method called by the controller
      * 
-     * @param array $gp The GET/POST parameters
-     * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters
      */
-	public function process($gp,$settings) {
-		$this->gp = $gp;
-		$this->settings = $settings;
+	public function process() {
 		
-		//read redirect page
-		$email_redirect = $settings['redirect_page'];
 		if($this->settings['finishedUploadFolder']) {
 			
 			//move the uploaded files

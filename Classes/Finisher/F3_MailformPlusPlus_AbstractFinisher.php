@@ -55,6 +55,14 @@ abstract class F3_MailformPlusPlus_AbstractFinisher {
 	protected $cObj;
 	
 	/**
+     * The settings array passed to the finisher.
+     * 
+     * @access protected
+     * @var array
+     */
+	protected $settings;
+	
+	/**
      * The constructor for a finisher setting the component manager, configuration and the repository.
      * 
      * @param F3_GimmeFive_Component_Manager $componentManager
@@ -67,18 +75,30 @@ abstract class F3_MailformPlusPlus_AbstractFinisher {
 		$this->configuration = $configuration;
 		
 		//make cObj instance for pageLink creation
-		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
-		$this->cObj->setCurrentVal($GLOBALS['TSFE']->id);
+		#$this->cObj = t3lib_div::makeInstance('tslib_cObj');
+		#$this->cObj->setCurrentVal($GLOBALS['TSFE']->id);
+		$this->cObj = F3_MailformPlusPlus_StaticFuncs::$cObj;
+		
 	}
 	
 	/**
      * The main method called by the controller
      * 
-     * @param array $gp The GET/POST parameters
-     * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters
      */
-	abstract public function process($gp,$settings);
+	abstract public function process();
+	
+	/**
+     * Method to set GET/POST for this class and load the configuration
+     * 
+     * @param array The GET/POST values
+     * @param array The TypoScript configuration
+     * @return void
+     */
+	public function loadConfig($gp,$tsConfig) {
+		$this->settings = $tsConfig;
+		$this->gp = $gp;
+	}
 	
 }
 ?>

@@ -40,37 +40,51 @@
  */
 class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_AbstractValidator {
 	
+	
+	/**
+     * Method to set GET/POST for this class and load the configuration
+     * 
+     * @param array The GET/POST values
+     * @param array The TypoScript configuration
+     * @return void
+     */
+	public function loadConfig($gp,$tsConfig) {
+		$this->settings = $tsConfig;
+		
+		$flexformValue = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],'required_fields','sMISC');
+		if($flexformValue) {
+			$fields = t3lib_div::trimExplode(',',$flexformValue);
+			foreach($fields as $field) {
+				$this->settings['fieldConf.'][$field."."]['errorCheck.'] = array();
+				$this->settings['fieldConf.'][$field."."]['errorCheck.']['1'] = "required";
+			}
+		}
+		
+		$this->gp = $gp;
+	}
+	
 	/**
 	 * Validates the submitted values using given settings
 	 *
-	 * @param array $gp The current GET/POST parameters
-	 * @param array $settings The TypoScript settings for the validator
 	 * @param array $errors Reference to the errors array to store the errors occurred
 	 * @return boolean
 	 */
-	public function validate($gp,$settings,&$errors) {
+	public function validate(&$errors) {
 		
-		//set GET/POST parameters
-		$this->gp = $gp;
 		
 		//no config? validation returns true
-		if(!is_array($settings['fieldConf.'])) {
+		if(!is_array($this->settings['fieldConf.'])) {
 			return true;
 		}
 		
 		//$disableErrorCheckFields = array();
-		if(isset($settings['disableErrorCheckFields'])) {
-			$disableErrorCheckFields = t3lib_div::trimExplode(",",$settings['disableErrorCheckFields']);
+		if(isset($this->settings['disableErrorCheckFields'])) {
+			$disableErrorCheckFields = t3lib_div::trimExplode(",",$this->settings['disableErrorCheckFields']);
 		}
-		if(is_array($settings['requiredFields'])) {
-			foreach($settings['requiredFields'] as $field) {
-				$settings['fieldConf.'][$field."."]['errorCheck.'] = array();
-				$settings['fieldConf.'][$field."."]['errorCheck.']['1'] = "required";
-			}
-		}
+		
 				
 		//foreach configured form field
-		foreach($settings['fieldConf.'] as $fieldName=>$fieldSettings) {
+		foreach($this->settings['fieldConf.'] as $fieldName=>$fieldSettings) {
 			$name = str_replace(".","",$fieldName);
 			
 			//parse error checks

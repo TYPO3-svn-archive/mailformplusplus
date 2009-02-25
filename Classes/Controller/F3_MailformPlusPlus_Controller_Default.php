@@ -309,7 +309,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 *
 	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 * @return rendered view
-	 * @author Reinhard F�hricht
+	 * @author Reinhard Führicht
 	 */
 	public function process() {
 		session_start();
@@ -342,6 +342,9 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 
 		//read template file
 		$this->readTemplateFile($settings);
+		
+		//read language file
+		$this->readLanguageFile($settings);
 
 		// set stylesheet file
 		$this->setStyleSheet($settings);
@@ -406,11 +409,8 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 					F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Validator: ".$tsConfig['class']);
 					$validator = $this->componentManager->getComponent($tsConfig['class']);
 
-					//add requiredFields settings from plugin record, if class is the default validator or a subclass.
-					if((is_a($validator,"F3_MailformPlusPlus_Validator_Default") || is_subclass_of($validator,"F3_MailformPlusPlus_Validator_Default")) && is_array($this->requiredFields)) {
-						$tsConfig['config.']['requiredFields'] = $this->requiredFields;
-					}
-					$res = $validator->validate($this->gp,$tsConfig['config.'],$errors);
+					$validator->loadConfig($this->gp,$tsConfig['config.']);
+					$res = $validator->validate($errors);
 					array_push($valid,$res);
 				}
 			}
@@ -440,6 +440,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 					foreach($settings['finishers.'] as $tsConfig) {
 
 						$finisher = $this->componentManager->getComponent($tsConfig['class']);
+						
 						//check if the form was finished before. This flag is set by the F3_Finisher_Confirmation
 						if(!$_SESSION['submitted_ok']) {
 							F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Finisher: ".$tsConfig['class']);
@@ -448,24 +449,15 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 							$tsConfig['config.']['langFile'] = $settings['langFile'];
 							$tsConfig['config.']['formValuesPrefix'] = $settings['formValuesPrefix'];
 
+							$finisher->loadConfig($this->gp,$tsConfig['config.']);
+							
 							//if the finisher returns HTML (e.g. F3_MailformPlusPlus_Finisher_Confirmation)
 							if($tsConfig['config.']['returns']) {
 
-								return $finisher->process($this->gp,$tsConfig['config.']);
+								return $finisher->process();
 							} else {
-
-								//add email settings from plugin record if the finisher is the mail finisher or a subclass
-								if((is_a($finisher,"F3_MailformPlusPlus_Finisher_Mail") || is_subclass_of($finisher,"F3_MailformPlusPlus_Finisher_Mail"))) {
-									$finisher->setEmailSettings($this->emailSettings);
-
-									//add redirect settings from plugin record if the finisher is the recirect finisher or a subclass
-								} elseif((is_a($finisher,"F3_MailformPlusPlus_Finisher_Redirect") || is_subclass_of($finisher,"F3_MailformPlusPlus_Finisher_Redirect"))) {
-									if(strlen($this->redirectPage) > 0) {
-										$tsConfig['config.']['redirect_page'] = $this->redirectPage;
-									}
-								}
-
-								$this->gp = $finisher->process($this->gp,$tsConfig['config.']);
+								
+								$this->gp = $finisher->process();
 							}
 
 							//if the form was finished before, only show the output of the F3_MailformPlusPlus_Finisher_Confirmation
@@ -475,7 +467,8 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 							$tsConfig['config.']['templateFile'] = $settings['templateFile'];
 							$tsConfig['config.']['langFile'] = $settings['langFile'];
 							$tsConfig['config.']['formValuesPrefix'] = $settings['formValuesPrefix'];
-							return $finisher->process($this->gp,$tsConfig['config.']);
+							$finisher->loadConfig($this->gp,$tsConfig['config.']);
+							return $finisher->process();
 						}
 					}
 				}
@@ -538,6 +531,24 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			F3_MailformPlusPlus_StaticFuncs::debugMessage("Could not find template file");
 		}
 
+	}
+	
+	/**
+	 * Read language file set in flexform or TypoScript, read the file's path to $this->langFile
+	 *
+	 * @param $settings The mailformplusplus settings
+	 * @return void
+	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 */
+	protected function readLanguageFile(&$settings) {
+
+		//language file was not set in flexform, search TypoScript for setting
+		if(!$this->langFile) {
+			$langFile = $settings['langFile'];
+		} else {
+			$langFile = $this->langFile;
+		}
+		$this->langFile = F3_MailformPlusPlus_StaticFuncs::convertToRelativePath($langFile);
 	}
 
 	/**

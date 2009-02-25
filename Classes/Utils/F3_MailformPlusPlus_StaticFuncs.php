@@ -21,6 +21,7 @@
  */
 class F3_MailformPlusPlus_StaticFuncs {
 	
+	public static $cObj;
 	/**
      * Returns the absolute path to the document root
      * 
@@ -180,6 +181,56 @@ class F3_MailformPlusPlus_StaticFuncs {
 	}
 	
 	/**
+	 * Return value from somewhere inside a FlexForm structure
+	 *
+	 * @param	array		FlexForm data
+	 * @param	string		Field name to extract. Can be given like "test/el/2/test/el/field_templateObject" where each part will dig a level deeper in the FlexForm data.
+	 * @param	string		Sheet pointer, eg. "sDEF"
+	 * @param	string		Language pointer, eg. "lDEF"
+	 * @param	string		Value pointer, eg. "vDEF"
+	 * @return	string		The content.
+	 */
+	public static function pi_getFFvalue($T3FlexForm_array,$fieldName,$sheet='sDEF',$lang='lDEF',$value='vDEF')	{
+		$sheetArray = is_array($T3FlexForm_array) ? $T3FlexForm_array['data'][$sheet][$lang] : '';
+		if (is_array($sheetArray))	{
+			return F3_MailformPlusPlus_StaticFuncs::pi_getFFvalueFromSheetArray($sheetArray,explode('/',$fieldName),$value);
+		}
+	}
+
+	/**
+	 * Returns part of $sheetArray pointed to by the keys in $fieldNameArray
+	 *
+	 * @param	array		Multidimensiona array, typically FlexForm contents
+	 * @param	array		Array where each value points to a key in the FlexForms content - the input array will have the value returned pointed to by these keys. All integer keys will not take their integer counterparts, but rather traverse the current position in the array an return element number X (whether this is right behavior is not settled yet...)
+	 * @param	string		Value for outermost key, typ. "vDEF" depending on language.
+	 * @return	mixed		The value, typ. string.
+	 * @access private
+	 * @see pi_getFFvalue()
+	 */
+	private static function pi_getFFvalueFromSheetArray($sheetArray,$fieldNameArr,$value)	{
+
+		$tempArr=$sheetArray;
+		foreach($fieldNameArr as $k => $v)	{
+			if (t3lib_div::testInt($v))	{
+				if (is_array($tempArr))	{
+					$c=0;
+					foreach($tempArr as $values)	{
+						if ($c==$v)	{
+							#debug($values);
+							$tempArr=$values;
+							break;
+						}
+						$c++;
+					}
+				}
+			} else {
+				$tempArr = $tempArr[$v];
+			}
+		}
+		return $tempArr[$value];
+	}
+	
+	/**
 	 * This function formats a date
 	 *
 	 * @param long $date The timestamp to format
@@ -224,6 +275,31 @@ class F3_MailformPlusPlus_StaticFuncs {
 			$path = $path."/";
 		}
 		return $path;
+	}
+	
+	/**
+     * Converts an absolute path into a relative path from TYPO3 root directory.
+     * 
+     * Example:
+     * 
+     * IN : C:/xampp/htdocs/typo3/fileadmin/file.html
+     * OUT : fileadmin/file.html
+     * 
+     * @param string $template The template code
+     * @param string $langFile The path to the language file
+     * @return array The filled language markers
+     * @static
+     */
+	public static function convertToRelativePath($absPath) {
+		
+		//C:/xampp/htdocs/typo3/index.php
+		$scriptPath =  t3lib_div::getIndpEnv('SCRIPT_FILENAME');
+		
+		//C:/xampp/htdocs/typo3/
+		$rootPath = str_replace('index.php','',$scriptPath);
+		
+		return str_replace($rootPath,'',$absPath);
+		
 	}
 	
 	/**

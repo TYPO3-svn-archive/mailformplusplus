@@ -47,30 +47,6 @@ abstract class F3_MailformPlusPlus_AbstractController implements F3_MailformPlus
 	protected $langFile;
 	
 	/**
-     * An array of possibly entered required fields
-     * 
-     * @access protected
-     * @var array
-     */
-	protected $requiredFields;
-	
-	/**
-     * An array with email settings entered by the user
-     * 
-     * @access protected
-     * @var array
-     */
-	protected $emailSettings;
-	
-	/**
-     * The page ID to redirect to, the user may have entered in the plugin record.
-     * 
-     * @access protected
-     * @var array
-     */
-	protected $redirectPage;
-	
-	/**
      * Sets the content attribute of the controller
      * 
      * @param F3_MailformPlusPlus_Content $content

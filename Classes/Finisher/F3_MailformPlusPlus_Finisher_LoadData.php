@@ -45,33 +45,16 @@
 class F3_MailformPlusPlus_Finisher_LoadData extends F3_MailformPlusPlus_AbstractFinisher {
 	
 	/**
-     * The settings array passed to the finisher.
-     * 
-     * @access protected
-     * @var array
-     */
-	protected $settings;
-	
-	/**
      * The main method called by the controller
      * 
-     * @param array $gp The GET/POST parameters
-     * @param array $settings The defined TypoScript settings for the finisher
      * @return array The probably modified GET/POST parameters
      */
-	public function process($gp,$settings) {
-		
-		//set GET/POST parameters
-		$this->gp = $gp;
-		
-		//set settings
-		$this->settings = $settings;
+	public function process() {
 		
 		//check if config is sufficient
 		if(!isset($this->settings['table']) || !isset($this->settings['fields']) || !isset($this->settings['uidField'])) {
 			throw new Exception('Insufficient configuration for F3_MailformPlusPlus_Finisher_LoadData');
 		}
-		
 		
 		if(!empty($this->gp[$this->settings['uidField']]) && is_numeric($this->gp[$this->settings['uidField']])) {
 			$this->selectData($this->settings['table'],$this->settings['fields'],$this->gp[$this->settings['uidField']]);

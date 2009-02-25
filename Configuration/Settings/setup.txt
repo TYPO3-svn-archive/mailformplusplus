@@ -44,6 +44,9 @@ plugin.F3_MailformPlusPlus.settings.predef.default {
 			class = F3_MailformPlusPlus_Interceptor_RemoveXSS
 		}
 	}
+	validators {
+		1.class = F3_MailformPlusPlus_Validator_Default
+	}
 	finishers {
 		1.class = F3_MailformPlusPlus_Finisher_Mail
 		1.config {
@@ -51,7 +54,11 @@ plugin.F3_MailformPlusPlus.settings.predef.default {
 			admin {
 			}
 			user {
-		 }
+		    }
+		}
+		2.class = F3_MailformPlusPlus_Finisher_Redirect
+		2.config {
+		
 		}
 	}
 }

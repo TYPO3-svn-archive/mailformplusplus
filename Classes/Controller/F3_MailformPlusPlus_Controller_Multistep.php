@@ -172,16 +172,13 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			
 			//run validation
 			$valid = array(true);
-			if(isset($settings['validators.']) && is_array($settings['validators.'])  && !$_SESSION['submitted_ok'] && !$disableErrorChecks) {
+			if(isset($settings['validators.']) && is_array($settings['validators.'])  && !$_SESSION['submitted_ok']) {
 				foreach($settings['validators.'] as $tsConfig) {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage('Calling Validator: '.$tsConfig['class']);
+					F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Validator: ".$tsConfig['class']);
 					$validator = $this->componentManager->getComponent($tsConfig['class']);
-					
-					//add requiredFields settings from plugin record, if class is the default validator or a subclass.
-					if((is_a($validator,"F3_MailformPlusPlus_Validator_Default") || is_subclass_of($validator,"F3_MailformPlusPlus_Validator_Default")) && is_array($this->requiredFields)) {
-						$tsConfig['config.']['requiredFields'] = $this->requiredFields;
-					}
-					$res = $validator->validate($this->gp,$tsConfig['config.'],$errors);
+
+					$validator->loadConfig($this->gp,$tsConfig['config.']);
+					$res = $validator->validate($errors);
 					array_push($valid,$res);
 				}
 			}
@@ -220,42 +217,37 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 					//run finishers
 					if(isset($settings['finishers.']) && is_array($settings['finishers.'])) {
 						foreach($settings['finishers.'] as $tsConfig) {
+	
 							$finisher = $this->componentManager->getComponent($tsConfig['class']);
 							
 							//check if the form was finished before. This flag is set by the F3_Finisher_Confirmation
 							if(!$_SESSION['submitted_ok']) {
 								F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Finisher: ".$tsConfig['class']);
-								
+								$tsConfig['config.']['returns'] = $tsConfig['returns'];
 								$tsConfig['config.']['templateFile'] = $settings['templateFile'];
 								$tsConfig['config.']['langFile'] = $settings['langFile'];
 								$tsConfig['config.']['formValuesPrefix'] = $settings['formValuesPrefix'];
+	
+								$finisher->loadConfig($this->gp,$tsConfig['config.']);
 								
 								//if the finisher returns HTML (e.g. F3_MailformPlusPlus_Finisher_Confirmation)
 								if($tsConfig['config.']['returns']) {
-									return $finisher->process($this->gp,$tsConfig['config.']);			
+	
+									return $finisher->process();
 								} else {
 									
-									//add email settings from plugin record if the finisher is the mail finisher or a subclass
-									if((is_a($finisher,"F3_MailformPlusPlus_Finisher_Mail") || is_subclass_of($finisher,"F3_MailformPlusPlus_Finisher_Mail"))) {
-										$finisher->setEmailSettings($this->emailSettings);
-										
-									//add redirect settings from plugin record if the finisher is the recirect finisher or a subclass
-									} elseif((is_a($finisher,"F3_MailformPlusPlus_Finisher_Redirect") || is_subclass_of($finisher,"F3_MailformPlusPlus_Finisher_Redirect"))) {
-										if(strlen($this->redirectPage) > 0) {
-											$tsConfig['config.']['redirect_page'] = $this->redirectPage; 
-										}
-									}
-									$this->gp = $finisher->process($this->gp,$tsConfig['config.']);
+									$this->gp = $finisher->process();
 								}
-								
-							//if the form was finished before, only show the output of the F3_MailformPlusPlus_Finisher_Confirmation
+	
+								//if the form was finished before, only show the output of the F3_MailformPlusPlus_Finisher_Confirmation
 							} elseif((is_a($finisher,"F3_MailformPlusPlus_Finisher_Confirmation") || is_subclass_of($finisher,"F3_MailformPlusPlus_Finisher_Confirmation"))) {
 								F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Finisher: ".$tsConfig['class']);
 								$finisher = $this->componentManager->getComponent($tsConfig['class']);
 								$tsConfig['config.']['templateFile'] = $settings['templateFile'];
 								$tsConfig['config.']['langFile'] = $settings['langFile'];
 								$tsConfig['config.']['formValuesPrefix'] = $settings['formValuesPrefix'];
-								return $finisher->process($this->gp,$tsConfig['config.']);
+								$finisher->loadConfig($this->gp,$tsConfig['config.']);
+								return $finisher->process();
 							}
 						}
 					}

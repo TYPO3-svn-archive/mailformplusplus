@@ -34,17 +34,20 @@ class F3_MailformPlusPlus_Finisher_Redirect extends F3_MailformPlusPlus_Abstract
 	
 	/**
      * The main method called by the controller
-     * 
-     * @param array $gp The GET/POST parameters
-     * @param array $settings The defined TypoScript settings for the finisher
+	 *
      * @return array The probably modified GET/POST parameters
      */
-	public function process($gp,$settings) {
-		$this->gp = $gp;
-		$this->settings = $settings;
+	public function process() {
+		
 		
 		//read redirect page
-		$email_redirect = $settings['redirectPage'];
+		$email_redirect = $this->settings['redirectPage'];
+		
+		$url = "";
+		
+		if(!isset($email_redirect)) {
+			return;
+		}
 		
 		//if redirect_page was page id
 		if (is_numeric($email_redirect)) {
@@ -63,7 +66,7 @@ class F3_MailformPlusPlus_Finisher_Redirect extends F3_MailformPlusPlus_Abstract
 		}
 		
 		//correct the URL by replacing &amp;
-		if ($settings['correctRedirectUrl']) { 
+		if ($this->settings['correctRedirectUrl']) { 
 			$url = str_replace('&amp;', '&', $url);
 		}
 		
@@ -71,6 +74,22 @@ class F3_MailformPlusPlus_Finisher_Redirect extends F3_MailformPlusPlus_Abstract
 			header("Location: ".t3lib_div::locationHeaderUrl($url));
 		}
 		exit();
+	}
+	
+	/**
+     * Method to set GET/POST for this class and load the configuration
+     * 
+     * @param array The GET/POST values
+     * @param array The TypoScript configuration
+     * @return void
+     */
+	public function loadConfig($gp,$tsConfig) {
+		$this->gp = $gp;
+		$this->settings = $tsConfig;
+		$redirect = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'], 'redirect_page','sMISC');
+		if($redirect) {
+			$this->settings['redirectPage'] = $redirect;
+		}
 	}
 	
 }

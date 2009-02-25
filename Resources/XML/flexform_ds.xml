@@ -79,7 +79,7 @@
 			</TCEforms>
 			<type>array</type>
 			<el>
-				<email_to>
+				<to_email>
 					<TCEforms>
 					<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.emailRecipient</label>
 					<config>
@@ -88,9 +88,9 @@
 						<size>50</size>
 					</config>
 					</TCEforms>
-				</email_to>
+				</to_email>
 
-				<email_subject>
+				<subject>
 					<TCEforms>
 					<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.emailSubject</label>
 					<config>
@@ -99,9 +99,9 @@
 						<size>50</size>
 					</config>
 					</TCEforms>
-				</email_subject>
+				</subject>
 
-				<email_sender>
+				<sender_email>
 					<TCEforms>
 						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.emailFrom</label>
 						<config>
@@ -110,9 +110,9 @@
 							<size>50</size>
 						</config>
 					</TCEforms>
-				</email_sender>
+				</sender_email>
 				
-				<email_sendername>
+				<sender_name>
 					<TCEforms>
 						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.emailFromName</label>
 						<config>
@@ -121,9 +121,9 @@
 							<size>50</size>
 						</config>
 					</TCEforms>
-				</email_sendername>
+				</sender_name>
 
-				<email_replyto>
+				<replyto_email>
 					<TCEforms>
 						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.replyTo</label>
 						<config>
@@ -132,9 +132,9 @@
 							<size>50</size>
 						</config>
 					</TCEforms>
-				</email_replyto>
+				</replyto_email>
 
-				<email_replytoname>
+				<replyto_name>
 					<TCEforms>
 						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.replyToName</label>
 						<config>
@@ -143,7 +143,7 @@
 							<size>50</size>
 						</config>
 					</TCEforms>
-				</email_replytoname>
+				</replyto_name>
 
 				
 			</el>
@@ -156,7 +156,7 @@
 			</TCEforms>
 			<type>array</type>
 			<el>
-				<email_touser>
+				<to_email>
 					<TCEforms>
 						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.emailConfirm</label>
 						<config>
@@ -165,8 +165,8 @@
 							<size>50</size>
 						</config>
 					</TCEforms>
-				</email_touser>
-				<email_subjectuser>
+				</to_email>
+				<subject>
 					<TCEforms>
 						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.emailConfirmSubject</label>
 						<config>
@@ -175,8 +175,8 @@
 							<size>50</size>
 						</config>
 					</TCEforms>
-				</email_subjectuser>
-				<email_senderuser>
+				</subject>
+				<sender_email>
 					<TCEforms>
 						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.emailFrom</label>
 						<config>
@@ -185,8 +185,8 @@
 							<size>50</size>
 						</config>
 					</TCEforms>
-				</email_senderuser>
-				<email_sendernameuser>
+				</sender_email>
+				<sender_name>
 					<TCEforms>
 						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.emailFromName</label>
 						<config>
@@ -195,9 +195,9 @@
 							<size>50</size>
 						</config>
 					</TCEforms>
-				</email_sendernameuser>
+				</sender_name>
 
-				<email_replytouser>
+				<replyto_email>
 					<TCEforms>
 						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.replyTo</label>
 						<config>
@@ -206,9 +206,9 @@
 							<size>50</size>
 						</config>
 					</TCEforms>
-				</email_replytouser>
+				</replyto_email>
 				
-				<email_replytonameuser>
+				<replyto_name>
 					<TCEforms>
 						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.replyToName</label>
 						<config>
@@ -217,7 +217,7 @@
 							<size>50</size>
 						</config>
 					</TCEforms>
-				</email_replytonameuser>
+				</replyto_name>
 			</el>
 		</ROOT>
 	</sEMAILUSER>

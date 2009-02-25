@@ -65,6 +65,7 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		//init flexform
 		$this->pi_initPIflexForm();
 		
+		F3_MailformPlusPlus_StaticFuncs::$cObj = $this->cObj; 
 		/*
 		 * set controller:
 		 * 1. Flexform
@@ -92,16 +93,6 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		$templateFile = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'template_file','sDEF');
 		$langFile = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'lang_file','sDEF');
 		$predef = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'predefined','sDEF');
-		$emailSettings = $this->parseEmailSettings();
-		$redirect = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'redirect_page','sMISC');
-		$requiredFields = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'required_fields','sMISC');
-		if(strlen($requiredFields) > 0) {
-			$requiredFields = t3lib_div::trimExplode(",",$requiredFields);
-			$controller->setRequiredFields($requiredFields);
-		}
-		if(strlen($redirect) > 0) {
-			$controller->setRedirectPage($redirect);
-		}
 		
 		if (isset($content)) {
 			$controller->setContent($this->componentManager->getComponent('F3_MailformPlusPlus_Content', $content));
@@ -119,58 +110,7 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		return $controller->process();
 	}
 	
-	/**
-	 * Parses the email settings in flexform and stores them in an array.
-	 *
-	 * @return array The parsed email settings
-	 */
-	protected function parseEmailSettings() {
-		$emailSettings = array();
-		$options = array (
-			'email_to' => 'to_email',
-			'email_subject' => 'subject',
-			'email_sender' => 'sender_email',
-			'email_sendername' => 'sender_name',
-			'email_replyto' => 'replyto_email',
-			'email_replytoname' => 'replyto_name'
-		);
-		
-		//*************************
-		//ADMIN settings
-		//*************************
-		$emailSettings['admin'] = $this->parseEmailSettingsByType('admin',$options);
-		
-		//*************************
-		//USER settings
-		//*************************
-		$emailSettings['user'] = $this->parseEmailSettingsByType('user',$options);
-		
-		return $emailSettings;
-	}
 	
-	/**
-	 * Parses the email settings in flexform of a specific type (admin|user]
-	 *
-	 * @param string $type (admin|user)
-	 * @param array $optionsToParse Mapping array with flexform name as key and key in parsed array as value.
-	 * @return array The parsed email settings
-	 */
-	private function parseEmailSettingsByType($type,$optionsToParse = array()) {
-		$typeLower = strtolower($type);
-		$typeUpper = strtoupper($type);
-		$section = 'sEMAIL'.$typeUpper;
-		$emailSettings = array();
-		foreach($optionsToParse as $ffname=>$option) {
-			if(strcmp($type,'user') == 0) {
-				$ffname .= $type;
-			}
-			$value = $this->getFFvalue($ffname,$section);
-			if(strlen($value) > 0) {
-				$emailSettings[$option] = $value;
-			}
-		}
-		return $emailSettings;
-	}
 	
 	/**
 	 * Reads a value from flexform data.
