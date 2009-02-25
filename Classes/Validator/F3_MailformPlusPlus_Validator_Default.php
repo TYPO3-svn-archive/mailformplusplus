@@ -439,14 +439,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	protected function validateContainsNone($check,$name) {
 		$checkFailed = "";
 		$formValue = trim($this->gp[$name]);
-		$checkValue = $check['params']['words'];
-		if(is_array($check['params']['words.'])) {
-			if(!strcmp($check['params']['words'],"USER") || !strcmp($check['params']['words'],"USER_INT")) {
-				$checkValue = t3lib_div::callUserFunction($check['params']['words.']['userFunc'],$check['params']['words.'],$this,"");
-			} else {
-				$checkValue = $this->cObj->cObjGetSingle($check['params']['words'],$check['params']['words.']);
-			}
-		}
+		$checkValue = $this->getCheckValue($check['params']['words'],$check['params']['words.']);
 		if(!is_array($checkValue)) {
 			$checkValue = t3lib_div::trimExplode(",",$checkValue);
 		}
@@ -474,14 +467,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	protected function validateEquals($check,$name) {
 		$checkFailed = "";
 		$formValue = trim($this->gp[$name]);
-		$checkValue = $check['params']['word'];
-		if(is_array($check['params']['word.'])) {
-			if(!strcmp($check['params']['word'],"USER") || !strcmp($check['params']['word'],"USER_INT")) {
-				$checkValue = t3lib_div::callUserFunction($check['params']['word.']['userFunc'],$check['params']['word.'],$this,"");
-			} else {
-				$checkValue = $this->cObj->cObjGetSingle($check['params']['word'],$check['params']['word.']);
-			}
-		}
+		$checkValue = $this->getCheckValue($check['params']['word'],$check['params']['word.']);
 		if(strcasecmp($formValue,$checkValue)) {
 			
 			//remove userfunc settings
@@ -501,14 +487,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	protected function validateContainsOne($check,$name) {
 		$checkFailed = "";
 		$formValue = trim($this->gp[$name]);
-		$checkValue = $check['params']['words'];
-		if(is_array($check['params']['words.'])) {
-			if(!strcmp($check['params']['words'],"USER") || !strcmp($check['params']['words'],"USER_INT")) {
-				$checkValue = t3lib_div::callUserFunction($check['params']['words.']['userFunc'],$check['params']['words.'],$this,"");
-			} else {
-				$checkValue = $this->cObj->cObjGetSingle($check['params']['words'],$check['params']['words.']);
-			}
-		}
+		$checkValue = $this->getCheckValue($check['params']['words'],$check['params']['words.']);
 		if(!is_array($checkValue)) {
 			$checkValue = t3lib_div::trimExplode(",",$checkValue);
 		}
@@ -538,14 +517,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	protected function validateContainsAll($check,$name) {
 		$checkFailed = "";
 		$formValue = trim($this->gp[$name]);
-		$checkValue = $check['params']['words'];
-		if(is_array($check['params']['words.'])) {
-			if(!strcmp($check['params']['words'],"USER") || !strcmp($check['params']['words'],"USER_INT")) {
-				$checkValue = t3lib_div::callUserFunction($check['params']['words.']['userFunc'],$check['params']['words.'],$this,"");
-			} else {
-				$checkValue = $this->cObj->cObjGetSingle($check['params']['words'],$check['params']['words.']);
-			}
-		}
+		$checkValue = $this->getCheckValue($check['params']['words'],$check['params']['words.']);
 		if(!is_array($checkValue)) {
 			$checkValue = t3lib_div::trimExplode(",",$checkValue);
 		}
@@ -560,6 +532,19 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 
 		return $checkFailed;
+	}
+	
+	protected function getCheckValue($obj,$params) {
+		$checkValue = $obj;
+		if(is_array($params)) {
+			$checkValue = $this->cObj->cObjGetSingle($obj,$params);
+		}
+		/*if(!strcmp($obj,"USER") || !strcmp($obj,"USER_INT")) {
+			return t3lib_div::callUserFunction($params['userFunc'],$params,$this,"");
+		} else {
+			return $this->cObj->cObjGetSingle($obj,$params);
+		}*/
+		return $checkValue;
 	}
 	
 	/**

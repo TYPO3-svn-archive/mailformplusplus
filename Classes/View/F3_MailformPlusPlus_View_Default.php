@@ -554,10 +554,10 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 			if(!strstr($name,".")) {
 				if(!strcmp($options,"USER") || !strcmp($options,"USER_INT")) {
 					$this->settings['markers.'][$name.'.']['gp'] = $this->gp;
-					$markers['###'.$name.'###'] = t3lib_div::callUserFunction($this->settings['markers.'][$name.'.']['userFunc'],$this->settings['markers.'][$name.'.'],$this,"");
-				} else {
-					$markers['###'.$name.'###'] = $this->cObj->cObjGetSingle($this->settings['markers.'][$name],$this->settings['markers.'][$name.'.']);
-				}
+					//$markers['###'.$name.'###'] = t3lib_div::callUserFunction($this->settings['markers.'][$name.'.']['userFunc'],$this->settings['markers.'][$name.'.'],$this,"");
+				} // else {
+				$markers['###'.$name.'###'] = $this->cObj->cObjGetSingle($this->settings['markers.'][$name],$this->settings['markers.'][$name.'.']);
+				//}
 			}
 		}
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
