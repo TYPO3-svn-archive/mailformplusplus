@@ -56,6 +56,7 @@ class F3_MailformPlusPlus_Logger_DB {
 			F3_MailformPlusPlus_StaticFuncs::debugMessage("Logging into table \"".$table."\". Inserted fields: ".implode(",",$fields),false);
 			F3_MailformPlusPlus_StaticFuncs::debugMessage($GLOBALS['TYPO3_DB']->sql_error());
 		}
+		
 	}
 	
 }

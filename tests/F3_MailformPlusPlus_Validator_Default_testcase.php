@@ -15,14 +15,14 @@
 require_once (t3lib_extMgm::extPath('gimmefive') . 'Classes/Component/F3_GimmeFive_Component_Manager.php');
 
 /**
- * Test for the Component "F3_MailformPlusPlus_Validator_Default" of the extension 'mailformplusplus'
+ * Test for the Component "F3_MailformPlusPlus_Logger_DB" of the extension 'mailformplusplus'
  *
  * @package	F3_MailformPlusPlus
  * @subpackage	Tests
  */
 class F3_MailformPlusPlus_Validator_Default_testcase extends PHPUnit_Framework_TestCase {
 
-	protected $componentManager;
+	protected $components;
 	protected $validator;
 
 	protected function setUp() {
@@ -36,29 +36,58 @@ class F3_MailformPlusPlus_Validator_Default_testcase extends PHPUnit_Framework_T
 	}
 	
 	public function test_required() {
-		
 		$fakeGp = array();
-		$fakeGp['firstname'] = "";
-		$fakeSettings = array();
-		$fakeSettings['fieldConf.']['firstname.']['errorCheck.']['1'] = "required";
-		$errors = array();
-		$res = $this->validator->validate($fakeGp,$fakeSettings,$errors);
-		$this->assertFalse($res);
-		$expectedErrors = array(
-			"firstname" => array(
-				"required"
-			)
-		);
-		$this->assertEquals($errors,$expectedErrors);
-		$fakeGp['firstname'] = "something";
-		$errors = array();
-		$res = $this->validator->validate($fakeGp,$fakeSettings,$errors);
-		$this->assertTrue($res);
+		$fakeGp['lastname'] = "Test";
 		
+		$fakeSettings = array();
+		$fakeSettings['fieldConf.']['lastname.']['errorCheck.'][1] = "required";
+		$errors = array();
+		
+		//field is filled out
+		$this->assertTrue($this->validator->validate($fakeGp,$fakeSettings,$errors));
+		
+		$fakeGp['lastname'] = "";
+		
+		//field is not filled out
+		$this->assertFalse($this->validator->validate($fakeGp,$fakeSettings,$errors));
 		
 	}
 	
 	public function test_email() {
+		$fakeGp = array();
+		$fakeGp['email'] = "email@host.com";
+		
+		$fakeSettings = array();
+		$fakeSettings['fieldConf.']['email.']['errorCheck.'][1] = "email";
+		$errors = array();
+		
+		//valid email
+		$this->assertTrue($this->validator->validate($fakeGp,$fakeSettings,$errors));
+		
+		$fakeGp['email'] = "!%&$/@$/$%&.com";
+		
+		//invalid characters
+		$this->assertFalse($this->validator->validate($fakeGp,$fakeSettings,$errors));
+		
+		$fakeGp['email'] = "ajksdhf";
+		
+		//invalid syntax
+		$this->assertFalse($this->validator->validate($fakeGp,$fakeSettings,$errors));
+		
+		$fakeGp['email'] = "ajksdhf.com";
+		
+		//invalid syntax 2
+		$this->assertFalse($this->validator->validate($fakeGp,$fakeSettings,$errors));
+		
+		$fakeGp['email'] = "aasd@ajksdhfcom";
+		
+		//invalid syntax 3
+		$this->assertFalse($this->validator->validate($fakeGp,$fakeSettings,$errors));
+		
+		$fakeGp['email'] = "aasd@127.0.0.1";
+		
+		//valid syntax
+		$this->assertFalse($this->validator->validate($fakeGp,$fakeSettings,$errors));
 		
 	}
 

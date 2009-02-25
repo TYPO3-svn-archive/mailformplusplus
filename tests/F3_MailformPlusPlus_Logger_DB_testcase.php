@@ -45,7 +45,7 @@ class F3_MailformPlusPlus_Logger_DB_testcase extends PHPUnit_Framework_TestCase 
 		$threshold = $currTime - 2000;
 		$lastId = $GLOBALS['TYPO3_DB']->sql_insert_id();
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery("*","tx_mailformplusplus_log","uid=".$lastId);
-		$this->assertNotNull($res);
+		$this->assertNotNull($res,'Logged record can be selected again');
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 		$GLOBALS['TYPO3_DB']->exec_DELETEquery("tx_mailformplusplus_log","uid=".$lastId);
 		$row['params'] = unserialize($row['params']);
