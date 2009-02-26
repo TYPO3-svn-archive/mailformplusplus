@@ -97,7 +97,6 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		if (isset($content)) {
 			$controller->setContent($this->componentManager->getComponent('F3_MailformPlusPlus_Content', $content));
 		}
-		$controller->setEmailSettings($emailSettings);
 		if(strlen($templateFile) > 0) {
 			$controller->setTemplateFile($templateFile);
 		}
@@ -107,7 +106,12 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		if(strlen($predef) > 0) {
 			$controller->setPredefined($predef);
 		}
-		return $controller->process();
+		try {
+			$result = $controller->process();
+		} catch(Exception $e) {
+			$result = 'Caught exception: ' . $e->getMessage();
+		}
+		return $result;
 	}
 	
 	
