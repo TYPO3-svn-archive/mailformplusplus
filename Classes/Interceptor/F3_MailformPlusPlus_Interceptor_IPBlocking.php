@@ -23,7 +23,8 @@
  * saveInterceptors.1.class = F3_MailformPlusPlus_Interceptor_IPBlocking
  * 
  * saveInterceptors.1.config.report.email = example@host.com,example2@host.com
- * saveInterceptors.1.config.report.subject = Submission limit reached 
+ * saveInterceptors.1.config.report.subject = Submission limit reached
+ * saveInterceptors.1.config.report.sender = somebody@otherhost.com
  * 
  * saveInterceptors.1.config.ip.timebase.value = 5
  * saveInterceptors.1.config.ip.timebase.unit = minutes
@@ -109,6 +110,13 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 		}
 	}
 	
+	/**
+     * Sends a report mail to recipients set in TypoScript.
+     * 
+     * @param string (ip|global) Defines the message sent
+     * @param array The select rows of log table
+     * @return void
+     */
 	private function sendReport($type,&$rows) {
 		$email = t3lib_div::trimExplode(',',$this->settings['report.']['email']);
 		$sender = $this->settings['report.']['sender'];
