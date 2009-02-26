@@ -246,6 +246,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	    	}
 			if($sent) {
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail sent to: ".$mailto);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("Subject:",$emailObj->subject);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail content:",false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Sender: ".$emailObj->from_name." <".$emailObj->from_email.">",false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Reply to: ".$emailObj->replyto_name." <".$emailObj->replyto_email.">",false);
@@ -253,6 +254,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Message HTML: ".$template['html'],false);
 			} else {
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail sending failed to: ".$mailto);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("Subject:",$emailObj->subject);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail content:",false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Sender: ".$emailObj->from_name." <".$emailObj->from_email.">",false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Reply to: ".$emailObj->replyto_name." <".$emailObj->replyto_email.">",false);

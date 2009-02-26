@@ -21,6 +21,10 @@
  * Example:
  * <code>
  * saveInterceptors.1.class = F3_MailformPlusPlus_Interceptor_IPBlocking
+ * 
+ * saveInterceptors.1.config.report.email = example@host.com,example2@host.com
+ * saveInterceptors.1.config.report.subject = Submission limit reached 
+ * 
  * saveInterceptors.1.config.ip.timebase.value = 5
  * saveInterceptors.1.config.ip.timebase.unit = minutes
  * saveInterceptors.1.config.ip.threshold = 2
@@ -81,17 +85,89 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 		if($addIPToWhere) {
 			$where = 'ip=\''.t3lib_div::getIndpEnv('REMOTE_ADDR').'\' AND '.$where;
 		}
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid','tx_mailformplusplus_log',$where);
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,ip,crdate,params','tx_mailformplusplus_log',$where);
 		
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) >= $maxValue) {
-			$GLOBALS['TYPO3_DB']->sql_free_result($res);
+			
 			$message = 'You are not allowed to send more mails because form got submitted too many times ';
 			if($addIPToWhere) {
 				$message .= 'by your IP address ';
 			}
 			$message .= 'in the last '.$value.' '.$unit.'!';
+			if($this->settings['report.']['email']) {
+				while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+					$rows[] = $row;
+				}
+				if($addIPToWhere) {
+					$this->sendReport('ip',$rows);
+				} else {
+					$this->sendReport('global',$rows);
+				}
+			}
+			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 			throw new Exception($message);
 		}
+	}
+	
+	private function sendReport($type,&$rows) {
+		$email = t3lib_div::trimExplode(',',$this->settings['report.']['email']);
+		$sender = $this->settings['report.']['sender'];
+		$subject = $this->settings['report.']['subject'];
+		$message = '';
+		if($type == 'ip') {
+			$message = 'IP address "'.t3lib_div::getIndpEnv('REMOTE_ADDR').'" has submitted a form too many times!';
+		} else {
+			$message = 'A form got submitted too many times!';
+		}
+		
+		$message .= "\n\n".'This is the URL to the form: '.t3lib_div::getIndpEnv('TYPO3_REQUEST_URL');
+		if(is_array($rows)) {
+			$message .= "\n\n".'These are the submitted values:'."\n\n";
+			foreach($rows as $row) {
+				$message .= date("Y/m/d h:m:i",$row['crdate']).":\n";
+				$message .= 'IP: '.$row['ip']."\n";
+				$message .= 'Params:'."\n";
+				$params = unserialize($row['params']);
+				foreach($params as $key=>$value) {
+					if(is_array($value)) {
+						$value = implode(',',$value);
+					}
+					$message .= "\t".$key.': '.$value."\n";
+				}
+				$message .= '---------------------------------------'."\n";
+			}
+		}
+		
+		//init mailer object
+		require_once(PATH_t3lib.'class.t3lib_htmlmail.php');
+	    $emailObj = t3lib_div::makeInstance('t3lib_htmlmail');
+	    $emailObj->start();
+		
+		//set e-mail options
+	    $emailObj->subject = $subject;
+	    
+	    $emailObj->from_email = $sender;
+	    
+	    $emailObj->setPlain($message);
+	    
+		//send e-mails
+	    foreach($email as $mailto) {
+	    	
+	    	$sent = $emailObj->send($mailto);
+			if($sent) {
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail sent to: ".$mailto);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("Sender: ".$emailObj->from_email,false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("Subject:".$emailObj->subject,false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("Message:".$message,false);
+				
+			} else {
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail sending failed to: ".$mailto);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("Sender: ".$emailObj->from_email,false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("Subject:".$emailObj->subject,false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("Message:".$message,false);
+				
+			}
+	    }
 	}
 	
 	/**
