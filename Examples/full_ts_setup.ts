@@ -649,14 +649,14 @@ plugin.F3_MailformPlusPlus.settings {
       * <!-- ###TEMPLATE_CONFIRMATION### end -->                                                                
       */
       class = F3_MailformPlusPlus_Finisher_Confirmation
-      
-      /*
-      * Since this finishers returns HTML code to show, you have to add this
-      * setting. No other finisher will be called after this one, so make sure 
-      * that this is the last one in chain.      
-      */      
-      returns = 1
       config {
+      
+        /*
+        * Since this finishers returns HTML code to show, you have to add this
+        * setting. No other finisher will be called after this one, so make sure 
+        * that this is the last one in chain.      
+        */      
+        returns = 1
         
         /*
         * Config for PDF export

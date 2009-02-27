@@ -157,8 +157,8 @@ plugin.F3_MailformPlusPlus.settings.predef.multistep_conditions_example {
      }
     }
     3.class = F3_MailformPlusPlus_Finisher_Confirmation
-    3.returns = 1
     3.config {
+      returns = 1
       pdf {
         class = F3_MailformPlusPlus_Generator_PDF
         exportFields = firstname,lastname,interests,pid,ip,submission_date
