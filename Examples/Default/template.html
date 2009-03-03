@@ -100,15 +100,51 @@ Typoheads
 <!-- ###TEMPLATE_EMAIL_ADMIN_PLAIN### begin -->
 Hello Admin,
 
-a user has just filled out the form.
+A user has just filled out the form.
 
+###LLL:lastname### ###value_lastname###
+###LLL:firstname### ###value_firstname###
+###LLL:email### ###value_email###
+###LLL:interests### ###value_interests###
+###LLL:contact_via### ###value_contact_via###
 <!-- ###TEMPLATE_EMAIL_ADMIN_PLAIN### end -->
 
 <!-- ###TEMPLATE_EMAIL_ADMIN_HTML### begin -->
-Hello Admin (HTML),
-
-a user has just filled out the form.
-
+<html>
+	<head>
+		<style>
+			p, table{font-family: Verdana; font-size: 10pt}
+			.leftColumn {padding-top: 10px; border-bottom: 1px dotted black}
+			.rightColumn {padding-top: 10px; border-bottom: 1px dotted black; font-weight: bold}
+		</style>	
+	</head>
+	<body>
+		<p>Hello Admin,</p>
+		<p>A user has just filled out the form.</p>
+		<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td class="leftColumn">###LLL:lastname###</td>
+				<td class="rightColumn">###value_lastname###</td>
+			</tr>
+			<tr>
+				<td class="leftColumn">###LLL:firstname###</td>
+				<td class="rightColumn">###value_firstname###</td>
+			</tr>
+			<tr>
+				<td class="leftColumn">###LLL:email##</td>
+				<td class="rightColumn">###value_email###</td>
+			</tr>
+			<tr>
+				<td class="leftColumn">###LLL:interests##</td>
+				<td class="rightColumn">###value_interests###</td>
+			</tr>
+			<tr>
+				<td class="leftColumn">###LLL:contact_via##</td>
+				<td class="rightColumn">###value_contact_via###</td>
+			</tr>
+		</table>
+	</body>
+</html>
 <!-- ###TEMPLATE_EMAIL_ADMIN_HTML### end -->
 
 <!-- ###TEMPLATE_CONFIRMATION### begin -->
