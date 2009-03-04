@@ -47,6 +47,14 @@ abstract class F3_MailformPlusPlus_AbstractInterceptor {
 	protected $gp;
 	
 	/**
+     * The cObj 
+     * 
+     * @access protected
+     * @var tslib_cObj
+     */
+	protected $cObj;
+	
+	/**
      * The constructor for an interceptor setting the component manager and the configuration.
      * 
      * @param F3_GimmeFive_Component_Manager $componentManager
@@ -56,6 +64,7 @@ abstract class F3_MailformPlusPlus_AbstractInterceptor {
 	public function __construct(F3_GimmeFive_Component_Manager $componentManager, F3_MailformPlusPlus_Configuration $configuration) {
 		$this->componentManager = $componentManager;
 		$this->configuration = $configuration;
+		$this->cObj = F3_MailformPlusPlus_StaticFuncs::$cObj;
 	}
 	
 	/**

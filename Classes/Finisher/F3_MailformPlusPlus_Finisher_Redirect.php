@@ -41,16 +41,16 @@ class F3_MailformPlusPlus_Finisher_Redirect extends F3_MailformPlusPlus_Abstract
 		
 		
 		//read redirect page
-		$email_redirect = $this->settings['redirectPage'];
+		$emailRedirect = $this->settings['redirectPage'];
 		
 		$url = "";
 		
-		if(!isset($email_redirect)) {
+		if(!isset($emailRedirect)) {
 			return;
 		}
 		
 		//if redirect_page was page id
-		if (is_numeric($email_redirect)) {
+		if (is_numeric($emailRedirect)) {
 		
 			// these parameters have to be added to the redirect url
 			$addparams = array();
@@ -58,11 +58,11 @@ class F3_MailformPlusPlus_Finisher_Redirect extends F3_MailformPlusPlus_Abstract
 				$addparams["L"] = t3lib_div::_GP("L");
 			}
 			
-			$url = $this->cObj->getTypoLink_URL($email_redirect, '',$addparams);
+			$url = $this->cObj->getTypoLink_URL($emailRedirect, '',$addparams);
 			
 		//else it may be a full URL
 		} else {
-			$url = $email_redirect;
+			$url = $emailRedirect;
 		}
 		
 		//correct the URL by replacing &amp;

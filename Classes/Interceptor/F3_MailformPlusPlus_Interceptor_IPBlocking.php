@@ -22,9 +22,13 @@
  * <code>
  * saveInterceptors.1.class = F3_MailformPlusPlus_Interceptor_IPBlocking
  * 
+ * saveInterceptors.1.config.redirectPage = 17
+ * 
  * saveInterceptors.1.config.report.email = example@host.com,example2@host.com
  * saveInterceptors.1.config.report.subject = Submission limit reached
  * saveInterceptors.1.config.report.sender = somebody@otherhost.com
+ * saveInterceptors.1.config.report.interval.value = 5
+ * saveInterceptors.1.config.report.interval.unit = minutes
  * 
  * saveInterceptors.1.config.ip.timebase.value = 5
  * saveInterceptors.1.config.ip.timebase.unit = minutes
@@ -43,6 +47,22 @@
  * @subpackage	Interceptor
  */
 class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_AbstractInterceptor {
+	
+	/**
+     * The table where the reports are logged
+     * 
+     * @access protected
+     * @var string
+     */
+	protected $reportTable = 'tx_mailformplusplus_reportlog';
+	
+	/**
+     * The table where the form submissions are logged
+     * 
+     * @access protected
+     * @var string
+     */
+	protected $logTable = 'tx_mailformplusplus_log';
 	
 	/**
      * The main method called by the controller
@@ -86,7 +106,7 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 		if($addIPToWhere) {
 			$where = 'ip=\''.t3lib_div::getIndpEnv('REMOTE_ADDR').'\' AND '.$where;
 		}
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,ip,crdate,params','tx_mailformplusplus_log',$where);
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,ip,crdate,params',$this->logTable,$where);
 		
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) >= $maxValue) {
 			
@@ -99,14 +119,73 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 				while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 					$rows[] = $row;
 				}
-				if($addIPToWhere) {
-					$this->sendReport('ip',$rows);
+				$intervalValue = $this->settings['report.']['interval.']['value'];
+				$intervalUnit = $this->settings['report.']['interval.']['unit'];
+				$send = true;
+				if($intervalUnit && $intervalValue) {
+					$intervalTstamp = $this->getTimestamp($intervalValue,$intervalUnit);
+					$where = 'pid='.$GLOBALS['TSFE']->id.' AND crdate>'.$intervalTstamp;
+					if($addIPToWhere) {
+						$where .= ' AND ip=\''.t3lib_div::getIndpEnv('REMOTE_ADDR').'\'';
+					}
+					
+					$res_log = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid',$this->reportTable,$where);
+					
+					if($res_log && $GLOBALS['TYPO3_DB']->sql_num_rows($res_log) > 0) {
+						$send = false;
+					}
+				}
+				if($send) {
+					if($addIPToWhere) {
+						$this->sendReport('ip',$rows);
+					} else {
+						$this->sendReport('global',$rows);
+					}
 				} else {
-					$this->sendReport('global',$rows);
+					F3_MailformPlusPlus_StaticFuncs::debugMessage("Mails not sent because a mail has already been sent in defined interval!");
 				}
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
-			throw new Exception($message);
+			
+			if($this->settings['redirectPage']) {
+				$this->doRedirect($this->settings['redirectPage']);
+			} else {
+				throw new Exception($message);
+			}
+		}
+	}
+	
+	/**
+     * Redirects to given page id or url
+     * 
+     * @param mixed $emailRedirect
+     * @return void
+     */
+	private function doRedirect($emailRedirect) {
+	
+		//if redirect_page was page id
+		if (is_numeric($emailRedirect)) {
+		
+			// these parameters have to be added to the redirect url
+			$addparams = array();
+			if (t3lib_div::_GP("L")) {
+				$addparams["L"] = t3lib_div::_GP("L");
+			}
+			
+			$url = $this->cObj->getTypoLink_URL($emailRedirect, '',$addparams);
+			
+		//else it may be a full URL
+		} else {
+			$url = $emailRedirect;
+		}
+		
+		//correct the URL by replacing &amp;
+		if ($this->settings['correctRedirectUrl']) { 
+			$url = str_replace('&amp;', '&', $url);
+		}
+		
+		if($url) {
+			header("Location: ".t3lib_div::locationHeaderUrl($url));
 		}
 	}
 	
@@ -168,6 +247,8 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Subject:".$emailObj->subject,false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Message:".$message,false);
 				
+				
+				
 			} else {
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail sending failed to: ".$mailto);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage("Sender: ".$emailObj->from_email,false);
@@ -176,6 +257,15 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 				
 			}
 	    }
+	    $dbParams = array();
+		$dbParams['pid'] = $GLOBALS['TSFE']->id;
+		if($type == 'ip') {
+			$dbParams['ip'] = t3lib_div::getIndpEnv('REMOTE_ADDR');	
+		}
+		$tstamp = time();
+		$dbParams['tstamp'] = $tstamp;
+		$dbParams['crdate'] = $tstamp;
+		$GLOBALS['TYPO3_DB']->exec_INSERTquery($this->reportTable,$dbParams);
 	}
 	
 	/**
