@@ -76,7 +76,7 @@ class F3_MailformPlusPlus_PreProcessor_LoadDefaultValues extends F3_MailformPlus
 				
 				if (!isset($this->gp[$fN])) {
 					if($settings[$fN . '.']['defaultValue'] && $settings[$fN . '.']['defaultValue.']) {
-						$this->gp[$fN] = $this->cObj->getSingle($settings[$fN . '.']['defaultValue'],$settings[$fN . '.']['defaultValue.']);
+						$this->gp[$fN] = $this->cObj->cObjGetSingle($settings[$fN . '.']['defaultValue'],$settings[$fN . '.']['defaultValue.']);
 					} elseif($settings[$fN . '.']['defaultValue.']) {
 						$this->gp[$fN] = $this->cObj->TEXT($settings[$fN . '.']['defaultValue.']);
 					} elseif ($settings[$fN . '.']['defaultValue'] || $settings[$fN . '.']['defaultValue'] == 0) {
