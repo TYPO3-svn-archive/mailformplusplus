@@ -37,7 +37,7 @@ if (TYPO3_MODE=="BE")   {
 	$TSObj->runThroughTemplates($rootLine);
 	$TSObj->generateConfig();
 	if(!$TSObj->setup['plugin.']['F3_MailformPlusPlus.']['userFunc']) {
-		throw new Exception('No static template found! Make sure to include "Settings (mailformplusplus)" in your TypoScript template!');	
+		t3lib_div::debug('No static template found! Make sure to include "Settings (mailformplusplus)" in your TypoScript template!');	
 	}
 
 }
