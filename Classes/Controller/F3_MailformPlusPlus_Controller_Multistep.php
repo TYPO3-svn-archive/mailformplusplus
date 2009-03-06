@@ -22,6 +22,14 @@
 class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Controller_Default {
 	
 	/**
+	 * The current step of the form
+	 *
+	 * @access protected
+	 * @var int
+	 */
+	protected $currentStep;
+	
+	/**
 	 * Main method of the form handler.
 	 *
 	 * @return rendered view
