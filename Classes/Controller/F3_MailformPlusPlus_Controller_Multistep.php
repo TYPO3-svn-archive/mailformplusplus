@@ -33,6 +33,9 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		session_start();
 		$settings = $this->getSettings();
 		
+		// Validate the configuration, throw a possible exception
+		$this->validateConfig($settings);
+		
 		//set GET/POST parameters
 		$this->gp = array_merge(t3lib_div::_GET(), t3lib_div::_POST());
 		if($settings['formValuesPrefix']) {

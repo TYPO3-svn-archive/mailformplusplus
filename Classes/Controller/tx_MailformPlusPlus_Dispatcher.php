@@ -109,7 +109,7 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		try {
 			$result = $controller->process();
 		} catch(Exception $e) {
-			$result = 'Caught exception: ' . $e->getMessage();
+			$result = '<div style="color:red; font-weight: bold">Caught exception: ' . $e->getMessage() . '</div>';
 		}
 		return $result;
 	}

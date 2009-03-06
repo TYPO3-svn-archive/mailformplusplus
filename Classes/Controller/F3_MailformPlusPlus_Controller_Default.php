@@ -45,6 +45,15 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 */
 	protected $templateFile;
 
+	/**
+     * The cObj 
+     * 
+     * @access protected
+     * @var tslib_cObj
+     */
+	protected $cObj;
+
+
 	//not used
 	protected $piVars;
 
@@ -59,7 +68,8 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	public function __construct(F3_GimmeFive_Component_Manager $componentManager, F3_MailformPlusPlus_Configuration $configuration) {
 		$this->componentManager = $componentManager;
 		$this->configuration = $configuration;
-		$this->initializeController();
+		$this->initializeController();		
+		$this->cObj = F3_MailformPlusPlus_StaticFuncs::$cObj;
 	}
 
 	/**
@@ -305,6 +315,43 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	}
 
 	/**
+     * Method to define whether the config is valid or not. If no, display a warning on the frontend.
+     * The default value is TRUE. This up to the finisher to overload this method
+     * 
+     * @param	array	$settings: the TS configuration
+     */
+	public function validateConfig(&$settings) {
+		
+		$options = array(
+			array('to_email', 'sEMAILADMIN', 'F3_MailformPlusPlus_Finisher_Mail'),
+			array('to_email', 'sEMAILUSER', 'F3_MailformPlusPlus_Finisher_Mail'),
+			array('redirect_page', 'sMISC', 'F3_MailformPlusPlus_Finisher_Redirect'),
+			array('required_fields', 'sMISC', 'F3_MailformPlusPlus_Finisher_Redirect'),
+		);
+		
+		foreach ($options as $option) {
+			$fieldName = $option[0];
+			$flexformSection = $option[1];
+			$finisherName = $option[2];
+			
+			$value = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],$fieldName, $flexformSection);
+			// Check if a Mail Finisher can be found in the config
+			$isConfigOk = FALSE;
+			foreach ($settings['finishers.'] as $finisher) {
+				if ($finisher['class'] == $finisherName && !empty($finisher['config.'])) {
+					$isConfigOk = TRUE;
+					break;	
+				}
+			}
+			
+			// Throws an Exception if needed
+			if ($value != '' && !$isConfigOk) {
+				throw new Exception('Missing or incomplete Finisher! Please add / complete your typoscript configuration: ' . $finisherName);
+			}
+		}
+	}
+	
+	/**
 	 * Main method of the form handler.
 	 *
 	 * @author	Reinhard Führicht <rf@typoheads.at>
@@ -323,6 +370,9 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 
 		F3_MailformPlusPlus_StaticFuncs::debugMessage("Using controller \"F3_MailformPlusPlus_Controller_Default\"");
 
+		// Validate the configuration, throw a possible exception
+		$this->validateConfig($settings);
+		
 		//set gp vars
 		$this->gp = array_merge(t3lib_div::_GET(), t3lib_div::_POST());
 		if($settings['formValuesPrefix']) {
@@ -450,6 +500,9 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 							$tsConfig['config.']['formValuesPrefix'] = $settings['formValuesPrefix'];
 
 							$finisher->loadConfig($this->gp,$tsConfig['config.']);
+							
+							// Tries to validate the configuration. This may return an exception.
+							$finisher->validateConfig();
 							
 							//if the finisher returns HTML (e.g. F3_MailformPlusPlus_Finisher_Confirmation)
 							if($tsConfig['config.']['returns']) {
