@@ -149,6 +149,8 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 			
 			if($this->settings['redirectPage']) {
 				$this->doRedirect($this->settings['redirectPage']);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage("Tried to do a redirect to specified page! The redirect may have failed because the debug settings is on!");
+				exit(0);
 			} else {
 				throw new Exception($message);
 			}

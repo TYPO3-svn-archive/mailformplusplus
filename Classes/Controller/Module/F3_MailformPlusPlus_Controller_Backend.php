@@ -20,73 +20,73 @@
  * @subpackage	Controller
  */
 class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_AbstractController {
-	
-	
+
+
 	/**
-     * The GimmeFive component manager
-     * 
-     * @access protected
-     * @var F3_GimmeFive_Component_Manager
-     */
+	 * The GimmeFive component manager
+	 *
+	 * @access protected
+	 * @var F3_GimmeFive_Component_Manager
+	 */
 	protected $componentManager;
-	
+
 	/**
-     * The global MailformPlusPlus configuration
-     * 
-     * @access protected
-     * @var F3_MailformPlusPlus_Configuration
-     */
+	 * The global MailformPlusPlus configuration
+	 *
+	 * @access protected
+	 * @var F3_MailformPlusPlus_Configuration
+	 */
 	protected $configuration;
-	
+
 	/**
-     * The table to select the logged records from
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The table to select the logged records from
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $logTable;
-	
+
 	/**
-     * The absolute path to the template folder
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The absolute path to the template folder
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $templatePath;
-	
+
 	/**
-     * The template file name
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The template file name
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $templateFile;
-	
+
 	/**
-     * The contents of the template file
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The contents of the template file
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $templateCode;
-	
+
 	/**
-     * The constructor for a finisher setting the component manager and the configuration.
-     * 
-     * @param F3_GimmeFive_Component_Manager $componentManager
-     * @param F3_MailformPlusPlus_Configuration $configuration
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @return void
-     */
+	 * The constructor for a finisher setting the component manager and the configuration.
+	 *
+	 * @param F3_GimmeFive_Component_Manager $componentManager
+	 * @param F3_MailformPlusPlus_Configuration $configuration
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @return void
+	 */
 	public function __construct(F3_GimmeFive_Component_Manager $componentManager, F3_MailformPlusPlus_Configuration $configuration) {
 		$this->componentManager = $componentManager;
 		$this->configuration = $configuration;
 		$this->templatePath = t3lib_extMgm::extPath('mailformplusplus').'Resources/HTML/backend/';
 		$this->templateFile = $this->templatePath.'template.html';
 		$this->templateCode = t3lib_div::getURL($this->templateFile);
-		
+
 	}
-	
+
 	/**
 	 * init method to load translation data and set log table.
 	 *
@@ -99,7 +99,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		$LANG->includeLLFile('EXT:mailformplusplus/Resources/Language/locallang.xml');
 		$this->logTable = 'tx_mailformplusplus_log';
 	}
-	
+
 	/**
 	 * Main method of the controller.
 	 *
@@ -108,83 +108,83 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 */
 	public function process() {
 		global $LANG;
-		
-		//init 
+
+		//init
 		$this->init();
-		
+
 		//init gp params
 		$params = t3lib_div::_GP('mailformplusplus');
-		
+
 		//should delete records
 		if($params[delete] && isset($params['markedUids']) && is_array($params['markedUids'])) {
-			
+				
 			//delete records
 			$this->deleteRecords($params['markedUids']);
-			
+				
 			//select all records
 			$records = $this->fetchRecords();
-			
+				
 			//show table
 			$table = $this->getTable($records);
-			
+				
 			return $table;
 		}
-		
+
 		//should show index
 		if(!$params['detailId'] && !$params['markedUids']) {
-			
+				
 			//if log table doesn't exist, show error
 			$tables = $GLOBALS['TYPO3_DB']->admin_get_tables();
 			if(!in_array($this->logTable,array_keys($tables))) {
 				return $this->getErrorMessage();
-				
-			//show index table
+
+				//show index table
 			} else {
-				
+
 				//select all records
 				$records = $this->fetchRecords();
-				
+
 				//show table
 				$table = $this->getTable($records);
 				return $table;
 			}
-			
-		//should export to some format
+				
+			//should export to some format
 		} elseif(!$params['delete']) {
-			
+				
 			//should show detail view of a single record
 			if(!$params['renderMethod']) {
-				
+
 				return $this->showSingleView($params['detailId']);
-				
-			//PDF generation
+
+				//PDF generation
 			} elseif(!strcasecmp($params['renderMethod'],"pdf")) {
-				
+
 				//render a single record to PDF
 				if($params['detailId']) {
 					return $this->generatePDF($params['detailId']);
-					
-				//render many records to PDF
+						
+					//render many records to PDF
 				} elseif(isset($params['markedUids']) && is_array($params['markedUids'])) {
 					return $this->generatePDF($params['markedUids']);
 				}
-				
-			//CSV
+
+				//CSV
 			} elseif(!strcasecmp($params['renderMethod'],"csv")) {
-				
+
 				//save single record as CSV
 				if($params['detailId']) {
 					return $this->generateCSV($params['detailId']);
-					
-				//save many records as CSV
+						
+					//save many records as CSV
 				} elseif(isset($params['markedUids']) && is_array($params['markedUids'])) {
 					return $this->generateCSV($params['markedUids']);
 				}
-				
+
 			}
 		}
 	}
-	
+
 	/**
 	 * Function to delete one ore more records from log table
 	 *
@@ -195,7 +195,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	protected function deleteRecords($uids) {
 		$GLOBALS['TYPO3_DB']->exec_DELETEquery($this->logTable,"uid IN (".implode(",",$uids).")");
 	}
-	
+
 	/**
 	 * Function to handle the generation of a PDF file.
 	 * Before the data gets exported, the user is able to select which fields to export in a selection view.
@@ -206,55 +206,55 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht
 	 */
 	protected function generatePDF($detailId) {
-		
-		/* 
+
+		/*
 		 * if there is only one record to export, initialize an array with the one uid
 		 * to ensure that foreach loops will not crash
 		 */
 		if(!is_array($detailId)) {
 			$detailId = array($detailId);
 		}
-		
+
 		//init gp params
 		$gp = t3lib_div::_GP('mailformplusplus');
-		
+
 		//select the records
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery("uid,pid,crdate,ip,params",$this->logTable,"uid IN (".implode(",",$detailId).")");
-		
+
 		//if records were found
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 			$records = array();
 			$allParams = array();
-			
+				
 			//loop through records
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-				
+
 				//unserialize params and save the array
 				$row['params'] = unserialize($row['params']);
 				$records[] = $row;
 				if(!is_array($row['params'])) {
 					$row['params'] = array();
 				}
-				
+
 				//sum up all params for selection view
 				$allParams = array_merge($allParams,$row['params']);
 			}
-			
+				
 			//if fields were chosen in selection view, export the records using the selected fields
 			if(isset($gp['exportParams'])) {
 				$generator = $this->componentManager->getComponent("F3_MailformPlusPlus_Generator_PDF");
 				$generator->generateModulePDF($records,$gp['exportParams']);
-				
-			/*
-			 * show selection view to find out which fields to export.
-			 * This enables the user to get rid of fields like submitted or mp-step
-			 */
+
+				/*
+				 * show selection view to find out which fields to export.
+				 * This enables the user to get rid of fields like submitted or mp-step
+				 */
 			} else {
 				return $this->generatePDFExportFieldsSelector($allParams);
-			}	
+			}
 		}
 	}
-	
+
 	/**
 	 * Function to handle the generation of a CSV file.
 	 * Before the data gets exported, the data is checked and the user gets informed about different formats of the data.
@@ -266,34 +266,34 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function generateCSV($detailId) {
-		
-		/* 
+
+		/*
 		 * if there is only one record to export, initialize an array with the one uid
 		 * to ensure that foreach loops will not crash
 		 */
 		if(!is_array($detailId)) {
 			$detailId = array($detailId);
 		}
-		
+
 		//init gp params
 		$params = t3lib_div::_GP('mailformplusplus');
-		
+
 		//select the records to export
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery("uid,pid,crdate,ip,params,key_hash",$this->logTable,"uid IN (".implode(",",$detailId).")");
-		
+
 		//if record were found
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 			$records = array();
 			$count = 0;
 			$hashes = array();
 			$availableFormats = array();
-			
+				
 			//loop through records
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-				
+
 				//unserialize the params array
 				$row['params'] = unserialize($row['params']);
-				
+
 				//find the amount of different formats to inform the user.
 				if(!in_array($row['key_hash'],$hashes)) {
 					$hashes[] = $row['key_hash'];
@@ -301,55 +301,55 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				}
 				$records[] = $row;
 			}
-			
+				
 			$availableFormatsCount = count($hashes);
-			
+				
 			//only one format found
 			if($availableFormatsCount == 1) {
-				
+
 				//if fields were chosen in the selection view, perform the export
 				if(isset($params['exportParams'])) {
 					$generator = $this->componentManager->getComponent("F3_MailformPlusPlus_Generator_CSV");
 					$generator->generateModuleCSV($renderRecords,$params['exportParams']);
-					
-				//no fields chosen, show selection view.
+						
+					//no fields chosen, show selection view.
 				} else {
 					return $this->generateCSVExportFieldsSelector($renderRecords[0]['params']);
 				}
-				
-			//more than one format and user has chosen a format to export
+
+				//more than one format and user has chosen a format to export
 			} elseif(isset($params['csvFormat'])) {
-				
+
 				//select the format
 				$format = $hashes[$params['csvFormat']];
 				$renderRecords = array();
-				
+
 				//find out which records belong to this format
 				foreach($records as $record) {
 					if(!strcmp($record['key_hash'],$format)) {
 						$renderRecords[] = $record;
 					}
 				}
-				
+
 				//if fields were chosen in the selection view, perform the export
 				if(isset($params['exportParams'])) {
 					$generator = $this->componentManager->getComponent("F3_MailformPlusPlus_Generator_CSV");
 					$generator->generateModuleCSV($renderRecords,$params['exportParams']);
-					
-				//no fields chosen, show selection view.
+						
+					//no fields chosen, show selection view.
 				} else {
 					return $this->generateCSVExportFieldsSelector($renderRecords[0]['params']);
 				}
-				
-			//more than one format and none chosen by now, show format selection view.
+
+				//more than one format and none chosen by now, show format selection view.
 			} else {
 				return $this->generateFormatsSelector($availableFormats,$detailId);
 			}
 		}
 	}
-	
+
 	/**
-	 * This function returns a list of all available fields to export for CSV export. 
+	 * This function returns a list of all available fields to export for CSV export.
 	 * The user can choose several fields and start the export.
 	 *
 	 * @param array $params The available fields to export.
@@ -358,15 +358,15 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 */
 	protected function generateCSVExportFieldsSelector($params) {
 		global $LANG;
-		
+
 		//if there are no params, initialize the array to ensure that foreach loops will not crash
 		if(!is_array($params)) {
 			$params = array();
 		}
-		
+
 		//init gp params
 		$gp = t3lib_div::_GP('mailformplusplus');
-				
+
 		//header
 		$selector = '<h3>' . $LANG->getLL('select_export_fields') . '</h3><br />';
 		$selector .= '
@@ -375,17 +375,17 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				<input type="button" onclick="deselectAll()" value="'.$LANG->getLL('deselect_all').'" />
 			</div>
 		';
-		
+
 		//start form with hidden fields holding the values of params of the steps before
 		$selector .= '<form id="mailformplusplus_module_form" action="'.$_SERVER['PHP_SELF'].'" method="post">';
-		
+
 		//the selected format to export
 		$selector .= '<input type="hidden" name="mailformplusplus[csvFormat]" value="'.$gp['csvFormat'].'" />';
-		
+
 		//the selected render method (csv/pdf), should be csv here
 		$selector .= '<input type="hidden" name="mailformplusplus[renderMethod]" value="'.$gp['renderMethod'].'" />';
-		
-		/* 
+
+		/*
 		 * if there is only one record to export, initialize an array with the one uid
 		 * to ensure that foreach loops will not crash.
 		 * UIDs could be in param "markedUids" if more records where selected or in "detailId" if only one record get exported.
@@ -397,30 +397,30 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		if(!is_array($detailId)) {
 			$detailId = array($detailId);
 		}
-		
+
 		//the selected records in a previous step
 		foreach($detailId as $id) {
 			$selector .= '<input type="hidden" name="mailformplusplus[markedUids][]" value="'.$id.'" />';
 		}
-		
+
 		//start output table
 		$selector .= '<table>';
-		
+
 		//add a label and a checkbox for each available parameter
 		foreach($params as $field=>$value) {
 			$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="'.$field.'">'.$field.'</td></tr>';
 		}
-		
+
 		//add submite button and close form
 		$selector .= '</table><input type="submit" value="'.$LANG->getLL('export').'" /></form>';
-		
+
 		//add javascript for "select all" and "deselect all"
 		$selector .= $this->getSelectionJS();
 		return $selector;
 	}
-	
+
 	/**
-	 * This function returns a list of all available fields to export for PDF export. 
+	 * This function returns a list of all available fields to export for PDF export.
 	 * The user can choose several fields and start the export.
 	 *
 	 * @param array $params The available fields to export.
@@ -429,15 +429,15 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 */
 	protected function generatePDFExportFieldsSelector($params) {
 		global $LANG;
-		
+
 		//if there are no params, initialize the array to ensure that foreach loops will not crash
 		if(!is_array($params)) {
 			$params = array();
 		}
-		
+
 		//init gp params
 		$gp = t3lib_div::_GP('mailformplusplus');
-		
+
 		//header
 		$selector = '<h3>' . $LANG->getLL('select_export_fields') . '</h3><br />';
 		$selector .= '
@@ -446,14 +446,14 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				<input type="button" onclick="deselectAll()" value="'.$LANG->getLL('deselect_all').'" />
 			</div>
 		';
-		
+
 		//start form with hidden fields holding the values of params of the steps before
 		$selector .= '<form id="mailformplusplus_module_form" action="'.$_SERVER['PHP_SELF'].'" method="post">';
-		
+
 		//the selected render method (csv/pdf), should be pdf here
 		$selector .= '<input type="hidden" name="mailformplusplus[renderMethod]" value="'.$gp['renderMethod'].'" />';
-		
-		/* 
+
+		/*
 		 * if there is only one record to export, initialize an array with the one uid
 		 * to ensure that foreach loops will not crash.
 		 * UIDs could be in param "markedUids" if more records where selected or in "detailId" if only one record get exported.
@@ -465,12 +465,12 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		if(!is_array($detailId)) {
 			$detailId = array($detailId);
 		}
-		
+
 		//the selected records in a previous step
 		foreach($detailId as $id) {
 			$selector .= '<input type="hidden" name="mailformplusplus[markedUids][]" value="'.$id.'" />';
 		}
-		
+
 		//start output table with the default fields that can be exported (ip address, submission date and PID)
 		$selector .= '<table>';
 		$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="ip">'.$LANG->getLL('ip_address').'</td></tr>';
@@ -478,20 +478,20 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="pid">'.$LANG->getLL('page_id').'</td></tr>';
 		$selector .= '</table>';
 		$selector .= '<table>';
-		
+
 		//add a label and a checkbox for each available parameter
 		foreach($params as $field=>$value) {
 			$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="'.$field.'">'.$field.'</td></tr>';
 		}
-		
+
 		//add submit button and close form
 		$selector .= '</table><input type="submit" value="'.$LANG->getLL('export').'" /></form>';
-		
+
 		//add javascript for "select all" and "deselect all"
 		$selector .= $this->getSelectionJS();
 		return $selector;
 	}
-	
+
 	/**
 	 * This function returns JavaScript code to select/deselect all checkboxes in a form
 	 *
@@ -501,7 +501,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	protected function getSelectionJS() {
 		return F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###JS_CODE###');
 	}
-	
+
 	/**
 	 * This function returns a list of all available formats to export to CSV.
 	 * The user has to choose one ny another and export them to different files.
@@ -513,37 +513,37 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 */
 	protected function generateFormatsSelector($formats,$detailId) {
 		global $LANG;
-		/* 
+		/*
 		 * if there is only one record to export, initialize an array with the one uid
 		 * to ensure that foreach loops will not crash.
 		 */
 		if(!is_array($detailId)) {
 			$detailId = array($detailId);
 		}
-		
+
 		//header
 		$selector .= '<h3>'.sprintf($LANG->getLL('formats_found'),count($formats)).'</h3><br />';
-		
+
 		//start table
 		$selector .= '<table>';
-		
+
 		//loop through formats
 		foreach($formats as $key=>$format) {
-			
+				
 			//if format is valid
 			if(isset($format) && is_array($format)) {
-				
+
 				//start a form
 				$selector .= '
 					<tr><td>
 							<form action="'.$_SERVER['PHP_SELF'].'" method="post">
 				';
-				
+
 				//add hidden fields for all selected records to export
 				foreach($detailId as $id) {
 					$selector .= '<input type="hidden" name="mailformplusplus[markedUids][]" value="'.$id.'" />';
 				}
-				
+
 				//add hidden fields for the current format and the render method CSV
 				$selector .= '
 							<input type="hidden" name="mailformplusplus[csvFormat]" value="'.$key.'" />
@@ -556,12 +556,12 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				';
 			}
 		}
-		
+
 		//close table, add back link and return
 		$selector .= '</table><br /><hr /><a href="'.$_SERVER['PHP_SELF'].'">'.$LANG->getLL('back').'</a>';
 		return $selector;
 	}
-	
+
 	/**
 	 * This function returns a single view of a record
 	 *
@@ -571,31 +571,31 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 */
 	protected function showSingleView($singleUid) {
 		global $LANG;
-		
-		
+
+
 		//select the record
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery("uid,pid,crdate,ip,params",$this->logTable,"uid=".$singleUid);
-		
+
 		//if UID was valid
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-			
+				
 			$viewCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###DETAIL_VIEW###');
-			
+				
 			//unserialize params
 			$params = unserialize($row['params']);
-			
+				
 			$markers = array();
-			
+				
 			//start with default fields (IP address, submission date, PID)
 			$markers['###PID###'] = $row['pid'];
 			$markers['###CRDATE###'] = date("Y/m/d H:i",$row['crdate']);
 			$markers['###IP###'] = $row['ip'];
-			
+				
 			$markers['###LLL:page_id###'] = $LANG->getLL('page_id');
 			$markers['###LLL:crdate###'] = $LANG->getLL('crdate');
 			$markers['###LLL:ip_address###'] = $LANG->getLL('ip_address');
-			
+				
 			//add the submitted params
 			if(isset($params) && is_array($params)) {
 				$paramsTable .= '<table>';
@@ -614,8 +614,8 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			}
 			$markers['###LLL:params###'] = $LANG->getLL('params');
 			$markers['###PARAMS###'] = $paramsTable;
-			
-			
+				
+				
 			$markers['###LLL:export_as###'] = $LANG->getLL('export_as');
 			$markers['###EXPORT_LINKS###'] = '<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=pdf">'.$LANG->getLL('pdf').'</a>
 						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=csv">'.$LANG->getLL('csv').'</a>';
@@ -625,7 +625,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			return $content;
 		}
 	}
-	
+
 	/**
 	 * This function returns an error message if the log table was not found
 	 *
@@ -648,22 +648,22 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			</div>
 		';
 	}
-	
+
 	/**
 	 * This function selects all logged records from the log table using the filter settings.
 	 *
 	 * @return array The selected records
 	 * @author Reinhard Führicht <rf@typoheads.at>
-	 */ 
+	 */
 	protected function fetchRecords() {
 		$records = array();
-		
+
 		//build WHERE clause
 		$where = $this->buildWhereClause();
-		
+
 		//select the records
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery("uid,pid,crdate,ip,params",$this->logTable,$where);
-		
+
 		//if records found
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 			$count = 0;
@@ -674,7 +674,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		}
 		return $records;
 	}
-	
+
 	/**
 	 * This function applies the filter settings and builds an according WHERE clause for the SELECT statement
 	 *
@@ -682,34 +682,34 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function buildWhereClause() {
-		
+
 		//init gp params
 		$params = t3lib_div::_GP('mailformplusplus');
 		$where = array();
-		
+
 		//if only records of a specific PID should be shown
 		if(strlen(trim($params['pidFilter'])) > 0) {
 			$where[] = "pid IN (".$params['pidFilter'].")";
 		}
-		
+
 		//only records submitted after given timestamp
 		if(strlen(trim($params['startdateFilter'])) > 0) {
 			$tstamp = F3_MailformPlusPlus_StaticFuncs::dateToTimestamp($params['startdateFilter']);
 			$where[] = "crdate >= ".$tstamp;
 		}
-		
+
 		//only records submitted before given timestamp
 		if(strlen(trim($params['enddateFilter'])) > 0) {
 			$tstamp = F3_MailformPlusPlus_StaticFuncs::dateToTimestamp($params['enddateFilter'],true);
 			$where[] = "crdate <= ".$tstamp;
 		}
-		
+
 		//if filter was applied, return the WHERE clause
 		if(count($where) > 0) {
 			return implode(" AND ",$where);
 		}
 	}
-	
+
 	/**
 	 * This function returns the filter fields on top.
 	 *
@@ -718,12 +718,12 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 */
 	protected function getFilterSection() {
 		global $LANG;
-		
+
 		//init gp params
 		$params = t3lib_div::_GP('mailformplusplus');
-		
+
 		$filter = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###FILTER_FORM###');
-		
+
 		$markers = array();
 		$markers['###URL###'] = $_SERVER['PHP_SELF'];
 		$markers['###LLL:filter###'] = $LANG->getLL('filter');
@@ -731,20 +731,20 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		$markers['###LLL:cal###'] = $LANG->getLL('cal');
 		$markers['###LLL:startdate###'] = $LANG->getLL('startdate');
 		$markers['###LLL:enddate###'] = $LANG->getLL('enddate');
-		
+
 		$this->addValueMarkers($markers,$params);
-		
-		
+
+
 		$filter .= $this->getCalendarJS();
 
-		
+
 		return F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($filter,$markers);
 	}
-	
+
 	/**
 	 * This function fills a marker array with ###value_[xxx]### markers.
 	 * [xxx] are the keys of the given array $params.
-	 * 
+	 *
 	 * @param array &$markers
 	 * @param array $params
 	 * @return void
@@ -767,40 +767,40 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	protected function getCalendarJS() {
 		return F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###CALENDAR_JS###');
 	}
-	
+
 	/**
 	 * This function returns HTML code of the function area consisting of buttons to select/deselect all table items, to export selected items
 	 * and to delete selected items.
-	 * 
+	 *
 	 * @return string HTML and JavaScript
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function getFunctionArea() {
-		
+
 		$code = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###FUNCTION_AREA###');
-		$markers = array(); 
+		$markers = array();
 		$markers['###URL###'] = $_SERVER['PHP_SELF'];
 		$markers['###EXPORT_FIELDS_MARKER###'] = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###EXPORT_FIELDS###');
 		$markers['###DELETE_FIELDS_MARKER###'] = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###DELETE_FIELDS###');
 		$markers['###SELECTION_BOX_MARKER###'] = $this->getSelectionBox();
 		return F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($code,$markers);
 	}
-	
+
 	/**
 	 * This function returns HTML code of the buttons to select/deselect all table items
-	 * 
+	 *
 	 * @return string HTML
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function getSelectionBox() {
 		global $LANG;
 		$code = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###SELECTION_BOX###');
-		$markers = array(); 
+		$markers = array();
 		$markers['###LLL:select_all###'] = $LANG->getLL('select_all');
 		$markers['###LLL:deselect_all###'] = $LANG->getLL('deselect_all');
 		return F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($code,$markers);
 	}
-	
+
 	/**
 	 * This function returns the index table.
 	 *
@@ -810,36 +810,36 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 */
 	protected function getTable(&$records) {
 		global $LANG;
-		
+
 		if(count($records) == 0) {
 			return "<div>'.$LANG->getLL('no_records').'</div>";
 		}
-		
-		
+
+
 		//init gp params
 		$params = t3lib_div::_GP('mailformplusplus');
 
-		
+
 		//get filter
 		$table = $this->getFilterSection();
 		//add JavaScript
 		$table .= $this->getSelectionJS();
 		$table .= $this->getFunctionArea();
 		$tableCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###LIST_TABLE###');
-		
+
 		$tableMarkers = array();
 		$tableMarkers['###LLL:PAGE_ID###'] = $LANG->getLL('page_id');
 		$tableMarkers['###LLL:SUBMISSION_DATE###'] = $LANG->getLL('submission_date');
 		$tableMarkers['###LLL:IP###'] = $LANG->getLL('ip_address');
 		$tableMarkers['###LLL:DETAIL_VIEW###'] = $LANG->getLL('detail_view');
 		$tableMarkers['###LLL:EXPORT###'] = $LANG->getLL('export');
-		
+
 		$count = 1;
 		$tableMarkers['###ROWS###'] = '';
 		//add records
 		foreach($records as $record) {
 			if($count % 2 == 0) {
-				$style="";		
+				$style="";
 			} else {
 				$style="background-color:#dedede";
 			}
@@ -854,24 +854,24 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'&mailformplusplus[renderMethod]=csv">CSV</a>';
 			$checkbox = '<input type="checkbox" name="mailformplusplus[markedUids][]" value="'.$record['uid'].'" ';
 			if(isset($params['markedUids']) && is_array($params['markedUids']) && in_array($record['uid'],$params['markedUids'])) {
-					$checkbox .= 'checked="checked"';
-				}
+				$checkbox .= 'checked="checked"';
+			}
 			$checkbox .= '/>';
 			$markers['###CHECKBOX###'] = $checkbox;
 			$count++;
 			$tableMarkers['###ROWS###'] .= F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($rowCode,$markers);
 		}
-		
+
 		//add Export as option
 		$table .= F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($tableCode,$tableMarkers);
 		$table .= F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###EXPORT_FIELDS###');
 		$table = $this->addCSS($table);
 		return F3_MailformPlusPlus_StaticFuncs::removeUnfilledMarkers($table);
 	}
-	
+
 	/**
 	 * Adds HTML code to include the CSS file to given HTML content.
-	 * 
+	 *
 	 * @param string The HTML content
 	 * @return string The changed HML content
 	 * @author Reinhard Führicht <rf@typoheads.at>

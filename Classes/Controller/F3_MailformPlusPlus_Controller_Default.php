@@ -366,9 +366,9 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		$_SESSION['mailformplusplusSettings']['settings'] = $settings;
 
 		//set debug mode
-		$_SESSION['mailformplusplusSettings']['debugMode'] = ($settings['debug'] == "1")?TRUE:FALSE;
+		$_SESSION['mailformplusplusSettings']['debugMode'] = ($settings['debug'] == '1') ? TRUE : FALSE;
 
-		F3_MailformPlusPlus_StaticFuncs::debugMessage("Using controller \"F3_MailformPlusPlus_Controller_Default\"");
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('Using controller "F3_MailformPlusPlus_Controller_Default"');
 
 		// Validate the configuration, throw a possible exception
 		$this->validateConfig($settings);
@@ -388,7 +388,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			
 		}
 		
-		$this->processFiles();
+		//$this->processFiles();
 
 		//read template file
 		$this->readTemplateFile($settings);

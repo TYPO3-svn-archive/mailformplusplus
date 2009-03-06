@@ -22,6 +22,7 @@
  * <code>
  * finishers.1.class = F3_MailformPlusPlus_Finisher_StoreUploadedFiles
  * finishers.1.config.finishedUploadFolder = uploads/mailformplusplus/finished/
+ * finishers.1.config.renameScheme = [filename]_[md5]_[time]
  * </code>
  *
  * @author	Reinhard Führicht <rf@typoheads.at>
@@ -62,6 +63,7 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
      * <code>
      * plugin.F3_MailformPlusPlus.settings.finishers.1.class = F3_MailformPlusPlus_Finisher_StoreUploadedFiles
      * plugin.F3_MailformPlusPlus.settings.finishers.1.config.finishedUploadFolder = uploads/mailformplusplus/finishedFiles/
+     * plugin.F3_MailformPlusPlus.settings.finishers.1.config.renameScheme = [filename]_[md5]_[time]
      * </code>
      * 
      * @return void
@@ -83,14 +85,41 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 				if(strlen($newFolder) > 0 ) {
 					$newFolder = F3_MailformPlusPlus_StaticFuncs::sanitizePath($newFolder);
 					$uploadPath = F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$newFolder;
+					
+					$newFilename = $this->getNewFilename($file['name']);
+					
 					foreach($filesToCopy as $file) {
-						F3_MailformPlusPlus_StaticFuncs::debugMessage("Copying file '".$file['path'].$file['name']."' to '".$uploadPath.$file['name']."'!",false);
-						copy($file['path'].$file['name'],$uploadPath.$file['name']);
+						F3_MailformPlusPlus_StaticFuncs::debugMessage("Copying file '".$file['path'].$file['name']."' to '".$uploadPath.$newFilename."'!",false);
+						copy($file['path'].$file['name'],$uploadPath.$newFilename);
 						unlink($file['path'].$file['name']);
 					}
 				}
 			}
 		}
+	}
+	
+	/**
+     * Generates a new filename for an uploaded file using settings in TypoScript.
+     * 
+     * @param string The current filename
+     * @return string The new filename
+     * 
+     **/
+	protected function getNewFilename($oldName) {
+		$fileparts = explode('.',$oldName);
+		$fileext = '.'.$fileparts[count($fileparts)-1];
+		array_pop($fileparts);
+		$filename = implode('.',$fileparts);
+		$namingScheme = $this->settings['renameScheme'];
+		if(!$namingScheme) {
+			$namingScheme = '[filename]_[time]';
+		}
+		$newFilename = $namingScheme;
+		$newFilename = str_replace('[filename]',$filename,$newFilename);
+		$newFilename = str_replace('[time]',time(),$newFilename);
+		$newFilename = str_replace('[md5]',md5($filename),$newFilename);
+		$newFilename .= $fileext;
+		return $newFilename;
 	}
 	
 }
