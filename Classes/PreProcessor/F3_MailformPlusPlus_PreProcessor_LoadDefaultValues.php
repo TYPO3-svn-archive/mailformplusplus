@@ -104,7 +104,7 @@ class F3_MailformPlusPlus_PreProcessor_LoadDefaultValues extends F3_MailformPlus
 				$fN = preg_replace('/\.$/', '', $fN);
 				if (!isset($_SESSION['mailformplusplusValues'][$step][$fN])) {
 					if($settings[$fN.'.']['defaultValue'] && $settings[$fN . '.']['defaultValue.']) {
-						$_SESSION['mailformplusplusValues'][$step][$fN] =  $this->cObj->getSingle($settings[$fN . '.']['defaultValue'],$settings[$fN.'.']['defaultValue.']);
+						$_SESSION['mailformplusplusValues'][$step][$fN] =  $this->cObj->cObjGetSingle($settings[$fN . '.']['defaultValue'],$settings[$fN.'.']['defaultValue.']);
 					} elseif($settings[$fN . '.']['defaultValue.']) {
 						$_SESSION['mailformplusplusValues'][$step][$fN] =  $this->cObj->TEXT($settings[$fN.'.']['defaultValue.']);
 					} elseif ($settings[$fN . '.']['defaultValue'] || $settings[$fN . '.']['defaultValue'] == 0) {

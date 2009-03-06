@@ -84,7 +84,7 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 		$markers['###submit_prevStep###'] = ' name="'.str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']-1),$name).'" ';
 
 		// submit name for reloading the same page/step
-		$markers['###submit_reload###'] = ' name='.str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']),$name).'" ';
+		$markers['###submit_reload###'] = ' name="'.str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']),$name).'" ';
 		
 		// step bar
 		$markers['###step_bar###'] = $this->createStepBar(

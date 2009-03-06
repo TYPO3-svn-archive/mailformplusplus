@@ -240,7 +240,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		if($settings['formValuesPrefix']) {
 			$name = $settings['formValuesPrefix']."[".$name."]";
 		}
-		$markers['###submit_reload###'] = ' name='.$name.'" ';
+		$markers['###submit_reload###'] = ' name="'.$name.'" ';
 		$this->fillCaptchaMarkers($markers);
 		$this->fillFEUserMarkers($markers);
 		$this->fillFileMarkers($markers);
