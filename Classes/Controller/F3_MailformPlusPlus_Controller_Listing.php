@@ -120,7 +120,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 		//read settings
 		$settings = $this->configuration->getSettings();
 		if(!$settings['fe_listing.']) {
-			throw new Exception("No config found!");
+			throw new Exception('no_config','F3_MailformPlusPlus_Controller_Listing');
 		}
 		$settings = $settings['fe_listing.'];
 		
@@ -150,7 +150,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 		}
 		
 		if(!$table || !$this->mapping) {
-			throw new Exception("Config insufficient!");
+			throw new Exception('insufficient_config','F3_MailformPlusPlus_Controller_Listing');
 		}
 		
 		//set view

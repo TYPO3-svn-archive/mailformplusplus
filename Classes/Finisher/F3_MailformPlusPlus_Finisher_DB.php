@@ -93,12 +93,12 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 			$condition = $this->parseCondition($this->settings['condition']);
 			eval('$evaluation = ' . $condition . ';');
 			$evaluationMessage = ($evaluation === TRUE) ?  'TRUE' : 'FALSE'; 
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('Condition was evaluated as '. $evaluationMessage . ': ' . $condition);
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('condition',$evaluationMessage,$condition);
 			
 		}
 		
 		if($evaluation) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Data gets stored!");
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('data_stored');
 			
 			//initialize
 			$this->init();
@@ -171,7 +171,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 			if($uid) {
 				$GLOBALS['TYPO3_DB']->exec_UPDATEquery($this->table,$this->key."=".$uid,$queryFields);
 			} else {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("UID parameter not found in GP. Cannot make update!");
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('no_update_possible');
 			}
 		}
 	}
@@ -190,7 +190,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 		//set table
 		$this->table = $this->settings['table'];
 		if(!$this->table || !is_array($this->settings['fields.'])) {
-			throw new Exception("No table configured!");
+			F3_MailformPlusPlus_StaticFuncs::throwException('no_table','F3_MailformPlusPlus_Finisher_DB');
 			return;
 		}
 		

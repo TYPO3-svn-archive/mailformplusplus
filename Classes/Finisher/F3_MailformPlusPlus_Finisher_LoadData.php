@@ -53,7 +53,7 @@ class F3_MailformPlusPlus_Finisher_LoadData extends F3_MailformPlusPlus_Abstract
 		
 		//check if config is sufficient
 		if(!isset($this->settings['table']) || !isset($this->settings['fields']) || !isset($this->settings['uidField'])) {
-			throw new Exception('Insufficient configuration for F3_MailformPlusPlus_Finisher_LoadData');
+			throw new Exception('insufficient_config','F3_MailformPlusPlus_Finisher_LoadData');
 		}
 		
 		if(!empty($this->gp[$this->settings['uidField']]) && is_numeric($this->gp[$this->settings['uidField']])) {

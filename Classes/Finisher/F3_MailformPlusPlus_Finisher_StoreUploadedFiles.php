@@ -89,7 +89,7 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 					$newFilename = $this->getNewFilename($file['name']);
 					
 					foreach($filesToCopy as $file) {
-						F3_MailformPlusPlus_StaticFuncs::debugMessage("Copying file '".$file['path'].$file['name']."' to '".$uploadPath.$newFilename."'!",false);
+						F3_MailformPlusPlus_StaticFuncs::debugMessage('copy_file',$file['path'].$file['name'],$uploadPath.$newFilename);
 						copy($file['path'].$file['name'],$uploadPath.$newFilename);
 						unlink($file['path'].$file['name']);
 					}

@@ -53,8 +53,11 @@ class F3_MailformPlusPlus_Logger_DB {
 		//query the database
 		$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery($table,$fields);
 		if(!$settings['nodebug']) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Logging into table \"".$table."\". Inserted fields: ".implode(",",$fields),false);
-			F3_MailformPlusPlus_StaticFuncs::debugMessage($GLOBALS['TYPO3_DB']->sql_error());
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('logging',$table,implode(",",$fields));
+			if(strlen($GLOBALS['TYPO3_DB']->sql_error()) > 0) {
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('error',$GLOBALS['TYPO3_DB']->sql_error());
+			}
+			
 		}
 		
 	}

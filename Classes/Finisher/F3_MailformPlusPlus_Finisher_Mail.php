@@ -143,7 +143,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			$template = $this->cObj->getSubpart($template,"###template_email_".strtolower($mode)."_".strtolower($suffix)."###");
 		}
 		if(!$template) {
-			throw new Exception("No template file to read E-Mail templates!");
+			throw new Exception('no_template');
 		}
 		return $template;
 	}
@@ -245,21 +245,19 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	    		$count++;
 	    	}
 			if($sent) {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail sent to: ".$mailto);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Subject:",$emailObj->subject);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail content:",false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Sender: ".$emailObj->from_name." <".$emailObj->from_email.">",false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Reply to: ".$emailObj->replyto_name." <".$emailObj->replyto_email.">",false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Message Plain: ".$template['plain'],false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Message HTML: ".$template['html'],false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sent',$mailto);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_subject',$emailObj->subject);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sender',$emailObj->from_name." <".$emailObj->from_email.">",false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_replyto',$emailObj->replyto_name." <".$emailObj->replyto_email.">",false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_plain',$template['plain'],false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_html',$template['html'],false);
 			} else {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail sending failed to: ".$mailto);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Subject:",$emailObj->subject);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail content:",false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Sender: ".$emailObj->from_name." <".$emailObj->from_email.">",false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Reply to: ".$emailObj->replyto_name." <".$emailObj->replyto_email.">",false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Message Plain: ".$template['plain'],false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Message HTML: ".$template['html'],false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_not_sent',$mailto);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_subject',$emailObj->subject);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sender',$emailObj->from_name." <".$emailObj->from_email.">",false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_replyto',$emailObj->replyto_name." <".$emailObj->replyto_email.">",false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_plain',$template['plain'],false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_html',$template['html'],false);
 			}
 	    }
 		if($tmphtml) {
@@ -450,7 +448,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
      */
 	public function validateConfig() {
 		if ($this->settings['templateFile'] == '') {
-			throw new Exception("No template file found! Please add one.");
+			throw new Exception('no_template');
 		}		
 	}
 

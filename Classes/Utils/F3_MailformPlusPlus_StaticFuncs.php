@@ -13,7 +13,7 @@
  *                                                                        */
 
 /**
- * A class providiing static helper functions for MailformPlusPlus
+ * A class providing static helper functions for MailformPlusPlus
  *
  * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
@@ -21,7 +21,14 @@
  */
 class F3_MailformPlusPlus_StaticFuncs {
 	
+	/**
+     * The cObj 
+     * 
+     * @access protected
+     * @var tslib_cObj
+     */
 	public static $cObj;
+	
 	/**
      * Returns the absolute path to the document root
      * 
@@ -69,7 +76,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 			} elseif($matches[6] == '!' && !$isset) {
 				return !(isset($markers['###' . $matches[7] . '###']) && $markers['###' . $matches[7] . '###'] != '');
 			} elseif($_SESSION['mailformplusplusSettings']['debugMode'] == 1) {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Invalid format of ISSET Marker. Hint: " . $matches[2]);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('invalid_isset',$matches[2]);
 			}
 		} else {
 			
@@ -381,14 +388,36 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return void
 	 * @static
 	 */
-	public static function debugMessage($message,$extended = true) {
+	public static function debugMessage($key) {
 		session_start();
 		if($_SESSION['mailformplusplusSettings']['debugMode']) {
-			if($extended) {
-				$message = "#######################################<br />".$message."<br />#######################################<br />";
+			$message = F3_MailformPlusPlus_Messages::getDebugMessage($key);
+			if(func_num_args() > 1) {
+				for($i=1;$i<func_num_args();$i++) {
+					$arg = func_get_arg($i);
+					$message = sprintf($message,$arg);
+				}
 			}
 			print $message."<br />";
 		}
+	}
+	
+	/**
+	 * Manages the exception throwing
+	 *
+	 * @param string $key Key in language file
+	 * @return void
+	 * @static
+	 */
+	public static function throwException($key) {
+		$message = F3_MailformPlusPlus_Messages::getExceptionMessage($key);
+		if(func_num_args() > 1) {
+			for($i=1;$i<func_num_args();$i++) {
+				$arg = func_get_arg($i);
+				$message = sprintf($message,$arg);
+			}
+		}
+		throw new Exception($message);
 	}
 	
 	/**
@@ -408,7 +437,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 			}
 			$fields[] = $key."=".$value;
 		}
-		F3_MailformPlusPlus_StaticFuncs::debugMessage(implode("<br />",$fields),false);
+		print implode("<br />",$fields);
 	}
 	
 	

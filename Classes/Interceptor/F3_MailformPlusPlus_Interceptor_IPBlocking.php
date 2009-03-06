@@ -142,14 +142,14 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 						$this->sendReport('global',$rows);
 					}
 				} else {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage("Mails not sent because a mail has already been sent in defined interval!");
+					F3_MailformPlusPlus_StaticFuncs::debugMessage('alert_mail_not_sent');
 				}
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 			
 			if($this->settings['redirectPage']) {
 				$this->doRedirect($this->settings['redirectPage']);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Tried to do a redirect to specified page! The redirect may have failed because the debug settings is on!");
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('redirect_failed');
 				exit(0);
 			} else {
 				throw new Exception($message);
@@ -244,18 +244,15 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 	    	
 	    	$sent = $emailObj->send($mailto);
 			if($sent) {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail sent to: ".$mailto);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Sender: ".$emailObj->from_email,false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Subject:".$emailObj->subject,false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Message:".$message,false);
-				
-				
-				
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sent',$mailto);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sender',$emailObj->from_email,false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_subject',$emailObj->subject,false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_message',$message,false);
 			} else {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Mail sending failed to: ".$mailto);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Sender: ".$emailObj->from_email,false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Subject:".$emailObj->subject,false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Message:".$message,false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_not_sent',$mailto);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sender',$emailObj->from_email,false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_subject',$emailObj->subject,false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_message',$message,false);
 				
 			}
 	    }

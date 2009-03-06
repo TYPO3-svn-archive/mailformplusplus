@@ -100,7 +100,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		//read files in directory
 		$tmpFiles = t3lib_div::getFilesInDir($path);
 
-		F3_MailformPlusPlus_StaticFuncs::debugMessage("Cleaning temporary files in folder \"".$path."\"");
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('cleaning_temp_files',$path);
 
 		//calculate threshold timestamp
 		//hours * 60 * 60 = millseconds
@@ -117,7 +117,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			$creationTime += date("O")/100*60;
 			if($creationTime < $threshold) {
 				unlink($path.$file);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Deleted file \"".$file."\"",false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('deleting_file',$file);
 			}
 		}
 	}
@@ -152,7 +152,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		#		F3_MailformPlusPlus_StaticFuncs::debugMessage("Folder: '".F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder."' doesn't exist!");
 		#	}
 		if(!is_dir(F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder)) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Folder: '".F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder."' doesn't exist!");
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('folder_doesnt_exist',F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder);
 		}
 		return $uploadFolder;
 	}
@@ -180,7 +180,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		unset($_SESSION['submitted_ok']);
 		unset($_SESSION['mailformplusplusSettings']['usedSuffix']);
 		unset($_SESSION['mailformplusplusSettings']['usedSettings']);
-		F3_MailformPlusPlus_StaticFuncs::debugMessage("Form is called the first time, cleared params in $_SESSION");
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('cleared_session');
 	}
 
 	/**
@@ -205,7 +205,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			$uploadPath = F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder;
 			
 			if(!file_exists($uploadPath)) {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage("Folder: ".$uploadPath." doesn't exist!");
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('folder_doesnt_exist',$uploadPath);
 				return;
 			}
 			//for all file properties
@@ -308,7 +308,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 */
 	protected function runClasses($classesArray) {
 		foreach($classesArray as $tsConfig) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling: ".$tsConfig['class']);
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_class',$tsConfig['class']);
 			$obj = $this->componentManager->getComponent($tsConfig['class']);
 			$this->gp = $obj->process($this->gp,$tsConfig['config.']);
 		}
@@ -349,7 +349,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			
 			// Throws an Exception if a problem occurs
 			if ($value != '' && !$isConfigOk) {
-				throw new Exception('Missing ' . $component . '! Please complete your typoscript configuration: ' . $componentName);
+				throw new Exception('missing_component',$component,$componentName);
 			}
 		}
 	}
@@ -371,7 +371,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		//set debug mode
 		$_SESSION['mailformplusplusSettings']['debugMode'] = ($settings['debug'] == '1') ? TRUE : FALSE;
 
-		F3_MailformPlusPlus_StaticFuncs::debugMessage('Using controller "F3_MailformPlusPlus_Controller_Default"');
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller','F3_MailformPlusPlus_Controller_Default');
 
 		// Validate the configuration, throw a possible exception
 		$this->validateConfig($settings);
@@ -415,7 +415,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		$view->setLangFile($this->langFile);
 		$view->setPredefined($this->predefined);
 
-		F3_MailformPlusPlus_StaticFuncs::debugMessage("Using view \"".$viewClass."\"");
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_view',$viewClass);
 		$errors = array();
 		session_start();
 
@@ -459,7 +459,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			$valid = array(true);
 			if(isset($settings['validators.']) && is_array($settings['validators.'])  && !$_SESSION['submitted_ok']) {
 				foreach($settings['validators.'] as $tsConfig) {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Validator: ".$tsConfig['class']);
+					F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_validator',$tsConfig['class']);
 					$validator = $this->componentManager->getComponent($tsConfig['class']);
 
 					$validator->loadConfig($this->gp,$tsConfig['config.']);
@@ -482,7 +482,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 				//run loggers
 				if(isset($settings['loggers.']) && is_array($settings['loggers.']) && !$_SESSION['submitted_ok']) {
 					foreach($settings['loggers.'] as $tsConfig) {
-						F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Logger: ".$tsConfig['class']);
+						F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_logger',$tsConfig['class']);
 						$logger = $this->componentManager->getComponent($tsConfig['class']);
 						$logger->log($this->gp,$tsConfig['config.']);
 					}
@@ -496,7 +496,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 						
 						//check if the form was finished before. This flag is set by the F3_Finisher_Confirmation
 						if(!$_SESSION['submitted_ok']) {
-							F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Finisher: ".$tsConfig['class']);
+							F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_finisher',$tsConfig['class']);
 							$tsConfig['config.']['returns'] = $tsConfig['returns'];
 							$tsConfig['config.']['templateFile'] = $settings['templateFile'];
 							$tsConfig['config.']['langFile'] = $settings['langFile'];
@@ -518,7 +518,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 
 							//if the form was finished before, only show the output of the F3_MailformPlusPlus_Finisher_Confirmation
 						} elseif((is_a($finisher,"F3_MailformPlusPlus_Finisher_Confirmation") || is_subclass_of($finisher,"F3_MailformPlusPlus_Finisher_Confirmation"))) {
-							F3_MailformPlusPlus_StaticFuncs::debugMessage("Calling Finisher: ".$tsConfig['class']);
+							F3_MailformPlusPlus_StaticFuncs::debugMessage('calling finisher '.$tsConfig['class']);
 							$finisher = $this->componentManager->getComponent($tsConfig['class']);
 							$tsConfig['config.']['templateFile'] = $settings['templateFile'];
 							$tsConfig['config.']['langFile'] = $settings['langFile'];
@@ -584,7 +584,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		}
 
 		if(!$this->templateFile) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Could not find template file");
+			F3_MailformPlusPlus_StaticFuncs::throwException('no_template_file');
 		}
 
 	}
@@ -648,7 +648,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		 * Adds JavaScript to replace checkboxes and radio buttons with graphics
 		 */
 		if($settings['fancyForm'] == "1") {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Using fancy form stuff");
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('using_fancy');
 			$GLOBALS['TSFE']->additionalHeaderData['special_css'] .= '
 				<link href="typo3conf/ext/mailformplusplus/Resources/JS/crir/crir.css" rel="stylesheet" type="text/css" media="screen"/>
 			';
@@ -679,7 +679,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		 * Adds JavaScript for help texts. This texts will fade in, when the input fields gets focus and fade out on blur.
 		 */
 		if(is_array($settings['helpTexts.'])) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Enabling help texts");
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('enabling_help');
 			if(!strstr($GLOBALS['TSFE']->additionalHeaderData['special_js'],"/jquery.js")) {
 				$GLOBALS['TSFE']->additionalHeaderData['special_js'] .=
 				'<script language="JavaScript" type="text/javascript" src="'.t3lib_extMgm::extRelPath('mailformplusplus').'Resources/JS/jquery/jquery.js"></script>';
@@ -709,7 +709,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		 * Adds JavaScript for auto complete. If the user types some letters in a configured field, a list of suggestions will be shown.
 		 */
 		if(is_array($settings['autoComplete.'])) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage("Enabling autoComplete");
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('enabling_auto');
 
 			$GLOBALS['TSFE']->additionalHeaderData['special_css'] .= '
 				<link href="typo3conf/ext/mailformplusplus/Resources/JS/autocomplete/jquery.autocomplete.css" rel="stylesheet" type="text/css" media="screen"/>

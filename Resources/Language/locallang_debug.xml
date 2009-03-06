@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="cleaning_temp_files">Cleaning temporary files in folder "%s"!</label>
+			<label index="deleting_file">Deleting file "%s"!</label>
+			<label index="folder_doesnt_exist">Folder "%s" doesn't exist!</label>
+			<label index="cleared_session">Form is called the first time, cleared params in $_SESSION</label>
+			<label index="calling_class">Calling class "%s"</label>
+			<label index="calling_validator">Calling validator "%s"</label>
+			<label index="calling_logger">Calling logger "%s"</label>
+			<label index="calling_finisher">Calling finisher "%s"</label>
+			<label index="using_controller">Using controller "%s"</label>
+			<label index="using_view">Using view "%s"</label>
+			<label index="using_fancy">Using fancy form stuff!</label>
+			<label index="enabling_help">Enabling help texts!</label>
+			<label index="enabling_auto">Enabling auto complete!</label>
+			<label index="form_finished">Form is finished!</label>
+			<label index="current_gp">The current GET/POST params are:</label>
+			<label index="using_subpart">Using subpart "%s"!</label>
+			<label index="condition">Condition was evaluated as %s : $s!</label>
+			<label index="data_stored">Data gets stored!</label>
+			<label index="no_update_possible">UID parameter not found in GP. Cannot make update!</label>
+			<label index="mail_sent">Mail successfully sent to: %s</label>
+			<label index="mail_not_sent">Mail NOT sent to: %s</label>
+			<label index="mail_subject">Subject: %s</label>
+			<label index="mail_sender">Sender: %s</label>
+			<label index="mail_replyto">Reply to: %s</label>
+			<label index="mail_plain">Message plain: %s</label>
+			<label index="mail_html">Message HTML: %s</label>
+			<label index="mail_message">Message: %s</label>
+			<label index="copy_file">Copying file "%s" to "%s"!</label>
+			<label index="alert_mail_not_sent">Mails not sent because a mail has already been sent in defined interval!</label>
+			<label index="redirect_failed">Tried to do a redirect to specified page! The redirect may have failed because the debug settings is on!</label>
+			<label index="logging">Logging into table "%s" values: %s!</label>
+			<label index="error">The following error occurred: %s</label>
+			<label index="invalid_isset">"Invalid format of ISSET Marker. Hint: %s</label>
+			<label index="no_error_message">Could not find error message with key "%s"!</label>
+		</languageKey>
+	</data>
+</T3locallang>

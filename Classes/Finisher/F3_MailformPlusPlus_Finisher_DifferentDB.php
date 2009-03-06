@@ -129,7 +129,7 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 					$fields = implode(",",$fields);
 					$sql = "UPDATE ".$this->table." SET (".$fields.") WHERE ".$this->key."=".$uid;
 				} else {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage("UID parameter not found in GP. Cannot make update!");
+					F3_MailformPlusPlus_StaticFuncs::debugMessage('no_update_possible');
 				}
 			}
 			
@@ -151,7 +151,7 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 			//close connection
 			$conn->Close();
 		} else {
-			throw new Exception("The Extension 'adodb' is required for this task!");
+			throw new Exception('extension_required','adodb','F3_MailformPlsuPlus_Finisher_DifferentDB');
 		}
 	}
 	

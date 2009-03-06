@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="no_template_file">No template file found!</label>
+			<label index="no_table">No table configured for %s!</label>
+			<label index="extension_required">The extension "%s" is required for %s!</label>
+			<label index="missing_component">Missing %s! Please complete your typoscript configuration: %s</label>
+			<label index="no_config">Missing config for %s!</label>
+			<label index="insufficient_config">Insufficient config for %s!</label>
+		</languageKey>
+	</data>
+</T3locallang>

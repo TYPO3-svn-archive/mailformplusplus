@@ -509,7 +509,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 					}
 					$errorMessages[] = $errorMessage;
 				} else {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage("Could not find error Message with key \"error_".$field."_".$type."\"!",false);
+					F3_MailformPlusPlus_StaticFuncs::debugMessage('no_error_message','error_'.$field.'_'.$type);
 				}
 			}
 			$errorMessage = implode("",$errorMessages);
