@@ -323,30 +323,33 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	public function validateConfig(&$settings) {
 		
 		$options = array(
-			array('to_email', 'sEMAILADMIN', 'F3_MailformPlusPlus_Finisher_Mail'),
-			array('to_email', 'sEMAILUSER', 'F3_MailformPlusPlus_Finisher_Mail'),
-			array('redirect_page', 'sMISC', 'F3_MailformPlusPlus_Finisher_Redirect'),
-			array('required_fields', 'sMISC', 'F3_MailformPlusPlus_Finisher_Redirect'),
+			array('to_email', 'sEMAILADMIN', 'finishers', 'F3_MailformPlusPlus_Finisher_Mail'),
+			array('to_email', 'sEMAILUSER', 'finishers', 'F3_MailformPlusPlus_Finisher_Mail'),
+			array('redirect_page', 'sMISC', 'finishers', 'F3_MailformPlusPlus_Finisher_Redirect'),
+			array('required_fields', 'sMISC', 'validators', 'F3_MailformPlusPlus_Validator_Default'),
 		);
 		
 		foreach ($options as $option) {
 			$fieldName = $option[0];
 			$flexformSection = $option[1];
-			$finisherName = $option[2];
+			$component = $option[2];
+			$componentName = $option[3];
 			
 			$value = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],$fieldName, $flexformSection);
 			// Check if a Mail Finisher can be found in the config
 			$isConfigOk = FALSE;
-			foreach ($settings['finishers.'] as $finisher) {
-				if ($finisher['class'] == $finisherName && !empty($finisher['config.'])) {
-					$isConfigOk = TRUE;
-					break;	
+			if (is_array($settings[$component .'.'])) {
+				foreach ($settings[$component .'.'] as $finisher) {
+					if ($finisher['class'] == $componentName) {
+						$isConfigOk = TRUE;
+						break;
+					}
 				}
 			}
 			
-			// Throws an Exception if needed
+			// Throws an Exception if a problem occurs
 			if ($value != '' && !$isConfigOk) {
-				throw new Exception('Missing or incomplete Finisher! Please add / complete your typoscript configuration: ' . $finisherName);
+				throw new Exception('Missing ' . $component . '! Please complete your typoscript configuration: ' . $componentName);
 			}
 		}
 	}
