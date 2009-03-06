@@ -349,7 +349,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			
 			// Throws an Exception if a problem occurs
 			if ($value != '' && !$isConfigOk) {
-				throw new Exception('missing_component',$component,$componentName);
+				F3_MailformPlusPlus_StaticFuncs::throwException('missing_component',$component,$componentName);
 			}
 		}
 	}

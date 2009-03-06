@@ -143,7 +143,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			$template = $this->cObj->getSubpart($template,"###template_email_".strtolower($mode)."_".strtolower($suffix)."###");
 		}
 		if(!$template) {
-			throw new Exception('no_template');
+			F3_MailformPlusPlus_StaticFuncs::throwException('no_template');
 		}
 		return $template;
 	}
@@ -448,7 +448,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
      */
 	public function validateConfig() {
 		if ($this->settings['templateFile'] == '') {
-			throw new Exception('no_template');
+			F3_MailformPlusPlus_StaticFuncs::throwException('no_template');
 		}		
 	}
 

@@ -151,7 +151,7 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 			//close connection
 			$conn->Close();
 		} else {
-			throw new Exception('extension_required','adodb','F3_MailformPlsuPlus_Finisher_DifferentDB');
+			F3_MailformPlusPlus_StaticFuncs::throwException('extension_required','adodb','F3_MailformPlsuPlus_Finisher_DifferentDB');
 		}
 	}
 	
