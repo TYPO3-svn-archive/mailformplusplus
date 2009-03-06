@@ -573,6 +573,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 */
 	protected function validateNotDefaultValue(&$check,$name) {
 		$checkFailed = "";
+		
 		$defaultValue = $check['params']['defaultValue'];
 		if(is_array($check['params']['defaultValue.'])) {
 			$defaultValue = $this->cObj->cObjGetSingle($check['params']['defaultValue'],$check['params']['defaultValue.']);

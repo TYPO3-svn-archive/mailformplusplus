@@ -157,10 +157,10 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 */
 	protected function storeStartEndBlock() {
 		session_start();
-		if(!isset($_SESSION['startblock'])) {
+		if(!isset($_SESSION['startblock']) || empty($_SESSION['startblock'])) {
 			$_SESSION['startblock'] = $this->cObj->getSubpart($this->template, '###FORM_STARTBLOCK###');
 		}
-		if(!isset($_SESSION['endblock'])) {
+		if(!isset($_SESSION['endblock']) || empty($_SESSION['endblock'])) {
 			$_SESSION['endblock'] = $this->cObj->getSubpart($this->template, '###FORM_ENDBLOCK###');
 		}
 	}
@@ -172,8 +172,11 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 */
 	protected function fillStartEndBlock() {
 		session_start();
-		$markers['###FORM_STARTBLOCK###'] = $_SESSION['startblock'];
-		$markers['###FORM_ENDBLOCK###'] = $_SESSION['endblock'];
+		$markers = array (
+			'###FORM_STARTBLOCK###' => $_SESSION['startblock'],
+			'###FORM_ENDBLOCK###' => $_SESSION['endblock']
+		);
+
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 	}
 	
