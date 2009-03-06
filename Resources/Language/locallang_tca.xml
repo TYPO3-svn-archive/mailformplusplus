@@ -25,6 +25,7 @@
 			<label index="mailformplusplus.pi_flexform.emailFrom">Mail From E-mail</label>
 			<label index="mailformplusplus.pi_flexform.emailFromName">Mail From Name</label>
 			<label index="mailformplusplus.pi_flexform.redirectPage">Redirect Page</label>
+			<label index="mailformplusplus.pi_flexform.store_gp">Store data in session when submitting the form</label>
 			<label index="mailformplusplus.pi_flexform.mandatoryFields">Mandatory fields (enter names of formular fields seperated by ",")</label>
 			<label index="mailformplusplus.pi_flexform.replyTo">Reply-To E-mail (optional, name of input field)</label>
 			<label index="mailformplusplus.pi_flexform.replyToName">Reply-To Name (optional, name of input field)</label>			
@@ -49,6 +50,7 @@
 			<label index="mailformplusplus.pi_flexform.emailFrom">Absender E-mail</label>
 			<label index="mailformplusplus.pi_flexform.emailFromName">Absendername</label>
 			<label index="mailformplusplus.pi_flexform.redirectPage">Redirect Seite</label>
+			<label index="mailformplusplus.pi_flexform.store_gp">Store data in session when submitting the form</label>
 			<label index="mailformplusplus.pi_flexform.mandatoryFields">Pflichtfelder (Kommaseparierte Liste mit Formularfeldnamen)</label>
 			<label index="mailformplusplus.pi_flexform.replyTo">Reply-To E-mail</label>
 			<label index="mailformplusplus.pi_flexform.replyToName">Reply-To Name</label>			
@@ -71,6 +73,7 @@
 			<label index="mailformplusplus.pi_flexform.emailFrom">Mail From E-mail</label>
 			<label index="mailformplusplus.pi_flexform.emailFromName">Mail From Name</label>
 			<label index="mailformplusplus.pi_flexform.redirectPage">Redirect Page</label>
+			<label index="mailformplusplus.pi_flexform.store_gp">Store data in session when submitting the form</label>
 			<label index="mailformplusplus.pi_flexform.mandatoryFields">Mandatory fields (enter names of formular fields seperated by ",")</label>
 			<label index="mailformplusplus.pi_flexform.replyTo">Reply-To E-mail (optional, name of input field)</label>
 			<label index="mailformplusplus.pi_flexform.replyToName">Reply-To Name (optional, name of input field)</label>			
@@ -97,6 +100,7 @@
 			<label index="mailformplusplus.pi_flexform.emailFrom">Email expéditeur</label>
 			<label index="mailformplusplus.pi_flexform.emailFromName">Nom expéditeur</label>
 			<label index="mailformplusplus.pi_flexform.redirectPage">Page redirigé</label>
+			<label index="mailformplusplus.pi_flexform.store_gp">Sauvegarder les données lorsque le formulaire est envoyé</label>
 			<label index="mailformplusplus.pi_flexform.mandatoryFields">Champs obligatoires (saisir le nom des champs du formulaire séparé par des ",")</label>
 			<label index="mailformplusplus.pi_flexform.replyTo">Email de réponse (optionel)</label>
 			<label index="mailformplusplus.pi_flexform.replyToName">Nom de réponse (optionel)</label>			

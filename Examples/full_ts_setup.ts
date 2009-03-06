@@ -76,6 +76,13 @@ plugin.F3_MailformPlusPlus.settings {
   debug = 1
   
   /*
+  *
+  * If set, stores the GET / POST variables in the session. May be useful for 
+  * later use. 
+  */    
+  storeGP = 1
+  
+  /*
   *  Wraps for a single error message.
   *  This settings wrap the messages put into a marker like 
   *  ###error_[fieldname]###.

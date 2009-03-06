@@ -245,6 +245,15 @@
 					</TCEforms>
 				</redirect_page>
 
+				<store_gp>
+					<TCEforms>
+						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.store_gp</label>
+						<config>
+							<type>check</type>
+						</config>
+					</TCEforms>
+				</store_gp>
+
 				<required_fields>
 					<TCEforms>
 						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.mandatoryFields</label>
