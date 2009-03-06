@@ -445,7 +445,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 	
 	/**
-     * Method to define whether the config is valid or not. If no, display an exception is sent.
+     * Method to define whether the config is valid or not. If no, an exception is thrown.
      * 
      */
 	public function validateConfig() {
