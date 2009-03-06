@@ -445,15 +445,13 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 	
 	/**
-     * Method to define whether the config is valid or not. If no, display a warning on the frontend.
+     * Method to define whether the config is valid or not. If no, display an exception is sent.
      * 
-     * @return boolean
      */
 	public function validateConfig() {
 		if ($this->settings['templateFile'] == '') {
 			throw new Exception("No template file found! Please add one.");
-		}
-		
+		}		
 	}
 
 	/**
