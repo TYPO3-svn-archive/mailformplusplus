@@ -341,11 +341,11 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 							switch($check) {
 								case "file_minSize":
 									$minSize = $fieldSettings['errorCheck.'][$key."."]['minSize'];
-									$markers["###".str_replace(".","",$fieldname)."_minSize###"] = $minSize;
+									$markers["###".str_replace(".","",$fieldname)."_minSize###"] = t3lib_div::formatSize($minSize,' Bytes | KB | MB | GB');
 								break;
 								case "file_maxSize":
 									$maxSize = $fieldSettings['errorCheck.'][$key."."]['maxSize'];
-									$markers["###".str_replace(".","",$fieldname)."_maxSize###"] = $maxSize;
+									$markers["###".str_replace(".","",$fieldname)."_maxSize###"] = t3lib_div::formatSize($maxSize,' Bytes | KB | MB | GB');
 								break;
 								case "file_allowedTypes":
 									$types = $fieldSettings['errorCheck.'][$key."."]['allowedTypes'];
