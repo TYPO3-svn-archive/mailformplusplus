@@ -10,6 +10,8 @@
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
+ *
+ * $Id$
  *                                                                        */
 
 /**
@@ -336,6 +338,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			$componentName = $option[3];
 
 			$value = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],$fieldName, $flexformSection);
+
 			// Check if a Mail Finisher can be found in the config
 			$isConfigOk = FALSE;
 			if (is_array($settings[$component .'.'])) {

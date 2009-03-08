@@ -1,6 +1,6 @@
 <?php
 
- /* $Id: $ */
+ /* $Id$ */
 
 if (TYPO3_MODE=="BE")   {
 	require_once("../../../Resources/PHP/fpdf/fpdf.php");
