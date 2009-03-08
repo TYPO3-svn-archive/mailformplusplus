@@ -392,13 +392,17 @@ class F3_MailformPlusPlus_StaticFuncs {
 		session_start();
 		if($_SESSION['mailformplusplusSettings']['debugMode']) {
 			$message = F3_MailformPlusPlus_Messages::getDebugMessage($key);
-			if(func_num_args() > 1) {
-				for($i=1;$i<func_num_args();$i++) {
-					$arg = func_get_arg($i);
-					$message = sprintf($message,$arg);
+			if(strlen($message) == 0) {
+				print $key.'<br />';	
+			} else {
+				if(func_num_args() > 1) {
+					for($i=1;$i<func_num_args();$i++) {
+						$arg = func_get_arg($i);
+						$message = sprintf($message,$arg);
+					}
 				}
+				print $message.'<br />';
 			}
-			print $message."<br />";
 		}
 	}
 	
@@ -411,13 +415,18 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 */
 	public static function throwException($key) {
 		$message = F3_MailformPlusPlus_Messages::getExceptionMessage($key);
-		if(func_num_args() > 1) {
-			for($i=1;$i<func_num_args();$i++) {
-				$arg = func_get_arg($i);
-				$message = sprintf($message,$arg);
+		if(strlen($message) == 0) {
+			throw new Exception($key);
+		} else {
+			if(func_num_args() > 1) {
+				for($i=1;$i<func_num_args();$i++) {
+					$arg = func_get_arg($i);
+					$message = sprintf($message,$arg);
+				}
 			}
+			throw new Exception($message);	
 		}
-		throw new Exception($message);
+		
 	}
 	
 	/**
