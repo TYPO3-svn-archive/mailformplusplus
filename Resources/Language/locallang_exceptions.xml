@@ -5,7 +5,7 @@
 			<label index="no_template_file">No template file found!</label>
 			<label index="no_table">No table configured for %s!</label>
 			<label index="extension_required">The extension "%s" is required for %s!</label>
-			<label index="missing_component">Missing %s! Please complete your typoscript configuration: %s</label>
+			<label index="missing_component">Missing %s! The flexform contains '%s' but typoscript configuration is incomplete. Please add : %s</label>
 			<label index="no_config">Missing config for %s!</label>
 			<label index="insufficient_config">Insufficient config for %s!</label>
 		</languageKey>

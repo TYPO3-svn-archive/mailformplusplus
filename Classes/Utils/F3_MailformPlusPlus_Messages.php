@@ -39,7 +39,7 @@ class F3_MailformPlusPlus_Messages {
      * @return string
      */
 	public static function getExceptionMessage($key) {
-		return t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT');
+		return trim($GLOBALS['TSFE']->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_exceptions.xml:'.$key));
 	}
 	
 }

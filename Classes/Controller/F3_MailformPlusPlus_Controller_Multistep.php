@@ -239,7 +239,6 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 							//check if the form was finished before. This flag is set by the F3_Finisher_Confirmation
 							if(!$_SESSION['submitted_ok']) {
 								F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_finisher',$tsConfig['class']);
-								$tsConfig['config.']['returns'] = $tsConfig['returns'];
 								$tsConfig['config.']['templateFile'] = $settings['templateFile'];
 								$tsConfig['config.']['langFile'] = $settings['langFile'];
 								$tsConfig['config.']['formValuesPrefix'] = $settings['formValuesPrefix'];

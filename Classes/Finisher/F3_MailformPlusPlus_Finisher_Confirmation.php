@@ -58,10 +58,9 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 		
 		//set view
 		$view = $this->componentManager->getComponent("F3_MailformPlusPlus_View_Confirmation");
-		
-		#print_r($gp);
+			
 		//render pdf
-		if(!strcasecmp($gp['renderMethod'],"pdf")) {
+		if(!strcasecmp($this->gp['renderMethod'],"pdf")) {
 			
 			//set language file
 			if(isset($this->settings['langFile.']) && is_array($this->settings['langFile.'])) {
@@ -86,10 +85,10 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 				//using random numbered file for now
 				$file = 'typo3temp/mailformplusplus__'.rand(0,getrandmax()).".pdf";
 			}
-			$generator->generateFrontendPDF($gp,$langFile,$exportFields,$file);
+			$generator->generateFrontendPDF($this->gp,$langFile,$exportFields,$file);
 			
 		//render csv
-		} elseif(!strcasecmp($gp['renderMethod'],"csv")) {
+		} elseif(!strcasecmp($this->gp['renderMethod'],"csv")) {
 			$generatorClass = $this->settings['csv.']['class'];
 			if(!$generatorClass) {
 				$generatorClass = "F3_MailformPlusPlus_Generator_CSV";
@@ -99,13 +98,13 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 			if($this->settings['csv.']['exportFields']) {
 				$exportFields = t3lib_div::trimExplode(",",$this->settings['csv.']['exportFields']);
 			}
-			$generator->generateFrontendCSV($gp,$exportFields);
+			$generator->generateFrontendCSV($this->gp,$exportFields);
 		}
 		
 		//show TEMPLATE_CONFIRMATION
 		$view->setTemplate($this->templateFile, 'CONFIRMATION');
 		$view->setSettings($this->settings);
-		return $view->render($gp,array());
+		return $view->render($this->gp,array());
 	}
 	
 }

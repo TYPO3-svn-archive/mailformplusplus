@@ -20,47 +20,47 @@
  * @subpackage	Utils
  */
 class F3_MailformPlusPlus_StaticFuncs {
-	
+
 	/**
-     * The cObj 
-     * 
-     * @access protected
-     * @var tslib_cObj
-     */
+	 * The cObj
+	 *
+	 * @access protected
+	 * @var tslib_cObj
+	 */
 	public static $cObj;
-	
+
 	/**
-     * Returns the absolute path to the document root
-     * 
-     * @return string
-     */
+	 * Returns the absolute path to the document root
+	 *
+	 * @return string
+	 */
 	public static function getDocumentRoot() {
 		return t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT');
 	}
-	
+
 	/**
-     * Returns the absolute path to the TYPO3 root
-     * 
-     * @return string
-     */
+	 * Returns the absolute path to the TYPO3 root
+	 *
+	 * @return string
+	 */
 	public static function getTYPO3Root() {
 		$path = t3lib_div::getIndpEnv('SCRIPT_FILENAME');
 		$path = str_replace("/index.php","",$path);
 		return $path;
 	}
-	
+
 	/**
-     * Helper method used by substituteIssetSubparts()
-     * 
-     * @see F3_MailformPlusPlus_StaticFuncs::substituteIssetSubparts()
-     * @author  Stephan Bauer <stephan_bauer(at)gmx.de>
-     * @return boolean 
-     */
+	 * Helper method used by substituteIssetSubparts()
+	 *
+	 * @see F3_MailformPlusPlus_StaticFuncs::substituteIssetSubparts()
+	 * @author  Stephan Bauer <stephan_bauer(at)gmx.de>
+	 * @return boolean
+	 */
 	protected static function markersCountAsSet($markers, $conditionValue) {
-		
+
 		// Find first || or && or !
 		$pattern = '/(_*([A-Za-z0-9]+)_*(\|\||&&)_*([^_]+)_*)|(_*(!)_*([A-Za-z0-9]+))/';
-		
+
 		session_start();
 		// recurse if there are more
 		if( preg_match($pattern, $conditionValue, $matches) ){
@@ -79,19 +79,19 @@ class F3_MailformPlusPlus_StaticFuncs {
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('invalid_isset',$matches[2]);
 			}
 		} else {
-			
+
 			// remove underscores
 			$pattern = '/_*/';
 			$str = preg_replace($pattern, $str, '');
-			
+
 			// end of recursion
 			$return = isset($markers['###' . $conditionValue . '###']) && ($markers['###' . $conditionValue . '###'] != '');
 		}
 		return $return;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Use or remove subparts with ISSET_[fieldname] patterns (thx to Stephan Bauer <stephan_bauer(at)gmx.de>)
 	 *
@@ -105,15 +105,15 @@ class F3_MailformPlusPlus_StaticFuncs {
 		$nowrite = false;
 		$out = array();
 		foreach(split(chr(10), $subpart) as $line){
-		
+
 			// works only on it's own line
 			$pattern = '/###ISSET_+([^#]*)_*###/';
-			
+
 			// set for odd ISSET_xyz, else reset
 			if(preg_match($pattern, $line, $matches)) {
 				if(!$flags[$matches[1]]) { // set
 					$flags[$matches[1]] = true;
-		
+
 					// set nowrite flag if required until the next ISSET_xyz
 					// (only if not already set by envelop)
 					if((!F3_MailformPlusPlus::markersCountAsSet($markers, $matches[1])) && (!$nowrite)) {
@@ -132,17 +132,17 @@ class F3_MailformPlusPlus_StaticFuncs {
 			}
 		}
 		$out = implode(chr(10),$out);
-		
+
 		return $markers;
 	}
-	
+
 	/**
 	 * copied from class tslib_content
-	 * 
+	 *
 	 * Substitutes markers in given template string with data of marker array
-	 * 
+	 *
 	 * @param 	string
-	 * @param	array	
+	 * @param	array
 	 * @return	string
 	 */
 	public static function substituteMarkerArray($content,$markContentArray) {
@@ -154,10 +154,10 @@ class F3_MailformPlusPlus_StaticFuncs {
 		}
 		return $content;
 	}
-	
+
 	/**
 	 * copied from class t3lib_parsehtml
-	 * 
+	 *
 	 * Returns the first subpart encapsulated in the marker, $marker (possibly present in $content as a HTML comment)
 	 *
 	 * @param	string		Content with subpart wrapped in fx. "###CONTENT_PART###" inside.
@@ -169,7 +169,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 		if ($start===false)	{ return ''; }
 		$start += strlen($marker);
 		$stop = strpos($content, $marker, $start);
-			// Q: What shall get returned if no stop marker is given /*everything till the end*/ or nothing
+		// Q: What shall get returned if no stop marker is given /*everything till the end*/ or nothing
 		if ($stop===false)	{ return /*substr($content, $start)*/ ''; }
 		$content = substr($content, $start, $stop-$start);
 		$matches = array();
@@ -186,7 +186,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 		}
 		return $content;
 	}
-	
+
 	/**
 	 * Return value from somewhere inside a FlexForm structure
 	 *
@@ -236,7 +236,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 		}
 		return $tempArr[$value];
 	}
-	
+
 	/**
 	 * This function formats a date
 	 *
@@ -252,28 +252,28 @@ class F3_MailformPlusPlus_StaticFuncs {
 		}
 		return mktime(0,0,0,$dateArr[1],$dateArr[0],$dateArr[2]);
 	}
-	
+
 	/**
-     * Returns the http path to the site
-     * 
-     * @return string
-     */
+	 * Returns the http path to the site
+	 *
+	 * @return string
+	 */
 	public static function getHostname() {
 		return t3lib_div::getIndpEnv('TYPO3_SITE_URL');
 	}
-	
+
 	/**
-     * Ensures that a given path has a / as first and last character.
-     * This method only appends a / to the end of the path, if no filename is in path.
-     * 
-     * Examples:
-     * 
-     * uploads/temp				--> /uploads/temp/
-     * uploads/temp/file.ext	--> /uploads/temp/file.ext
-     * 
-     * @param string $path
-     * @return string Sanitized path
-     */
+	 * Ensures that a given path has a / as first and last character.
+	 * This method only appends a / to the end of the path, if no filename is in path.
+	 *
+	 * Examples:
+	 *
+	 * uploads/temp				--> /uploads/temp/
+	 * uploads/temp/file.ext	--> /uploads/temp/file.ext
+	 *
+	 * @param string $path
+	 * @return string Sanitized path
+	 */
 	public static function sanitizePath($path) {
 		if(substr($path,0,1) != "/") {
 			$path = "/".$path;
@@ -283,47 +283,47 @@ class F3_MailformPlusPlus_StaticFuncs {
 		}
 		return $path;
 	}
-	
+
 	/**
-     * Converts an absolute path into a relative path from TYPO3 root directory.
-     * 
-     * Example:
-     * 
-     * IN : C:/xampp/htdocs/typo3/fileadmin/file.html
-     * OUT : fileadmin/file.html
-     * 
-     * @param string $template The template code
-     * @param string $langFile The path to the language file
-     * @return array The filled language markers
-     * @static
-     */
+	 * Converts an absolute path into a relative path from TYPO3 root directory.
+	 *
+	 * Example:
+	 *
+	 * IN : C:/xampp/htdocs/typo3/fileadmin/file.html
+	 * OUT : fileadmin/file.html
+	 *
+	 * @param string $template The template code
+	 * @param string $langFile The path to the language file
+	 * @return array The filled language markers
+	 * @static
+	 */
 	public static function convertToRelativePath($absPath) {
-		
+
 		//C:/xampp/htdocs/typo3/index.php
 		$scriptPath =  t3lib_div::getIndpEnv('SCRIPT_FILENAME');
-		
+
 		//C:/xampp/htdocs/typo3/
 		$rootPath = str_replace('index.php','',$scriptPath);
-		
+
 		return str_replace($rootPath,'',$absPath);
-		
+
 	}
-	
+
 	/**
-     * Finds and fills language markers in given template code.
-     * 
-     * @param string $template The template code
-     * @param string $langFile The path to the language file
-     * @return array The filled language markers
-     * @static
-     */
+	 * Finds and fills language markers in given template code.
+	 *
+	 * @param string $template The template code
+	 * @param string $langFile The path to the language file
+	 * @return array The filled language markers
+	 * @static
+	 */
 	public static function getFilledLangMarkers(&$template,$langFile) {
 		$GLOBALS['TSFE']->readLLfile($langFile);
 		$langMarkers = array();
 		if ($langFile != '') {
 			$aLLMarkerList = array();
 			preg_match_all('/###LLL:.+?###/Ssm', $template, $aLLMarkerList);
-			
+
 			foreach($aLLMarkerList[0] as $LLMarker){
 				$llKey =  strtolower(substr($LLMarker,7,strlen($LLMarker)-10));
 				$marker = $llKey;
@@ -331,16 +331,16 @@ class F3_MailformPlusPlus_StaticFuncs {
 				$langMarkers['###LLL:'.strtoupper($marker).'###'] = $langMarkers['###LLL:'.$marker.'###'];
 			}
 		}
-	    return $langMarkers;
+		return $langMarkers;
 	}
-	
+
 	/**
-     * Finds and fills value markers using given GET/POST parameters.
-     * 
-     * @param array &$gp Reference to the GET/POST parameters
-     * @return array The filled value markers
-     * @static
-     */
+	 * Finds and fills value markers using given GET/POST parameters.
+	 *
+	 * @param array &$gp Reference to the GET/POST parameters
+	 * @return array The filled value markers
+	 * @static
+	 */
 	public static function getFilledValueMarkers(&$gp) {
 		if (isset($gp) && is_array($gp)) {
 			foreach($gp as $k=>$v) {
@@ -363,23 +363,23 @@ class F3_MailformPlusPlus_StaticFuncs {
 		} // if end
 		return $markers;
 	}
-	
+
 	/**
-     * I have no idea
-     * 
-   	 * @author	Peter Luser <pl@typoheads.at>
-     * @param string $mixed The value to process
-     * @return string The processed value
-     * @static
-     */
+	 * I have no idea
+	 *
+	 * @author	Peter Luser <pl@typoheads.at>
+	 * @param string $mixed The value to process
+	 * @return string The processed value
+	 * @static
+	 */
 	public static function reverse_htmlspecialchars($mixed) {
 		$htmltable = get_html_translation_table(HTML_ENTITIES);
 		foreach($htmltable as $key => $value) {
 			$mixed = ereg_replace(addslashes($value),$key,$mixed);
 		}
 		return $mixed;
-	}	
-	
+	}
+
 	/**
 	 * Method to print a debug message to screen
 	 *
@@ -393,19 +393,18 @@ class F3_MailformPlusPlus_StaticFuncs {
 		if($_SESSION['mailformplusplusSettings']['debugMode']) {
 			$message = F3_MailformPlusPlus_Messages::getDebugMessage($key);
 			if(strlen($message) == 0) {
-				print $key.'<br />';	
+				print $key.'<br />';
 			} else {
 				if(func_num_args() > 1) {
-					for($i=1;$i<func_num_args();$i++) {
-						$arg = func_get_arg($i);
-						$message = sprintf($message,$arg);
-					}
+					$args = func_get_args();
+					array_shift($args);
+					$message = vsprintf($message,$args);
 				}
 				print $message.'<br />';
 			}
 		}
 	}
-	
+
 	/**
 	 * Manages the exception throwing
 	 *
@@ -419,16 +418,15 @@ class F3_MailformPlusPlus_StaticFuncs {
 			throw new Exception($key);
 		} else {
 			if(func_num_args() > 1) {
-				for($i=1;$i<func_num_args();$i++) {
-					$arg = func_get_arg($i);
-					$message = sprintf($message,$arg);
-				}
+				$args = func_get_args();
+				array_shift($args);
+				$message = vsprintf($message,$args);
 			}
-			throw new Exception($message);	
+			throw new Exception($message);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Method to print the contents of an array
 	 *
@@ -448,27 +446,27 @@ class F3_MailformPlusPlus_StaticFuncs {
 		}
 		print implode("<br />",$fields);
 	}
-	
-	
-	
+
+
+
 	/**
-     * Removes unfilled markers from given template code.
-     * 
-     * @param string $content The template code
-     * @return string The template code without markers
-     * @static
-     */
+	 * Removes unfilled markers from given template code.
+	 *
+	 * @param string $content The template code
+	 * @return string The template code without markers
+	 * @static
+	 */
 	public static function removeUnfilledMarkers($content) {
 		return preg_replace('/###.*?###/', '', $content);
 	}
-	
+
 	/**
-     * Substitutes EXT: with extension path in a file path
-     * 
-     * @param string The path
-     * @return string The resolved path
-     * @static
-     */
+	 * Substitutes EXT: with extension path in a file path
+	 *
+	 * @param string The path
+	 * @return string The resolved path
+	 * @static
+	 */
 	public static function resolvePath($path) {
 		$path = explode("/",$path);
 		if(strpos($path[0],"EXT") > -1) {
@@ -479,14 +477,14 @@ class F3_MailformPlusPlus_StaticFuncs {
 		$path = str_replace("//","/",$path);
 		return $path;
 	}
-	
+
 	/**
-     * Substitutes EXT: with extension path in a file path and returns the relative path.
-     * 
-     * @param string The path
-     * @return string The resolved path
-     * @static
-     */
+	 * Substitutes EXT: with extension path in a file path and returns the relative path.
+	 *
+	 * @param string The path
+	 * @return string The resolved path
+	 * @static
+	 */
 	public static function resolveRelPath($path) {
 		$path = explode("/",$path);
 		if(strpos($path[0],"EXT") > -1) {
@@ -497,14 +495,14 @@ class F3_MailformPlusPlus_StaticFuncs {
 		$path = str_replace("//","/",$path);
 		return $path;
 	}
-	
+
 	/**
-     * Substitutes EXT: with extension path in a file path and returns the relative path from site root.
-     * 
-     * @param string The path
-     * @return string The resolved path
-     * @static
-     */
+	 * Substitutes EXT: with extension path in a file path and returns the relative path from site root.
+	 *
+	 * @param string The path
+	 * @return string The resolved path
+	 * @static
+	 */
 	public static function resolveRelPathFromSiteRoot($path) {
 		$path = explode("/",$path);
 		if(strpos($path[0],"EXT") > -1) {

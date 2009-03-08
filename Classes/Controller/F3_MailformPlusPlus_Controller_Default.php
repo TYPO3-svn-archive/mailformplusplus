@@ -349,7 +349,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 
 			// Throws an Exception if a problem occurs
 			if ($value != '' && !$isConfigOk) {
-				F3_MailformPlusPlus_StaticFuncs::throwException('missing_component',$component,$componentName);
+				F3_MailformPlusPlus_StaticFuncs::throwException('missing_component',$component,$value,$componentName);
 			}
 		}
 	}
@@ -502,7 +502,6 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 						//check if the form was finished before. This flag is set by the F3_Finisher_Confirmation
 						if(!$_SESSION['submitted_ok']) {
 							F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_finisher',$tsConfig['class']);
-							$tsConfig['config.']['returns'] = $tsConfig['returns'];
 							$tsConfig['config.']['templateFile'] = $settings['templateFile'];
 							$tsConfig['config.']['langFile'] = $settings['langFile'];
 							$tsConfig['config.']['formValuesPrefix'] = $settings['formValuesPrefix'];
