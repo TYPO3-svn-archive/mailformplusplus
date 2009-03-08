@@ -157,6 +157,11 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			
 		//if submitted
 		} else {
+
+			// Stores GET / POST in the session addording to user defined
+			if ($settings['storeGP'] == 1 || F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],'store_gp', 'sMISC')) {
+				$this->storeUserGPinSession();
+			}
 			
 			//save settings because they have to be changed for error validation
 			$oldSettings = $settings;

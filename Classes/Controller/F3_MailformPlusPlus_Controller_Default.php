@@ -452,7 +452,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 
 			// Stores GET / POST in the session addording to user defined
 			if ($settings['storeGP'] == 1 || F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],'store_gp', 'sMISC')) {
-				$this->storeGPinSession();
+				$this->storeUserGPinSession();
 			}
 
 			//run init interceptors
@@ -553,7 +553,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 *
 	 * @return void
 	 */
-	protected function storeGPinSession() {
+	protected function storeUserGPinSession() {
 		foreach ($this->gp as $key => $value) {
 			$GLOBALS['TSFE']->fe_user->setKey('ses',$key , $value);
 		}
