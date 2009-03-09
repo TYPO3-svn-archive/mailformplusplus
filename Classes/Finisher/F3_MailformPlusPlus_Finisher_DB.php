@@ -107,7 +107,6 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 			
 			//set fields to insert/update
 			$queryFields = $this->parseFields();
-			$queryFields = $this->escapeFields($queryFields,$this->table);
 			
 			//query the database
 			$this->save($queryFields);
@@ -137,17 +136,6 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 			}
 		}
 		return $condition;
-	}
-	
-	/**
-     * Escapes all values in given array for insert query into given table.
-     * 
-     * @param array $queryFields Array with values (either associative or non-associative array) 
-     * @param string $table Table name for which to quote 
-     * @return array The input array with the values quoted
-     */
-	protected function escapeFields($queryFields,$table) {
-		return $GLOBALS['TYPO3_DB']->fullQuoteArray($queryFields,$table);
 	}
 	
 	/**
