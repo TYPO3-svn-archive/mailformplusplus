@@ -237,6 +237,11 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 					$queryFields[$fieldname] = implode($seperator,$this->gp[$options['mapping']]);
 				}
 
+				//process uploaded files
+				if(isset($_SESSION['mailformplusplusFiles'][$fieldname]) && is_array($_SESSION['mailformplusplusFiles'][$fieldname])) {
+					$queryFields[$fieldname] = $this->getFileList($fieldname);				
+				}
+
 				//special mapping
 			} elseif(isset($options) && is_array($options) && isset($options['special'])) {
 				switch($options['special']) {
@@ -256,6 +261,19 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 			}
 		}
 		return $queryFields;
+	}
+
+	/**
+	 * returns a list of uploaded files from given field.
+	 * @return string list of filenames
+	 * @param string $fieldname
+	 */
+	protected function getFileList($fieldname){
+		$filenames = array();
+		foreach ($_SESSION['mailformplusplusFiles'][$fieldname] as $file) {
+			array_push($filenames, $file['uploaded_name']);
+		}
+		return implode(',',$filenames);
 	}
 
 }

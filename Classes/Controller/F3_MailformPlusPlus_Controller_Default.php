@@ -498,6 +498,8 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 
 				//run finishers
 				if(isset($settings['finishers.']) && is_array($settings['finishers.'])) {
+
+					ksort($settings['finishers.']);
 					foreach($settings['finishers.'] as $tsConfig) {
 
 						$finisher = $this->componentManager->getComponent($tsConfig['class']);
