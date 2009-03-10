@@ -24,7 +24,10 @@
  * <code>
  * finishers.1.class = F3_MailformPlusPlus_Finisher_StoreUploadedFiles
  * finishers.1.config.finishedUploadFolder = uploads/mailformplusplus/finished/
- * finishers.1.config.renameScheme = [filename]_[md5]_[time]
+ * finishers.1.config.renameScheme = [pid]_[filename]_[md5]_[time]_[marker1]_[marker2]
+ * finishers.1.config.schemeMarkers.marker1 = Value
+ * finishers.1.config.schemeMarkers.marker2 = TEXT
+ * finishers.1.config.schemeMarkers.marker2.value = Textvalue
  * </code>
  *
  * @author	Reinhard Führicht <rf@typoheads.at>
@@ -120,6 +123,18 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 		$newFilename = str_replace('[filename]',$filename,$newFilename);
 		$newFilename = str_replace('[time]',time(),$newFilename);
 		$newFilename = str_replace('[md5]',md5($filename),$newFilename);
+		$newFilename = str_replace('[pid]',$GLOBALS['TSFE']->id,$newFilename);
+		if(is_array($this->settings['schemeMarkers.'])) {
+			foreach($this->settings['schemeMarkers.'] as $markerName=>$options) {
+				if(!(strpos($markerName,'.') > 0)) {
+					$value = $options;
+					if(isset($this->settings['schemeMarkers.'][$markerName.'.'])) {
+						$value = $this->cObj->cObjGetSingle($this->settings['schemeMarkers.'][$markerName],$this->settings['schemeMarkers.'][$markerName.'.']);
+					}
+					$newFilename = str_replace('['.$markerName.']',$value,$newFilename);
+				}
+			}
+		}
 		$newFilename .= $fileext;
 		return $newFilename;
 	}
