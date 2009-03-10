@@ -831,7 +831,8 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		$tableMarkers['###LLL:PAGE_ID###'] = $LANG->getLL('page_id');
 		$tableMarkers['###LLL:SUBMISSION_DATE###'] = $LANG->getLL('submission_date');
 		$tableMarkers['###LLL:IP###'] = $LANG->getLL('ip_address');
-		$tableMarkers['###LLL:DETAIL_VIEW###'] = $LANG->getLL('detail_view');
+		//$tableMarkers['###LLL:DETAIL_VIEW###'] = $LANG->getLL('detail_view');
+		$tableMarkers['###LLL:DETAIL_VIEW###'] = '';
 		$tableMarkers['###LLL:EXPORT###'] = $LANG->getLL('export');
 
 		$count = 1;
@@ -839,17 +840,18 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		//add records
 		foreach($records as $record) {
 			if($count % 2 == 0) {
-				$style="";
+				$style = 'class="bgColor3-20"';
 			} else {
-				$style="background-color:#dedede";
+				$style = 'class="bgColor3-40"';
 			}
 			$rowCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###LIST_TABLE_ROW###');
 			$markers = array();
-			$markers['###ROW_STYLE###'] = $stlye;
+			$markers['###ROW_STYLE###'] = $style;
 			$markers['###PID###'] = $record['pid'];
 			$markers['###SUBMISSION_DATE###'] = date('Y/m/d H:i',$record['crdate']);
 			$markers['###IP###'] = $_SERVER['REMOTE_ADDR'];
-			$markers['###DETAIL_LINK###'] = '<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'">'.$LANG->getLL('show').'</a>';
+			//$markers['###DETAIL_LINK###'] = '<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'">'.$LANG->getLL('show').'</a>';
+			$markers['###DETAIL_LINK###'] = '<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'"><img '.t3lib_iconWorks::skinImg('../../../../../../typo3/','gfx/zoom.gif').'/></a>';
 			$markers['###EXPORT_LINKS###'] = '<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'&mailformplusplus[renderMethod]=pdf">PDF</a>
 						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$record['uid'].'&mailformplusplus[renderMethod]=csv">CSV</a>';
 			$checkbox = '<input type="checkbox" name="mailformplusplus[markedUids][]" value="'.$record['uid'].'" ';
