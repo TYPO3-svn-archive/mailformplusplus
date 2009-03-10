@@ -23,51 +23,51 @@
  * @abstract
  */
 abstract class F3_MailformPlusPlus_AbstractLogger {
-	
+
 	/**
-     * The GimmeFive component manager
-     * 
-     * @access protected
-     * @var F3_GimmeFive_Component_Manager
-     */
+	 * The GimmeFive component manager
+	 *
+	 * @access protected
+	 * @var F3_GimmeFive_Component_Manager
+	 */
 	protected $componentManager;
-	
+
 	/**
-     * The global MailformPlusPlus configuration
-     * 
-     * @access protected
-     * @var F3_MailformPlusPlus_Configuration
-     */
+	 * The global MailformPlusPlus configuration
+	 *
+	 * @access protected
+	 * @var F3_MailformPlusPlus_Configuration
+	 */
 	protected $configuration;
-	
+
 	/**
-     * The GET/POST parameters
-     * 
-     * @access protected
-     * @var array
-     */
+	 * The GET/POST parameters
+	 *
+	 * @access protected
+	 * @var array
+	 */
 	protected $gp;
-	
+
 	/**
-     * The constructor for an interceptor setting the component manager and the configuration.
-     * 
-     * @param F3_GimmeFive_Component_Manager $componentManager
-     * @param F3_MailformPlusPlus_Configuration $configuration
-     * @return void
-     */
+	 * The constructor for an interceptor setting the component manager and the configuration.
+	 *
+	 * @param F3_GimmeFive_Component_Manager $componentManager
+	 * @param F3_MailformPlusPlus_Configuration $configuration
+	 * @return void
+	 */
 	public function __construct(F3_GimmeFive_Component_Manager $componentManager, F3_MailformPlusPlus_Configuration $configuration) {
 		$this->componentManager = $componentManager;
 		$this->configuration = $configuration;
 	}
-	
+
 	/**
-     * Logs the given values.
-     * 
-     * @param array $gp The current GET/POST parameters
-     * @param array $settings The settings for the logger
-     * @return void
-     */
+	 * Logs the given values.
+	 *
+	 * @param array $gp The current GET/POST parameters
+	 * @param array $settings The settings for the logger
+	 * @return void
+	 */
 	abstract public function log($gp,$settings);
-	
+
 }
 ?>

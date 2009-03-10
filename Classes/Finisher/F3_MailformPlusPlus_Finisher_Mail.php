@@ -60,10 +60,10 @@
 class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFinisher {
 
 	/**
-     * The main method called by the controller
-     *
-     * @return array The probably modified GET/POST parameters
-     */
+	 * The main method called by the controller
+	 *
+	 * @return array The probably modified GET/POST parameters
+	 */
 	public function process() {
 
 
@@ -77,12 +77,12 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 
 	/**
-     * Returns the final template code for given mode and suffix with substituted markers.
-     *
-     * @param string $mode user/admin
-     * @param string $suffix plain/html
-     * @return string The template code
-     */
+	 * Returns the final template code for given mode and suffix with substituted markers.
+	 *
+	 * @param string $mode user/admin
+	 * @param string $suffix plain/html
+	 * @return string The template code
+	 */
 	protected function parseTemplate($mode,$suffix) {
 		$template = $this->getTemplate($mode,$suffix);
 
@@ -96,11 +96,11 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 
 	/**
-     * Sanitizes E-mail markers by processing the 'checkBinaryCrLf' setting in TypoScript
-     *
-     * @param array &$markers The E-mail markers
-     * @return void
-     */
+	 * Sanitizes E-mail markers by processing the 'checkBinaryCrLf' setting in TypoScript
+	 *
+	 * @param array &$markers The E-mail markers
+	 * @return void
+	 */
 	protected function sanitizeMarkers(&$markers) {
 		$checkBinaryCrLf = $this->settings['checkBinaryCrLf'];
 		if ($checkBinaryCrLf != '') {
@@ -126,12 +126,12 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 
 	/**
-     * Parses the globally defined template file for E-mail template with given mode and suffix
-     *
-     * @param string $mode user/admin
-     * @param string $suffix plain/html
-     * @return string The template code
-     */
+	 * Parses the globally defined template file for E-mail template with given mode and suffix
+	 *
+	 * @param string $mode user/admin
+	 * @param string $suffix plain/html
+	 * @return string The template code
+	 */
 	protected function getTemplate($mode,$suffix) {
 		$templateFile = $this->settings['templateFile'];
 		if(isset($this->settings['templateFile.']) && is_array($this->settings['templateFile.'])) {
@@ -151,11 +151,11 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 
 	/**
-     * Sends mail according to given type.
-     *
-     * @param string $type (admin|user)
-     * @return void
-     */
+	 * Sends mail according to given type.
+	 *
+	 * @param string $type (admin|user)
+	 * @return void
+	 */
 	protected function sendMail($type) {
 		$mailSettings = $this->settings[$type];
 
@@ -166,32 +166,32 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 
 		//init mailer object
 		require_once(PATH_t3lib.'class.t3lib_htmlmail.php');
-	    $emailObj = t3lib_div::makeInstance('t3lib_htmlmail');
-	    $emailObj->start();
+		$emailObj = t3lib_div::makeInstance('t3lib_htmlmail');
+		$emailObj->start();
 
 		//set e-mail options
-	    $emailObj->subject = $mailSettings['subject'];
+		$emailObj->subject = $mailSettings['subject'];
 
-	    $sender = $mailSettings['sender_email'];
-	    if(isset($mailSettings['sender_email']) && is_array($mailSettings['sender_email'])) {
-	    	$sender = implode(",",$mailSettings['sender_email']);
-	    }
-	    $emailObj->from_email = $sender;
-	    $emailObj->from_name = $mailSettings['sender_name'];
+		$sender = $mailSettings['sender_email'];
+		if(isset($mailSettings['sender_email']) && is_array($mailSettings['sender_email'])) {
+			$sender = implode(",",$mailSettings['sender_email']);
+		}
+		$emailObj->from_email = $sender;
+		$emailObj->from_name = $mailSettings['sender_name'];
 
 		$replyto = $mailSettings['replyto_email'];
-	    if(isset($mailSettings['replyto_email']) && is_array($mailSettings['replyto_email'])) {
-	    	$replyto = implode(",",$mailSettings['replyto_email']);
-	    }
-	    $emailObj->replyto_email = $replyto;
-	    $emailObj->replyto_name = $mailSettings['replyto_name'];
-	    $emailObj->returnPath = '';
-	    if($mailSettings['email_header']) {
-	    	$emailObj->add_header($mailSettings['header']);
-	    }
-	    if($template['plain']) {
-	    	$emailObj->setPlain($template['plain']);
-	    }
+		if(isset($mailSettings['replyto_email']) && is_array($mailSettings['replyto_email'])) {
+			$replyto = implode(",",$mailSettings['replyto_email']);
+		}
+		$emailObj->replyto_email = $replyto;
+		$emailObj->replyto_name = $mailSettings['replyto_name'];
+		$emailObj->returnPath = '';
+		if($mailSettings['email_header']) {
+			$emailObj->add_header($mailSettings['header']);
+		}
+		if($template['plain']) {
+			$emailObj->setPlain($template['plain']);
+		}
 
 		if($template['html']) {
 			if($mailSettings['htmlEmailAsAttachment']) {
@@ -203,9 +203,9 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 					$emailObj->addAttachment($tmphtml);
 				}
 			} else {
-	    		$emailObj->setHtml($template['html']);
+				$emailObj->setHtml($template['html']);
 			}
-	    }
+		}
 
 		if(!is_array($mailSettings['attachment'])) {
 			$mailSettings['attachment'] = array($mailSettings['attachment']);
@@ -222,11 +222,11 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		}
 
 		//parse max count of mails to send
-	    $count = 0;
-	    $max = $this->settings['limitMailsToUser'];
-	    if(!$max) {
-	    	$max = 2;
-	    }
+		$count = 0;
+		$max = $this->settings['limitMailsToUser'];
+		if(!$max) {
+			$max = 2;
+		}
 		if(!is_array($mailSettings['to_email'])) {
 			$mailSettings['to_email'] = array($mailSettings['to_email']);
 		}
@@ -238,14 +238,14 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		$template['plain'] = $this->cObj->substituteMarkerArray($template['plain'], $markers);
 
 		//send e-mails
-	    foreach($mailSettings['to_email'] as $mailto) {
+		foreach($mailSettings['to_email'] as $mailto) {
 
-	    	if($count < $max) {
-	    		if (strstr($mailto, '@') && !eregi("\r",$mailto) && !eregi("\n",$mailto)) {
+			if($count < $max) {
+				if (strstr($mailto, '@') && !eregi("\r",$mailto) && !eregi("\n",$mailto)) {
 					$sent = $emailObj->send($mailto);
 				}
-	    		$count++;
-	    	}
+				$count++;
+			}
 			if($sent) {
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sent',$mailto);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_subject',$emailObj->subject);
@@ -261,25 +261,25 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_plain',$template['plain'],false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_html',$template['html'],false);
 			}
-	    }
+		}
 		if($tmphtml) {
 			unlink($tmphtml);
 		}
 	}
 
 	/**
-     * Explodes the given list seperated by $sep. Substitutes values with according value in GET/POST, if set.
-     *
-     * @param string $list
-     * @param string $sep
-     * @return array
-     */
+	 * Explodes the given list seperated by $sep. Substitutes values with according value in GET/POST, if set.
+	 *
+	 * @param string $list
+	 * @param string $sep
+	 * @return array
+	 */
 	private function explodeList($list,$sep = ",") {
 		$items = t3lib_div::trimExplode($sep,$list);
 		$splitArray = array();
 		foreach($items as $item) {
 			if(isset($this->gp[$item])) {
-				 array_push($splitArray,$this->gp[$item]);
+				array_push($splitArray,$this->gp[$item]);
 			} else {
 				array_push($splitArray,$item);
 			}
@@ -288,11 +288,11 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 
 	/**
-     * Substitutes values with according value in GET/POST, if set.
-     *
-     * @param string $value
-     * @return string
-     */
+	 * Substitutes values with according value in GET/POST, if set.
+	 *
+	 * @param string $value
+	 * @return string
+	 */
 	private function parseSettingValue($value) {
 		if(isset($this->gp[$value])) {
 			$parsed = $this->gp[$value];
@@ -304,14 +304,14 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 
 	/**
-     * Parses a setting in TypoScript and overrides it with setting in plugin record if set.
-     * The settings contains a single value or a TS object.
-     *
-     * @param array $settings The settings array containing the mail settings
-     * @param string $type admin|user
-     * @param string $key The key to parse in the settings array
-     * @return string
-     */
+	 * Parses a setting in TypoScript and overrides it with setting in plugin record if set.
+	 * The settings contains a single value or a TS object.
+	 *
+	 * @param array $settings The settings array containing the mail settings
+	 * @param string $type admin|user
+	 * @param string $key The key to parse in the settings array
+	 * @return string
+	 */
 	private function parseValue($settings,$type,$key) {
 		if(isset($this->emailSettings[$type][$key])) {
 			$parsed = $this->parseSettingValue($this->emailSettings[$type][$key]);
@@ -324,14 +324,14 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 
 	/**
-     * Parses a setting in TypoScript and overrides it with setting in plugin record if set.
-     * The settings contains a list of values or a TS object.
-     *
-     * @param array $settings The settings array containing the mail settings
-     * @param string $type admin|user
-     * @param string $key The key to parse in the settings array
-     * @return string|array
-     */
+	 * Parses a setting in TypoScript and overrides it with setting in plugin record if set.
+	 * The settings contains a list of values or a TS object.
+	 *
+	 * @param array $settings The settings array containing the mail settings
+	 * @param string $type admin|user
+	 * @param string $key The key to parse in the settings array
+	 * @return string|array
+	 */
 	private function parseList($settings,$type,$key) {
 		if(isset($this->emailSettings[$type][$key])) {
 			$parsed = $this->explodeList($this->emailSettings[$type][$key]);
@@ -344,13 +344,13 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 
 	/**
-     * Parses a list of file names or field names set in TypoScript and overrides it with setting in plugin record if set.
-     *
-     * @param array $settings The settings array containing the mail settings
-     * @param string $type admin|user
-     * @param string $key The key to parse in the settings array
-     * @return string
-     */
+	 * Parses a list of file names or field names set in TypoScript and overrides it with setting in plugin record if set.
+	 *
+	 * @param array $settings The settings array containing the mail settings
+	 * @param string $type admin|user
+	 * @param string $key The key to parse in the settings array
+	 * @return string
+	 */
 	private function parseFilesList($settings,$type,$key) {
 		if(isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
 			$parsed = $this->cObj->cObjGetSingle($settings[$key],$settings[$key.'.']);
@@ -374,11 +374,11 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 
 	/**
-     * Substitutes markers like ###LLL:langKey### in given TypoScript settings array.
-     *
-     * @param array &$settings The E-Mail settings
-     * @return void
-     */
+	 * Substitutes markers like ###LLL:langKey### in given TypoScript settings array.
+	 *
+	 * @param array &$settings The E-Mail settings
+	 * @return void
+	 */
 	protected function fillLangMarkersInSettings(&$settings) {
 		foreach($settings as &$value) {
 			if(isset($value) && is_array($value)) {
@@ -393,19 +393,19 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 
 	/**
-     * Fetches the global TypoScript settings of the MailformPlusPlus
-     *
-     * @return void
-     */
+	 * Fetches the global TypoScript settings of the MailformPlusPlus
+	 *
+	 * @return void
+	 */
 	protected function getSettings() {
 		return $this->configuration->getSettings();
 	}
 
 	/**
-     * Inits the finisher mapping settings values to internal attributes.
-     *
-     * @return void
-     */
+	 * Inits the finisher mapping settings values to internal attributes.
+	 *
+	 * @return void
+	 */
 	protected function init() {
 
 		//set language file
@@ -417,12 +417,12 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	}
 
 	/**
-     * Method to set GET/POST for this class and load the configuration
-     *
-     * @param array The GET/POST values
-     * @param array The TypoScript configuration
-     * @return void
-     */
+	 * Method to set GET/POST for this class and load the configuration
+	 *
+	 * @param array The GET/POST values
+	 * @param array The TypoScript configuration
+	 * @return void
+	 */
 	public function loadConfig($gp,$tsConfig) {
 		$this->gp = $gp;
 		$this->settings = $this->parseEmailSettings($tsConfig);
@@ -443,15 +443,15 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		unset($this->settings['admin.']);
 		unset($this->settings['user.']);
 	}
-	
+
 	/**
-     * Method to define whether the config is valid or not. If no, an exception is thrown.
-     * 
-     */
+	 * Method to define whether the config is valid or not. If no, an exception is thrown.
+	 *
+	 */
 	public function validateConfig() {
 		if ($this->settings['templateFile'] == '') {
 			F3_MailformPlusPlus_StaticFuncs::throwException('no_template');
-		}		
+		}
 	}
 
 	/**
@@ -473,19 +473,19 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			'attachment',
 			'attachPDF',
 			'htmlEmailAsAttachment'
-		);
+			);
 
-		//*************************
-		//ADMIN settings
-		//*************************
-		$emailSettings['admin'] = $this->parseEmailSettingsByType($emailSettings['admin.'],'admin',$options);
+			//*************************
+			//ADMIN settings
+			//*************************
+			$emailSettings['admin'] = $this->parseEmailSettingsByType($emailSettings['admin.'],'admin',$options);
 
-		//*************************
-		//USER settings
-		//*************************
-		$emailSettings['user'] = $this->parseEmailSettingsByType($emailSettings['user.'],'user',$options);
+			//*************************
+			//USER settings
+			//*************************
+			$emailSettings['user'] = $this->parseEmailSettingsByType($emailSettings['user.'],'user',$options);
 
-		return $emailSettings;
+			return $emailSettings;
 	}
 
 	/**
@@ -516,17 +516,17 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 					case "sender_email":
 					case "replyto_email":
 						$emailSettings[$option] = $this->parseList($currentSettings,$type,$option);
-					break;
+						break;
 
 					case "subject":
 					case "sender_name":
 					case "replyto_name":
 						$emailSettings[$option] = $this->parseValue($currentSettings,$type,$option);
-					break;
+						break;
 
 					case "attachment":
 						$emailSettings[$option] = $this->parseFilesList($currentSettings,$type,$option);
-					break;
+						break;
 
 					case "attachPDF":
 						if(isset($currentSettings['attachPDF.']) && is_array($currentSettings['attachPDF.'])) {
@@ -547,14 +547,14 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 						} elseif ($currentSettings['attachPDF']) {
 							$emailSettings['attachPDF'] = $currentSettings['attachPDF'];
 						}
-					break;
+						break;
 
 					case "":
 						if(isset($currentSettings['htmlEmailAsAttachment']) && !strcmp($currentSettings['htmlEmailAsAttachment'],"1")) {
 							$emailSettings['htmlEmailAsAttachment'] = 1;
 						}
 
-					break;
+						break;
 				}
 			}
 		}

@@ -117,22 +117,22 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 
 		//should delete records
 		if($params[delete] && isset($params['markedUids']) && is_array($params['markedUids'])) {
-				
+
 			//delete records
 			$this->deleteRecords($params['markedUids']);
-				
+
 			//select all records
 			$records = $this->fetchRecords();
-				
+
 			//show table
 			$table = $this->getTable($records);
-				
+
 			return $table;
 		}
 
 		//should show index
 		if(!$params['detailId'] && !$params['markedUids']) {
-				
+
 			//if log table doesn't exist, show error
 			$tables = $GLOBALS['TYPO3_DB']->admin_get_tables();
 			if(!in_array($this->logTable,array_keys($tables))) {
@@ -148,10 +148,10 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				$table = $this->getTable($records);
 				return $table;
 			}
-				
+
 			//should export to some format
 		} elseif(!$params['delete']) {
-				
+
 			//should show detail view of a single record
 			if(!$params['renderMethod']) {
 
@@ -163,7 +163,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				//render a single record to PDF
 				if($params['detailId']) {
 					return $this->generatePDF($params['detailId']);
-						
+
 					//render many records to PDF
 				} elseif(isset($params['markedUids']) && is_array($params['markedUids'])) {
 					return $this->generatePDF($params['markedUids']);
@@ -175,7 +175,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				//save single record as CSV
 				if($params['detailId']) {
 					return $this->generateCSV($params['detailId']);
-						
+
 					//save many records as CSV
 				} elseif(isset($params['markedUids']) && is_array($params['markedUids'])) {
 					return $this->generateCSV($params['markedUids']);
@@ -225,7 +225,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 			$records = array();
 			$allParams = array();
-				
+
 			//loop through records
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 
@@ -239,7 +239,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				//sum up all params for selection view
 				$allParams = array_merge($allParams,$row['params']);
 			}
-				
+
 			//if fields were chosen in selection view, export the records using the selected fields
 			if(isset($gp['exportParams'])) {
 				$generator = $this->componentManager->getComponent("F3_MailformPlusPlus_Generator_PDF");
@@ -287,7 +287,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			$count = 0;
 			$hashes = array();
 			$availableFormats = array();
-				
+
 			//loop through records
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 
@@ -301,9 +301,9 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				}
 				$records[] = $row;
 			}
-				
+
 			$availableFormatsCount = count($hashes);
-				
+
 			//only one format found
 			if($availableFormatsCount == 1) {
 
@@ -311,7 +311,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				if(isset($params['exportParams'])) {
 					$generator = $this->componentManager->getComponent("F3_MailformPlusPlus_Generator_CSV");
 					$generator->generateModuleCSV($renderRecords,$params['exportParams']);
-						
+
 					//no fields chosen, show selection view.
 				} else {
 					return $this->generateCSVExportFieldsSelector($renderRecords[0]['params']);
@@ -335,7 +335,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				if(isset($params['exportParams'])) {
 					$generator = $this->componentManager->getComponent("F3_MailformPlusPlus_Generator_CSV");
 					$generator->generateModuleCSV($renderRecords,$params['exportParams']);
-						
+
 					//no fields chosen, show selection view.
 				} else {
 					return $this->generateCSVExportFieldsSelector($renderRecords[0]['params']);
@@ -529,7 +529,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 
 		//loop through formats
 		foreach($formats as $key=>$format) {
-				
+
 			//if format is valid
 			if(isset($format) && is_array($format)) {
 
@@ -579,23 +579,23 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		//if UID was valid
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-				
+
 			$viewCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###DETAIL_VIEW###');
-				
+
 			//unserialize params
 			$params = unserialize($row['params']);
-				
+
 			$markers = array();
-				
+
 			//start with default fields (IP address, submission date, PID)
 			$markers['###PID###'] = $row['pid'];
 			$markers['###CRDATE###'] = date("Y/m/d H:i",$row['crdate']);
 			$markers['###IP###'] = $row['ip'];
-				
+
 			$markers['###LLL:page_id###'] = $LANG->getLL('page_id');
 			$markers['###LLL:crdate###'] = $LANG->getLL('crdate');
 			$markers['###LLL:ip_address###'] = $LANG->getLL('ip_address');
-				
+
 			//add the submitted params
 			if(isset($params) && is_array($params)) {
 				$paramsTable .= '<table>';
@@ -614,8 +614,8 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			}
 			$markers['###LLL:params###'] = $LANG->getLL('params');
 			$markers['###PARAMS###'] = $paramsTable;
-				
-				
+
+
 			$markers['###LLL:export_as###'] = $LANG->getLL('export_as');
 			$markers['###EXPORT_LINKS###'] = '<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=pdf">'.$LANG->getLL('pdf').'</a>
 						/<a href="'.$_SERVER['PHP_SELF'].'?mailformplusplus[detailId]='.$row['uid'].'&mailformplusplus[renderMethod]=csv">'.$LANG->getLL('csv').'</a>';

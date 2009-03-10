@@ -16,19 +16,19 @@
 
 /**
  * A default validator for MailformPlusPlus providing basic validations.
- * 
+ *
  * Example configuration:
- * 
+ *
  * <code>
  * plugin.F3_MailformPlusPlus.settings.validators.1.class = F3_MailformPlusPlus_Validator_Default
- * 
+ *
  * # single error check
  * plugin.F3_MailformPlusPlus.settings.validators.1.config.fieldConf.firstname.errorCheck.1 = required
- * 
+ *
  * #multiple error checks for one field
  * plugin.F3_MailformPlusPlus.settings.validators.1.config.fieldConf.email.errorCheck.1 = required
  * plugin.F3_MailformPlusPlus.settings.validators.1.config.fieldConf.email.errorCheck.2 = email
- * 
+ *
  * #error checks with parameters
  * #since the parameter for the error check "minLength" is "value", you can use a marker ###value### in your error message.
  * #E.g. The lastname has to be at least ###value### characters long.
@@ -41,18 +41,18 @@
  * @subpackage	Validator
  */
 class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_AbstractValidator {
-	
-	
+
+
 	/**
-     * Method to set GET/POST for this class and load the configuration
-     * 
-     * @param array The GET/POST values
-     * @param array The TypoScript configuration
-     * @return void
-     */
+	 * Method to set GET/POST for this class and load the configuration
+	 *
+	 * @param array The GET/POST values
+	 * @param array The TypoScript configuration
+	 * @return void
+	 */
 	public function loadConfig($gp,$tsConfig) {
 		$this->settings = $tsConfig;
-		
+
 		$flexformValue = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],'required_fields','sMISC');
 		if($flexformValue) {
 			$fields = t3lib_div::trimExplode(',',$flexformValue);
@@ -61,10 +61,10 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 				$this->settings['fieldConf.'][$field."."]['errorCheck.']['1'] = "required";
 			}
 		}
-		
+
 		$this->gp = $gp;
 	}
-	
+
 	/**
 	 * Validates the submitted values using given settings
 	 *
@@ -72,23 +72,23 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @return boolean
 	 */
 	public function validate(&$errors) {
-		
-		
+
+
 		//no config? validation returns true
 		if(!is_array($this->settings['fieldConf.'])) {
 			return true;
 		}
-		
+
 		//$disableErrorCheckFields = array();
 		if(isset($this->settings['disableErrorCheckFields'])) {
 			$disableErrorCheckFields = t3lib_div::trimExplode(",",$this->settings['disableErrorCheckFields']);
 		}
-		
-				
+
+
 		//foreach configured form field
 		foreach($this->settings['fieldConf.'] as $fieldName=>$fieldSettings) {
 			$name = str_replace(".","",$fieldName);
-			
+				
 			//parse error checks
 			if(is_array($fieldSettings['errorCheck.'])) {
 				$counter = 0;
@@ -100,10 +100,10 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 							$errorChecks[$counter]['check'] = $check;
 							unset($fieldSettings['errorCheck.'][$key]);
 							$counter++;
-						}	
+						}
 					}
 				}
-				
+
 				//set other errorChecks
 				foreach($fieldSettings['errorCheck.'] as $key=>$check) {
 					if(!strstr($key,".")) {
@@ -114,196 +114,196 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 						$counter++;
 					}
 				}
-				
+
 				$checkFailed = "";
 				if(!isset($disableErrorCheckFields) || !in_array($name,$disableErrorCheckFields)) {
-					
+						
 					//foreach error checks
 					foreach($errorChecks as $check) {
 						switch($check['check']) {
-							
+								
 							//uploaded file specific
-							
+								
 							//file type matches one of the configured allowed types
 							case "file_allowedTypes":
 								$checkFailed = $this->validateAllowedFileTypes($check,$name);
-							break;
-							
-							//only a configured number of files are allowed to be uploaded via this field
+								break;
+									
+								//only a configured number of files are allowed to be uploaded via this field
 							case 'file_maxCount':
 								$checkFailed = $this->validateMaxFileCount($check,$name);
-							break;
-							
-							//uploaded files must have a minimum size
+								break;
+									
+								//uploaded files must have a minimum size
 							case "file_minSize":
 								$checkFailed = $this->validateMinFileSize($check,$name);
-							break;
-							
-							//uploaded files must have a maximum size
+								break;
+									
+								//uploaded files must have a maximum size
 							case "file_maxSize":
 								$checkFailed = $this->validateMaxFileSize($check,$name);
-							break;
-							
-							//the upload field is required
+								break;
+									
+								//the upload field is required
 							case "file_required":
 								$checkFailed = $this->validateFileRequired($check,$name);
-							break;
-							
-							//value is required
+								break;
+									
+								//value is required
 							case "required":
 								$checkFailed = $this->validateRequired($check,$name);
-							break;
-							
-							//value should be a valid e-mail
+								break;
+									
+								//value should be a valid e-mail
 							case "email":
 								$checkFailed = $this->validateEmail($check,$name);
-							break;
-							
-							//the value contains none of the configured words or phrases
+								break;
+									
+								//the value contains none of the configured words or phrases
 							case "containsNone":
 								$checkFailed = $this->validateContainsNone($check,$name);
-							break;
-							
-							//the value contains at least one of the configured words or phrases
+								break;
+									
+								//the value contains at least one of the configured words or phrases
 							case "containsOne":
 								$checkFailed = $this->validateContainsOne($check,$name);
-							break;
-							
-							//the value must contain all of the configured words or phrases
+								break;
+									
+								//the value must contain all of the configured words or phrases
 							case "containsAll":
 								$checkFailed = $this->validateContainsAll($check,$name);
-							break;
-							
-							//the value equals a configured word
+								break;
+									
+								//the value equals a configured word
 							case "equals":
 								$checkFailed = $this->validateEquals($check,$name);
-							break;
-							
-							//value should not equal it's default value
+								break;
+									
+								//value should not equal it's default value
 							case "notDefaultValue":
 								$checkFailed = $this->validateNotDefaultValue($check,$name);
-							break;
-							
-							//value should be an integer
+								break;
+									
+								//value should be an integer
 							case "integer":
 								$checkFailed = $this->validateInteger($check,$name);
-							break;
-							
-							//value should be a float
+								break;
+									
+								//value should be a float
 							case "float":
 								$checkFailed = $this->validateFloat($check,$name);
-							break;
-							
-							//value should be greater than X
+								break;
+									
+								//value should be greater than X
 							case "minValue":
 								$checkFailed = $this->validateMinValue($check,$name);
-							break;
-							
-							//value should be less than X
+								break;
+									
+								//value should be less than X
 							case "maxValue":
 								$checkFailed = $this->validateMaxValue($check,$name);
-							break;
-							
-							//value should be between X and Y
+								break;
+									
+								//value should be between X and Y
 							case "betweenValue":
 								$checkFailed = $this->validateBetweenValue($check,$name);
-							break;
-							
-							//value should be a string with a minimum length of X
+								break;
+									
+								//value should be a string with a minimum length of X
 							case "minLength":
 								$checkFailed = $this->validateMinLength($check,$name);
-							break;
-							
-							//value should be a string with a maximum length of X
+								break;
+									
+								//value should be a string with a maximum length of X
 							case "maxLength":
 								$checkFailed = $this->validateMaxLength($check,$name);
-							break;
-							
-							//value should be a string with a length between X and Y
+								break;
+									
+								//value should be a string with a length between X and Y
 							case "betweenLength":
 								$checkFailed = $this->validateBetweenLength($check,$name);
-							break;
-							
-							//value should be a an array with a minimum item count of X
+								break;
+									
+								//value should be a an array with a minimum item count of X
 							case "minItems":
 								$checkFailed = $this->validateMinItems($check,$name);
-							break;
-							
-							//value should be a an array with a maximum item count of X
+								break;
+									
+								//value should be a an array with a maximum item count of X
 							case "maxItems":
 								$checkFailed = $this->validateMaxItems($check,$name);
-							break;
-							
-							//value should be a an array with an item count between X and Y
+								break;
+									
+								//value should be a an array with an item count between X and Y
 							case "betweenItems":
 								$checkFailed = $this->validateBetweenItems($check,$name);
-							break;
-							
-							//value should exist in a db table
+								break;
+									
+								//value should exist in a db table
 							case "isInDBTable":
 								$checkFailed = $this->validateIsInDBTable($check,$name);
-							break;
-							
-							//value should not exist in a db table
+								break;
+									
+								//value should not exist in a db table
 							case "isNotInDBTable":
 								$checkFailed = $this->validateIsNotInDBTable($check,$name);
-							break;
-							
-							//value should match a regular expression
+								break;
+									
+								//value should match a regular expression
 							case "ereg":
 								$checkFailed = $this->validateEreg($check,$name);
-							break;
-							
-							//value should match a regular expression (case insensitive)
+								break;
+									
+								//value should match a regular expression (case insensitive)
 							case "eregi":
 								$checkFailed = $this->validateEregi($check,$name);
-							break;
-							
-							//value should match a captcha string generated by the extension 'captcha'
+								break;
+									
+								//value should match a captcha string generated by the extension 'captcha'
 							case "captcha":
 								$checkFailed = $this->validateCaptcha($check,$name);
-							break;
-							
-							//value should match a captcha string generated by the extension 'sr_freecap'
+								break;
+									
+								//value should match a captcha string generated by the extension 'sr_freecap'
 							case "sr_freecap":
 								$checkFailed = $this->validateSrFreecap($check,$name);
-							break;
-							
-							
+								break;
+									
+									
 							case "simple_captcha":
 								$checkFailed = $this->validateSimpleCaptcha($check,$name);
-							break;
-							
+								break;
+									
 							case "wt_calculating_captcha":
 								$checkFailed = $this->validateCalculatingCaptcha($check,$name);
-							break;
-							
-							//value should match a captcha string generated by the extension 'jm_recaptcha'
+								break;
+									
+								//value should match a captcha string generated by the extension 'jm_recaptcha'
 							case "jm_recaptcha":
 								$checkFailed = $this->validateJmRecaptcha($check,$name);
-							break;
-							
-							//value should match the expected result generated by MathGuard
+								break;
+									
+								//value should match the expected result generated by MathGuard
 							case "mathguard":
 								$checkFailed = $this->validateMathGuard($check,$name);
-							break;
-							
-							//the value is between a configured date range
+								break;
+									
+								//the value is between a configured date range
 							case "dateRange":
 								$checkFailed = $this->validateDateRange($check,$name);
-							break;
-							
-							//the value is a valid time
+								break;
+									
+								//the value is a valid time
 							case "time":
 								$checkFailed = $this->validateTime($check,$name);
-							break;
-							
-							//the value is a valid date
+								break;
+									
+								//the value is a valid date
 							case "date":
 								$checkFailed = $this->validateDate($check,$name);
-							break;
+								break;
 						}
-						
+
 						if(strlen($checkFailed) > 0) {
 							if(!is_array($errors[$name])) {
 								$errors[$name] = array();
@@ -315,9 +315,9 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 			}
 		}
 		return empty($errors);
-		
+
 	}
-	
+
 	/**
 	 * Validates that an uploaded file has a minimum file size
 	 *
@@ -330,16 +330,16 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$minSize = $check['params']['minSize'];
 		foreach($_FILES as $sthg=>&$files) {
 			if(	strlen($files['name'][$name]) > 0 &&
-				$minSize &&
-				$files['size'][$name] < $minSize) {
-		
+			$minSize &&
+			$files['size'][$name] < $minSize) {
+
 				unset($files);
 				$checkFailed = $this->getCheckFailed($check);
 			}
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that an uploaded file has a maximum file size
 	 *
@@ -352,8 +352,8 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$maxSize = $check['params']['maxSize'];
 		foreach($_FILES as $sthg=>&$files) {
 			if(	strlen($files['name'][$name]) > 0 &&
-				$maxSize &&
-				$files['size'][$name] > $maxSize) {
+			$maxSize &&
+			$files['size'][$name] > $maxSize) {
 					
 				unset($files);
 				$checkFailed = $this->getCheckFailed($check);
@@ -361,7 +361,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that up to x files get uploaded via the spcified upload field
 	 *
@@ -371,29 +371,29 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 */
 	protected function validateMaxFileCount(&$check,$name) {
 		$checkFailed = "";
-		
+
 		session_start();
-		#print_r($_SESSION['mailformplusplusFiles'][$name]);		
+		#print_r($_SESSION['mailformplusplusFiles'][$name]);
 		$maxCount = $check['params']['maxCount'];
 		#print $maxCount.' == '.count($_SESSION['mailformplusplusFiles'][$name]);
-		if(	is_array($_SESSION['mailformplusplusFiles'][$name]) && 
-			count($_SESSION['mailformplusplusFiles'][$name]) >= $maxCount &&
-			$_SESSION['mailformplusplusSettings']['currentStep'] == $_SESSION['mailformplusplusSettings']['lastStep']) {
-			
+		if(	is_array($_SESSION['mailformplusplusFiles'][$name]) &&
+		count($_SESSION['mailformplusplusFiles'][$name]) >= $maxCount &&
+		$_SESSION['mailformplusplusSettings']['currentStep'] == $_SESSION['mailformplusplusSettings']['lastStep']) {
+				
 			$checkFailed = $this->getCheckFailed($check);
-		} elseif (is_array($_SESSION['mailformplusplusFiles'][$name]) && 
-			$_SESSION['mailformplusplusSettings']['currentStep'] > $_SESSION['mailformplusplusSettings']['lastStep']) {
-			
+		} elseif (is_array($_SESSION['mailformplusplusFiles'][$name]) &&
+		$_SESSION['mailformplusplusSettings']['currentStep'] > $_SESSION['mailformplusplusSettings']['lastStep']) {
+				
 			foreach($_FILES as $idx=>$info) {
 				if(strlen($info['name'][$name]) > 0 && count($_SESSION['mailformplusplusFiles'][$name]) >= $maxCount) {
 					$checkFailed = $this->getCheckFailed($check);
 				}
 			}
-			
+				
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a file gets uploaded via specified upload field
 	 *
@@ -408,14 +408,14 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		foreach($_FILES as $sthg=>&$files) {
 			if(strlen($files['name'][$name]) > 0) {
 				$found = true;
-			}	
+			}
 		}
 		if(!$found && count($_SESSION['mailformplusplusFiles'][$name]) == 0) {
 			$checkFailed = $this->getCheckFailed($check);
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field is filled out
 	 *
@@ -430,7 +430,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field doesn't contain one of the specified words
 	 *
@@ -448,7 +448,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$found = false;
 		foreach($checkValue as $word) {
 			if(stristr($formValue,$word) && !$found) {
-				
+
 				//remove userfunc settings and only store comma seperated words
 				$check['params']['words'] = implode(",",$checkValue);
 				unset($check['params']['words.']);
@@ -458,7 +458,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field equals a specified word
 	 *
@@ -471,14 +471,14 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$formValue = trim($this->gp[$name]);
 		$checkValue = $this->getCheckValue($check['params']['word'],$check['params']['word.']);
 		if(strcasecmp($formValue,$checkValue)) {
-			
+				
 			//remove userfunc settings
 			unset($check['params']['word.']);
 			$checkFailed = $this->getCheckFailed($check);
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field contains at least one of the specified words
 	 *
@@ -500,7 +500,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 			}
 		}
 		if(!$found) {
-			
+				
 			//remove userfunc settings and only store comma seperated words
 			$check['params']['words'] = implode(",",$checkValue);
 			unset($check['params']['words.']);
@@ -508,7 +508,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field contains all of the specified words
 	 *
@@ -525,7 +525,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		foreach($checkValue as $word) {
 			if(!stristr($formValue,$word)) {
-				
+
 				//remove userfunc settings and only store comma seperated words
 				$check['params']['words'] = implode(",",$checkValue);
 				unset($check['params']['words.']);
@@ -535,7 +535,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 
 		return $checkFailed;
 	}
-	
+
 	protected function getCheckValue($obj,$params) {
 		$checkValue = $obj;
 		if(is_array($params)) {
@@ -543,12 +543,12 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		/*if(!strcmp($obj,"USER") || !strcmp($obj,"USER_INT")) {
 			return t3lib_div::callUserFunction($params['userFunc'],$params,$this,"");
-		} else {
+			} else {
 			return $this->cObj->cObjGetSingle($obj,$params);
-		}*/
+			}*/
 		return $checkValue;
 	}
-	
+
 	/**
 	 * Validates that a specified field has valid email syntax.
 	 *
@@ -564,7 +564,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field doesn't equal a specified default value.
 	 * This default value could have been set via a PreProcessor.
@@ -575,7 +575,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 */
 	protected function validateNotDefaultValue(&$check,$name) {
 		$checkFailed = "";
-		
+
 		$defaultValue = $check['params']['defaultValue'];
 		if(is_array($check['params']['defaultValue.'])) {
 			$defaultValue = $this->cObj->cObjGetSingle($check['params']['defaultValue'],$check['params']['defaultValue.']);
@@ -587,7 +587,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field is a valid integer.
 	 *
@@ -606,7 +606,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field is a valid float
 	 *
@@ -622,7 +622,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field is an integer and greater than or equal a specified value
 	 *
@@ -633,16 +633,16 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	protected function validateMinValue(&$check,$name) {
 		$checkFailed = "";
 		$min = $check['params']['value'];
-		if(	isset($this->gp[$name]) && 
-			!empty($this->gp[$name]) &&
-			$min &&
-			(!t3lib_div::testInt($this->gp[$name]) || intVal($this->gp[$name]) < $min)) {
-			
+		if(	isset($this->gp[$name]) &&
+		!empty($this->gp[$name]) &&
+		$min &&
+		(!t3lib_div::testInt($this->gp[$name]) || intVal($this->gp[$name]) < $min)) {
+				
 			$checkFailed = $this->getCheckFailed($check);
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field is an integer and lower than or equal a specified value
 	 *
@@ -653,16 +653,16 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	protected function validateMaxValue(&$check,$name) {
 		$checkFailed = "";
 		$max = $check['params']['value'];
-		if(	isset($this->gp[$name]) && 
-			!empty($this->gp[$name]) &&
-			$max &&
-			(!t3lib_div::testInt($this->gp[$name]) || intVal($this->gp[$name]) > $max)) {
-			
+		if(	isset($this->gp[$name]) &&
+		!empty($this->gp[$name]) &&
+		$max &&
+		(!t3lib_div::testInt($this->gp[$name]) || intVal($this->gp[$name]) > $max)) {
+				
 			$checkFailed = $this->getCheckFailed($check);
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field is an integer between two specified values
 	 *
@@ -674,17 +674,17 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$checkFailed = "";
 		$min = $check['params']['minValue'];
 		$max = $check['params']['maxValue'];
-		if(	isset($this->gp[$name]) && 
-			!empty($this->gp[$name]) &&
-			$min &&
-			$max &&
-			(!t3lib_div::testInt($this->gp[$name]) || intVal($this->gp[$name]) < $min || intVal($this->gp[$name]) > $max)) {
-			
+		if(	isset($this->gp[$name]) &&
+		!empty($this->gp[$name]) &&
+		$min &&
+		$max &&
+		(!t3lib_div::testInt($this->gp[$name]) || intVal($this->gp[$name]) < $min || intVal($this->gp[$name]) > $max)) {
+				
 			$checkFailed = $this->getCheckFailed($check);
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field is a string and at least a specified count of characters long
 	 *
@@ -695,16 +695,16 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	protected function validateMinLength(&$check,$name) {
 		$checkFailed = "";
 		$min = $check['params']['value'];
-		if(	isset($this->gp[$name]) && 
-			!empty($this->gp[$name]) &&
-			$min &&
-			strlen(trim($this->gp[$name])) < $min) {
+		if(	isset($this->gp[$name]) &&
+		!empty($this->gp[$name]) &&
+		$min &&
+		strlen(trim($this->gp[$name])) < $min) {
 
 			$checkFailed = $this->getCheckFailed($check);
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field is a string and shorter a specified count of characters
 	 *
@@ -713,19 +713,19 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @return string The error string
 	 */
 	protected function validateMaxLength(&$check,$name) {
-		
+
 		$checkFailed = "";
 		$max = $check['params']['value'];
-		if(	isset($this->gp[$name]) && 
-			!empty($this->gp[$name]) &&
-			$max &&
-			strlen(trim($this->gp[$name])) > $max) {
+		if(	isset($this->gp[$name]) &&
+		!empty($this->gp[$name]) &&
+		$max &&
+		strlen(trim($this->gp[$name])) > $max) {
 
 			$checkFailed = $this->getCheckFailed($check);
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field is a string and has a length between two specified values
 	 *
@@ -737,17 +737,17 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$checkFailed = "";
 		$min = $check['params']['minValue'];
 		$max = $check['params']['maxValue'];
-		if(	isset($this->gp[$name]) && 
-			!empty($this->gp[$name]) &&
-			$min &&
-			$max && 
-			(strlen($this->gp[$name]) < $min || strlen($this->gp[$name]) > $max)) {
-			
+		if(	isset($this->gp[$name]) &&
+		!empty($this->gp[$name]) &&
+		$min &&
+		$max &&
+		(strlen($this->gp[$name]) < $min || strlen($this->gp[$name]) > $max)) {
+				
 			$checkFailed = $this->getCheckFailed($check);
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field is an array and has at least a specified amount of items
 	 *
@@ -767,7 +767,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field is an array and has less than or exactly a specified amount of items
 	 *
@@ -786,7 +786,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 			$checkFailed = $this->getCheckFailed($check);
 		}
 	}
-	
+
 	/**
 	 * Validates that a specified field is an array and has an item count between two specified values
 	 *
@@ -798,18 +798,18 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$checkFailed = "";
 		$min = $check['params']['minValue'];
 		$max = $check['params']['maxValue'];
-		if(	isset($this->gp[$name]) && 
-			!empty($this->gp[$name]) && 
-			is_array($this->gp[$name]) &&
-			$min &&
-			$max &&
-			(count($this->gp[$name]) < $min || count($this->gp[$name]) > $max)) {
+		if(	isset($this->gp[$name]) &&
+		!empty($this->gp[$name]) &&
+		is_array($this->gp[$name]) &&
+		$min &&
+		$max &&
+		(count($this->gp[$name]) < $min || count($this->gp[$name]) > $max)) {
 
 			$checkFailed = $this->getCheckFailed($check);
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field's value is found in a specified db table
 	 *
@@ -832,7 +832,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field's value is not found in a specified db table
 	 *
@@ -853,10 +853,10 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		}
-		
+
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field's value matches a regular expression
 	 *
@@ -872,7 +872,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field's value matches a regular expression case insensitive
 	 *
@@ -888,7 +888,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field's value matches the generated word of the extension "captcha"
 	 *
@@ -898,17 +898,17 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 */
 	protected function validateCaptcha(&$check,$name) {
 		$checkFailed = "";
-		
+
 		// get captcha sting
 		session_start();
 		$captchaStr = $_SESSION['tx_captcha_string'];
 		$_SESSION['tx_captcha_string'] = '';
 		if ($captchaStr != $this->gp[$name]) {
 			$checkFailed = $this->getCheckFailed($check);
-		}	
+		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field's value matches the generated word of the extension "wt_calculating_captcha"
 	 *
@@ -921,11 +921,11 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$captcha = t3lib_div::makeInstance('tx_wtcalculatingcaptcha'); // generate object
 		if (!$captcha->correctCode($this->gp[$name])) { // check if code is correct
 			$checkFailed = $this->getCheckFailed($check);
-		} 
+		}
 		unset($GLOBALS['TSFE']->fe_user->sesData['wt_calculating_captcha_value']);
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field's value matches the generated word of the extension "sr_freecap"
 	 *
@@ -944,7 +944,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that the correct image of possible images displayed by the extension "simple_captcha" got selected.
 	 *
@@ -964,7 +964,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field's value matches the generated word of the extension "jm_recaptcha"
 	 *
@@ -984,7 +984,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field's value matches the expected result of the MathGuard question
 	 *
@@ -1000,7 +1000,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field's value is a valid time
 	 *
@@ -1012,7 +1012,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$checkFailed = "";
 		$pattern = $check['params']['pattern'];
 		eregi('^[h|m]*(.)[h|m]*', $pattern, $res);
-		$sep = $res[1];			    
+		$sep = $res[1];
 		$timeCheck = explode($sep, $this->get_post[$fieldname]);
 		if (is_array($timeCheck)) {
 			$hours = $tc[0];
@@ -1026,7 +1026,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that an uploaded file via specified field matches one of the given file types
 	 *
@@ -1046,13 +1046,13 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 					if(!in_array($fileext,$types)) {
 						unset($files);
 						$checkFailed = $this->getCheckFailed($check);
-					}		
+					}
 				}
 			}
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field's value is a valid date
 	 *
@@ -1062,15 +1062,15 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 */
 	protected function validateDate(&$check,$name) {
 		$checkFailed = "";
-		
+
 		# find out separator
 		$pattern = $check['params']['pattern'];
 		eregi('^[d|m|y]*(.)[d|m|y]*', $pattern, $res);
 		$sep = $res[1];
-		
+
 		# normalisation of format
 		$pattern = $this->normalizeDatePattern($pattern,$sep);
-		
+
 		# find out correct positioins of "d","m","y"
 		$pos1 = strpos($pattern, 'd');
 		$pos2 = strpos($pattern, 'm');
@@ -1087,7 +1087,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Validates that a specified field's value is a valid date and between two specified dates
 	 *
@@ -1096,18 +1096,18 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	 * @return string The error string
 	 */
 	protected function validateDateRange(&$check,$name) {
-		
+
 		$checkFailed = "";
-		
+
 		$min = $check['params']['min'];
 		$max = $check['params']['max'];
 		$pattern = $check['params']['pattern'];
 		eregi('^[d|m|y]*(.)[d|m|y]*', $pattern, $res);
 		$sep = $res[1];
-		
+
 		# normalisation of format
 		$pattern = $this->normalizeDatePattern($pattern,$sep);
-		
+
 		# find out correct positioins of "d","m","y"
 		$pos1 = strpos($pattern, 'd');
 		$pos2 = strpos($pattern, 'm');
@@ -1143,10 +1143,10 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 				$checkFailed = $this->getCheckFailed($check);
 			}
 		}
-		
+
 		return $checkFailed;
 	}
-	
+
 	/**
 	 * Internal method to normalize a specified date pattern for internal use
 	 *
@@ -1165,7 +1165,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$pattern = str_replace('YY', 'y', $pattern);
 		return $pattern;
 	}
-	
+
 	/**
 	 * Sets the suitable string for the checkFailed message parsed in view.
 	 *
@@ -1183,6 +1183,6 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		}
 		return $checkFailed;
 	}
-	
+
 }
 ?>

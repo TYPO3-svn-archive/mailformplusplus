@@ -34,63 +34,63 @@ class F3_MailformPlusPlus_Validator_Default_testcase extends PHPUnit_Framework_T
 		unset($this->validator);
 		unset($this->componentManager);
 	}
-	
+
 	public function test_required() {
 		$fakeGp = array();
 		$fakeGp['lastname'] = "Test";
-		
+
 		$fakeSettings = array();
 		$fakeSettings['fieldConf.']['lastname.']['errorCheck.'][1] = "required";
 		$errors = array();
-		
+
 		//field is filled out
 		$this->assertTrue($this->validator->validate($fakeGp,$fakeSettings,$errors));
-		
+
 		$fakeGp['lastname'] = "";
-		
+
 		//field is not filled out
 		$this->assertFalse($this->validator->validate($fakeGp,$fakeSettings,$errors));
-		
+
 	}
-	
+
 	public function test_email() {
 		$fakeGp = array();
 		$fakeGp['email'] = "email@host.com";
-		
+
 		$fakeSettings = array();
 		$fakeSettings['fieldConf.']['email.']['errorCheck.'][1] = "email";
 		$errors = array();
-		
+
 		//valid email
 		$this->assertTrue($this->validator->validate($fakeGp,$fakeSettings,$errors));
-		
+
 		$fakeGp['email'] = "!%&$/@$/$%&.com";
-		
+
 		//invalid characters
 		$this->assertFalse($this->validator->validate($fakeGp,$fakeSettings,$errors));
-		
+
 		$fakeGp['email'] = "ajksdhf";
-		
+
 		//invalid syntax
 		$this->assertFalse($this->validator->validate($fakeGp,$fakeSettings,$errors));
-		
+
 		$fakeGp['email'] = "ajksdhf.com";
-		
+
 		//invalid syntax 2
 		$this->assertFalse($this->validator->validate($fakeGp,$fakeSettings,$errors));
-		
+
 		$fakeGp['email'] = "aasd@ajksdhfcom";
-		
+
 		//invalid syntax 3
 		$this->assertFalse($this->validator->validate($fakeGp,$fakeSettings,$errors));
-		
+
 		$fakeGp['email'] = "aasd@127.0.0.1";
-		
+
 		//valid syntax
 		$this->assertFalse($this->validator->validate($fakeGp,$fakeSettings,$errors));
-		
+
 	}
 
-	
+
 }
 ?>

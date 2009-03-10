@@ -1,7 +1,7 @@
 <?php
 /**
  * Extension Manager/Repository config file for ext: "mailformplusplus"
- * 
+ *
  * @author Reinhard Führicht <rf@typoheads.at>
 
  * @package	F3_MailformPlusPlus
@@ -40,15 +40,15 @@ $EM_CONF[$_EXTKEY] = array(
 		   'php' => '5.2.0-0.0.0',
 			'typo3' => '4.2.0-0.0.0',
 			'gimmefive' => '0.0.3-0.0.0',
-		),
+),
 		'conflicts' => array(
-		),
+),
 		'suggests' => array(
-		),
-	),
+),
+),
 	'_md5_values_when_last_written' => '',
 	'suggests' => array(
-	),
+),
 );
 
 ?>

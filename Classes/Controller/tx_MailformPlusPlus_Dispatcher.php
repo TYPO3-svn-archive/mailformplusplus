@@ -18,7 +18,7 @@ require_once (t3lib_extMgm::extPath('gimmefive') . 'Classes/Component/F3_GimmeFi
 
 
 require_once(PATH_tslib.'class.tslib_pibase.php');
- 
+
 /**
  * The Dispatcher instatiates the Component Manager and delegates the process to the given controller.
  *
@@ -27,7 +27,7 @@ require_once(PATH_tslib.'class.tslib_pibase.php');
  * @subpackage	Controller
  */
 class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
-	
+
 	/**
 	 * Adds JavaScript for xajax and registers callable methods.
 	 * Passes AJAX requests to requested methods.
@@ -47,7 +47,7 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 			$this->xajax->processRequests();
 		}
 	}
-	
+
 	/**
 	 * Main method of the dispatcher. This method is called as a user function.
 	 *
@@ -60,14 +60,14 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 
 		$this->pi_USER_INT_obj = 1;
 		$this->componentManager = F3_GimmeFive_Component_Manager::getInstance();
-		
+
 		//handle AJAX stuff
 		$this->handleAjax();
-		
+
 		//init flexform
 		$this->pi_initPIflexForm();
-		
-		F3_MailformPlusPlus_StaticFuncs::$cObj = $this->cObj; 
+
+		F3_MailformPlusPlus_StaticFuncs::$cObj = $this->cObj;
 		/*
 		 * set controller:
 		 * 1. Flexform
@@ -76,13 +76,13 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		 */
 		$controller = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'controller','sDEF');
 		if(!$controller) {
-			$controller = $setup['controller'];	
+			$controller = $setup['controller'];
 		}
 		if(!$controller) {
 			$controller = "F3_MailformPlusPlus_Controller_Default";
 		}
 		$controller = $this->componentManager->getComponent($controller);
-		
+
 		/*
 		 * Parse values from flexform:
 		 * - Template file
@@ -95,7 +95,7 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		$templateFile = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'template_file','sDEF');
 		$langFile = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'lang_file','sDEF');
 		$predef = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'predefined','sDEF');
-		
+
 		if (isset($content)) {
 			$controller->setContent($this->componentManager->getComponent('F3_MailformPlusPlus_Content', $content));
 		}
@@ -115,9 +115,9 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		}
 		return $result;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Reads a value from flexform data.
 	 *
@@ -129,5 +129,5 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		$value = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], $name,$section);
 		return $value;
 	}
-}	
+}
 ?>

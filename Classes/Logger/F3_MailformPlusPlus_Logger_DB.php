@@ -22,19 +22,19 @@
  * @subpackage	Logger
  */
 class F3_MailformPlusPlus_Logger_DB {
-	
+
 	/**
-     * Logs the given values.
-     * 
-     * @param array $gp The current GET/POST parameters
-     * @param array $settings The settings for the logger
-     * @return void
-     */
+	 * Logs the given values.
+	 *
+	 * @param array $gp The current GET/POST parameters
+	 * @param array $settings The settings for the logger
+	 * @return void
+	 */
 	public function log(&$gp,$settings) {
-		
+
 		//set params
 		$table = "tx_mailformplusplus_log";
-		
+
 		$fields['ip'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
 		if(isset($settings['disableIPlog']) && intval($settings['disableIPlog']) == 1) {
 			$fields['ip'] = NULL;
@@ -49,9 +49,9 @@ class F3_MailformPlusPlus_Logger_DB {
 		$hash = hash("md5",serialize($keys));
 		$fields['params'] = $serialized;
 		$fields['key_hash'] = $hash;
-		
+
 		#$fields = $GLOBALS['TYPO3_DB']->fullQuoteArray($fields,$table);
-		
+
 		//query the database
 		$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery($table,$fields);
 		if(!$settings['nodebug']) {
@@ -59,10 +59,10 @@ class F3_MailformPlusPlus_Logger_DB {
 			if(strlen($GLOBALS['TYPO3_DB']->sql_error()) > 0) {
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('error',$GLOBALS['TYPO3_DB']->sql_error());
 			}
-			
+				
 		}
-		
+
 	}
-	
+
 }
 ?>

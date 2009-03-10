@@ -22,31 +22,31 @@
  * @subpackage	Interceptor
  */
 class F3_MailformPlusPlus_Interceptor_RemoveXSS extends F3_MailformPlusPlus_AbstractInterceptor {
-	
+
 	/**
-     * The main method called by the controller
-     * 
-     * @param array $gp The GET/POST parameters
-     * @param array $settings The defined TypoScript settings for the finisher
-     * @return array The probably modified GET/POST parameters
-     */
+	 * The main method called by the controller
+	 *
+	 * @param array $gp The GET/POST parameters
+	 * @param array $settings The defined TypoScript settings for the finisher
+	 * @return array The probably modified GET/POST parameters
+	 */
 	public function process($gp,$settings) {
-		
+
 		return $this->sanitizeValues($gp);
 	}
-	
+
 	/**
-     * This method does XSS checks and escapes malicious data
-     * 
-     * @param array $values The GET/POST parameters
-     * @return array The sanitized GET/POST parameters
-     */
+	 * This method does XSS checks and escapes malicious data
+	 *
+	 * @param array $values The GET/POST parameters
+	 * @return array The sanitized GET/POST parameters
+	 */
 	public function sanitizeValues($values) {
-		
+
 		if(!is_array($values)) {
 			return array();
 		}
-		
+
 		//if removeXSS is part of the core API
 		if (function_exists('t3lib_div::removeXSS')) {
 			foreach ($values as $key => $value) {
@@ -57,8 +57,8 @@ class F3_MailformPlusPlus_Interceptor_RemoveXSS extends F3_MailformPlusPlus_Abst
 					$sanitizedArray[$key] = t3lib_div::removeXSS($value);
 				}
 			}
-			
-		//use the class provided by MailformPlusPlus
+				
+			//use the class provided by MailformPlusPlus
 		} else {
 			require_once(t3lib_extMgm::extPath('mailformplusplus')."Resources/PHP/RemoveXSS.php");
 			foreach ($values as $key => $value) {
@@ -67,12 +67,12 @@ class F3_MailformPlusPlus_Interceptor_RemoveXSS extends F3_MailformPlusPlus_Abst
 				} else {
 					$value = str_replace("\t","",$value);
 					$sanitizedArray[$key] = RemoveXSS::RemoveXSS($value);
-					
+						
 				}
 			}
 		}
 		return $sanitizedArray;
 	}
-	
+
 }
 ?>

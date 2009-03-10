@@ -22,16 +22,16 @@
  * @subpackage	Finisher
  */
 class F3_MailformPlusPlus_Finisher_ClearCache extends F3_MailformPlusPlus_AbstractFinisher {
-	
+
 	/**
-     * The main method called by the controller
-     * 
-     * @return array The probably modified GET/POST parameters
-     */
+	 * The main method called by the controller
+	 *
+	 * @return array The probably modified GET/POST parameters
+	 */
 	public function process() {
-		
+
 		require_once("t3lib/class.t3lib_tcemain.php");
-		$tce = t3lib_div::makeInstance('t3lib_tcemain'); 
+		$tce = t3lib_div::makeInstance('t3lib_tcemain');
 		$tce->clear_cacheCmd($GLOBALS['TSFE']->id);
 		return $this->gp;
 	}

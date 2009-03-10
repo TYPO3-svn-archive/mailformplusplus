@@ -23,7 +23,7 @@ class MathGuard {
 		$a = rand() % 10; // generates the random number
 		$b = rand() % 10; // generates the random number
 		$code = MathGuard :: generateCode($a, $b, $prime);
-		
+
 		// please don't remove the backlink, thank you
 		$output = '<a href="http://www.codegravity.com/">MathGuard</a> '.$question.
 		'<table border="0">
@@ -37,12 +37,12 @@ class MathGuard {
 				</td>
 			</tr>
 		</table>';
-		
+
 
 		return $output;
 	}
 
-	/** function that converts the decimal number to line of 3 random characters 
+	/** function that converts the decimal number to line of 3 random characters
 	 * @param $dec		decimal number that is being converted to line of 3 random characters
 	 * */
 	function decToBin($dec) {
@@ -54,12 +54,12 @@ class MathGuard {
 				$rand = rand() % 34;
 				$output {
 					2 - $i }
-				= $pattern {
-					$rand };
+					= $pattern {
+						$rand };
 			} else {
 				$output {
 					2 - $i }
-				= " ";
+					= " ";
 			}
 			$dec = (int) ($dec / 2);
 			$i++;
@@ -67,103 +67,103 @@ class MathGuard {
 		return $output;
 	}
 
-	/** function that renders a final 3x5 matrix consisting of random characters 
-	 * @param $a		random number a that renders to the 3x5 matrix consisting of random characters 
-	 * @param $b		random number b that renders to the 3x5 matrix consisting of random characters 
+	/** function that renders a final 3x5 matrix consisting of random characters
+	 * @param $a		random number a that renders to the 3x5 matrix consisting of random characters
+	 * @param $b		random number b that renders to the 3x5 matrix consisting of random characters
 	 * */
 	function renderExpression($a, $b) {
 
 		$number = array (
-			array (
-				7,
-				5,
-				5,
-				5,
-				7
-			),
-			array (
-				2,
-				6,
-				2,
-				2,
-				7
-			),
-			array (
-				7,
-				1,
-				7,
-				4,
-				7
-			),
-			array (
-				7,
-				1,
-				7,
-				1,
-				7
-			),
-			array (
-				4,
-				5,
-				7,
-				1,
-				1
-			),
-			array (
-				7,
-				4,
-				7,
-				1,
-				7
-			),
-			array (
-				7,
-				4,
-				7,
-				5,
-				7
-			),
-			array (
-				7,
-				1,
-				1,
-				1,
-				1
-			),
-			array (
-				7,
-				5,
-				7,
-				5,
-				7
-			),
-			array (
-				7,
-				5,
-				7,
-				1,
-				7
-			)
+		array (
+		7,
+		5,
+		5,
+		5,
+		7
+		),
+		array (
+		2,
+		6,
+		2,
+		2,
+		7
+		),
+		array (
+		7,
+		1,
+		7,
+		4,
+		7
+		),
+		array (
+		7,
+		1,
+		7,
+		1,
+		7
+		),
+		array (
+		4,
+		5,
+		7,
+		1,
+		1
+		),
+		array (
+		7,
+		4,
+		7,
+		1,
+		7
+		),
+		array (
+		7,
+		4,
+		7,
+		5,
+		7
+		),
+		array (
+		7,
+		1,
+		1,
+		1,
+		1
+		),
+		array (
+		7,
+		5,
+		7,
+		5,
+		7
+		),
+		array (
+		7,
+		5,
+		7,
+		1,
+		7
+		)
 		);
 
 		$plus = array (
-			0,
-			2,
-			7,
-			2,
-			0
+		0,
+		2,
+		7,
+		2,
+		0
 		);
 		$eq = array (
-			0,
-			7,
-			0,
-			7,
-			0
+		0,
+		7,
+		0,
+		7,
+		0
 		);
 		for ($line = 0; $line < 5; $line++) {
 
-			$output .= 
-			
+			$output .=
+				
 			MathGuard :: decToBin($number[$a][$line]) . "   " . MathGuard :: decToBin($plus[$line]) . "   " . MathGuard :: decToBin($number[$b][$line]) . "   " . MathGuard :: decToBin($eq[$line]) . "\n";
 
 			$output = str_replace("0", " ", $output);
@@ -178,7 +178,7 @@ class MathGuard {
 		return md5($input . date("H") . $prime);
 	}
 
-	/** This function generates the hash code from the two numbers 
+	/** This function generates the hash code from the two numbers
 	 * @param $a 	first number
 	 * @param $b	second sumber
 	 * @param $prime	additional number to encode with
@@ -188,7 +188,7 @@ class MathGuard {
 		return $code;
 	}
 
-	/** This function checks whether the answer and generated security code match 
+	/** This function checks whether the answer and generated security code match
 	 * @param $mathguard_answer		answer the user has entered
 	 * @param $mathguard_code		hashcode the mathguard has generated
 	 */
@@ -198,9 +198,9 @@ class MathGuard {
 		$result_encoded = MathGuard :: encode($mathguard_answer, $prime);
 
 		if ($result_encoded == $mathguard_code)
-			return true;
+		return true;
 		else
-			return false;
+		return false;
 
 	}
 
@@ -213,7 +213,7 @@ class MathGuard {
 
 	}
 
-	/** this function returns math expression into your form, the parameter is optional 
+	/** this function returns math expression into your form, the parameter is optional
 	 * quite simmilar to insertQuestion, but returns the output as a text instead of echoing
 	 */
 	function returnQuestion($question = QUESTION,$color = COLOR,$prime = 37) { //default prime is 37, you can change it when specifying the different parameter

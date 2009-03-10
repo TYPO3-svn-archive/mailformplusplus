@@ -19,9 +19,9 @@
  * This PreProcessor adds the posibility to load default values.
  * Values fot the first step are loaded to $gp values of other steps are stored
  * to the session.
- * 
+ *
  * Example configuration:
- * 
+ *
  * <code>
  * preProcessors.1.class = F3_MailformPlusPlus_PreProcessor_LoadDefaultValues
  * preProcessors.1.config.1.contact_via.defaultValue = email
@@ -32,14 +32,14 @@
  * }
  * preProcessors.1.config.2.[field3].defaultValue < plugin.tx_exampleplugin
  * <code>
- * 
+ *
  * may copy the TS to the default validator settings to avoid redundancy
  * Exxample:
- * 
+ *
  * plugin.F3_MailformPlusPlus.settings.predef.multistep_example.2.validators.1.config.fieldConf.[field].errorcheck.1.notDefaultValue
  * plugin.F3_MailformPlusPlus.settings.predef.multistep_example.2.validators.1.config.fieldConf.[field].errorcheck.1.notDefaultValue.value < plugin.F3_MailformPlusPlus.settings.predef.multistep_example.preProcessors.1.config.1.[field].defaultValue
  *
- * @author	Johannes Feustel 
+ * @author	Johannes Feustel
  * @package	F3_MailformPlusPlus
  * @subpackage	PrePrecessor
  */
@@ -49,15 +49,15 @@ class F3_MailformPlusPlus_PreProcessor_LoadDefaultValues extends F3_MailformPlus
 	public function process($gp,$settings) {
 		$this->gp = $gp;
 		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
-		
+
 		foreach ($settings as $step => $stepSettings){
 			$step= preg_replace('/\.$/', '', $step);
 
 			if ($step == 1){
 				$this->loadDefaultValuesToGP($stepSettings);
 			} elseif(is_numeric($step)) {
-				$this->loadDefaultValuesToSession($stepSettings, $step);								
-			}			
+				$this->loadDefaultValuesToSession($stepSettings, $step);
+			}
 		}
 
 		return $this->gp;
@@ -66,16 +66,16 @@ class F3_MailformPlusPlus_PreProcessor_LoadDefaultValues extends F3_MailformPlus
 	/**
 	 * adapted from class tx_thmailformplus_pi1
 	 * Loads the default values to the GP Array
-	 * 
+	 *
 	 * @return void
 	 * @param array $settings
 	 */
 	function loadDefaultValuesToGP($settings) {
-		
+
 		if (is_array($settings)) {
 			foreach (array_keys($settings) as $fN) {
 				$fN = preg_replace('/\.$/', '', $fN);
-				
+
 				if (!isset($this->gp[$fN])) {
 					if($settings[$fN . '.']['defaultValue'] && $settings[$fN . '.']['defaultValue.']) {
 						$this->gp[$fN] = $this->cObj->cObjGetSingle($settings[$fN . '.']['defaultValue'],$settings[$fN . '.']['defaultValue.']);
@@ -84,17 +84,17 @@ class F3_MailformPlusPlus_PreProcessor_LoadDefaultValues extends F3_MailformPlus
 					} elseif ($settings[$fN . '.']['defaultValue'] || $settings[$fN . '.']['defaultValue'] == 0) {
 						$this->gp[$fN] = $settings[$fN . '.']['defaultValue'];
 					}
-					
+						
 				}
 			}
 		}
 	}
 
 	/**
-	 * loads the Default Setting in the Session. Used only for step 2+. 
-	 * 
+	 * loads the Default Setting in the Session. Used only for step 2+.
+	 *
 	 * @return void
-	 * @param Array $settings 
+	 * @param Array $settings
 	 * @param int $step
 	 */
 	private function loadDefaultValuesToSession($settings,$step){
@@ -112,11 +112,11 @@ class F3_MailformPlusPlus_PreProcessor_LoadDefaultValues extends F3_MailformPlus
 					} elseif ($settings[$fN . '.']['defaultValue'] || $settings[$fN . '.']['defaultValue'] == 0) {
 						$_SESSION['mailformplusplusValues'][$step][$fN] =  $settings[$fN . '.']['defaultValue'];
 					}
-					
+						
 				}
 			}
 		}
-		
+
 	}
 }
 

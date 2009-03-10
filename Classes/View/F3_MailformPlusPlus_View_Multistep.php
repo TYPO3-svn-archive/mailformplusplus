@@ -27,19 +27,19 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 
 	/**
 	 * Get the right settings for current step.
-	 * 
+	 *
 	 * @return 	array The settings
 	 */
 	protected function parseSettings() {
 		session_start();
 		return $_SESSION['mailformplusplusSettings']['settings'];
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Fill default markers of multistep forms
-	 * 
+	 *
 	 * ###curStep###
 	 * ###maxStep###
 	 * ###lastStep###
@@ -47,7 +47,7 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 	 * ###submit_prevStep###
 	 * ###submit_reload###
 	 * ###step_bar###
-	 * 
+	 *
 	 * @param	integer	$currentStep current step (begins with 1)
 	 * @param	integer	$lastStep last step
 	 * @param	string	$buttonNameBack name attribute of the back button
@@ -60,25 +60,25 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 		$markers = array();
 		$markers['###REL_URL###'] = $path;
 		$markers['###ABS_URL###'] = t3lib_div::locationHeaderUrl('').$path;
-		
+
 		session_start();
-		
+
 		// current step
 		$markers['###curStep###'] = $_SESSION['mailformplusplusSettings']['currentStep'];
-		
+
 		// maximum step/number of steps
 		$markers['###maxStep###'] = $_SESSION['mailformplusplusSettings']['totalSteps'];
-		
+
 		// the last step shown
 		$markers['###lastStep###'] = $_SESSION['mailformplusplusSettings']['lastStep'];
-		
+
 		$name = "step-";
 		if($_SESSION['mailformplusplusSettings']['formValuesPrefix']) {
 			$name = $_SESSION['mailformplusplusSettings']['formValuesPrefix']."[".$name."#step#]";
 		} else {
 			$name = "step-#step#";
 		}
-		
+
 		// submit name for next page
 		$markers['###submit_nextStep###'] = ' name="'.str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']+1),$name).'" ';
 
@@ -87,33 +87,33 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 
 		// submit name for reloading the same page/step
 		$markers['###submit_reload###'] = ' name="'.str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']),$name).'" ';
-		
+
 		// step bar
 		$markers['###step_bar###'] = $this->createStepBar(
-										$_SESSION['mailformplusplusSettings']['currentStep'],
-										$_SESSION['mailformplusplusSettings']['totalSteps'],
-										str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']-1),$name),
-										str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']+1),$name)
-									 );
-		
-		
+		$_SESSION['mailformplusplusSettings']['currentStep'],
+		$_SESSION['mailformplusplusSettings']['totalSteps'],
+		str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']-1),$name),
+		str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']+1),$name)
+		);
+
+
 		$this->addHiddenFields($markers);
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
-		
+
 	}
-	
+
 	/**
 	 * Adds the values stored in $_SESSION as hidden fields in marker ###ADDITIONAL_MULTISTEP###.
-	 * 
+	 *
 	 * Needed in conditional forms.
-	 * 
+	 *
 	 * @param	array	&$markers The markers to put the new one into
 	 * @return 	void
 	 */
 	protected function addHiddenFields(&$markers) {
 		session_start();
 		$hiddenFields = "";
-		
+
 		if(is_array($_SESSION['mailformplusplusValues'])) {
 			foreach($_SESSION['mailformplusplusValues'] as $step=>$params) {
 				if($step != $_SESSION['mailformplusplusSettings']['currentStep']) {
@@ -124,7 +124,7 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 						}
 						if(is_array($value)) {
 							foreach($value as $k=>$v) {
-								
+
 								$hiddenFields .= '<input type="hidden" name="'.$name.'[]" value="'.$v.'" />';
 							}
 						} else {
@@ -136,12 +136,12 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 		}
 		$markers['###ADDITIONAL_MULTISTEP###'] = $hiddenFields;
 	}
-	
+
 	/**
 	 * copied from dam_index
-	 * 
+	 *
 	 * Returns HTML of a box with a step counter and "back" and "next" buttons
-	 * 
+	 *
 	 * @param	integer	$currentStep current step (begins with 1)
 	 * @param	integer	$lastStep last step
 	 * @param	string	$buttonNameBack name attribute of the back button
@@ -150,7 +150,7 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 	 */
 	protected function createStepBar($currentStep,$lastStep,$buttonNameBack ="",$buttonNameFwd ="") {
 		global $LANG;
-		
+
 		$bgcolor = '#c1d5ba';
 		if($this->errors) {
 			$bgcolor = '#dd7777';
@@ -184,7 +184,7 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 
 		return $content;
 	}
-	
-	
+
+
 }
 ?>

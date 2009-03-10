@@ -20,7 +20,7 @@
  * This class needs a parameter "finishedUploadFolder" to be set in TS.
  *
  * Sample configuration:
- * 
+ *
  * <code>
  * finishers.1.class = F3_MailformPlusPlus_Finisher_StoreUploadedFiles
  * finishers.1.config.finishedUploadFolder = uploads/mailformplusplus/finished/
@@ -35,44 +35,44 @@
  * @subpackage	Finisher
  */
 class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlus_AbstractFinisher {
-	
+
 	/**
-     * The main method called by the controller
-     * 
-     * @return array The probably modified GET/POST parameters
-     */
+	 * The main method called by the controller
+	 *
+	 * @return array The probably modified GET/POST parameters
+	 */
 	public function process() {
-		
+
 		if($this->settings['finishedUploadFolder']) {
-			
+				
 			//move the uploaded files
 			$this->moveUploadedFiles();
 		}
-		
+
 		return $this->gp;
 	}
-	
+
 	/**
-     * Moves uploaded files from temporary upload folder to a specified new folder.
-     * This enables you to move the files from a successful submission to another folder and clean the files in temporary upload folder from time to time.
-     * 
-     * TypoScript example:
-     * 
-     * 1. Set the temporary upload folder and set cleaning
-     * <code>
-     * plugin.F3_MailformPlusPlus.settings.files.clearTempFilesOlderThanHours = 24
+	 * Moves uploaded files from temporary upload folder to a specified new folder.
+	 * This enables you to move the files from a successful submission to another folder and clean the files in temporary upload folder from time to time.
+	 *
+	 * TypoScript example:
+	 *
+	 * 1. Set the temporary upload folder and set cleaning
+	 * <code>
+	 * plugin.F3_MailformPlusPlus.settings.files.clearTempFilesOlderThanHours = 24
 	 * plugin.F3_MailformPlusPlus.settings.files.tmpUploadFolder = uploads/mailformplusplus/tmp
-     * </code>
-     * 
-     * 2. Set the folder to move the files to after submission
-     * <code>
-     * plugin.F3_MailformPlusPlus.settings.finishers.1.class = F3_MailformPlusPlus_Finisher_StoreUploadedFiles
-     * plugin.F3_MailformPlusPlus.settings.finishers.1.config.finishedUploadFolder = uploads/mailformplusplus/finishedFiles/
-     * plugin.F3_MailformPlusPlus.settings.finishers.1.config.renameScheme = [filename]_[md5]_[time]
-     * </code>
-     * 
-     * @return void
-     */
+	 * </code>
+	 *
+	 * 2. Set the folder to move the files to after submission
+	 * <code>
+	 * plugin.F3_MailformPlusPlus.settings.finishers.1.class = F3_MailformPlusPlus_Finisher_StoreUploadedFiles
+	 * plugin.F3_MailformPlusPlus.settings.finishers.1.config.finishedUploadFolder = uploads/mailformplusplus/finishedFiles/
+	 * plugin.F3_MailformPlusPlus.settings.finishers.1.config.renameScheme = [filename]_[md5]_[time]
+	 * </code>
+	 *
+	 * @return void
+	 */
 	protected function moveUploadedFiles() {
 		session_start();
 		$filesToCopy = array();
@@ -84,15 +84,15 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 					array_push($filesToCopy,$fullFilename);
 				}
 			}
-			
+				
 			if(count($filesToCopy) > 0) {
 				$newFolder = $this->settings['finishedUploadFolder'];
 				if(strlen($newFolder) > 0 ) {
 					$newFolder = F3_MailformPlusPlus_StaticFuncs::sanitizePath($newFolder);
 					$uploadPath = F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$newFolder;
-					
+						
 					$newFilename = $this->getNewFilename($file['name']);
-					
+						
 					foreach($filesToCopy as $file) {
 						F3_MailformPlusPlus_StaticFuncs::debugMessage('copy_file',$file['path'].$file['name'],$uploadPath.$newFilename);
 						copy($file['path'].$file['name'],$uploadPath.$newFilename);
@@ -102,14 +102,14 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 			}
 		}
 	}
-	
+
 	/**
-     * Generates a new filename for an uploaded file using settings in TypoScript.
-     * 
-     * @param string The current filename
-     * @return string The new filename
-     * 
-     **/
+	 * Generates a new filename for an uploaded file using settings in TypoScript.
+	 *
+	 * @param string The current filename
+	 * @return string The new filename
+	 *
+	 **/
 	protected function getNewFilename($oldName) {
 		$fileparts = explode('.',$oldName);
 		$fileext = '.'.$fileparts[count($fileparts)-1];
@@ -138,6 +138,6 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 		$newFilename .= $fileext;
 		return $newFilename;
 	}
-	
+
 }
 ?>

@@ -23,93 +23,93 @@
  * @abstract
  */
 abstract class F3_MailformPlusPlus_AbstractFinisher {
-	
+
 	/**
-     * The GimmeFive component manager
-     * 
-     * @access protected
-     * @var F3_GimmeFive_Component_Manager
-     */
+	 * The GimmeFive component manager
+	 *
+	 * @access protected
+	 * @var F3_GimmeFive_Component_Manager
+	 */
 	protected $componentManager;
-	
+
 	/**
-     * The global MailformPlusPlus configuration
-     * 
-     * @access protected
-     * @var F3_MailformPlusPlus_Configuration
-     */
+	 * The global MailformPlusPlus configuration
+	 *
+	 * @access protected
+	 * @var F3_MailformPlusPlus_Configuration
+	 */
 	protected $configuration;
-	
+
 	/**
-     * The GET/POST parameters
-     * 
-     * @access protected
-     * @var array
-     */
+	 * The GET/POST parameters
+	 *
+	 * @access protected
+	 * @var array
+	 */
 	protected $gp;
-	
+
 	/**
-     * The cObj 
-     * 
-     * @access protected
-     * @var tslib_cObj
-     */
+	 * The cObj
+	 *
+	 * @access protected
+	 * @var tslib_cObj
+	 */
 	protected $cObj;
-	
+
 	/**
-     * The settings array passed to the finisher.
-     * 
-     * @access protected
-     * @var array
-     */
+	 * The settings array passed to the finisher.
+	 *
+	 * @access protected
+	 * @var array
+	 */
 	protected $settings;
-	
+
 	/**
-     * The constructor for a finisher setting the component manager, configuration and the repository.
-     * 
-     * @param F3_GimmeFive_Component_Manager $componentManager
-     * @param F3_MailformPlusPlus_Configuration $configuration
-     * @param F3_DataProvider_Repository $repository
-     * @return void
-     */
+	 * The constructor for a finisher setting the component manager, configuration and the repository.
+	 *
+	 * @param F3_GimmeFive_Component_Manager $componentManager
+	 * @param F3_MailformPlusPlus_Configuration $configuration
+	 * @param F3_DataProvider_Repository $repository
+	 * @return void
+	 */
 	public function __construct(F3_GimmeFive_Component_Manager $componentManager, F3_MailformPlusPlus_Configuration $configuration) {
 		$this->componentManager = $componentManager;
 		$this->configuration = $configuration;
-		
+
 		//make cObj instance for pageLink creation
 		#$this->cObj = t3lib_div::makeInstance('tslib_cObj');
 		#$this->cObj->setCurrentVal($GLOBALS['TSFE']->id);
 		$this->cObj = F3_MailformPlusPlus_StaticFuncs::$cObj;
-		
+
 	}
-	
+
 	/**
-     * The main method called by the controller
-     * 
-     * @return array The probably modified GET/POST parameters
-     */
+	 * The main method called by the controller
+	 *
+	 * @return array The probably modified GET/POST parameters
+	 */
 	abstract public function process();
-	
+
 	/**
-     * Method to set GET/POST for this class and load the configuration
-     * 
-     * @param array The GET/POST values
-     * @param array The TypoScript configuration
-     * @return void
-     */
+	 * Method to set GET/POST for this class and load the configuration
+	 *
+	 * @param array The GET/POST values
+	 * @param array The TypoScript configuration
+	 * @return void
+	 */
 	public function loadConfig($gp,$tsConfig) {
 		$this->settings = $tsConfig;
 		$this->gp = $gp;
 	}
-	
+
 	/**
-     * Method to define whether the config is valid or not. If no, display a warning on the frontend.
-     * The default value is TRUE. This up to the finisher to overload this method
-     * 
-     */
+	 * Method to define whether the config is valid or not. If no, display a warning on the frontend.
+	 * The default value is TRUE. This up to the finisher to overload this method
+	 *
+	 */
 	public function validateConfig() {
-		
+
 	}
-	
+
 }
 ?>

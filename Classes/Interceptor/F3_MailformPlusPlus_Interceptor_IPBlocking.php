@@ -17,21 +17,21 @@
 /**
  * An interceptor checking if form got submitted too often by an IP address or globally.
  * Settings how often a form is allowed to be submitted and the period of time are set in TypoScript.
- * 
+ *
  * This interceptor uses log entries made by F3_MailformPlusPlus_Logger_DB.
- * 
+ *
  * Example:
  * <code>
  * saveInterceptors.1.class = F3_MailformPlusPlus_Interceptor_IPBlocking
- * 
+ *
  * saveInterceptors.1.config.redirectPage = 17
- * 
+ *
  * saveInterceptors.1.config.report.email = example@host.com,example2@host.com
  * saveInterceptors.1.config.report.subject = Submission limit reached
  * saveInterceptors.1.config.report.sender = somebody@otherhost.com
  * saveInterceptors.1.config.report.interval.value = 5
  * saveInterceptors.1.config.report.interval.unit = minutes
- * 
+ *
  * saveInterceptors.1.config.ip.timebase.value = 5
  * saveInterceptors.1.config.ip.timebase.unit = minutes
  * saveInterceptors.1.config.ip.threshold = 2
@@ -40,7 +40,7 @@
  * saveInterceptors.1.config.global.timebase.unit = minutes
  * saveInterceptors.1.config.global.threshold = 30
  * </code>
- * 
+ *
  * This example configuration says that the form is allowed to be submitted twice in a period of 5 minutes and 30 times in 5 minutes globally.
  *
  * @author	Reinhard Führicht <rf@typoheads.at>
@@ -49,59 +49,59 @@
  * @subpackage	Interceptor
  */
 class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_AbstractInterceptor {
-	
+
 	/**
-     * The table where the reports are logged
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The table where the reports are logged
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $reportTable = 'tx_mailformplusplus_reportlog';
-	
+
 	/**
-     * The table where the form submissions are logged
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The table where the form submissions are logged
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $logTable = 'tx_mailformplusplus_log';
-	
+
 	/**
-     * The main method called by the controller
-     * 
-     * @param array $gp The GET/POST parameters
-     * @param array $settings The defined TypoScript settings for the finisher
-     * @return array The probably modified GET/POST parameters
-     */
+	 * The main method called by the controller
+	 *
+	 * @param array $gp The GET/POST parameters
+	 * @param array $settings The defined TypoScript settings for the finisher
+	 * @return array The probably modified GET/POST parameters
+	 */
 	public function process($gp,$settings) {
 		$this->gp = $gp;
 		$this->settings = $settings;
-		
-		
+
+
 		$ipTimebaseValue = $this->settings['ip.']['timebase.']['value'];
 		$ipTimebaseUnit = $this->settings['ip.']['timebase.']['unit'];
 		$ipMaxValue = $this->settings['ip.']['threshold'];
-		
+
 		$this->check($ipTimebaseValue,$ipTimebaseUnit,$ipMaxValue,true);
-		
+
 		$globalTimebaseValue = $this->settings['global.']['timebase.']['value'];
 		$globalTimebaseUnit = $this->settings['global.']['timebase.']['unit'];
 		$globalMaxValue = $this->settings['global.']['threshold'];
-		
+
 		$this->check($globalTimebaseValue,$globalTimebaseUnit,$globalMaxValue,true);
-		
+
 		return $this->gp;
 	}
-	
+
 	/**
-     * Checks if the form got submitted too often and throws Exception if true.
-     * 
-     * @param int Timebase value
-     * @param string Timebase unit (seconds|minutes|hours|days)
-     * @param int maximum amount of submissions in given time base.
-     * @param boolean add IP address to where clause
-     * @return void
-     */
+	 * Checks if the form got submitted too often and throws Exception if true.
+	 *
+	 * @param int Timebase value
+	 * @param string Timebase unit (seconds|minutes|hours|days)
+	 * @param int maximum amount of submissions in given time base.
+	 * @param boolean add IP address to where clause
+	 * @return void
+	 */
 	private function check($value,$unit,$maxValue,$addIPToWhere = false) {
 		$timestamp = $this->getTimestamp($value,$unit);
 		$where = 'crdate >= '.$timestamp;
@@ -109,9 +109,9 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 			$where = 'ip=\''.t3lib_div::getIndpEnv('REMOTE_ADDR').'\' AND '.$where;
 		}
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,ip,crdate,params',$this->logTable,$where);
-		
+
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) >= $maxValue) {
-			
+				
 			$message = 'You are not allowed to send more mails because form got submitted too many times ';
 			if($addIPToWhere) {
 				$message .= 'by your IP address ';
@@ -130,9 +130,9 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 					if($addIPToWhere) {
 						$where .= ' AND ip=\''.t3lib_div::getIndpEnv('REMOTE_ADDR').'\'';
 					}
-					
+						
 					$res_log = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid',$this->reportTable,$where);
-					
+						
 					if($res_log && $GLOBALS['TYPO3_DB']->sql_num_rows($res_log) > 0) {
 						$send = false;
 					}
@@ -148,7 +148,7 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 				}
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
-			
+				
 			if($this->settings['redirectPage']) {
 				$this->doRedirect($this->settings['redirectPage']);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('redirect_failed');
@@ -158,48 +158,48 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 			}
 		}
 	}
-	
+
 	/**
-     * Redirects to given page id or url
-     * 
-     * @param mixed $emailRedirect
-     * @return void
-     */
+	 * Redirects to given page id or url
+	 *
+	 * @param mixed $emailRedirect
+	 * @return void
+	 */
 	private function doRedirect($emailRedirect) {
-	
+
 		//if redirect_page was page id
 		if (is_numeric($emailRedirect)) {
-		
+
 			// these parameters have to be added to the redirect url
 			$addparams = array();
 			if (t3lib_div::_GP("L")) {
 				$addparams["L"] = t3lib_div::_GP("L");
 			}
-			
+				
 			$url = $this->cObj->getTypoLink_URL($emailRedirect, '',$addparams);
-			
-		//else it may be a full URL
+				
+			//else it may be a full URL
 		} else {
 			$url = $emailRedirect;
 		}
-		
+
 		//correct the URL by replacing &amp;
-		if ($this->settings['correctRedirectUrl']) { 
+		if ($this->settings['correctRedirectUrl']) {
 			$url = str_replace('&amp;', '&', $url);
 		}
-		
+
 		if($url) {
 			header("Location: ".t3lib_div::locationHeaderUrl($url));
 		}
 	}
-	
+
 	/**
-     * Sends a report mail to recipients set in TypoScript.
-     * 
-     * @param string (ip|global) Defines the message sent
-     * @param array The select rows of log table
-     * @return void
-     */
+	 * Sends a report mail to recipients set in TypoScript.
+	 *
+	 * @param string (ip|global) Defines the message sent
+	 * @param array The select rows of log table
+	 * @return void
+	 */
 	private function sendReport($type,&$rows) {
 		$email = t3lib_div::trimExplode(',',$this->settings['report.']['email']);
 		$sender = $this->settings['report.']['sender'];
@@ -210,7 +210,7 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 		} else {
 			$message = 'A form got submitted too many times!';
 		}
-		
+
 		$message .= "\n\n".'This is the URL to the form: '.t3lib_div::getIndpEnv('TYPO3_REQUEST_URL');
 		if(is_array($rows)) {
 			$message .= "\n\n".'These are the submitted values:'."\n\n";
@@ -228,23 +228,23 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 				$message .= '---------------------------------------'."\n";
 			}
 		}
-		
+
 		//init mailer object
 		require_once(PATH_t3lib.'class.t3lib_htmlmail.php');
-	    $emailObj = t3lib_div::makeInstance('t3lib_htmlmail');
-	    $emailObj->start();
-		
+		$emailObj = t3lib_div::makeInstance('t3lib_htmlmail');
+		$emailObj->start();
+
 		//set e-mail options
-	    $emailObj->subject = $subject;
-	    
-	    $emailObj->from_email = $sender;
-	    
-	    $emailObj->setPlain($message);
-	    
+		$emailObj->subject = $subject;
+	  
+		$emailObj->from_email = $sender;
+	  
+		$emailObj->setPlain($message);
+	  
 		//send e-mails
-	    foreach($email as $mailto) {
-	    	
-	    	$sent = $emailObj->send($mailto);
+		foreach($email as $mailto) {
+
+			$sent = $emailObj->send($mailto);
 			if($sent) {
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sent',$mailto);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sender',$emailObj->from_email,false);
@@ -255,43 +255,43 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sender',$emailObj->from_email,false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_subject',$emailObj->subject,false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_message',$message,false);
-				
+
 			}
-	    }
-	    $dbParams = array();
+		}
+		$dbParams = array();
 		$dbParams['pid'] = $GLOBALS['TSFE']->id;
 		if($type == 'ip') {
-			$dbParams['ip'] = t3lib_div::getIndpEnv('REMOTE_ADDR');	
+			$dbParams['ip'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
 		}
 		$tstamp = time();
 		$dbParams['tstamp'] = $tstamp;
 		$dbParams['crdate'] = $tstamp;
 		$GLOBALS['TYPO3_DB']->exec_INSERTquery($this->reportTable,$dbParams);
 	}
-	
+
 	/**
-     * Parses given value and unit and creates a timestamp now-timebase.
-     * 
-     * @param int Timebase value
-     * @param string Timebase unit (seconds|minutes|hours|days)
-     * @return long The timestamp
-     */
+	 * Parses given value and unit and creates a timestamp now-timebase.
+	 *
+	 * @param int Timebase value
+	 * @param string Timebase unit (seconds|minutes|hours|days)
+	 * @return long The timestamp
+	 */
 	private function getTimestamp($value,$unit) {
 		$now = time();
 		$convertedValue = 0;
 		switch($unit) {
 			case "days":
 				$convertedValue = $value * 24 * 60 * 60;
-			break;
+				break;
 			case "hours":
 				$convertedValue = $value * 60 * 60;
-			break;
+				break;
 			case "minutes":
 				$convertedValue = $value * 60;
-			break;
+				break;
 		}
 		return $now-$convertedValue;
 	}
-	
+
 }
 ?>

@@ -22,54 +22,54 @@
  * @subpackage	Controller
  */
 class F3_MailformPlusPlus_Content {
-	
+
 	/**
-     * The actual content
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The actual content
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $content;
-	
+
 	/**
-     * The constructor settings the internal attribute "content"
-     * 
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @return void
-     */
+	 * The constructor settings the internal attribute "content"
+	 *
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @return void
+	 */
 	public function __construct($content) {
 		$this->setContent($content);
 	}
-	
+
 	/**
-     * Sets the internal attribute "content"
-     * 
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @param string $content
-     * @return void
-     */
+	 * Sets the internal attribute "content"
+	 *
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @param string $content
+	 * @return void
+	 */
 	public function setContent($content) {
 		$this->content = $content;
 	}
-	
+
 	/**
-     * Returns the internal attribute "content"
-     * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
-     * @return string The content
-     */
+	 * Returns the internal attribute "content"
+	 *
+	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 * @return string The content
+	 */
 	public function getContent() {
 		return $this->content;
 	}
 
 	/**
-     * Actually only returns the internal attribute "content"
-     * 
-     * @author	Reinhard Führicht <rf@typoheads.at>
-     * @return string The content
-     */
+	 * Actually only returns the internal attribute "content"
+	 *
+	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 * @return string The content
+	 */
 	public function toString() {
 		return $this->content;
 	}
-}	
+}
 ?>

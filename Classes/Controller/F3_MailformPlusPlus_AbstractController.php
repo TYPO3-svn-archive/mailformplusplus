@@ -23,119 +23,119 @@
  * @abstract
  */
 abstract class F3_MailformPlusPlus_AbstractController implements F3_MailformPlusPlus_ControllerInterface {
-	
+
 	/**
-     * The content returned by the controller
-     * 
-     * @access protected
-     * @var F3_MailformPlusPlus_Content
-     */
+	 * The content returned by the controller
+	 *
+	 * @access protected
+	 * @var F3_MailformPlusPlus_Content
+	 */
 	protected $content;
-	
+
 	/**
-     * The key of a possibly selected predefined form
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The key of a possibly selected predefined form
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $predefined;
-	
+
 	/**
-     * The path to a possibly selected translation file
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The path to a possibly selected translation file
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $langFile;
-	
+
 	/**
-     * Sets the content attribute of the controller
-     * 
-     * @param F3_MailformPlusPlus_Content $content
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @return void
-     */
+	 * Sets the content attribute of the controller
+	 *
+	 * @param F3_MailformPlusPlus_Content $content
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @return void
+	 */
 	public function setContent($content) {
 		$this->content = $content;
 	}
-	
+
 	/**
-     * Returns the content attribute of the controller
-     * 
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @return F3_MailformPlusPlus_Content
-     */
+	 * Returns the content attribute of the controller
+	 *
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @return F3_MailformPlusPlus_Content
+	 */
 	public function getContent() {
 		return $this->content;
 	}
-	
+
 	/**
-     * Sets the internal attribute "predefined"
-     * 
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @param string $key
-     * @return void
-     */
+	 * Sets the internal attribute "predefined"
+	 *
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @param string $key
+	 * @return void
+	 */
 	public function setPredefined($key) {
 		$this->predefined = $key;
 	}
-	
+
 	/**
-     * Sets the internal attribute "redirectPage"
-     * 
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @param integer $new
-     * @return void
-     */
+	 * Sets the internal attribute "redirectPage"
+	 *
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @param integer $new
+	 * @return void
+	 */
 	public function setRedirectPage($new) {
 		$this->redirectPage = $new;
 	}
-	
+
 	/**
-     * Sets the internal attribute "requiredFields"
-     * 
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @param array $new
-     * @return void
-     */
+	 * Sets the internal attribute "requiredFields"
+	 *
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @param array $new
+	 * @return void
+	 */
 	public function setRequiredFields($new) {
 		$this->requiredFields = $new;
 	}
-	
+
 	/**
-     * Sets the internal attribute "langFile"
-     * 
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @param string $langFile
-     * @return void
-     */
+	 * Sets the internal attribute "langFile"
+	 *
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @param string $langFile
+	 * @return void
+	 */
 	public function setLangFile($langFile) {
 		$this->langFile = $langFile;
 	}
-	
+
 	/**
-     * Sets the internal attribute "emailSettings"
-     * 
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @param array $new
-     * @return void
-     */
+	 * Sets the internal attribute "emailSettings"
+	 *
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @param array $new
+	 * @return void
+	 */
 	public function setEmailSettings($new) {
 		$this->emailSettings = $new;
 	}
-	
+
 	/**
-     * Returns the right settings for the mailformplusplus (Checks if predefined form was selected)
-     * 
-     * @author Reinhard Führicht <rf@typoheads.at>
-     * @return array The settings
-     */
+	 * Returns the right settings for the mailformplusplus (Checks if predefined form was selected)
+	 *
+	 * @author Reinhard Führicht <rf@typoheads.at>
+	 * @return array The settings
+	 */
 	public function getSettings() {
 		$settings = $this->configuration->getSettings();
-		
+
 		if($this->predefined) {
-			
-			
+				
+				
 			$settings = $settings['predef.'][$this->predefined];
 		}
 		return $settings;

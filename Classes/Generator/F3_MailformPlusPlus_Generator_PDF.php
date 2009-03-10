@@ -23,52 +23,52 @@
  * @uses F3_MailformPlusPlus_Template_PDF
  */
 class F3_MailformPlusPlus_Generator_PDF {
-	
+
 	/**
-     * The internal PDF object
-     * 
-     * @access protected
-     * @var F3_MailformPlusPlus_Template_PDF
-     */
+	 * The internal PDF object
+	 *
+	 * @access protected
+	 * @var F3_MailformPlusPlus_Template_PDF
+	 */
 	protected $pdf;
-	
+
 	/**
-     * The GimmeFive component manager
-     * 
-     * @access protected
-     * @var F3_GimmeFive_Component_Manager
-     */
+	 * The GimmeFive component manager
+	 *
+	 * @access protected
+	 * @var F3_GimmeFive_Component_Manager
+	 */
 	protected $componentManager;
-	
+
 	/**
-     * Default Constructor
-     * 
-     * @param F3_GimmeFive_Component_Manager $componentManager The component manager of GimmeFive
-     * @return void
-     */
+	 * Default Constructor
+	 *
+	 * @param F3_GimmeFive_Component_Manager $componentManager The component manager of GimmeFive
+	 * @return void
+	 */
 	public function __construct(F3_GimmeFive_Component_Manager $componentManager) {
 		$this->componentManager = $componentManager;
-		
+
 	}
-	
+
 	/**
-     * Function to generate a PDF file from submitted form values. This function is called by F3_MailformPlusPlus_Controller_Backend
-     * 
-     * @param array $records The records to export to PDF
-     * @param array $exportFields A list of fields to export. If not set all fields are exported
-     * @see F3_MailformPlusPlus_Controller_Backend::generatePDF()
-     * @return void
-     */
+	 * Function to generate a PDF file from submitted form values. This function is called by F3_MailformPlusPlus_Controller_Backend
+	 *
+	 * @param array $records The records to export to PDF
+	 * @param array $exportFields A list of fields to export. If not set all fields are exported
+	 * @see F3_MailformPlusPlus_Controller_Backend::generatePDF()
+	 * @return void
+	 */
 	function generateModulePDF($records,$exportFields = array()) {
-		
+
 		//init pdf object
 		$this->pdf = $this->componentManager->getComponent("F3_MailformPlusPlus_Template_PDF");
 		$addedOneRecord = false;
-		
+
 		//for all records,
 		//check if the record is valid.
 		//a valid record has at least one param to export
-		//if no valid record is found render an error message in pdf file 
+		//if no valid record is found render an error message in pdf file
 		foreach($records as $data) {
 			$valid = false;
 			if(isset($data['params']) && is_array($data['params'])) {
@@ -99,7 +99,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 					$this->pdf->Cell($standardWidth,"15","IP address:",0,0);
 					$this->pdf->Cell($standardWidth,"15",$data['ip'],0,1);
 				}
-			
+					
 				$this->pdf->Cell($standardWidth,"15","Submitted values:",0,1);
 				$this->pdf->SetLineWidth(.3);
 				$this->pdf->Cell($feedWidth);
@@ -109,7 +109,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 				$this->pdf->Ln();
 				$this->pdf->SetFillColor(200,200,200);
 				$fill = false;
-			
+					
 				foreach($data['params'] as $key=>$value) {
 					if(is_array($value) && (count($exportFields) == 0 || in_array($key,$exportFields))) {
 						$this->pdf->Cell($feedWidth);
@@ -130,16 +130,16 @@ class F3_MailformPlusPlus_Generator_PDF {
 						$this->pdf->Ln();
 						$fill = !$fill;
 					}
-					
+						
 				}
 			}
 		}
-		
+
 		//if no valid record was found, render an error message
 		if(!$addedOneRecord) {
 			$this->pdf->AliasNbPages();
-				$this->pdf->AddPage();
-				$this->pdf->SetFont('Arial','',12);
+			$this->pdf->AddPage();
+			$this->pdf->SetFont('Arial','',12);
 			$this->pdf->Cell(300,100,"No valid records found! Try to select more fields to export!",0,0,'L');
 		}
 		$this->pdf->Output();
@@ -147,17 +147,17 @@ class F3_MailformPlusPlus_Generator_PDF {
 	}
 
 	/**
-     * Function to generate a PDF file from submitted form values. This function is called by F3_MailformPlusPlus_Finisher_Confirmation and F3_MailformPlusPlus_Finisher_Mail 
-     * 
-     * @param array $gp The values to export
-     * @param string $langFile The translation file configured in TypoScript of MailformPlusPlus
-     * @param array $exportFields A list of fields to export. If not set all fields are exported
-     * @param string $file A filename to save the PDF in. If not set, the PDF will be rendered directly to screen
-     * @param boolean $returns If set, the PDF will be rendered into the given file, if not set, the PDF will be rendered into the file and afterwards directly to screen
-     * @see F3_MailformPlusPlus_Finisher_Confirmation::process()
-     * @see F3_MailformPlusPlus_Finisher_Mail::parseMailSettings()
-     * @return void|filename
-     */
+	 * Function to generate a PDF file from submitted form values. This function is called by F3_MailformPlusPlus_Finisher_Confirmation and F3_MailformPlusPlus_Finisher_Mail
+	 *
+	 * @param array $gp The values to export
+	 * @param string $langFile The translation file configured in TypoScript of MailformPlusPlus
+	 * @param array $exportFields A list of fields to export. If not set all fields are exported
+	 * @param string $file A filename to save the PDF in. If not set, the PDF will be rendered directly to screen
+	 * @param boolean $returns If set, the PDF will be rendered into the given file, if not set, the PDF will be rendered into the file and afterwards directly to screen
+	 * @see F3_MailformPlusPlus_Finisher_Confirmation::process()
+	 * @see F3_MailformPlusPlus_Finisher_Mail::parseMailSettings()
+	 * @return void|filename
+	 */
 	function generateFrontendPDF($gp,$langFile,$exportFields = array(),$file = "",$returns = false) {
 		$this->pdf = $this->componentManager->getComponent("F3_MailformPlusPlus_Template_PDF");
 		$this->pdf->AliasNbPages();
@@ -210,7 +210,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 					$this->pdf->Ln();
 					$fill = !$fill;
 				}
-				
+
 			}
 		}
 

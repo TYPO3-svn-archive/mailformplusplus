@@ -22,28 +22,28 @@
  * @subpackage	Utils
  */
 class F3_MailformPlusPlus_Messages {
-	
-	
+
+
 	/**
-     * Returns a debug message according to given key
-     * 
-     * @param string The key in translation file
-     * @return string
-     */
+	 * Returns a debug message according to given key
+	 *
+	 * @param string The key in translation file
+	 * @return string
+	 */
 	public static function getDebugMessage($key) {
 		return trim($GLOBALS['TSFE']->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_debug.xml:'.$key));
 	}
-	
-/**
-     * Returns an exception message according to given key
-     * 
-     * @param string The key in translation file
-     * @return string
-     */
+
+	/**
+	 * Returns an exception message according to given key
+	 *
+	 * @param string The key in translation file
+	 * @return string
+	 */
 	public static function getExceptionMessage($key) {
 		return trim($GLOBALS['TSFE']->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_exceptions.xml:'.$key));
 	}
-	
+
 }
 
 ?>

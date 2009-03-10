@@ -17,7 +17,7 @@
 /**
  * Default controller for MailformPlusPlus
  *
- * * @author	Reinhard Führicht <rf@typoheads.at>
+ * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Controller
  */
@@ -48,11 +48,11 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	protected $templateFile;
 
 	/**
-     * The cObj
-     *
-     * @access protected
-     * @var tslib_cObj
-     */
+	 * The cObj
+	 *
+	 * @access protected
+	 * @var tslib_cObj
+	 */
 	protected $cObj;
 
 
@@ -317,18 +317,18 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	}
 
 	/**
-     * Method to define whether the config is valid or not. If no, display a warning on the frontend.
-     * The default value is TRUE. This up to the finisher to overload this method
-     *
-     * @param	array	$settings: the TS configuration
-     */
+	 * Method to define whether the config is valid or not. If no, display a warning on the frontend.
+	 * The default value is TRUE. This up to the finisher to overload this method
+	 *
+	 * @param	array	$settings: the TS configuration
+	 */
 	public function validateConfig(&$settings) {
 
 		$options = array(
-			array('to_email', 'sEMAILADMIN', 'finishers', 'F3_MailformPlusPlus_Finisher_Mail'),
-			array('to_email', 'sEMAILUSER', 'finishers', 'F3_MailformPlusPlus_Finisher_Mail'),
-			array('redirect_page', 'sMISC', 'finishers', 'F3_MailformPlusPlus_Finisher_Redirect'),
-			array('required_fields', 'sMISC', 'validators', 'F3_MailformPlusPlus_Validator_Default'),
+		array('to_email', 'sEMAILADMIN', 'finishers', 'F3_MailformPlusPlus_Finisher_Mail'),
+		array('to_email', 'sEMAILUSER', 'finishers', 'F3_MailformPlusPlus_Finisher_Mail'),
+		array('redirect_page', 'sMISC', 'finishers', 'F3_MailformPlusPlus_Finisher_Redirect'),
+		array('required_fields', 'sMISC', 'validators', 'F3_MailformPlusPlus_Validator_Default'),
 		);
 
 		foreach ($options as $option) {

@@ -21,119 +21,119 @@
  * @package	F3_MailformPlusPlus
  * @subpackage	View
  */
-abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {	
-	
+abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {
+
 	/**
-     * The prefix id
-     * 
-     * @access public
-     * @var string
-     */
+	 * The prefix id
+	 *
+	 * @access public
+	 * @var string
+	 */
 	public $prefixId = 'F3_MailformPlusPlus';
-	
+
 	/**
-     * The extension key
-     * 
-     * @access public
-     * @var string
-     */
+	 * The extension key
+	 *
+	 * @access public
+	 * @var string
+	 */
 	public $extKey = 'mailformplusplus';
-	
+
 	/**
-     * The cObj for link generation in FE
-     * 
-     * @access public
-     * @var tslib_cObj
-     */
+	 * The cObj for link generation in FE
+	 *
+	 * @access public
+	 * @var tslib_cObj
+	 */
 	public $cObj;
-	
+
 	/**
-     * The piVars
-     * 
-     * @access public
-     * @var array
-     */
+	 * The piVars
+	 *
+	 * @access public
+	 * @var array
+	 */
 	public $piVars;
 
 	/**
-     * The GimmeFive component manager
-     * 
-     * @access protected
-     * @var F3_GimmeFive_Component_Manager
-     */
+	 * The GimmeFive component manager
+	 *
+	 * @access protected
+	 * @var F3_GimmeFive_Component_Manager
+	 */
 	protected $componentManager;
-	
+
 	/**
-     * The global MailformPlusPlus configuration
-     * 
-     * @access protected
-     * @var F3_MailformPlusPlus_Configuration
-     */
+	 * The global MailformPlusPlus configuration
+	 *
+	 * @access protected
+	 * @var F3_MailformPlusPlus_Configuration
+	 */
 	protected $configuration;
-	
+
 	/**
-     * The model of the view
-     * 
-     * @access protected
-     * @var misc
-     */
+	 * The model of the view
+	 *
+	 * @access protected
+	 * @var misc
+	 */
 	protected $model;
-	
+
 	/**
-     * The subparts array
-     * 
-     * @access protected
-     * @var array
-     */
+	 * The subparts array
+	 *
+	 * @access protected
+	 * @var array
+	 */
 	protected $subparts;
-	
+
 	/**
-     * The Typolink configuration for this view
-     * 
-     * @access protected
-     * @var array
-     */
+	 * The Typolink configuration for this view
+	 *
+	 * @access protected
+	 * @var array
+	 */
 	protected $typolinkConf;
-	
+
 	/**
-     * The template code
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The template code
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $template;
-	
+
 	/**
-     * The translation file name
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The translation file name
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $langFile;
-	
+
 	/**
-     * The get/post parameters
-     * 
-     * @access protected
-     * @var array
-     */
+	 * The get/post parameters
+	 *
+	 * @access protected
+	 * @var array
+	 */
 	protected $gp;
-	
+
 	/**
-     * Currently not needed
-     * 
-     * @access protected
-     * @var tx_xajax
-     */
+	 * Currently not needed
+	 *
+	 * @access protected
+	 * @var tx_xajax
+	 */
 	protected $xajax;
 
 	/**
-     * The constructor for a view setting the component manager and the configuration.
-     * 
-     * @param F3_GimmeFive_Component_Manager $componentManager
-     * @param F3_MailformPlusPlus_Configuration $configuration
-     * @return void
-     */
+	 * The constructor for a view setting the component manager and the configuration.
+	 *
+	 * @param F3_GimmeFive_Component_Manager $componentManager
+	 * @param F3_MailformPlusPlus_Configuration $configuration
+	 * @return void
+	 */
 	public function __construct(F3_GimmeFive_Component_Manager $componentManager, F3_MailformPlusPlus_Configuration $configuration) {
 		parent::__construct();
 		$this->componentManager = $componentManager;
@@ -143,85 +143,85 @@ abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {
 		$this->typolinkConf['parameter.']['current'] = 1;
 		$this->typolinkConf['additionalParams'] = $this->cObj->stdWrap($typolinkConf['additionalParams'], $typolinkConf['additionalParams.']);
 		unset($this->typolinkConf['additionalParams.']);
-		
+
 		$this->pi_loadLL();
 		$this->initializeView();
-		
-		
+
+
 	}
-	
+
 	/**
-     * Sets the internal attribute "langFile"
-     * 
-     * @param string $langFile The file path
-     * @return void
-     */
+	 * Sets the internal attribute "langFile"
+	 *
+	 * @param string $langFile The file path
+	 * @return void
+	 */
 	public function setLangFile($langFile) {
 		$this->langFile = $langFile;
 	}
-	
+
 	/**
-     * Sets the settings
-     * 
-     * @param string $settings The settings
-     * @return void
-     */
+	 * Sets the settings
+	 *
+	 * @param string $settings The settings
+	 * @return void
+	 */
 	public function setSettings($settings) {
 		$this->settings = $settings;
 	}
-	
+
 	/**
-     * Sets the key of the chosen predefined form
-     * 
-     * @param string $key The key of the predefined form
-     * @return void
-     */
+	 * Sets the key of the chosen predefined form
+	 *
+	 * @param string $key The key of the predefined form
+	 * @return void
+	 */
 	public function setPredefined($key) {
 		$this->predefined = $key;
 	}
-	
+
 	/**
-     * Sets the model of the view
-     * 
-     * @param misc $model
-     * @return void
-     */
+	 * Sets the model of the view
+	 *
+	 * @param misc $model
+	 * @return void
+	 */
 	public function setModel($model) {
 		$this->model = $model;
 	}
 
 	/**
-     * Returns the model of the view
-     * 
-     * @return misc $model
-     */
+	 * Returns the model of the view
+	 *
+	 * @return misc $model
+	 */
 	public function getModel() {
 		return $model;
 	}
 
 	/**
-     * Sets the template of the view
-     * 
-     * @param string $templateCode The whole template code of a template file
-     * @param string $templateName Name of a subpart containing the template code to work with
-     * @param boolean $forceTemplate Not needed
-     * @return void
-     */
+	 * Sets the template of the view
+	 *
+	 * @param string $templateCode The whole template code of a template file
+	 * @param string $templateName Name of a subpart containing the template code to work with
+	 * @param boolean $forceTemplate Not needed
+	 * @return void
+	 */
 	public function setTemplate($templateCode, $templateName, $forceTemplate = FALSE) {
 		$this->subparts['template'] = $this->cObj->getSubpart($templateCode,'###TEMPLATE_' . $templateName . '###');
 		$this->subparts['item'] = $this->cObj->getSubpart($this->subparts['template'],'###ITEM###');
 	}
-	
+
 	/**
-     * This method performs the rendering of the view
-     * 
-     * @param array $gp The get/post parameters
-     * @param array $errors An array with errors occurred whilest validation
-     * @return rendered view
-     * @abstract
-     */
+	 * This method performs the rendering of the view
+	 *
+	 * @param array $gp The get/post parameters
+	 * @param array $errors An array with errors occurred whilest validation
+	 * @return rendered view
+	 * @abstract
+	 */
 	abstract public function render($gp,$errors);
-	
+
 	/**
 	 * Overwrite this method to extend the initialization of the View
 	 *
@@ -230,7 +230,7 @@ abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {
 	 */
 	protected function initializeView() {
 	}
-	
+
 	/**
 	 * Fills markers in template
 	 *
@@ -240,7 +240,7 @@ abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {
 	protected function fillMarker($term, &$markerArray, &$wrappedSubpartArray) {
 		$labelWrap['noTrimWrap'] = $this->configuration->offsetGet('labelWrap') ? $this->configuration->offsetGet('labelWrap') : NULL;
 		foreach ($term as $property => $value) {
-			// TODO Improve pre-processing of property-values 
+			// TODO Improve pre-processing of property-values
 			if (is_array($value)) {
 				$value = implode(', ', $value);
 			}
@@ -250,10 +250,10 @@ abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {
 			$markerArray[$labelMarker] = $this->cObj->stdWrap($this->pi_getLL($property), $labelWrap);
 		}
 	}
-	
+
 	/**
 	 * Returns given string in uppercase
-	 * 
+	 *
 	 * @param string $camelCase The string to transform
 	 * @return string Parsed string
 	 * @author Jochen Rau

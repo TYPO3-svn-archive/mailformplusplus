@@ -22,19 +22,19 @@
  * @subpackage	Interceptor
  */
 class F3_MailformPlusPlus_Interceptor_Save extends F3_MailformPlusPlus_AbstractInterceptor {
-	
+
 	/**
-     * The main method called by the controller
-     * 
-     * @param array $gp The GET/POST parameters
-     * @param array $settings The defined TypoScript settings for the finisher
-     * @return array The probably modified GET/POST parameters
-     */
+	 * The main method called by the controller
+	 *
+	 * @param array $gp The GET/POST parameters
+	 * @param array $settings The defined TypoScript settings for the finisher
+	 * @return array The probably modified GET/POST parameters
+	 */
 	public function process($gp,$settings) {
 		$this->gp = $gp;
 
 		return $this->gp;
 	}
-	
+
 }
 ?>

@@ -22,7 +22,7 @@
  * @subpackage	Controller
  */
 interface F3_MailformPlusPlus_ControllerInterface {
-	
+
 	/**
 	 * Sets the content object
 	 *

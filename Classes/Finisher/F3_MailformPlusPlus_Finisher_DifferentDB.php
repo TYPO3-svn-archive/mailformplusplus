@@ -19,7 +19,7 @@
  * This class uses the extension 'adodb' to query the database.
  *
  * Example configuration:
- * 
+ *
  * <code>
  * finishers.1.class = F3_MailformPlusPlus_Finisher_DifferentDB
  * finishers.1.config.host = 127.0.0.1
@@ -29,7 +29,7 @@
  * finishers.1.config.password = rootpass
  * finishers.1.config.driver = oci8
  * </code>
- * 
+ *
  * Further configuration equals the configuration of F3_MailformPlusPlus_Finisher_DB.
  *
  * @package	F3_MailformPlusPlus
@@ -37,70 +37,70 @@
  * @see F3_MailformPlusPlus_Finisher_DB
  */
 class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finisher_DB {
-	
+
 	/**
-     * The name of the database driver to use.
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The name of the database driver to use.
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $driver;
-	
+
 	/**
-     * The name of the database host.
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The name of the database host.
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $host;
-	
+
 	/**
-     * The port the database listens.
-     * 
-     * @access protected
-     * @var integer
-     */
+	 * The port the database listens.
+	 *
+	 * @access protected
+	 * @var integer
+	 */
 	protected $port;
-	
+
 	/**
-     * The name of the database.
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The name of the database.
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $db;
-	
+
 	/**
-     * The username to use.
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The username to use.
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $user;
-	
+
 	/**
-     * The password to use.
-     * 
-     * @access protected
-     * @var string
-     */
+	 * The password to use.
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $password;
-	
+
 	/**
-     * Method to query the database making an insert or update statement using the given fields.
-     * 
-     * @see F3_MailformPlusPlus_Finisher_DB::save()
-     * @param array &$queryFields Array holding the query fields
-     * @return void
-     */
+	 * Method to query the database making an insert or update statement using the given fields.
+	 *
+	 * @see F3_MailformPlusPlus_Finisher_DB::save()
+	 * @param array &$queryFields Array holding the query fields
+	 * @return void
+	 */
 	protected function save(&$queryFields) {
-		
+
 		//if adodb is installed
 		if(t3lib_extMgm::isLoaded('adodb')) {
 			require_once(t3lib_extMgm::extPath('adodb').'adodb/adodb.inc.php');
-			
+				
 			//build sql
-			
+				
 			//insert query
 			if(!$this->doUpdate) {
 				foreach($queryFields as $dbfield=>$value) {
@@ -110,10 +110,10 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 					}
 				}
 				$sql = "INSERT INTO ".$this->table." (".(implode(',',array_keys($fields))).") VALUES (".(implode(',',$fields)).")";
-				
-			//update query
+
+				//update query
 			} else {
-				
+
 				//check if uid of record to update is in GP
 				$uid = $this->gp['uid'];
 				if(!$uid) {
@@ -134,7 +134,7 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 					F3_MailformPlusPlus_StaticFuncs::debugMessage('no_update_possible');
 				}
 			}
-			
+				
 			//open connection
 			$conn = &NewADOConnection($this->driver);
 			$host = $this->host;
@@ -146,23 +146,23 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 			} else {
 				$conn->Connect($host, $this->user, $this->password);
 			}
-			
+				
 			//insert data
 			$conn->Execute($sql);
-			
+				
 			//close connection
 			$conn->Close();
 		} else {
 			F3_MailformPlusPlus_StaticFuncs::throwException('extension_required','adodb','F3_MailformPlsuPlus_Finisher_DifferentDB');
 		}
 	}
-	
+
 	/**
-     * Inits the finisher mapping settings values to internal attributes.
-     * 
-     * @see F3_MailformPlusPlus_Finisher_DB::init
-     * @return void
-     */
+	 * Inits the finisher mapping settings values to internal attributes.
+	 *
+	 * @see F3_MailformPlusPlus_Finisher_DB::init
+	 * @return void
+	 */
 	protected function init() {
 		parent::init();
 		$this->driver = $this->settings['driver'];
@@ -175,6 +175,6 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 			throw new Exception("No driver given!");
 		}
 	}
-	
+
 }
 ?>

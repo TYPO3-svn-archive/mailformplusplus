@@ -17,9 +17,9 @@
 /**
  * A finisher showing the content of ###TEMPLATE_CONFIRMATION### replacing all common MailformPlusPlus markers
  * plus ###PRINT_LINK###, ###PDF_LINK### and ###CSV_LINK###.
- * 
+ *
  * The finisher sets a flag in $_SESSION, so that MailformPlusPlus will only call this finisher and nothing else if the user reloads the page.
- * 
+ *
  * A sample configuration looks like this:
  * <code>
  * finishers.3.class = F3_MailformPlusPlus_Finisher_Confirmation
@@ -36,18 +36,18 @@
  * @subpackage	Finisher
  */
 class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_AbstractFinisher {
-	
+
 	/**
-     * The main method called by the controller
-     * 
-     * @return array The probably modified GET/POST parameters
-     */
+	 * The main method called by the controller
+	 *
+	 * @return array The probably modified GET/POST parameters
+	 */
 	public function process() {
-		
+
 		//set session value to prevent another validation or finisher circle. MailformPlusPlus will call only this Finisher if the user reloads the page.
 		session_start();
 		$_SESSION['submitted_ok'] = 1;
-		
+
 		//read template file
 		if(!$this->templateFile) {
 			$templateFile = $this->settings['templateFile'];
@@ -57,13 +57,13 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
 			}
 		}
-		
+
 		//set view
 		$view = $this->componentManager->getComponent("F3_MailformPlusPlus_View_Confirmation");
 			
 		//render pdf
 		if(!strcasecmp($this->gp['renderMethod'],"pdf")) {
-			
+				
 			//set language file
 			if(isset($this->settings['langFile.']) && is_array($this->settings['langFile.'])) {
 				$langFile = $this->cObj->cObjGetSingle($this->settings['langFile'],$this->settings['langFile.']);
@@ -83,13 +83,13 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 			if($this->settings['pdf.']['export2File']) {
 				//tempnam seems to be buggy and insecure
 				//$file = tempnam("typo3temp/","/mailformplusplus_").".pdf";
-				
+
 				//using random numbered file for now
 				$file = 'typo3temp/mailformplusplus__'.rand(0,getrandmax()).".pdf";
 			}
 			$generator->generateFrontendPDF($this->gp,$langFile,$exportFields,$file);
-			
-		//render csv
+				
+			//render csv
 		} elseif(!strcasecmp($this->gp['renderMethod'],"csv")) {
 			$generatorClass = $this->settings['csv.']['class'];
 			if(!$generatorClass) {
@@ -102,12 +102,12 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 			}
 			$generator->generateFrontendCSV($this->gp,$exportFields);
 		}
-		
+
 		//show TEMPLATE_CONFIRMATION
 		$view->setTemplate($this->templateFile, 'CONFIRMATION');
 		$view->setSettings($this->settings);
 		return $view->render($this->gp,array());
 	}
-	
+
 }
 ?>

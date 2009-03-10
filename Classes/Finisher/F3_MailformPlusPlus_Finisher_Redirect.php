@@ -19,7 +19,7 @@
  * This class needs a parameter "redirect_page" to be set in TS.
  *
  * Sample configuration:
- * 
+ *
  * <code>
  * finishers.4.class = F3_MailformPlusPlus_Finisher_Default
  * finishers.4.config.redirectPage = 65
@@ -30,61 +30,61 @@
  * @subpackage	Finisher
  */
 class F3_MailformPlusPlus_Finisher_Redirect extends F3_MailformPlusPlus_AbstractFinisher {
-	
 
-	
-	
+
+
+
 	/**
-     * The main method called by the controller
+	 * The main method called by the controller
 	 *
-     * @return array The probably modified GET/POST parameters
-     */
+	 * @return array The probably modified GET/POST parameters
+	 */
 	public function process() {
-		
-		
+
+
 		//read redirect page
 		$emailRedirect = $this->settings['redirectPage'];
-		
+
 		$url = "";
-		
+
 		if(!isset($emailRedirect)) {
 			return;
 		}
-		
+
 		//if redirect_page was page id
 		if (is_numeric($emailRedirect)) {
-		
+
 			// these parameters have to be added to the redirect url
 			$addparams = array();
 			if (t3lib_div::_GP("L")) {
 				$addparams["L"] = t3lib_div::_GP("L");
 			}
-			
+				
 			$url = $this->cObj->getTypoLink_URL($emailRedirect, '',$addparams);
-			
-		//else it may be a full URL
+				
+			//else it may be a full URL
 		} else {
 			$url = $emailRedirect;
 		}
-		
+
 		//correct the URL by replacing &amp;
-		if ($this->settings['correctRedirectUrl']) { 
+		if ($this->settings['correctRedirectUrl']) {
 			$url = str_replace('&amp;', '&', $url);
 		}
-		
+
 		if($url) {
 			header("Location: ".t3lib_div::locationHeaderUrl($url));
 		}
 		exit();
 	}
-	
+
 	/**
-     * Method to set GET/POST for this class and load the configuration
-     * 
-     * @param array The GET/POST values
-     * @param array The TypoScript configuration
-     * @return void
-     */
+	 * Method to set GET/POST for this class and load the configuration
+	 *
+	 * @param array The GET/POST values
+	 * @param array The TypoScript configuration
+	 * @return void
+	 */
 	public function loadConfig($gp,$tsConfig) {
 		$this->gp = $gp;
 		$this->settings = $tsConfig;
@@ -93,6 +93,6 @@ class F3_MailformPlusPlus_Finisher_Redirect extends F3_MailformPlusPlus_Abstract
 			$this->settings['redirectPage'] = $redirect;
 		}
 	}
-	
+
 }
 ?>

@@ -39,7 +39,7 @@ class tx_dynaflex_mailformplusplus {
 		$config['items'] = $optionList;
 		return $config;
 	}
-	
+
 	/**
 	 * Sets the items for the "Predefined" dropdown.
 	 *
@@ -48,7 +48,7 @@ class tx_dynaflex_mailformplusplus {
 	 * @author Reinhard Führicht
 	 */
 	function addFields_predefined ($config) {
-		
+
 		global $LANG;
 
 		$ts = $this->loadTS($config['row']['pid']);
@@ -65,11 +65,11 @@ class tx_dynaflex_mailformplusplus {
 		foreach($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.'] as $key=>$view) {
 
 			if (is_array($view)) {
-					$beName = $view['name'];
-					if (!$predef[$key]) $predef[$key] = $beName;
+				$beName = $view['name'];
+				if (!$predef[$key]) $predef[$key] = $beName;
 			}
 		}
-		
+
 		$optionList = array();
 		# TODO: OBSOLETE CODE SINCE A DEFAULT CONFIG IS LOADED. WAITING A BIT BEFORE DELETING THIS
 		#$optionList[] = array(0 => $LANG->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_db.xml:be_please_select'), 1 => '');

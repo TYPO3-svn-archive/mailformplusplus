@@ -34,7 +34,7 @@ class F3_MailformPlusPlus_Logger_DB_testcase extends PHPUnit_Framework_TestCase 
 		unset($this->logger);
 		unset($this->componentManager);
 	}
-	
+
 	public function test_log() {
 		$fakeGp = array();
 		$fakeGp['firstname'] = "Test";
@@ -56,9 +56,9 @@ class F3_MailformPlusPlus_Logger_DB_testcase extends PHPUnit_Framework_TestCase 
 		$this->assertGreaterThanOrEqual($threshold,(int)$row['tstamp']);
 		$this->assertType("int",(int)$row['pid']);
 		$this->assertGreaterThanOrEqual((int)$row['pid'],0);
-		
+
 	}
 
-	
+
 }
 ?>
