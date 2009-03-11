@@ -182,6 +182,8 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		unset($_SESSION['submitted_ok']);
 		unset($_SESSION['mailformplusplusSettings']['usedSuffix']);
 		unset($_SESSION['mailformplusplusSettings']['usedSettings']);
+		unset($_SESSION['startblock']);
+		unset($_SESSION['endblock']);
 		F3_MailformPlusPlus_StaticFuncs::debugMessage('cleared_session');
 	}
 
