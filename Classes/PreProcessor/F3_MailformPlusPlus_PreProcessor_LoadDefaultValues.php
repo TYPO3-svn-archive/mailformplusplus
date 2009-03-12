@@ -34,10 +34,10 @@
  * <code>
  *
  * may copy the TS to the default validator settings to avoid redundancy
- * Exxample:
+ * Example:
  *
  * plugin.F3_MailformPlusPlus.settings.predef.multistep_example.2.validators.1.config.fieldConf.[field].errorcheck.1.notDefaultValue
- * plugin.F3_MailformPlusPlus.settings.predef.multistep_example.2.validators.1.config.fieldConf.[field].errorcheck.1.notDefaultValue.value < plugin.F3_MailformPlusPlus.settings.predef.multistep_example.preProcessors.1.config.1.[field].defaultValue
+ * plugin.F3_MailformPlusPlus.settings.predef.multistep_example.2.validators.1.config.fieldConf.[field].errorcheck.1.notDefaultValue.defaultValue < plugin.F3_MailformPlusPlus.settings.predef.multistep_example.preProcessors.1.config.1.[field].defaultValue
  *
  * @author	Johannes Feustel
  * @package	F3_MailformPlusPlus
