@@ -556,6 +556,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	protected function fillTypoScriptMarkers() {
 		$markers = array();
 		foreach($this->settings['markers.'] as $name=>$options) {
+			
 			if(!strstr($name,".")) {
 				if(!strcmp($options,"USER") || !strcmp($options,"USER_INT")) {
 					$this->settings['markers.'][$name.'.']['gp'] = $this->gp;
@@ -565,6 +566,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 				//}
 			}
 		}
+		
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 	}
 

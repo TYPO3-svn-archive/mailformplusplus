@@ -29,6 +29,8 @@
 			<label index="mail_plain">Message plain: %s</label>
 			<label index="mail_html">Message HTML: %s</label>
 			<label index="mail_message">Message: %s</label>
+			<label index="mail_disabled">Skipped %s mail because it is disabled in TypoScript!</label>
+			<label index="no_mail_template">E-Mail template not found for mode %s and type %s! This mail is skipped!</label>
 			<label index="copy_file">Copying file "%s" to "%s"!</label>
 			<label index="alert_mail_not_sent">Mails not sent because a mail has already been sent in defined interval!</label>
 			<label index="redirect_failed">Tried to do a redirect to specified page! The redirect may have failed because the debug settings is on!</label>

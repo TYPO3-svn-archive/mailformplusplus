@@ -84,15 +84,25 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	 * @return string The template code
 	 */
 	protected function parseTemplate($mode,$suffix) {
-		$template = $this->getTemplate($mode,$suffix);
+		$view = $this->componentManager->getComponent('F3_MailformPlusPlus_View_Mail');
+		$view->setLangFile($this->langFile);
+		$view->setPredefined($this->predefined);
+		
+		$templateCode = $this->getTemplate();
+		$view->setTemplate($templateCode, 'EMAIL_'.strtoupper($mode).'_'.strtoupper($suffix));
+		if(!$view->hasTemplate()) {
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('no_mail_template',$mode,$suffix);
+		}
+		
 
-		$markers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($template,$this->langFile);
+		
+		/*$markers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($template,$this->langFile);
 		$valueMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledValueMarkers($this->gp);
 		$markers = array_merge($valueMarkers,$markers);
 		$this->sanitizeMarkers($markers);
 		$template = $this->cObj->substituteMarkerArray($template, $markers);
-		$template = F3_MailformPlusPlus_StaticFuncs::removeUnfilledMarkers($template);
-		return $template;
+		$template = F3_MailformPlusPlus_StaticFuncs::removeUnfilledMarkers($template);*/
+		return $view->render($this->gp,array());
 	}
 
 	/**
@@ -132,7 +142,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	 * @param string $suffix plain/html
 	 * @return string The template code
 	 */
-	protected function getTemplate($mode,$suffix) {
+	protected function getTemplate() {
 		$templateFile = $this->settings['templateFile'];
 		if(isset($this->settings['templateFile.']) && is_array($this->settings['templateFile.'])) {
 			$templateFile = $this->cObj->cObjGetSingle($this->settings['templateFile'],$this->settings['templateFile.']);
@@ -140,13 +150,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			$templateFile = F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile);
 		}
 		$template = t3lib_div::getURL($templateFile);
-		$template = $this->cObj->getSubpart($template,"###TEMPLATE_EMAIL_".strtoupper($mode)."_".strtoupper($suffix)."###");
-		if(!$template) {
-			$template = $this->cObj->getSubpart($template,"###template_email_".strtolower($mode)."_".strtolower($suffix)."###");
-		}
-		if(!$template) {
-			F3_MailformPlusPlus_StaticFuncs::throwException('no_template');
-		}
+		
 		return $template;
 	}
 
@@ -157,8 +161,12 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	 * @return void
 	 */
 	protected function sendMail($type) {
+		if($this->settings[$type]['disable'] == '1') {
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_disabled',$type);
+			return;
+		} 
+		
 		$mailSettings = $this->settings[$type];
-
 		$template['plain'] = $this->parseTemplate($type,"plain");
 		$template['html'] = $this->parseTemplate($type,"html");
 		//F3_MailformPlusPlus_StaticFuncs::debugMessage('E-Mail settings for '.$type);
