@@ -39,8 +39,9 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 	 */
 	public function process() {
 
-		//read global settings
 		session_start();
+		
+		//read global settings
 		$settings = $this->getSettings();
 
 		// Validate the configuration, throw a possible exception
@@ -54,6 +55,10 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		}
 
 		$this->mergeGPWithSession();
+		
+		
+		t3lib_div::devLog('Current GET/POST values','mailformplusplus',-1,$this->gp);
+		t3lib_div::devLog('Current session values','mailformplusplus',-1,$_SESSION['mailformplusplusValues']);
 
 		//set debug mode
 		$this->debugMode = ($settings['debug'] == '1')?TRUE:FALSE;
@@ -86,7 +91,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		$this->debugMode = ($settings['debug'] == '1')?TRUE:FALSE;
 		$_SESSION['mailformplusplusSettings']['debugMode'] = $this->debugMode;
 
-		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller','F3_MailformPlusPlus_Controller_Default');
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller','F3_MailformPlusPlus_Controller_Multistep');
 
 		//store step values in session
 		$_SESSION['mailformplusplusSettings']['settings'] = $settings;
@@ -276,6 +281,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 						
 					//if user clicked "submit"
 					if($this->currentStep >= $this->lastStep) {
+						F3_MailformPlusPlus_StaticFuncs::debugMessage('Storing GP in session');
 						$this->storeGPinSession($settings);
 					}
 						
@@ -428,7 +434,6 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		//set the variables in session
 		foreach($newGP as $key=>$value) {
 			if(!strstr($key,"step-") && !strstr($key,"submitted")) {
-				#$_SESSION['mailformplusplusValues'][$key] = $value;
 				$_SESSION['mailformplusplusValues'][$this->currentStep-1][$key] = $value;
 			}
 		}
@@ -438,7 +443,6 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			$fields = t3lib_div::trimExplode(",",$settings['checkBoxFields']);
 			foreach($fields as $field) {
 				if(!isset($newGP[$field]) && isset($this->gp[$field])) {
-					#$_SESSION['mailformplusplusValues'][][$field] = array();
 					$_SESSION['mailformplusplusValues'][$this->currentStep-1][$field] = array();
 				}
 			}
@@ -447,7 +451,6 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			$fields = t3lib_div::trimExplode(",",$settings['checkBoxFields']);
 			foreach($fields as $field) {
 				if(!isset($newGP[$field]) && isset($this->gp[$field])) {
-					#$_SESSION['mailformplusplusValues'][$field] = "";
 					$_SESSION['mailformplusplusValues'][$this->currentStep-1][$field] = array();
 				}
 			}

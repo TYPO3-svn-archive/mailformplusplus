@@ -598,8 +598,9 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	protected function validateInteger(&$check,$name) {
 		$checkFailed = "";
 		if(isset($this->gp[$name]) && !empty($this->gp[$name])) {
-			$ereg = "^[0-9]+$";
-			$valid = ereg($ereg, $this->gp[$name]);
+			//$ereg = "^[0-9]+$";
+			//$valid = ereg($ereg, $this->gp[$name]);
+			$valid = is_int($this->gp[$name]);
 			if(!$valid) {
 				$checkFailed = $this->getCheckFailed($check);
 			}
@@ -635,7 +636,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$min = $check['params']['value'];
 		if(	isset($this->gp[$name]) &&
 		!empty($this->gp[$name]) &&
-		$min &&
+		!empty($min) &&
 		(!t3lib_div::testInt($this->gp[$name]) || intVal($this->gp[$name]) < $min)) {
 				
 			$checkFailed = $this->getCheckFailed($check);
@@ -655,7 +656,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$max = $check['params']['value'];
 		if(	isset($this->gp[$name]) &&
 		!empty($this->gp[$name]) &&
-		$max &&
+		!empty($max) &&
 		(!t3lib_div::testInt($this->gp[$name]) || intVal($this->gp[$name]) > $max)) {
 				
 			$checkFailed = $this->getCheckFailed($check);
@@ -676,8 +677,8 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$max = $check['params']['maxValue'];
 		if(	isset($this->gp[$name]) &&
 		!empty($this->gp[$name]) &&
-		$min &&
-		$max &&
+		!empty($min) &&
+		!empty($max) &&
 		(!t3lib_div::testInt($this->gp[$name]) || intVal($this->gp[$name]) < $min || intVal($this->gp[$name]) > $max)) {
 				
 			$checkFailed = $this->getCheckFailed($check);
@@ -697,7 +698,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$min = $check['params']['value'];
 		if(	isset($this->gp[$name]) &&
 		!empty($this->gp[$name]) &&
-		$min &&
+		!empty($min) &&
 		strlen(trim($this->gp[$name])) < $min) {
 
 			$checkFailed = $this->getCheckFailed($check);
@@ -718,7 +719,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$max = $check['params']['value'];
 		if(	isset($this->gp[$name]) &&
 		!empty($this->gp[$name]) &&
-		$max &&
+		!empty($max) &&
 		strlen(trim($this->gp[$name])) > $max) {
 
 			$checkFailed = $this->getCheckFailed($check);
@@ -739,8 +740,8 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		$max = $check['params']['maxValue'];
 		if(	isset($this->gp[$name]) &&
 		!empty($this->gp[$name]) &&
-		$min &&
-		$max &&
+		!empty($min) &&
+		!empty($max) &&
 		(strlen($this->gp[$name]) < $min || strlen($this->gp[$name]) > $max)) {
 				
 			$checkFailed = $this->getCheckFailed($check);
@@ -801,8 +802,8 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		if(	isset($this->gp[$name]) &&
 		!empty($this->gp[$name]) &&
 		is_array($this->gp[$name]) &&
-		$min &&
-		$max &&
+		!empty($min) &&
+		!empty($max) &&
 		(count($this->gp[$name]) < $min || count($this->gp[$name]) > $max)) {
 
 			$checkFailed = $this->getCheckFailed($check);

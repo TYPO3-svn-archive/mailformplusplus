@@ -75,7 +75,6 @@ abstract class F3_MailformPlusPlus_AbstractFinisher {
 	public function __construct(F3_GimmeFive_Component_Manager $componentManager, F3_MailformPlusPlus_Configuration $configuration) {
 		$this->componentManager = $componentManager;
 		$this->configuration = $configuration;
-
 		//make cObj instance for pageLink creation
 		#$this->cObj = t3lib_div::makeInstance('tslib_cObj');
 		#$this->cObj->setCurrentVal($GLOBALS['TSFE']->id);
