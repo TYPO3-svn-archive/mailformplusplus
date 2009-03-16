@@ -598,9 +598,8 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 	protected function validateInteger(&$check,$name) {
 		$checkFailed = "";
 		if(isset($this->gp[$name]) && !empty($this->gp[$name])) {
-			//$ereg = "^[0-9]+$";
-			//$valid = ereg($ereg, $this->gp[$name]);
-			$valid = is_int($this->gp[$name]);
+			$ereg = "^-{0,1}[0-9]+$";
+			$valid = ereg($ereg, $this->gp[$name]);
 			if(!$valid) {
 				$checkFailed = $this->getCheckFailed($check);
 			}
