@@ -339,33 +339,35 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 			foreach($settings['validators.'] as $key=>$validatorSettings) {
 				if(is_array($validatorSettings['config.']['fieldConf.'])) {
 					foreach($validatorSettings['config.']['fieldConf.'] as $fieldname=>$fieldSettings) {
-						foreach($fieldSettings['errorCheck.'] as $key=>$check) {
-							switch($check) {
-								case "file_minSize":
-									$minSize = $fieldSettings['errorCheck.'][$key."."]['minSize'];
-									$markers["###".str_replace(".","",$fieldname)."_minSize###"] = t3lib_div::formatSize($minSize,' Bytes | KB | MB | GB');
-									break;
-								case "file_maxSize":
-									$maxSize = $fieldSettings['errorCheck.'][$key."."]['maxSize'];
-									$markers["###".str_replace(".","",$fieldname)."_maxSize###"] = t3lib_div::formatSize($maxSize,' Bytes | KB | MB | GB');
-									break;
-								case "file_allowedTypes":
-									$types = $fieldSettings['errorCheck.'][$key."."]['allowedTypes'];
-									$markers["###".str_replace(".","",$fieldname)."_allowedTypes###"] = $types;
-									break;
-								case "file_maxCount":
-									$maxCount = $fieldSettings['errorCheck.'][$key."."]['maxCount'];
-									$markers["###".str_replace(".","",$fieldname)."_maxCount###"] = $maxCount;
-										
-									$fileCount = count($_SESSION['mailformplusplusFiles'][str_replace(".","",$fieldname)]);
-									$markers["###".str_replace(".","",$fieldname)."_fileCount###"] = $fileCount;
-										
-									$remaining = $maxCount - $fileCount;
-									$markers["###".str_replace(".","",$fieldname)."_remainingCount###"] = $remaining;
-									break;
-								case "required":
-									$markers['###required_'.str_replace(".","",$fieldname).'###'] = (isset($settings['requiredSign']))?$settings['requiredSign']:"*";
-									break;
+						if(is_array($fieldSettings['errorCheck.'])) {
+							foreach($fieldSettings['errorCheck.'] as $key=>$check) {
+								switch($check) {
+									case "file_minSize":
+										$minSize = $fieldSettings['errorCheck.'][$key."."]['minSize'];
+										$markers["###".str_replace(".","",$fieldname)."_minSize###"] = t3lib_div::formatSize($minSize,' Bytes | KB | MB | GB');
+										break;
+									case "file_maxSize":
+										$maxSize = $fieldSettings['errorCheck.'][$key."."]['maxSize'];
+										$markers["###".str_replace(".","",$fieldname)."_maxSize###"] = t3lib_div::formatSize($maxSize,' Bytes | KB | MB | GB');
+										break;
+									case "file_allowedTypes":
+										$types = $fieldSettings['errorCheck.'][$key."."]['allowedTypes'];
+										$markers["###".str_replace(".","",$fieldname)."_allowedTypes###"] = $types;
+										break;
+									case "file_maxCount":
+										$maxCount = $fieldSettings['errorCheck.'][$key."."]['maxCount'];
+										$markers["###".str_replace(".","",$fieldname)."_maxCount###"] = $maxCount;
+											
+										$fileCount = count($_SESSION['mailformplusplusFiles'][str_replace(".","",$fieldname)]);
+										$markers["###".str_replace(".","",$fieldname)."_fileCount###"] = $fileCount;
+											
+										$remaining = $maxCount - $fileCount;
+										$markers["###".str_replace(".","",$fieldname)."_remainingCount###"] = $remaining;
+										break;
+									case "required":
+										$markers['###required_'.str_replace(".","",$fieldname).'###'] = (isset($settings['requiredSign']))?$settings['requiredSign']:"*";
+										break;
+								}
 							}
 						}
 					}
