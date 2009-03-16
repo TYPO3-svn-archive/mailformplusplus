@@ -362,11 +362,11 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	/**
 	 * Main method of the form handler.
 	 *
-	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 * @return rendered view
-	 * @author Reinhard Führicht
 	 */
 	public function process() {
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller','F3_MailformPlusPlus_Controller_Default');
+		
 		session_start();
 
 		//read settings
@@ -375,8 +375,6 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 
 		//set debug mode
 		$_SESSION['mailformplusplusSettings']['debugMode'] = ($settings['debug'] == '1') ? TRUE : FALSE;
-
-		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller','F3_MailformPlusPlus_Controller_Default');
 
 		// Validate the configuration, throw a possible exception
 		$this->validateConfig($settings);

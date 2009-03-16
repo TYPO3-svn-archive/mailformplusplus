@@ -440,11 +440,12 @@ class F3_MailformPlusPlus_StaticFuncs {
 		if(!is_array($arr)) {
 			return;
 		}
+		$fields = array();
 		foreach($arr as $key=>$value) {
 			if(is_array($value)) {
 				$value = implode(",",$value);
 			}
-			$fields[] = $key."=".$value;
+			array_push($fields,$key."=".$value);
 		}
 		print implode("<br />",$fields);
 	}

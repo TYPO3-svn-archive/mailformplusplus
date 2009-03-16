@@ -25,7 +25,14 @@ div.filter td.label {
 tr.list_table_header {
 	font-size: large;
 	font-weight: bold;
-	background: #cccccc;
+}
+
+#list_table {
+	margin-top: 15px;	
+}
+
+#list_table td {
+	padding:3px 7px 3px 7px;
 }
 
 div.detailLabel {

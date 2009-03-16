@@ -38,7 +38,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
 	public function process() {
-
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller','F3_MailformPlusPlus_Controller_Multistep');
 		session_start();
 		
 		//read global settings
@@ -90,8 +90,6 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		//set debug mode again. Maybe it is turned off for this step
 		$this->debugMode = ($settings['debug'] == '1')?TRUE:FALSE;
 		$_SESSION['mailformplusplusSettings']['debugMode'] = $this->debugMode;
-
-		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller','F3_MailformPlusPlus_Controller_Multistep');
 
 		//store step values in session
 		$_SESSION['mailformplusplusSettings']['settings'] = $settings;
