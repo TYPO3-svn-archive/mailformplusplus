@@ -81,6 +81,9 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		if(!$controller) {
 			$controller = "F3_MailformPlusPlus_Controller_Default";
 		}
+		
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller',$controller);
+		
 		$controller = $this->componentManager->getComponent($controller);
 
 		/*
