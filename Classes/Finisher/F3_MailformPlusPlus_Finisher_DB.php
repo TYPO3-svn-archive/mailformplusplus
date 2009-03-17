@@ -204,6 +204,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 	 */
 	protected function parseFields() {
 		$queryFields = array();
+		session_start();		
 
 		//parse mapping
 		foreach($this->settings['fields.'] as $fieldname=>$options) {

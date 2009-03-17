@@ -48,7 +48,6 @@ class F3_MailformPlusPlus_PreProcessor_LoadDefaultValues extends F3_MailformPlus
 
 	public function process($gp,$settings) {
 		$this->gp = $gp;
-		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
 
 		foreach ($settings as $step => $stepSettings){
 			$step= preg_replace('/\.$/', '', $step);
