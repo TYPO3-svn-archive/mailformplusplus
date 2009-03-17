@@ -53,12 +53,13 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			$this->gp = $this->gp[$settings['formValuesPrefix']];
 			$_SESSION['mailformplusplusSettings']['formValuesPrefix'] = $settings['formValuesPrefix'];
 		}
+		
+		//set submitted
+		$submitted = $this->gp['submitted'];
+		
+		
 
 		$this->mergeGPWithSession();
-		
-		
-		t3lib_div::devLog('Current GET/POST values','mailformplusplus',-1,$this->gp);
-		t3lib_div::devLog('Current session values','mailformplusplus',-1,$_SESSION['mailformplusplusValues']);
 
 		//set debug mode
 		$this->debugMode = ($settings['debug'] == '1')?TRUE:FALSE;
@@ -105,8 +106,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		//add some JavaScript for fancy form stuff
 		$this->addSpecialJS($settings);
 
-		//set submitted
-		$submitted = $this->gp['submitted'];
+		
 
 		//read template file
 		$this->readTemplateFile($settings);
@@ -142,14 +142,10 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			$this->clearTempFiles($settings['files.']['clearTempFilesOlderThanHours']);
 				
 			//run preProcessors
-			if(isset($settings['preProcessors.']) && is_array($settings['preProcessors.'])) {
-				$this->runClasses($settings['preProcessors.']);
-			}
+			$this->runClasses($settings['preProcessors.']);
 				
 			//run init interceptors
-			if(isset($settings['initInterceptors.']) && is_array($settings['initInterceptors.'])) {
-				$this->runClasses($settings['initInterceptors.']);
-			}
+			$this->runClasses($settings['initInterceptors.']);
 				
 			//debug GET/POST parameters
 			if(is_array($this->gp) && $this->debugMode) {
@@ -172,7 +168,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			$oldSettings = $settings;
 				
 			//run init interceptors
-			if(isset($settings['initInterceptors.']) && is_array($settings['initInterceptors.'])  && !$_SESSION['submitted_ok']) {
+			if(!$_SESSION['submitted_ok']) {
 				$this->runClasses($settings['initInterceptors.']);
 			}
 				
@@ -222,7 +218,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 					}
 						
 					//run save interceptors
-					if(isset($settings['saveInterceptors.']) && is_array($settings['saveInterceptors.']) && !$_SESSION['submitted_ok']) {
+					if(!$_SESSION['submitted_ok']) {
 						$this->runClasses($settings['saveInterceptors.']);
 					}
 						
@@ -306,17 +302,13 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 					$_SESSION['mailformplusplusSettings']['settings'] = $settings;
 				}
 
-
 				//reset the template because step had probably been decreased
 				$this->setViewSubpart($view,$settings,($this->currentStep-1));
 
 				//show form with errors
-				#print get_class($view);
 				return $view->render($this->gp,$errors);
 			}
 		}
-
-
 	}
 
 	/**

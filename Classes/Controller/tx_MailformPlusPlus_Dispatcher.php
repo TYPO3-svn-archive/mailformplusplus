@@ -67,7 +67,10 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		//init flexform
 		$this->pi_initPIflexForm();
 
-		F3_MailformPlusPlus_StaticFuncs::$cObj = $this->cObj;
+		if(isset($this->cObj) && !empty($this->cObj)) {
+			F3_MailformPlusPlus_StaticFuncs::$cObj = $this->cObj;
+		}
+		
 		/*
 		 * set controller:
 		 * 1. Flexform

@@ -526,6 +526,8 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 				$errorMessage = '<a name="'.$field.'">'.$errorMessage.'</a>';
 
 			}
+			$langMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($errorMessage,$this->langFile);
+			$errorMessage = $this->cObj->substituteMarkerArray($errorMessage, $langMarkers);
 			$markers['###error_'.$field.'###'] = $errorMessage;
 			$markers['###ERROR_'.strtoupper($field).'###'] = $errorMessage;
 			$errorMessage = $clearErrorMessage;
@@ -545,7 +547,8 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		if(strlen($totalWrap) > 0 && strstr($totalWrap,"|")) {
 			$markers['###ERROR###'] = str_replace("|",$markers['###ERROR###'],$totalWrap);
 		}
-
+		$langMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($markers['###ERROR###'],$this->langFile);
+		$markers['###ERROR###'] = $this->cObj->substituteMarkerArray($markers['###ERROR###'], $langMarkers);
 		$markers['###error###'] = $markers['###ERROR###'];
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 	}

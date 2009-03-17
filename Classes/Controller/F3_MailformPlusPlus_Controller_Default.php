@@ -178,10 +178,8 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		session_start();
 		unset($_SESSION['mailformplusplusValues']);
 		unset($_SESSION['mailformplusplusFiles']);
-		unset($_SESSION['mailformplusplusSettings']['lastStep']);
+		unset($_SESSION['mailformplusplusSettings']);
 		unset($_SESSION['submitted_ok']);
-		unset($_SESSION['mailformplusplusSettings']['usedSuffix']);
-		unset($_SESSION['mailformplusplusSettings']['usedSettings']);
 		unset($_SESSION['startblock']);
 		unset($_SESSION['endblock']);
 		F3_MailformPlusPlus_StaticFuncs::debugMessage('cleared_session');
@@ -205,7 +203,6 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			$uploadFolder = $this->getTempUploadFolder();
 
 			//build absolute path to upload folder
-			#$uploadPath = F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder;
 			$uploadPath = F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder;
 
 			if(!file_exists($uploadPath)) {
@@ -287,9 +284,6 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 				}
 			}
 		}
-
-		session_commit();
-		session_start();
 	}
 
 	/**
@@ -311,10 +305,12 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 * @return void
 	 */
 	protected function runClasses($classesArray) {
-		foreach($classesArray as $tsConfig) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_class',$tsConfig['class']);
-			$obj = $this->componentManager->getComponent($tsConfig['class']);
-			$this->gp = $obj->process($this->gp,$tsConfig['config.']);
+		if(isset($classesArray) && is_array($classesArray)) {
+			foreach($classesArray as $tsConfig) {
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_class',$tsConfig['class']);
+				$obj = $this->componentManager->getComponent($tsConfig['class']);
+				$this->gp = $obj->process($this->gp,$tsConfig['config.']);
+			}
 		}
 	}
 
@@ -394,8 +390,6 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 
 		}
 
-		//$this->processFiles();
-
 		//read template file
 		$this->readTemplateFile($settings);
 
@@ -437,14 +431,10 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			unset($_SESSION['submitted_ok']);
 
 			//run preProcessors
-			if(isset($settings['preProcessors.']) && is_array($settings['preProcessors.'])) {
-				$this->runClasses($settings['preProcessors.']);
-			}
+			$this->runClasses($settings['preProcessors.']);
 
 			//run init interceptors
-			if(isset($settings['initInterceptors.']) && is_array($settings['initInterceptors.'])) {
-				$this->runClasses($settings['initInterceptors.']);
-			}
+			$this->runClasses($settings['initInterceptors.']);
 
 			//display form
 			$content = $view->render($this->gp,$errors).$this->additionalJS;
@@ -459,7 +449,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			}
 
 			//run init interceptors
-			if(isset($settings['initInterceptors.']) && is_array($settings['initInterceptors.']) && !$_SESSION['submitted_ok']) {
+			if(!$_SESSION['submitted_ok']) {
 				$this->runClasses($settings['initInterceptors.']);
 			}
 
@@ -483,7 +473,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 				}
 
 				//run save interceptors
-				if(isset($settings['saveInterceptors.'])  && is_array($settings['saveInterceptors.'])  && !$_SESSION['submitted_ok']) {
+				if(!$_SESSION['submitted_ok']) {
 					$this->runClasses($settings['saveInterceptors.']);
 				}
 
