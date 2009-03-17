@@ -178,8 +178,10 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		session_start();
 		unset($_SESSION['mailformplusplusValues']);
 		unset($_SESSION['mailformplusplusFiles']);
-		unset($_SESSION['mailformplusplusSettings']);
+		unset($_SESSION['mailformplusplusSettings']['lastStep']);
 		unset($_SESSION['submitted_ok']);
+		unset($_SESSION['mailformplusplusSettings']['usedSuffix']);
+		unset($_SESSION['mailformplusplusSettings']['usedSettings']);
 		unset($_SESSION['startblock']);
 		unset($_SESSION['endblock']);
 		F3_MailformPlusPlus_StaticFuncs::debugMessage('cleared_session');
