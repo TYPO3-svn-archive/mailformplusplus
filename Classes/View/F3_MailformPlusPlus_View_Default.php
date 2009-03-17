@@ -610,6 +610,10 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 			} // foreach end
 		} // if end
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
+
+		//remove remaining VALUE_-markers
+		//needed for nested markers like ###LLL:tx_myextension_table.field1.i.###value_field1###### to avoid wrong marker removal if field1 isn't set
+		$this->template = preg_replace('/###value_.*?###/i', '', $this->template);
 	}
 
 	/**
