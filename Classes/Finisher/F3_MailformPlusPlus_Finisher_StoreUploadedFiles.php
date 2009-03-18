@@ -111,6 +111,9 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 		$fileext = '.'.$fileparts[count($fileparts)-1];
 		array_pop($fileparts);
 		$filename = implode('.',$fileparts);
+		//remove ',' from filename, would be handled as file seperator 
+		$filename = str_replace(',', '', $filename);
+
 		$namingScheme = $this->settings['renameScheme'];
 		if(!$namingScheme) {
 			$namingScheme = '[filename]_[time]';
