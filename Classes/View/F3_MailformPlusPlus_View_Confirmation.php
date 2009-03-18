@@ -48,6 +48,9 @@ class F3_MailformPlusPlus_View_Confirmation extends F3_MailformPlusPlus_View_Def
 			$this->readLangFile();
 		}
 
+		//substitute ISSET markers
+		$this->substituteIssetSubparts();
+
 		//fill Typoscript markers
 		if(is_array($this->settings['markers.'])) {
 			$this->fillTypoScriptMarkers();
@@ -61,9 +64,6 @@ class F3_MailformPlusPlus_View_Confirmation extends F3_MailformPlusPlus_View_Def
 
 		//fill LLL:[language_key] markers
 		$this->fillLangMarkers();
-
-		$markers = F3_MailformPlusPlus_StaticFuncs::substituteIssetSubparts($this->template);
-		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 
 		//remove markers that were not substituted
 		$content = F3_MailformPlusPlus_StaticFuncs::removeUnfilledMarkers($this->template);
