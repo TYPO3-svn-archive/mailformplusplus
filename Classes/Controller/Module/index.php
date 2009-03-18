@@ -81,7 +81,7 @@ class  tx_mailformplusplus_module1 extends t3lib_SCbase {
 						'function' => Array (
 							'1' => $LANG->getLL('function1'),
 							'2' => $LANG->getLL('function2'),
-							'3' => $LANG->getLL('function3'),
+							//'3' => $LANG->getLL('function3'),
 		)
 		);
 		parent::menuConfig();
@@ -129,16 +129,11 @@ class  tx_mailformplusplus_module1 extends t3lib_SCbase {
 			$this->content.=$this->doc->startPage($LANG->getLL('title'));
 			$this->content.=$this->doc->header($LANG->getLL('title'));
 			$this->content.=$this->doc->spacer(5);
-			//$this->content.=$this->doc->section('',$this->doc->funcMenu($headerSection,t3lib_BEfunc::getFuncMenu($this->id,'SET[function]',$this->MOD_SETTINGS['function'],$this->MOD_MENU['function'])));
+			$this->content.=$this->doc->section('',$this->doc->funcMenu($headerSection,t3lib_BEfunc::getFuncMenu($this->id,'SET[function]',$this->MOD_SETTINGS['function'],$this->MOD_MENU['function'])));
 			$this->content.=$this->doc->divider(5);
 
 
-			// Render content:
-			$componentManager = F3_GimmeFive_Component_Manager::getInstance();
-			$controllerClass = "F3_MailformPlusPlus_Controller_Backend";
-			$controller = $componentManager->getComponent($controllerClass);
-
-			$this->content .= $controller->process();
+			$this->content.=$this->moduleContent();
 
 
 			// ShortCut
@@ -179,18 +174,22 @@ class  tx_mailformplusplus_module1 extends t3lib_SCbase {
 	function moduleContent()	{
 		switch((string)$this->MOD_SETTINGS['function'])	{
 			case 1:
-				$content='<div align="center"><strong>Hello World!</strong></div><br />
-								The "Kickstarter" has made this module automatically, it contains a default framework for a backend module but apart from that it does nothing useful until you open the script '.substr(t3lib_extMgm::extPath('mailformplusplus'),strlen(PATH_site)).$pathSuffix.'index.php and edit it!
-								<hr />
-								<br />This is the GET/POST vars sent to the script:<br />'.
-								'GET:'.t3lib_div::view_array($_GET).'<br />'.
-								'POST:'.t3lib_div::view_array($_POST).'<br />'.
-								'';
-				$this->content.=$this->doc->section('Message #1:',$content,0,1);
+				// Render content:
+				$componentManager = F3_GimmeFive_Component_Manager::getInstance();
+				$controllerClass = "F3_MailformPlusPlus_Controller_Backend";
+				$controller = $componentManager->getComponent($controllerClass);
+	
+				$content = $controller->process();
+				$this->content.=$this->doc->section('',$content,0,1);
 				break;
 			case 2:
-				$content='<div align=center><strong>Menu item #2...</strong></div>';
-				$this->content.=$this->doc->section('Message #2:',$content,0,1);
+				// Render content:
+				$componentManager = F3_GimmeFive_Component_Manager::getInstance();
+				$controllerClass = "F3_MailformPlusPlus_Controller_BackendClearLogs";
+				$controller = $componentManager->getComponent($controllerClass);
+	
+				$content = $controller->process();
+				$this->content.=$this->doc->section('',$content,0,1);
 				break;
 			case 3:
 				$content='<div align=center><strong>Menu item #3...</strong></div>';

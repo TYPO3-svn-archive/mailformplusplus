@@ -116,7 +116,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		$params = t3lib_div::_GP('mailformplusplus');
 
 		//should delete records
-		if($params[delete] && isset($params['markedUids']) && is_array($params['markedUids'])) {
+		if($params['delete'] && isset($params['markedUids']) && is_array($params['markedUids'])) {
 
 			//delete records
 			$this->deleteRecords($params['markedUids']);
@@ -812,7 +812,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		global $LANG;
 
 		if(count($records) == 0) {
-			return "<div>'.$LANG->getLL('no_records').'</div>";
+			return '<div>'.$LANG->getLL('no_records').'</div>';
 		}
 
 

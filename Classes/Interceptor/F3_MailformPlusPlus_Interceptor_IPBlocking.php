@@ -111,7 +111,7 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,ip,crdate,params',$this->logTable,$where);
 
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) >= $maxValue) {
-				
+
 			$message = 'You are not allowed to send more mails because form got submitted too many times ';
 			if($addIPToWhere) {
 				$message .= 'by your IP address ';
@@ -130,9 +130,9 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 					if($addIPToWhere) {
 						$where .= ' AND ip=\''.t3lib_div::getIndpEnv('REMOTE_ADDR').'\'';
 					}
-						
+
 					$res_log = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid',$this->reportTable,$where);
-						
+
 					if($res_log && $GLOBALS['TYPO3_DB']->sql_num_rows($res_log) > 0) {
 						$send = false;
 					}
@@ -148,7 +148,7 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 				}
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
-				
+			t3lib_div::devLog('IP blocker caught possible spamming on page '.$GLOBALS['TSFE']->id.'!','mailformplusplus',2,unserialize($row['params']));
 			if($this->settings['redirectPage']) {
 				$this->doRedirect($this->settings['redirectPage']);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('redirect_failed');
@@ -175,9 +175,9 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 			if (t3lib_div::_GP("L")) {
 				$addparams["L"] = t3lib_div::_GP("L");
 			}
-				
+
 			$url = $this->cObj->getTypoLink_URL($emailRedirect, '',$addparams);
-				
+
 			//else it may be a full URL
 		} else {
 			$url = $emailRedirect;
@@ -236,11 +236,11 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 
 		//set e-mail options
 		$emailObj->subject = $subject;
-	  
+			
 		$emailObj->from_email = $sender;
-	  
+			
 		$emailObj->setPlain($message);
-	  
+			
 		//send e-mails
 		foreach($email as $mailto) {
 

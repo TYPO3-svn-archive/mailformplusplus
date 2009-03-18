@@ -3,8 +3,8 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="title">MailformPlusPlus</label>
-			<label index="function1">Function #1</label>
-			<label index="function2">Function #2</label>
+			<label index="function1">Log overview</label>
+			<label index="function2">Clear logs</label>
 			<label index="function3">Function #3</label>
 			<label index="noLogTable">Required table 'tx_mailformplusplus_log' not found. Please add the default logger to your MailformPlusPlus TypoScript setup.</label>
 			<label index="select_export_fields">Please select the fields to export:</label>
@@ -32,11 +32,14 @@
 			<label index="crdate">Date</label>
 			<label index="welcome">Welcome to the log of MailformPlusPlus!</label>
 			<label index="mathguard_question"> security question, please solve:</label>
+			<label index="clear_selected_tables">Clear selected tables</label>
+			<label index="table">Table</label>
+			<label index="total_rows">Total rows</label>
 		</languageKey>
 		<languageKey index="en" type="array">
 			<label index="title">MailformPlusPlus</label>
-			<label index="function1">Function #1</label>
-			<label index="function2">Function #2</label>
+			<label index="function1">Log overview</label>
+			<label index="function2">Clear logs</label>
 			<label index="function3">Function #3</label>
 			<label index="noLogTable">Required table 'tx_mailformplusplus_log' not found. Please add the default logger to your MailformPlusPlus TypoScript setup.</label>
 			<label index="select_export_fields">Please select the fields to export:</label>
@@ -64,11 +67,14 @@
 			<label index="crdate">Date</label>
 			<label index="welcome">Welcome to the log of MailformPlusPlus!</label>
 			<label index="mathguard_question"> security question, please solve:</label>
+			<label index="clear_selected_tables">Clear selected tables</label>
+			<label index="table">Table</label>
+			<label index="total_rows">Total rows</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="title">MailformPlusPlus</label>
-			<label index="function1">Function #1</label>
-			<label index="function2">Function #2</label>
+			<label index="function1">Log-Übersicht</label>
+			<label index="function2">Logs leeren</label>
 			<label index="function3">Function #3</label>
 			<label index="noLogTable">Benötigte Datenbanktabelle 'tx_mailformplusplus_log' nicht gefunden. Bitte fügen Sie den Logger F3_MailformPlusPlus_Logger_Default zu Ihrem MailformPlusPlus TypoScript setup hinzu.</label>
 			<label index="welcome">Willkommen zu der Log-Übersicht von MailformPlusPlus!</label>
@@ -96,6 +102,9 @@
 			<label index="no_records">Keine Datensätze gefunden!</label>
 			<label index="formats_found">%d verschiedene Formate gefunden! Bitte exportieren Sie diese in unterschiedliche Dateien</label>
 			<label index="crdate">Datum</label>
+			<label index="clear_selected_tables">Ausgewählte Tabellen leeren</label>
+			<label index="table">Tabelle</label>
+			<label index="total_rows">Einträge</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="title">MailformPlusPlus</label>
