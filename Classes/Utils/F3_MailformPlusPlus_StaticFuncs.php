@@ -327,10 +327,9 @@ class F3_MailformPlusPlus_StaticFuncs {
 			preg_match_all('/###LLL:.+?###/Ssm', $template, $aLLMarkerList);
 
 			foreach($aLLMarkerList[0] as $LLMarker){
-				$llKey =  strtolower(substr($LLMarker,7,strlen($LLMarker)-10));
+				$llKey =  substr($LLMarker,7,strlen($LLMarker)-10);
 				$marker = $llKey;
 				$langMarkers['###LLL:'.$marker.'###'] = trim($GLOBALS['TSFE']->sL('LLL:' . $langFile. ':' . $llKey));
-				$langMarkers['###LLL:'.strtoupper($marker).'###'] = $langMarkers['###LLL:'.$marker.'###'];
 			}
 		}
 		return $langMarkers;

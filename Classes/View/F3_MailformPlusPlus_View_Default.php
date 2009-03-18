@@ -630,10 +630,9 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 			$aLLMarkerList = array();
 			preg_match_all('/###LLL:.+?###/Ssm', $this->template, $aLLMarkerList);
 			foreach($aLLMarkerList[0] as $LLMarker){
-				$llKey =  strtolower(substr($LLMarker,7,strlen($LLMarker)-10));
+				$llKey = substr($LLMarker,7,strlen($LLMarker)-10);
 				$marker = $llKey;
 				$langMarkers['###LLL:'.$marker.'###'] = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':'.$llKey));
-				$langMarkers['###LLL:'.strtoupper($marker).'###'] = $langMarkers['###LLL:'.$marker.'###'];
 			}
 		}
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $langMarkers);
