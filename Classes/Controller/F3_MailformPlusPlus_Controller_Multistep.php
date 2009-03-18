@@ -438,7 +438,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			}
 		}
 		if($settings['radioButtonFields']) {
-			$fields = t3lib_div::trimExplode(",",$settings['checkBoxFields']);
+			$fields = t3lib_div::trimExplode(",",$settings['radioButtonFields']);
 			foreach($fields as $field) {
 				if(!isset($newGP[$field]) && isset($this->gp[$field])) {
 					$_SESSION['mailformplusplusValues'][$this->currentStep-1][$field] = array();
