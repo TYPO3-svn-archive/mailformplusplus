@@ -211,7 +211,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		foreach(split(chr(10), $this->template) as $line){
 
 			// works only on it's own line
-			$pattern = '/###isset_+([^#]*)_*###/';
+			$pattern = '/###isset_+([^#]*)_*###/i';
 
 			// set for odd ISSET_xyz, else reset
 			if(preg_match($pattern, $line, $matches)) {
