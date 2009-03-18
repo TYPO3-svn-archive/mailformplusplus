@@ -161,7 +161,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * @author  Stephan Bauer <stephan_bauer(at)gmx.de>
 	 * @return boolean
 	 */
-	protected function markersCountAsSet($markers, $conditionValue) {
+	protected function markersCountAsSet($conditionValue) {
 
 		// Find first || or && or !
 		$pattern = '/(_*([A-Za-z0-9]+)_*(\|\||&&)_*([^_]+)_*)|(_*(!)_*([A-Za-z0-9]+))/';
@@ -173,9 +173,9 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 			if($matches[3] == '||' && $isset) {
 				$return = true;
 			} elseif($matches[3] == '||' && !$isset) {
-				$return = $this->markersCountAsSet($markers, $matches[4]);
+				$return = $this->markersCountAsSet($matches[4]);
 			} elseif($matches[3] == '&&' && $isset) {
-				$return = $this->markersCountAsSet($markers, $matches[4]);
+				$return = $this->markersCountAsSet($matches[4]);
 			} elseif($matches[3] == '&&' && !$isset) {
 				$return = false;
 			} elseif($matches[6] == '!' && !$isset) {
@@ -184,10 +184,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('invalid_isset',$matches[2]);
 			}
 		} else {
-
-			// remove underscores
-			$pattern = '/_*/';
-			$str = preg_replace($pattern, $str, '');
 
 			// end of recursion
 			
@@ -199,8 +195,6 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	/**
 	 * Use or remove subparts with ISSET_[fieldname] patterns (thx to Stephan Bauer <stephan_bauer(at)gmx.de>)
 	 *
-	 * @param	string		$subpart: html content with markers
-	 * @param	array		$markers: array with markername->substitution value
 	 * @author  Stephan Bauer <stephan_bauer(at)gmx.de>
 	 * @return	string		substituted HTML content
 	 */
@@ -220,7 +214,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 
 					// set nowrite flag if required until the next ISSET_xyz
 					// (only if not already set by envelop)
-					if((!$this->markersCountAsSet($markers, $matches[1])) && (!$nowrite)) {
+					if((!$this->markersCountAsSet($matches[1])) && (!$nowrite)) {
 						$nowrite = $matches[1];
 					}
 				} else { // close it
@@ -235,7 +229,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 				}
 			}
 		}
-		//print_r($out);
+
 		$out = implode(chr(10),$out);
 		
 		$this->template = $out;
