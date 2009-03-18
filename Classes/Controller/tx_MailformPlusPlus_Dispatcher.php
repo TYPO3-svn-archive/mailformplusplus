@@ -119,19 +119,5 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		}
 		return $result;
 	}
-
-
-
-	/**
-	 * Reads a value from flexform data.
-	 *
-	 * @param string $name Name of the flexform value
-	 * @param string $section Section in flexform where the value is stored
-	 * @return string The requested value
-	 */
-	private function getFFvalue($name,$section) {
-		$value = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], $name,$section);
-		return $value;
-	}
 }
 ?>

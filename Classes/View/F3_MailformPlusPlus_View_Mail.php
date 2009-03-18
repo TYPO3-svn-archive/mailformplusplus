@@ -48,8 +48,11 @@ class F3_MailformPlusPlus_View_Mail extends F3_MailformPlusPlus_View_Default {
 		if(!$this->langFile) {
 			$this->readLangFile();
 		}
+		
+		//substitute ISSET markers
+		$this->substituteIssetSubparts();
 
-		//fill Typoscript markers
+		//fill TypoScript markers
 		if(is_array($this->settings['markers.'])) {
 			$this->fillTypoScriptMarkers();
 		}

@@ -51,92 +51,11 @@ class F3_MailformPlusPlus_StaticFuncs {
 		return $path;
 	}
 
-	/**
-	 * Helper method used by substituteIssetSubparts()
-	 *
-	 * @see F3_MailformPlusPlus_StaticFuncs::substituteIssetSubparts()
-	 * @author  Stephan Bauer <stephan_bauer(at)gmx.de>
-	 * @return boolean
-	 */
-	protected static function markersCountAsSet($markers, $conditionValue) {
-
-		// Find first || or && or !
-		$pattern = '/(_*([A-Za-z0-9]+)_*(\|\||&&)_*([^_]+)_*)|(_*(!)_*([A-Za-z0-9]+))/';
-
-		session_start();
-		// recurse if there are more
-		if( preg_match($pattern, $conditionValue, $matches) ){
-			$isset = isset($markers['###' . $matches[2] . '###']);
-			if($matches[3] == '||' && $isset) {
-				$return = true;
-			} elseif($matches[3] == '||' && !$isset) {
-				$return = F3_MailformPlusPlus_StaticFuncs.php:: markersCountAsSet($markers, $matches[4]);
-			} elseif($matches[3] == '&&' && $isset) {
-				$return = F3_MailformPlusPlus_StaticFuncs.php:: markersCountAsSet($markers, $matches[4]);
-			} elseif($matches[3] == '&&' && !$isset) {
-				$return = false;
-			} elseif($matches[6] == '!' && !$isset) {
-				return !(isset($markers['###' . $matches[7] . '###']) && $markers['###' . $matches[7] . '###'] != '');
-			} elseif($_SESSION['mailformplusplusSettings']['debugMode'] == 1) {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('invalid_isset',$matches[2]);
-			}
-		} else {
-
-			// remove underscores
-			$pattern = '/_*/';
-			$str = preg_replace($pattern, $str, '');
-
-			// end of recursion
-			$return = isset($markers['###' . $conditionValue . '###']) && ($markers['###' . $conditionValue . '###'] != '');
-		}
-		return $return;
-	}
+	
 
 
 
-	/**
-	 * Use or remove subparts with ISSET_[fieldname] patterns (thx to Stephan Bauer <stephan_bauer(at)gmx.de>)
-	 *
-	 * @param	string		$subpart: html content with markers
-	 * @param	array		$markers: array with markername->substitution value
-	 * @author  Stephan Bauer <stephan_bauer(at)gmx.de>
-	 * @return	string		substituted HTML content
-	 */
-	public static function substituteIssetSubparts($subpart,$markers = array()){
-		$flags = array();
-		$nowrite = false;
-		$out = array();
-		foreach(split(chr(10), $subpart) as $line){
-
-			// works only on it's own line
-			$pattern = '/###ISSET_+([^#]*)_*###/';
-
-			// set for odd ISSET_xyz, else reset
-			if(preg_match($pattern, $line, $matches)) {
-				if(!$flags[$matches[1]]) { // set
-					$flags[$matches[1]] = true;
-
-					// set nowrite flag if required until the next ISSET_xyz
-					// (only if not already set by envelop)
-					if((!F3_MailformPlusPlus_StaticFuncs::markersCountAsSet($markers, $matches[1])) && (!$nowrite)) {
-						$nowrite = $matches[1];
-					}
-				} else { // close it
-					$flags[$matches[1]] = false;
-					if($nowrite == $matches[1]) {
-						$nowrite = 0;
-					}
-				}
-			} else { // It is no ISSET_line. Write if permission is given.
-				if(!$nowrite) {
-					$out[] = $line;
-				}
-			}
-		}
-		$out = implode(chr(10),$out);
-
-		return $markers;
-	}
+	
 
 	/**
 	 * copied from class tslib_content

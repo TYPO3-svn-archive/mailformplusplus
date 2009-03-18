@@ -240,10 +240,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		}
 		reset($mailSettings['to_email']);
 
-		$markers = F3_MailformPlusPlus_StaticFuncs::substituteIssetSubparts($template['html']);
-		$template['html'] = $this->cObj->substituteMarkerArray($template['html'], $markers);
-		$markers = F3_MailformPlusPlus_StaticFuncs::substituteIssetSubparts($template['plain']);
-		$template['plain'] = $this->cObj->substituteMarkerArray($template['plain'], $markers);
+		
 
 		//send e-mails
 		foreach($mailSettings['to_email'] as $mailto) {
