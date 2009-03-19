@@ -132,6 +132,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		//fill error_[fieldname] markers
 		if(!empty($errors)) {
 			$this->fillErrorMarkers($errors);
+			$this->fillIsErrorMarkers($errors);
 		}
 
 		//remove markers that were not substituted
@@ -542,6 +543,49 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 			}
 			$markers['###TOTAL_UPLOADEDFILES###'] = $markers['###total_uploadedFiles###'];
 		}
+	}
+	
+	/**
+	 * Substitutes markers
+	 * 		###is_error_[fieldname]###
+	 * 		###is_error###
+	 * in $this->template
+	 *
+	 * @return void
+	 */
+	protected function fillIsErrorMarkers(&$errors) {
+		$markers = array();
+		foreach($errors as $field=>$types) {
+			if(strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error_'.$field))) > 0) {
+				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error_'.$field));
+			} elseif (strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'))) > 0) {
+				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'));
+			} elseif($this->settings['isErrorMarker.'][$field]) {
+				if($this->settings['isErrorMarker.'][$field.'.']) {
+					$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.'][$field],$this->settings['isErrorMarker.'][$field.'.']);
+				} else {
+					$errorMessage = $this->settings['isErrorMarker.'][$field];
+				}
+			} elseif($this->settings['isErrorMarker.']['global']) {
+				if($this->settings['isErrorMarker.']['global.']) {
+					$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.']['global'],$this->settings['isErrorMarker.']['global.']);
+				} else {
+					$errorMessage = $this->settings['isErrorMarker.']['global'];
+				}
+			}
+			$markers['###is_error_'.$field.'###'] = $errorMessage;
+		}
+		if (strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'))) > 0) {
+			$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'));
+		} elseif($this->settings['isErrorMarker.']['global']) {
+			if($this->settings['isErrorMarker.']['global.']) {
+				$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.']['global'],$this->settings['isErrorMarker.']['global.']);
+			} else {
+				$errorMessage = $this->settings['isErrorMarker.']['global'];
+			}
+		}
+		$markers['###is_error###'] = $errorMessage;
+		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 	}
 
 	/**
