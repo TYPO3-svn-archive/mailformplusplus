@@ -554,7 +554,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 						}
 						break;
 
-					case "":
+					case "htmlEmailAsAttachment":
 						if(isset($currentSettings['htmlEmailAsAttachment']) && !strcmp($currentSettings['htmlEmailAsAttachment'],"1")) {
 							$emailSettings['htmlEmailAsAttachment'] = 1;
 						}
