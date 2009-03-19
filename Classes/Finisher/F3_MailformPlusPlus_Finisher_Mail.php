@@ -203,11 +203,17 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 
 		if($template['html']) {
 			if($mailSettings['htmlEmailAsAttachment']) {
-				$tmphtml=tempnam("typo3temp/","/mailformplusplus_").".html";
-				$tmphandle=fopen($tmphtml,"wb");
+				$prefix = 'mailformplusplus_';
+				if($mailSettings['filePrefix']) {
+					$prefix = $mailSettings['filePrefix'];
+				}
+				$tmphtml = tempnam('typo3temp/','/'.$prefix).'.html';
+				$tmphtml = str_replace('.tmp','',$tmphtml);
+				$tmphandle = fopen($tmphtml,"wb");
 				if ($tmphandle) {
 					fwrite($tmphandle,$template['html']);
 					fclose($tmphandle);
+					F3_MailformPlusPlus_StaticFuncs::debugMessage('Adding HTML: '.$tmphtml);
 					$emailObj->addAttachment($tmphtml);
 				}
 			} else {
@@ -223,9 +229,8 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 				$emailObj->addAttachment($attachment);
 			}
 		}
-
 		if($mailSettings['attachPDF']) {
-			#print "adding pdf";
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('Adding PDF: '.$mailSettings['attachPDF']);
 			$emailObj->addAttachment($mailSettings['attachPDF']);
 		}
 
@@ -468,6 +473,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	protected function parseEmailSettings($tsConfig) {
 		$emailSettings = $tsConfig;
 		$options = array (
+			'filePrefix',
 			'to_email',
 			'subject',
 			'sender_email',
@@ -478,6 +484,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			'attachment',
 			'attachPDF',
 			'htmlEmailAsAttachment'
+			
 			);
 
 			//*************************
@@ -546,7 +553,12 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 								$exportFields = t3lib_div::trimExplode(",",$currentSettings['attachPDF.']['exportFields']);
 							}
 							#print_r($exportFields);
-							$file = tempnam("typo3temp/","/mailformplusplus_").".pdf";
+							$prefix = 'mailformplusplus_';
+							if($emailSettings['filePrefix']) {
+								$prefix = $emailSettings['filePrefix'];
+							}
+							$file = tempnam('typo3temp/','/'.$prefix).'.pdf';
+							$file = str_replace('.tmp','',$file);
 							$generator->generateFrontendPDF($this->gp,$this->settings['langFile'],$exportFields,$file,true);
 							$emailSettings['attachPDF'] = $file;
 						} elseif ($currentSettings['attachPDF']) {
@@ -560,6 +572,11 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 						}
 
 						break;
+					case "filePrefix":
+						if(isset($currentSettings['filePrefix'])) {
+							$emailSettings['filePrefix'] = $currentSettings['filePrefix'];
+						}
+					break;
 				}
 			}
 		}
