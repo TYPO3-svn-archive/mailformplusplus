@@ -307,6 +307,11 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 							case "date":
 								$checkFailed = $this->validateDate($check,$name);
 								break;
+
+								//the value equals the value passed in param field
+							case "equalsField":
+								$checkFailed = $this->validateEqualsField($check,$name);
+								break;
 						}
 
 						if(strlen($checkFailed) > 0) {
@@ -1165,6 +1170,25 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 			}
 		}
 
+		return $checkFailed;
+	}
+
+	/**
+	 * Validates that a specified field doesn't equal the value
+	 * of fieldname in param
+	 *
+	 * @param array &$check The TypoScript settings for this error check
+	 * @param string $name The field name
+	 * @return string The error string
+	 */
+	protected function validateEqualsField(&$check,$name) {
+		$checkFailed = "";
+
+		$comparisonValue = $this->gp[$check['params']['field']];
+
+		if (strcmp($comparisonValue,$this->gp[$name]) != 0) {
+			$checkFailed = $this->getCheckFailed($check);
+		}
 		return $checkFailed;
 	}
 
