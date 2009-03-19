@@ -483,8 +483,8 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 						$thumb = $this->cObj->IMAGE($imgConf['image.']);
 					}
 					if(t3lib_extMgm::isLoaded('xajax') && $settings['files.']['enableAjaxFileRemoval']) {
-						$filename .= '<a href="javascript:void" class="mailformplusplus_removelink" onclick="xajax_'.$this->prefixId.'_removeUploadedFile(\''.$field.'\',\''.$fileInfo['uploaded_name'].'\')">X</a>';
-						$thumb .= '<a href="javascript:void" class="mailformplusplus_removelink" onclick="xajax_'.$this->prefixId.'_removeUploadedFile(\''.$field.'\',\''.$fileInfo['uploaded_name'].'\')">X</a>';
+						$filename .= '<a href="javascript:void(0)" class="mailformplusplus_removelink" onclick="xajax_'.$this->prefixId.'_removeUploadedFile(\''.$field.'\',\''.$fileInfo['uploaded_name'].'\')">X</a>';
+						$thumb .= '<a href="javascript:void(0)" class="mailformplusplus_removelink" onclick="xajax_'.$this->prefixId.'_removeUploadedFile(\''.$field.'\',\''.$fileInfo['uploaded_name'].'\')">X</a>';
 					}
 					if(strlen($singleWrap) > 0 && strstr($singleWrap,"|")) {
 						$wrappedFilename = str_replace("|",$filename,$singleWrap);
