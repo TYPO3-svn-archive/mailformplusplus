@@ -48,7 +48,7 @@ class F3_MailformPlusPlus_Interceptor_RemoveXSS extends F3_MailformPlusPlus_Abst
 		}
 
 		//if removeXSS is part of the core API
-		if (function_exists('t3lib_div::removeXSS')) {
+		if (method_exists('t3lib_div','removeXSS')) {
 			foreach ($values as $key => $value) {
 				if(is_array($value)) {
 					$sanitizedArray[$key] = $this->sanitizeValues($value);
