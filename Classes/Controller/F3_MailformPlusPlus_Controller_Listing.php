@@ -160,7 +160,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 		if(!$viewClass) {
 			$viewClass = "F3_MailformPlusPlus_View_Listing";
 		}
-
+		$viewClass = F3_MailformPlusPlus_StaticFuncs::prepareClassName($viewClass);
 
 		$view = $this->componentManager->getComponent($viewClass);
 

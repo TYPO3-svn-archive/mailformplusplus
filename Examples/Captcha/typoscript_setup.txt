@@ -25,8 +25,8 @@ plugin.F3_MailformPlusPlus.settings.predef.captcha_example {
 	fieldConf {
 	  captchafield.errorCheck.1 = captcha
 	  simple
-	  freecapfield.errorCheck.1 = sr_freecap
-	  recaptcha_response_field.errorCheck.1 = jm_recaptcha
+	  freecapfield.errorCheck.1 = srFreecap
+	  recaptcha_response_field.errorCheck.1 = jmRecaptcha
 	  mathguard_answer.errorCheck.1 = mathguard
 	}  
       }  

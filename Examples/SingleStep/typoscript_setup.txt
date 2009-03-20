@@ -38,13 +38,13 @@ plugin.F3_MailformPlusPlus.settings.predef.singlestep_example {
       config {
 	fieldConf {
 	  picture {
-            errorCheck.1 = file_allowedTypes
+            errorCheck.1 = fileAllowedTypes
             errorCheck.1.allowedTypes = jpg,gif
-            errorCheck.2 = file_minSize
+            errorCheck.2 = fileMinSize
             errorCheck.2.minSize = 20000
-            errorCheck.3 = file_maxSize
+            errorCheck.3 = fileMaxSize
             errorCheck.3.maxSize= 100000
-            errorCheck.4 = file_maxCount
+            errorCheck.4 = fileMaxCount
             errorCheck.4.maxCount = 2
           
           }

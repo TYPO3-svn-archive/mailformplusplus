@@ -119,6 +119,8 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		if(!$viewClass) {
 			$viewClass = 'F3_MailformPlusPlus_View_Multistep';
 		}
+		
+		$viewClass = F3_MailformPlusPlus_StaticFuncs::prepareClassName($viewClass);
 		$view = $this->componentManager->getComponent($viewClass);
 		$view->setLangFile($this->langFile);
 		$this->setViewSubpart($view,$settings,$this->currentStep);
@@ -191,8 +193,9 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			$valid = array(true);
 			if(isset($settings['validators.']) && is_array($settings['validators.'])  && !$_SESSION['submitted_ok']) {
 				foreach($settings['validators.'] as $tsConfig) {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_validator',$tsConfig['class']);
-					$validator = $this->componentManager->getComponent($tsConfig['class']);
+					$className = F3_MailformPlusPlus_StaticFuncs::prepareClassName($tsConfig['class']);
+					F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_validator',$className);
+					$validator = $this->componentManager->getComponent($className);
 
 					$validator->loadConfig($this->gp,$tsConfig['config.']);
 					$res = $validator->validate($errors);
@@ -225,8 +228,9 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 					//run loggers
 					if(isset($settings['loggers.']) && is_array($settings['loggers.']) && !$_SESSION['submitted_ok']) {
 						foreach($settings['loggers.'] as $tsConfig) {
-							F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_logger',$tsConfig['class']);
-							$logger = $this->componentManager->getComponent($tsConfig['class']);
+							$className = F3_MailformPlusPlus_StaticFuncs::prepareClassName($tsConfig['class']);
+							F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_logger',$className);
+							$logger = $this->componentManager->getComponent($className);
 							$logger->log($this->gp,$tsConfig['config.']);
 						}
 					}
@@ -236,12 +240,13 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 
 						ksort($settings['finishers.']);
 						foreach($settings['finishers.'] as $tsConfig) {
-
-							$finisher = $this->componentManager->getComponent($tsConfig['class']);
+							$className = F3_MailformPlusPlus_StaticFuncs::prepareClassName($tsConfig['class']);
+							$finisher = $this->componentManager->getComponent($className);
 								
 							//check if the form was finished before. This flag is set by the F3_Finisher_Confirmation
 							if(!$_SESSION['submitted_ok']) {
-								F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_finisher',$tsConfig['class']);
+								
+								F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_finisher',$className);
 								$tsConfig['config.']['templateFile'] = $settings['templateFile'];
 								$tsConfig['config.']['langFile'] = $settings['langFile'];
 								$tsConfig['config.']['formValuesPrefix'] = $settings['formValuesPrefix'];
@@ -259,8 +264,9 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 
 								//if the form was finished before, only show the output of the F3_MailformPlusPlus_Finisher_Confirmation
 							} elseif((is_a($finisher,"F3_MailformPlusPlus_Finisher_Confirmation") || is_subclass_of($finisher,"F3_MailformPlusPlus_Finisher_Confirmation"))) {
-								F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_finisher',$tsConfig['class']);
-								$finisher = $this->componentManager->getComponent($tsConfig['class']);
+								$className = F3_MailformPlusPlus_StaticFuncs::prepareClassName($tsConfig['class']);
+								F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_finisher',$className);
+								$finisher = $this->componentManager->getComponent($className);
 								$tsConfig['config.']['templateFile'] = $settings['templateFile'];
 								$tsConfig['config.']['langFile'] = $settings['langFile'];
 								$tsConfig['config.']['formValuesPrefix'] = $settings['formValuesPrefix'];

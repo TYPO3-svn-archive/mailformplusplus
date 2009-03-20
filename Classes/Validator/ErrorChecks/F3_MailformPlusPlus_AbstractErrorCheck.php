@@ -11,7 +11,7 @@
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *
- * $Id$
+ * $Id: F3_MailformPlusPlus_AbstractValidator.php 17657 2009-03-10 11:17:52Z reinhardfuehricht $
  *                                                                        */
 
 /**
@@ -21,7 +21,7 @@
  * @package	F3_MailformPlusPlus
  * @subpackage	Validator
  */
-abstract class F3_MailformPlusPlus_AbstractValidator {
+abstract class F3_MailformPlusPlus_AbstractErrorCheck {
 
 	/**
 	 * The GimmeFive component manager
@@ -71,24 +71,15 @@ abstract class F3_MailformPlusPlus_AbstractValidator {
 	}
 
 	/**
-	 * Validates the submitted values using given settings
+	 * Performs the specific error check.
 	 *
-	 * @param array $errors Reference to the errors array to store the errors occurred
-	 * @return boolean
+	 * @param array &$check The TypoScript settings for this error check
+	 * @param string $name The field name
+	 * @param array &$gp The current GET/POST parameters
+	 * @return string The error string
 	 */
-	abstract public function validate(&$errors);
+	abstract public function check(&$check,$name,&$gp);
 
-	/**
-	 * Method to set GET/POST for this class and load the configuration
-	 *
-	 * @param array The GET/POST values
-	 * @param array The TypoScript configuration
-	 * @return void
-	 */
-	public function loadConfig($gp,$tsConfig) {
-		$this->settings = $tsConfig;
-		$this->gp = $gp;
-	}
 	
 	/**
 	 * Sets the suitable string for the checkFailed message parsed in view.

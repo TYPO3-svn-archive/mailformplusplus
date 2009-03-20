@@ -51,6 +51,14 @@
  * # attaches a PDF file with submitted values
  * finishers.2.config.user.attachPDF.class = F3_MailformPlusPlus_Generator_PDF
  * finishers.2.config.user.attachPDF.exportFields = firstname,lastname,email,interests,pid,submission_date,ip
+ * 
+ * #configure how the attached files are prefixes (PDF/HTML).
+ * # both files prefixed equally:
+ * finishers.2.config.user.filePrefix = MyContactForm_
+ * 
+ * # different prefixes for the files.
+ * finishers.2.config.html = MyContactForm_
+ * finishers.2.config.pdf = MyContactFormPDF_
  * </code>
  *
  * @author	Reinhard Führicht <rf@typoheads.at>
@@ -204,8 +212,10 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		if($template['html']) {
 			if($mailSettings['htmlEmailAsAttachment']) {
 				$prefix = 'mailformplusplus_';
-				if($mailSettings['filePrefix']) {
-					$prefix = $mailSettings['filePrefix'];
+				if(isset($emailSettings['filePrefix.']['html'])) {
+					$prefix = $emailSettings['filePrefix.']['html'];
+				} elseif(isset($emailSettings['filePrefix'])) {
+					$prefix = $emailSettings['filePrefix'];
 				}
 				$tmphtml = tempnam('typo3temp/','/'.$prefix).'.html';
 				$tmphtml = str_replace('.tmp','',$tmphtml);
@@ -547,6 +557,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 							if(!$generatorClass) {
 								$generatorClass = "F3_MailformPlusPlus_Generator_PDF";
 							}
+							$generatorClass = F3_MailformPlusPlus_StaticFuncs::prepareClassName($generatorClass);
 							$generator = $this->componentManager->getComponent($generatorClass);
 							$exportFields = array();
 							if($emailSettings['attachPDF.']['exportFields']) {
@@ -554,7 +565,9 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 							}
 							#print_r($exportFields);
 							$prefix = 'mailformplusplus_';
-							if($emailSettings['filePrefix']) {
+							if(isset($emailSettings['filePrefix.']['pdf'])) {
+								$prefix = $emailSettings['filePrefix.']['pdf'];
+							} elseif(isset($emailSettings['filePrefix'])) {
 								$prefix = $emailSettings['filePrefix'];
 							}
 							$file = tempnam('typo3temp/','/'.$prefix).'.pdf';

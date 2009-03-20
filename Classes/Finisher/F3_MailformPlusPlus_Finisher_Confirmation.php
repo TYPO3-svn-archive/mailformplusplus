@@ -74,6 +74,7 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 			if(!$generatorClass) {
 				$generatorClass = "F3_MailformPlusPlus_Generator_PDF";
 			}
+			$generatorClass = F3_MailformPlusPlus_StaticFuncs::prepareClassName($generatorClass);
 			$generator = $this->componentManager->getComponent($generatorClass);
 			$exportFields = array();
 			if($this->settings['pdf.']['exportFields']) {
@@ -95,6 +96,7 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 			if(!$generatorClass) {
 				$generatorClass = "F3_MailformPlusPlus_Generator_CSV";
 			}
+			$generatorClass = F3_MailformPlusPlus_StaticFuncs::prepareClassName($generatorClass);
 			$generator = $this->componentManager->getComponent($generatorClass);
 			$exportFields = array();
 			if($this->settings['csv.']['exportFields']) {

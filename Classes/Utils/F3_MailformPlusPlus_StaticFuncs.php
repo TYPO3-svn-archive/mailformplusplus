@@ -52,8 +52,17 @@ class F3_MailformPlusPlus_StaticFuncs {
 	}
 
 	
-
-
+	/**
+	 * Adds needed prefix to class name if not set in TS
+	 *
+	 * @return string
+	 */
+	public static function prepareClassName($className) {
+		if(!strstr($className,'F3_MailformPlusPlus_')) {
+			$className = 'F3_MailformPlusPlus_'.$className;
+		}
+		return $className;
+	}
 
 	
 
