@@ -301,20 +301,19 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				}
 				$records[] = $row;
 			}
-
-			$availableFormatsCount = count($hashes);
-
+			
+			$availableFormatsCount = count($availableFormats);
+		
 			//only one format found
 			if($availableFormatsCount == 1) {
-
 				//if fields were chosen in the selection view, perform the export
 				if(isset($params['exportParams'])) {
 					$generator = $this->componentManager->getComponent("F3_MailformPlusPlus_Generator_CSV");
-					$generator->generateModuleCSV($renderRecords,$params['exportParams']);
+					$generator->generateModuleCSV($records,$params['exportParams']);
 
 					//no fields chosen, show selection view.
 				} else {
-					return $this->generateCSVExportFieldsSelector($renderRecords[0]['params']);
+					return $this->generateCSVExportFieldsSelector($records[0]['params']);
 				}
 
 				//more than one format and user has chosen a format to export
@@ -526,6 +525,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 
 		//start table
 		$selector .= '<table>';
+		
 
 		//loop through formats
 		foreach($formats as $key=>$format) {

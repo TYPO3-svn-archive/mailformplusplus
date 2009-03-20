@@ -58,7 +58,7 @@ class F3_MailformPlusPlus_Interceptor_RemoveXSS extends F3_MailformPlusPlus_Abst
 				}
 			}
 				
-			//use the class provided by MailformPlusPlus
+		//use the class provided by MailformPlusPlus
 		} else {
 			require_once(t3lib_extMgm::extPath('mailformplusplus')."Resources/PHP/RemoveXSS.php");
 			foreach ($values as $key => $value) {
