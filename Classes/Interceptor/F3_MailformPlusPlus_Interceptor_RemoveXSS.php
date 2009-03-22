@@ -66,7 +66,7 @@ class F3_MailformPlusPlus_Interceptor_RemoveXSS extends F3_MailformPlusPlus_Abst
 					$sanitizedArray[$key] = $this->sanitizeValues($value);
 				} else {
 					$value = str_replace("\t","",$value);
-					$sanitizedArray[$key] = RemoveXSS::RemoveXSS($value);
+					$sanitizedArray[$key] = RemoveXSS::doRemoveXSS($value);
 						
 				}
 			}
