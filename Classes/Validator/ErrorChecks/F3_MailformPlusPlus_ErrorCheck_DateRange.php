@@ -40,10 +40,10 @@ class F3_MailformPlusPlus_ErrorCheck_DateRange extends F3_MailformPlusPlus_Error
 		eregi('^[d|m|y]*(.)[d|m|y]*', $pattern, $res);
 		$sep = $res[1];
 
-		# normalisation of format
+		// normalisation of format
 		$pattern = $this->normalizeDatePattern($pattern,$sep);
 
-		# find out correct positioins of "d","m","y"
+		// find out correct positioins of "d","m","y"
 		$pos1 = strpos($pattern, 'd');
 		$pos2 = strpos($pattern, 'm');
 		$pos3 = strpos($pattern, 'y');
@@ -80,6 +80,6 @@ class F3_MailformPlusPlus_ErrorCheck_DateRange extends F3_MailformPlusPlus_Error
 		}
 
 		return $checkFailed;
-	}s
+	}
 }
 ?>

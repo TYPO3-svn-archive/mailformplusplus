@@ -212,6 +212,11 @@ abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {
 		$this->subparts['item'] = $this->cObj->getSubpart($this->subparts['template'],'###ITEM###');
 	}
 	
+	/**
+	 * Returns false if the view doesn't have template code.
+	 *
+	 * @return boolean
+	 */
 	public function hasTemplate() {
 		return !empty($this->subparts['template']);
 	}

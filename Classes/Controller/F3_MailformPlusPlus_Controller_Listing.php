@@ -21,7 +21,7 @@
  *
  * <code>
  *
- * #Currently I haven't found a better solution
+ * # Currently I haven't found a better solution
  * includeLibs.F3_MailformPlusPlus_FEListing = EXT:mailformplusplus/Classes/Controller/tx_MailformPlusPlus_Dispatcher.php
  * plugin.F3_MailformPlusPlus_FEListing = USER_INT
  * plugin.F3_MailformPlusPlus_FEListing.userFunc = tx_MailformPlusPlus_Dispatcher->main
