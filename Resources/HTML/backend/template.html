@@ -1,3 +1,59 @@
+###NO_TABLE_ERROR###
+<div style="color:dd7777;font-weight:bold;font-size:11px;">
+	<br />
+	<p style="color:dd7777;font-weight:bold;font-size:11px;">###LLL:noLogTable###</p>
+	<br />
+	<br />
+	<p style="color:dd7777;font-weight:bold;font-size:11px;">TypoScript:</p><br />
+	<span style="font-family:Monospace;color:dd7777;font-weight:bold;font-size:11px;">
+		plugin.F3_MailformPlusPlus.settings.loggers.1 {<br />
+			class = F3_MailformPlusPlus_Logger_Default	<br />
+		} <br />
+	</span>
+</div>
+###NO_TABLE_ERROR###
+
+###EXPORT_FIELDS_SELECTOR###
+<h3>###LLL:select_export_fields###</h3><br />
+###SELECTION###
+<form id="mailformplusplus_module_form" action="###URL###" method="post">
+	<input type="hidden" name="mailformplusplus[csvFormat]" value="###CSV_FORMAT###" />
+	<input type="hidden" name="mailformplusplus[renderMethod]" value="###RENDER_METHOD###" />
+	###SELECTED_RECORDS###
+	<table>
+	###EXPORTFIELDS###
+	</table>
+	<input type="submit" value="###LLL:export###" /></form>
+###EXPORT_FIELDS_SELECTOR###
+
+###FORMATS_SELECTOR###
+<h3>###LLL:formats_found###</h3><br />
+<table>
+	<tr>
+		<td>
+			
+			###FORMATS###
+			
+		</td>
+	</tr>
+</table>
+<br /><hr /><a href="###BACK_URL###">###LLL:back###</a>
+###FORMATS_SELECTOR###
+
+###SINGLE_FORMAT###
+<tr><td>
+<form action="###URL###" method="post">
+###HIDDEN_FIELDS###
+<input type="hidden" name="mailformplusplus[csvFormat]" value="###KEY###" />
+<input type="hidden" name="mailformplusplus[renderMethod]" value="csv" />
+<input type="submit" value="###LLL:export###" />
+</form>
+</td>
+<td>###FORMAT###</td>
+</tr>
+###SINGLE_FORMAT###
+
+
 ###CALENDAR_JS###
 <style type="text/css">@import url(../../../Resources/JS/jscalendar-1.0/skins/aqua/theme.css);</style>
 <script type="text/javascript" src="../../../Resources/JS/jscalendar-1.0/calendar.js"></script>

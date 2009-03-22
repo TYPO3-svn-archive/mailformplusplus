@@ -365,24 +365,16 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 
 		//init gp params
 		$gp = t3lib_div::_GP('mailformplusplus');
-
-		//header
-		$selector = '<h3>' . $LANG->getLL('select_export_fields') . '</h3><br />';
-		$selector .= '
-			<div style="width:200px;float:right">
-				<input type="button" onclick="selectAll()" value="'.$LANG->getLL('select_all').'" />
-				<input type="button" onclick="deselectAll()" value="'.$LANG->getLL('deselect_all').'" />
-			</div>
-		';
-
-		//start form with hidden fields holding the values of params of the steps before
-		$selector .= '<form id="mailformplusplus_module_form" action="'.$_SERVER['PHP_SELF'].'" method="post">';
+		$selectorCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###EXPORT_FIELDS_SELECTOR###');
+		
+		$markers = array();
+		$markers['###LLL:select_export_fields###'] = $LANG->getLL('select_export_fields');
+		$markers['###SELECTION###'] = $this->getSelectionBox();
+		$markers['###URL###'] = $_SERVER['PHP_SELF'];
 
 		//the selected format to export
-		$selector .= '<input type="hidden" name="mailformplusplus[csvFormat]" value="'.$gp['csvFormat'].'" />';
-
-		//the selected render method (csv/pdf), should be csv here
-		$selector .= '<input type="hidden" name="mailformplusplus[renderMethod]" value="'.$gp['renderMethod'].'" />';
+		$markers['###CSV_FORMAT###'] = $gp['csvFormat'];
+		$markers['###RENDER_METHOD###'] = $gp['renderMethod'];
 
 		/*
 		 * if there is only one record to export, initialize an array with the one uid
@@ -397,25 +389,25 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			$detailId = array($detailId);
 		}
 
+		$markers['###SELECTED_RECORDS###'] = '';
+		
 		//the selected records in a previous step
 		foreach($detailId as $id) {
-			$selector .= '<input type="hidden" name="mailformplusplus[markedUids][]" value="'.$id.'" />';
+			$markers['###SELECTED_RECORDS###'] .= '<input type="hidden" name="mailformplusplus[markedUids][]" value="'.$id.'" />';
 		}
 
-		//start output table
-		$selector .= '<table>';
-
+		$markers['###EXPORTFIELDS###'] = '';
+		
 		//add a label and a checkbox for each available parameter
 		foreach($params as $field=>$value) {
-			$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="'.$field.'">'.$field.'</td></tr>';
+			$markers['###EXPORTFIELDS###'] .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="'.$field.'">'.$field.'</td></tr>';
 		}
 
-		//add submite button and close form
-		$selector .= '</table><input type="submit" value="'.$LANG->getLL('export').'" /></form>';
-
-		//add javascript for "select all" and "deselect all"
-		$selector .= $this->getSelectionJS();
-		return $selector;
+		$markers['###LLL:export###'] = $LANG->getLL('export');
+		$returnCode = $this->getSelectionJS();
+		$returnCode .= F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($selectorCode,$markers);
+		
+		return $returnCode; 
 	}
 
 	/**
@@ -436,21 +428,16 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 
 		//init gp params
 		$gp = t3lib_div::_GP('mailformplusplus');
+		$selectorCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###EXPORT_FIELDS_SELECTOR###');
+		
+		$markers = array();
+		$markers['###LLL:select_export_fields###'] = $LANG->getLL('select_export_fields');
+		$markers['###SELECTION###'] = $this->getSelectionBox();
+		$markers['###URL###'] = $_SERVER['PHP_SELF'];
 
-		//header
-		$selector = '<h3>' . $LANG->getLL('select_export_fields') . '</h3><br />';
-		$selector .= '
-			<div style="width:200px;float:right">
-				<input type="button" onclick="selectAll()" value="'.$LANG->getLL('select_all').'" />
-				<input type="button" onclick="deselectAll()" value="'.$LANG->getLL('deselect_all').'" />
-			</div>
-		';
-
-		//start form with hidden fields holding the values of params of the steps before
-		$selector .= '<form id="mailformplusplus_module_form" action="'.$_SERVER['PHP_SELF'].'" method="post">';
-
-		//the selected render method (csv/pdf), should be pdf here
-		$selector .= '<input type="hidden" name="mailformplusplus[renderMethod]" value="'.$gp['renderMethod'].'" />';
+		//the selected format to export
+		$markers['###CSV_FORMAT###'] = $gp['csvFormat'];
+		$markers['###RENDER_METHOD###'] = $gp['renderMethod'];
 
 		/*
 		 * if there is only one record to export, initialize an array with the one uid
@@ -465,30 +452,27 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			$detailId = array($detailId);
 		}
 
+		$markers['###SELECTED_RECORDS###'] = '';
+		
 		//the selected records in a previous step
 		foreach($detailId as $id) {
-			$selector .= '<input type="hidden" name="mailformplusplus[markedUids][]" value="'.$id.'" />';
+			$markers['###SELECTED_RECORDS###'] .= '<input type="hidden" name="mailformplusplus[markedUids][]" value="'.$id.'" />';
 		}
 
-		//start output table with the default fields that can be exported (ip address, submission date and PID)
-		$selector .= '<table>';
-		$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="ip">'.$LANG->getLL('ip_address').'</td></tr>';
-		$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="submission_date">'.$LANG->getLL('submission_date').'</td></tr>';
-		$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="pid">'.$LANG->getLL('page_id').'</td></tr>';
-		$selector .= '</table>';
-		$selector .= '<table>';
-
+		$markers['###EXPORTFIELDS###'] = '';
+		$markers['###EXPORTFIELDS###'] .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="ip" />'.$LANG->getLL('ip_address').'</td></tr>';
+		$markers['###EXPORTFIELDS###'] .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="submission_date" />'.$LANG->getLL('submission_date').'</td></tr>';
+		$markers['###EXPORTFIELDS###'] .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="pid" />'.$LANG->getLL('page_id').'</td></tr>';
 		//add a label and a checkbox for each available parameter
 		foreach($params as $field=>$value) {
-			$selector .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="'.$field.'">'.$field.'</td></tr>';
+			$markers['###EXPORTFIELDS###'] .= '<tr><td><input type="checkbox" name="mailformplusplus[exportParams][]" value="'.$field.'">'.$field.'</td></tr>';
 		}
 
-		//add submit button and close form
-		$selector .= '</table><input type="submit" value="'.$LANG->getLL('export').'" /></form>';
-
-		//add javascript for "select all" and "deselect all"
-		$selector .= $this->getSelectionJS();
-		return $selector;
+		$markers['###LLL:export###'] = $LANG->getLL('export');
+		$returnCode = $this->getSelectionJS();
+		$returnCode .= F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($selectorCode,$markers);
+		
+		return $returnCode; 
 	}
 
 	/**
@@ -520,46 +504,38 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			$detailId = array($detailId);
 		}
 
-		//header
-		$selector .= '<h3>'.sprintf($LANG->getLL('formats_found'),count($formats)).'</h3><br />';
-
-		//start table
-		$selector .= '<table>';
+		$selectorCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###FORMATS_SELECTOR###');
 		
-
+		$foundFormats = 0;
+		
 		//loop through formats
 		foreach($formats as $key=>$format) {
-
+			
+			$formatMarkers = array();
+			
 			//if format is valid
 			if(isset($format) && is_array($format)) {
+				$foundFormats++;
+				$code = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###SINGLE_FORMAT###');
+				$formatMarkers['###URL###'] = $_SERVER['PHP_SELF'];
 
-				//start a form
-				$selector .= '
-					<tr><td>
-							<form action="'.$_SERVER['PHP_SELF'].'" method="post">
-				';
-
+				$formatMarkers['###HIDDEN_FIELDS###'] = '';
 				//add hidden fields for all selected records to export
 				foreach($detailId as $id) {
-					$selector .= '<input type="hidden" name="mailformplusplus[markedUids][]" value="'.$id.'" />';
+					$formatMarkers['###HIDDEN_FIELDS###'] .= '<input type="hidden" name="mailformplusplus[markedUids][]" value="'.$id.'" />';
 				}
-
-				//add hidden fields for the current format and the render method CSV
-				$selector .= '
-							<input type="hidden" name="mailformplusplus[csvFormat]" value="'.$key.'" />
-							<input type="hidden" name="mailformplusplus[renderMethod]" value="csv" />
-							<input type="submit" value="'.$LANG->getLL('export').'" />
-							</form>
-						</td>
-						<td>'.implode(",",array_keys($format)).'</td>
-					</tr>
-				';
+				$formatMarkers['###KEY###'] = $key;
+				$formatMarkers['###LLL:export###'] = $LANG->getLL('export');
+				$formatMarkers['###FORMAT###'] = implode(",",array_keys($format));
+				$markers['###FORMATS###'] .= F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($code,$formatMarkers);
 			}
+			
 		}
-
-		//close table, add back link and return
-		$selector .= '</table><br /><hr /><a href="'.$_SERVER['PHP_SELF'].'">'.$LANG->getLL('back').'</a>';
-		return $selector;
+		
+		$markers['###LLL:formats_found###'] = sprintf($LANG->getLL('formats_found'),$foundFormats);
+		$markers['###BACK_URL###'] = $_SERVER['PHP_SELF'];
+		$markers['###LLL:back###'] = $LANG->getLL('back');
+		return F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($selectorCode,$markers);
 	}
 
 	/**
@@ -633,20 +609,11 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	protected function getErrorMessage() {
-		return '
-			<div style="color:dd7777;font-weight:bold;font-size:11px;">
-				<br />
-				<p style="color:dd7777;font-weight:bold;font-size:11px;">'.$LANG->getLL('noLogTable').'</p>
-				<br />
-				<br />
-				<p style="color:dd7777;font-weight:bold;font-size:11px;">TypoScript:</p><br />
-				<span style="font-family:Monospace;color:dd7777;font-weight:bold;font-size:11px;">
-					plugin.F3_MailformPlusPlus.settings.loggers.1 {<br />
-						class = F3_MailformPlusPlus_Logger_Default	<br />
-					} <br />
-				</span>
-			</div>
-		';
+		global $LANG;
+		$code = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###NO_TABLE_ERROR###');
+		$markers = array();
+		$markers['###LLL:noLogTable###'] = $LANG->getLL('noLogTable');
+		return F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($code,$markers);
 	}
 
 	/**
