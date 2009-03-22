@@ -13,6 +13,29 @@
 </div>
 ###NO_TABLE_ERROR###
 
+###CLEAR_LOGS###
+<form action="###URL###" method="post"> 
+			<table>
+				<tr class="bgColor2">
+					<td>###LLL:table###</td>
+					<td>###LLL:total_rows###</td>
+					<td>&nbsp;</td>				
+				</tr>
+				###TABLES###
+			</table>
+			<br />
+			<input type="submit" value="###LLL:clear###" />
+			</form>
+###CLEAR_LOGS###
+
+###CLEAR_LOGS_TABLE###
+<tr class="bgColor3-20">
+	<td>###TABLE###</td>
+	<td>###ROW_COUNT###</td>
+	<td><input type="checkbox" name="mailformplusplus[clearTables][]" value="###TABLE###"/></td>				
+</tr>
+###CLEAR_LOGS_TABLE###
+
 ###EXPORT_FIELDS_SELECTOR###
 <h3>###LLL:select_export_fields###</h3><br />
 ###SELECTION###

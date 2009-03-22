@@ -61,6 +61,9 @@ class F3_MailformPlusPlus_Controller_BackendClearLogs extends F3_MailformPlusPlu
 	protected function init() {
 		global $LANG;
 		$LANG->includeLLFile('EXT:mailformplusplus/Resources/Language/locallang.xml');
+		$templatePath = t3lib_extMgm::extPath('mailformplusplus').'Resources/HTML/backend/';
+		$templateFile = $templatePath.'template.html';
+		$this->templateCode = t3lib_div::getURL($templateFile);
 	}
 
 	/**
@@ -105,41 +108,33 @@ class F3_MailformPlusPlus_Controller_BackendClearLogs extends F3_MailformPlusPlu
 	protected function getOverview() {
 		global $LANG;
 		$existingTables = $GLOBALS['TYPO3_DB']->admin_get_tables();
-		$content = '
-			<form action="'.$_SERVER['PHP_SELF'].'" method="post"> 
-			<table>
-				<tr class="bgColor2">
-					<td>'.$LANG->getLL('table').'</td>
-					<td>'.$LANG->getLL('total_rows').'</td>
-					<td>&nbsp;</td>				
-				</tr>
-		';
+		$code = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###CLEAR_LOGS###');
+		$markers = array();
+		$markers['###URL###'] = $_SERVER['PHP_SELF'];
+		$markers['###LLL:table###'] = $LANG->getLL('table');
+		$markers['###LLL:total_rows###'] = $LANG->getLL('total_rows');
 		
+		$markers['###TABLES###'] = '';
 		foreach($existingTables as $table=>$tableSettings) {
+			
 			
 			if(strpos($table,'tx_mailformplusplus_') > -1) {
 				$res = $GLOBALS['TYPO3_DB']->sql_query('SELECT COUNT(*) as rowCount FROM '.$table);
 				if($res) {
+					$rowCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###CLEAR_LOGS_TABLE###');
+					$tableMarkers = array();
 					$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-					$content .= '
-						<tr class="bgColor3-20">
-							<td>'.$table.'</td>
-							<td>'.$row['rowCount'].'</td>
-							<td><input type="checkbox" name="mailformplusplus[clearTables][]" value="'.$table.'"/></td>				
-						</tr>
-					';
+					$tableMarkers['###TABLE###'] = $table;
+					$tableMarkers['###ROW_COUNT###'] = $row['rowCount'];
 					$GLOBALS['TYPO3_DB']->sql_free_result($res);
+					$markers['###TABLES###'] .= F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($rowCode,$tableMarkers);
 				}
 				
 			}
+			
 		}
-		$content .= '
-			</table>
-			<br />
-			<input type="submit" value="'.$LANG->getLL('clear_selected_tables').'" />
-			</form>
-		';
-		return $content;
+		$markers['###LLL:clear###'] = $LANG->getLL('clear_selected_tables');
+		return F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($code,$markers);
 	}
 
 }
