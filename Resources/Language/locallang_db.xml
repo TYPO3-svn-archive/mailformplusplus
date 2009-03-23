@@ -26,7 +26,7 @@
 			<label index="tt_content.tx_mailformplusplus_contenttype">Type of data display</label>
 			<label index="be_missing_config">No forms predefined</label>
 			<label index="be_please_select">Choose a predefined form</label>
-			<label index="tt_content.pi1_plus_wiz_description">Advanced form with many TypoScript configurations. Very flexible.</label>
+			<label index="tt_content.pi1_plus_wiz_description">Advanced form with many TypoScript configuration options. Very flexible.</label>
 			<label index="tt_content.pi2_plus_wiz_description">Frontend Listing of Mailformplus</label>
 		</languageKey>
 		<languageKey index="de" type="array">
