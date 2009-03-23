@@ -138,8 +138,9 @@ abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {
 		parent::__construct();
 		$this->componentManager = $componentManager;
 		$this->configuration = $configuration;
-		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
-		$this->cObj->setCurrentVal($GLOBALS['TSFE']->id);
+		#$this->cObj = t3lib_div::makeInstance('tslib_cObj');
+		#$this->cObj->setCurrentVal($GLOBALS['TSFE']->id);
+		$this->cObj = F3_MailformPlusPlus_StaticFuncs::$cObj;
 		$this->typolinkConf['parameter.']['current'] = 1;
 		$this->typolinkConf['additionalParams'] = $this->cObj->stdWrap($typolinkConf['additionalParams'], $typolinkConf['additionalParams.']);
 		unset($this->typolinkConf['additionalParams.']);

@@ -419,6 +419,24 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		session_start();
 		$settings = $this->parseSettings();
 
+		$flexformValue = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],'required_fields','sMISC');
+		if($flexformValue) {
+			$fields = t3lib_div::trimExplode(',',$flexformValue);
+
+			// Searches the index of F3_MailformPlusPlus_Validator_Default
+			foreach ($settings['validators.'] as $index => $validator) {
+				if ($validator['class'] == 'F3_MailformPlusPlus_Validator_Default') {
+					break;
+				}
+			}
+
+			// Adds the value.
+			foreach($fields as $field) {
+				$settings['validators.'][$index . '.']['config.']['fieldConf.'][$field."."]['errorCheck.'] = array();
+				$settings['validators.'][$index . '.']['config.']['fieldConf.'][$field."."]['errorCheck.']['1'] = "required";
+			}
+		}
+
 		//parse validation settings
 		if(is_array($settings['validators.'])) {
 			foreach($settings['validators.'] as $key=>$validatorSettings) {
