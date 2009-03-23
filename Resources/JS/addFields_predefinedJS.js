@@ -2,7 +2,7 @@
  * Adds onchange listener on the drop down menu "predefined".
  * If the event is fired and old value was ".default", then empty some fields.
  * 
- * $Id: $
+ * $Id$
  */
 
 Event.observe(window, 'load', function() {
