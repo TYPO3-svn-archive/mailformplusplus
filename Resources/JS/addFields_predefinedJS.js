@@ -10,9 +10,12 @@ Event.observe(window, 'load', function() {
 	var langFileName = 'data[tt_content][' + uid + '][pi_flexform][data][sDEF][lDEF][lang_file][vDEF]_list';
 	var predefinedName = 'data[tt_content][' + uid + '][pi_flexform][data][sDEF][lDEF][predefined][vDEF]';
 	var requiredFieldsName = 'data[tt_content][' + uid + '][pi_flexform][data][sMISC][lDEF][required_fields][vDEF]_hr';
+	var templateFileHiddenName = 'data[tt_content][' + uid + '][pi_flexform][data][sDEF][lDEF][template_file][vDEF]';
+	var langFileHiddenName = 'data[tt_content][' + uid + '][pi_flexform][data][sDEF][lDEF][lang_file][vDEF]';
+	var requiredFieldsHiddenName = 'data[tt_content][' + uid + '][pi_flexform][data][sMISC][lDEF][required_fields][vDEF]';
 
 	// Initializes variables
-	var templateFile, langFile, predefined, requiredFields;
+	var templateFile, langFile, predefined, requiredFields, templateFileHidden, langFileHidden, requiredFieldsHidden;
 
 	// Searches <select> reference
 	$$('#' + flexformBoxId + ' select').each(function(element){
@@ -37,6 +40,15 @@ Event.observe(window, 'load', function() {
 			case requiredFieldsName :
 				requiredFields = element;
 				break;
+			case templateFileHiddenName :
+				templateFileHidden = element;
+				break;
+			case langFileHiddenName :
+				langFileHidden = element;
+				break;
+			case requiredFieldsHiddenName :
+				requiredFieldsHidden = element;
+				break;
 			default:
 				break;
 		}
@@ -47,12 +59,15 @@ Event.observe(window, 'load', function() {
 		if (this.value != 'default.') {
 			if (typeof(templateFile.options[0]) != 'undefined' && templateFile.options[0].value.search('EXT:mailformplusplus/Examples/Default/') > -1) {
 				templateFile.removeChild(templateFile.options[0]);
+				templateFileHidden.value = '';
 			}
 			if (typeof(langFile.options[0]) != 'undefined' && langFile.options[0].value.search('EXT:mailformplusplus/Examples/Default/') > -1) {
 				langFile.removeChild(langFile.options[0]);
+				langFileHidden.value = '';
 			}
 			if (requiredFields.value == 'firstname, lastname, email') {
 				requiredFields.value = '';
+				requiredFieldsHidden.value = '';
 			}
 		}
 	});
