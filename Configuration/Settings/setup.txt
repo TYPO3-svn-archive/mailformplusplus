@@ -46,6 +46,14 @@ plugin.F3_MailformPlusPlus.settings.predef.default {
 	}
 	validators {
 		1.class = F3_MailformPlusPlus_Validator_Default
+		1.config {
+			fieldConf {
+				email {
+					errorCheck.1 = required
+					errorCheck.2 = email
+				}
+			}
+		}
 	}
 	finishers {
 		1.class = F3_MailformPlusPlus_Finisher_Mail
