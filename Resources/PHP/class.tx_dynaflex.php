@@ -49,12 +49,21 @@ class tx_dynaflex_mailformplusplus {
 	 * @return string the javascript
 	 * @author Fabien Udriot
 	 */
-	function addFields_predefinedJS() {
+	function addFields_predefinedJS($config) {
+		$newRecord = 'true';
+		if ($config['row']['pi_flexform'] != '') {
+			$flexData = t3lib_div::xml2array($config['row']['pi_flexform']);
+			if (isset($flexData['data']['sDEF']['lDEF']['predefined'])) {
+				$newRecord = 'false';
+			}
+		}
+
 		$uid = key($GLOBALS['SOBE']->editconf['tt_content']);
 		$js = "<script>\n";
 		$js .= "/*<![CDATA[*/\n";
 		$js .= "var uid = '$uid'\n";
 		$js .= "var flexformBoxId = '" . $GLOBALS['SOBE']->tceforms->dynNestedStack[0][1] . "-DIV'\n";
+		$js .= "var newRecord = $newRecord\n";
 		$js .= file_get_contents(t3lib_extMgm::extPath('mailformplusplus') . 'Resources/JS/addFields_predefinedJS.js');
 		$js .= "/*]]>*/\n";
 		$js .= "</script>\n";
@@ -75,6 +84,13 @@ class tx_dynaflex_mailformplusplus {
 		$ts = $this->loadTS($config['row']['pid']);
 
 		$predef = array();
+
+		# no config available
+		if (!is_array($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.']) || sizeof($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.']) == 0) {
+			$optionList[] = array(0 => $LANG->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_db.xml:be_missing_config'), 1 => '');
+			return $config['items'] = array_merge($config['items'],$optionList);
+		}
+
 		# for each view
 		foreach($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.'] as $key=>$view) {
 

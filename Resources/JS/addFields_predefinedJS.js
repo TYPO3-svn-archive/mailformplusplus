@@ -6,6 +6,10 @@
  */
 
 Event.observe(window, 'load', function() {
+	var requiredFieldsDefault = 'firstname, lastname, email';
+	var langFileDefault = 'EXT:mailformplusplus/Examples/Default/lang.xml';
+	var templateFileDefault = 'EXT:mailformplusplus/Examples/Default/template.html';
+
 	var templateFileName = 'data[tt_content][' + uid + '][pi_flexform][data][sDEF][lDEF][template_file][vDEF]_list';
 	var langFileName = 'data[tt_content][' + uid + '][pi_flexform][data][sDEF][lDEF][lang_file][vDEF]_list';
 	var predefinedName = 'data[tt_content][' + uid + '][pi_flexform][data][sDEF][lDEF][predefined][vDEF]';
@@ -54,18 +58,34 @@ Event.observe(window, 'load', function() {
 		}
 	});
 
+	// Tries to set default value. Handy for newbie user
+	if (newRecord) {
+		var options = predefined.options;
+		for (var index = 0; index < options.length; index ++) {
+			if (options[index].value == 'default.') {
+				predefined.value = 'default.';
+				requiredFields.value = requiredFieldsHidden.value = requiredFieldsDefault;
+				templateFileHidden.value = templateFileDefault;
+				langFileHidden.value = langFileDefault;
+				$(templateFile).insert('<option value="' + templateFileDefault + '">' + templateFileDefault + '</option>');
+				$(langFile).insert('<option value="' + langFileDefault + '">' + langFileDefault + '</option>');
+				break;
+			}
+		}
+	}
+
 	// Handles the even change
 	Event.observe(predefined, 'change', function(){
 		if (this.value != 'default.') {
-			if (typeof(templateFile.options[0]) != 'undefined' && templateFile.options[0].value.search('EXT:mailformplusplus/Examples/Default/') > -1) {
+			if (typeof(templateFile.options[0]) != 'undefined' && templateFile.options[0].value == templateFileDefault) {
 				templateFile.removeChild(templateFile.options[0]);
 				templateFileHidden.value = '';
 			}
-			if (typeof(langFile.options[0]) != 'undefined' && langFile.options[0].value.search('EXT:mailformplusplus/Examples/Default/') > -1) {
+			if (typeof(langFile.options[0]) != 'undefined' && langFile.options[0].value == langFileDefault) {
 				langFile.removeChild(langFile.options[0]);
 				langFileHidden.value = '';
 			}
-			if (requiredFields.value == 'firstname, lastname, email') {
+			if (requiredFields.value == requiredFieldsDefault) {
 				requiredFields.value = '';
 				requiredFieldsHidden.value = '';
 			}

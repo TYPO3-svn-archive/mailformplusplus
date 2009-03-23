@@ -23,7 +23,6 @@
 						<maxitems>1</maxitems>
 						<size>1</size>
 						<selectedListStyle>Width:180px</selectedListStyle>
-						<default>EXT:mailformplusplus/Examples/Default/template.html</default>
 					</config>
 				</TCEforms>
 			</template_file>
@@ -39,7 +38,6 @@
 						<maxitems>1</maxitems>
 						<size>1</size>
 						<selectedListStyle>Width:180px</selectedListStyle>
-						<default>EXT:mailformplusplus/Examples/Default/lang.xml</default>
 					</config>
 				</TCEforms>
 			</lang_file>
@@ -54,7 +52,6 @@
 					    <multiple>0</multiple>
 					    <selectedListStyle>width:150px</selectedListStyle>
 					    <itemListStyle>width:150px</itemListStyle>
-					    <default>default.</default>
 					</config>
 				</TCEforms>
 			</predefined>
@@ -270,7 +267,6 @@
 							<type>input</type>
 							<eval>text</eval>
 							<size>500</size>
-							<default>firstname, lastname, email</default>
 						</config>
 					</TCEforms>
 				</required_fields>
