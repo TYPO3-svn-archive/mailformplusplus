@@ -54,6 +54,7 @@
 					    <multiple>0</multiple>
 					    <selectedListStyle>width:150px</selectedListStyle>
 					    <itemListStyle>width:150px</itemListStyle>
+					    <default>default.</default>
 					</config>
 				</TCEforms>
 			</predefined>

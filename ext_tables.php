@@ -27,6 +27,7 @@ t3lib_extMgm::addPiFlexFormValue($_EXTKEY."_pi1", 'FILE:EXT:' . $_EXTKEY . '/Res
 if (TYPO3_MODE=="BE")   {
 	//t3lib_extMgm::addModule('web','txtestingmoduleM1','',t3lib_extMgm::extPath($_EXTKEY).'mod1/');
 	t3lib_extMgm::addModule("web","txmailformplusplusmoduleM1","",t3lib_extMgm::extPath($_EXTKEY)."Classes/Controller/Module/");
+	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_mailformplusplus_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'Resources/PHP/class.tx_mailformplusplus_wizicon.php';
 } elseif($GLOBALS['TSFE']->id) {
 
 	$sysPageObj = t3lib_div::makeInstance('t3lib_pageSelect');
