@@ -53,13 +53,6 @@ class tx_dynaflex_mailformplusplus {
 
 		$ts = $this->loadTS($config['row']['pid']);
 
-		# no config available
-		# TODO: OBSOLETE CODE SINCE A DEFAULT CONFIG IS LOADED. WAITING A BIT BEFORE DELETING THIS
-		#if (!is_array($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.']) || sizeof($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.']) == 0) {
-		#	$optionList[] = array(0 => $LANG->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_db.xml:be_missing_config'), 1 => '');
-		#	return $config['items'] = array_merge($config['items'],$optionList);
-		#}
-
 		$predef = array();
 		# for each view
 		foreach($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.'] as $key=>$view) {
@@ -71,8 +64,7 @@ class tx_dynaflex_mailformplusplus {
 		}
 
 		$optionList = array();
-		# TODO: OBSOLETE CODE SINCE A DEFAULT CONFIG IS LOADED. WAITING A BIT BEFORE DELETING THIS
-		#$optionList[] = array(0 => $LANG->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_db.xml:be_please_select'), 1 => '');
+		$optionList[] = array(0 => $LANG->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_db.xml:be_please_select'), 1 => '');
 		foreach($predef as $k => $v) {
 			$optionList[] = array(0 => $v, 1 => $k);
 		}
