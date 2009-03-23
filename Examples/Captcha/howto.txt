@@ -116,7 +116,7 @@ Note: For correct usage of jm_recaptcha, see according section below.
 	  class = F3_MailFormPlusPlus_Validator_Default
 	  config {
 	    fieldConf {
-	      mathguard_answer.errorCheck.1 = mathguard
+	      mathguard_answer.errorCheck.1 = mathGuard
 	    }
 	  }
 	}
