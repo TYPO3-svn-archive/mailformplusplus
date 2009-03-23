@@ -6,7 +6,7 @@
  */
 
 Event.observe(window, 'load', function() {
-	var requiredFieldsDefault = 'firstname, lastname, email';
+	var requiredFieldsDefault = 'firstname, lastname';
 	var langFileDefault = 'EXT:mailformplusplus/Examples/Default/lang.xml';
 	var templateFileDefault = 'EXT:mailformplusplus/Examples/Default/template.html';
 
