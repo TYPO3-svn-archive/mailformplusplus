@@ -58,6 +58,14 @@
 					</config>
 				</TCEforms>
 			</predefined>
+			<predefinedJS>
+				<TCEforms>
+					<config>
+					    <type>user</type>
+						<userFunc>tx_dynaflex_mailformplusplus->addFields_predefinedJS</userFunc>
+					</config>
+				</TCEforms>
+			</predefinedJS>
 			<controller>
 				<TCEforms>
 					<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.template_controller</label>

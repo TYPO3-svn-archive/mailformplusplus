@@ -20,7 +20,7 @@ require_once(PATH_t3lib."class.t3lib_tsparser_ext.php");
  * Flexform class for MailformPlusPlus spcific needs
  *
  * @author Thomas Hempel <thomas@typo3-unleashed.net>
- * @author Reinhard F체hricht <rf@typoheads.at>
+ * @author Reinhard F웘richt <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Resources
  */
@@ -31,7 +31,7 @@ class tx_dynaflex_mailformplusplus {
 	 *
 	 * @param array $config
 	 * @return array The config including the items for the dropdown
-	 * @author Reinhard F체hricht
+	 * @author Reinhard F웘richt
 	 */
 	function addFields_controller($config) {
 		$optionList[0] = array(0 => "Single Page", 1 => "F3_MailformPlusPlus_Controller_Default");
@@ -40,12 +40,33 @@ class tx_dynaflex_mailformplusplus {
 		return $config;
 	}
 
+
+	/**
+	 * Adds onchange listener on the drop down menu "predefined".
+	 * If the event is fired and old value was ".default", then empty some fields.
+	 *
+	 * @param array $config
+	 * @return string the javascript
+	 * @author Fabien Udriot
+	 */
+	function addFields_predefinedJS() {
+		$uid = key($GLOBALS['SOBE']->editconf['tt_content']);
+		$js = "<script>\n";
+		$js .= "/*<![CDATA[*/\n";
+		$js .= "var uid = '$uid'\n";
+		$js .= "var flexformBoxId = '" . $GLOBALS['SOBE']->tceforms->dynNestedStack[0][1] . "-DIV'\n";
+		$js .= file_get_contents(t3lib_extMgm::extPath('mailformplusplus') . 'Resources/JS/addFields_predefinedJS.js');
+		$js .= "/*]]>*/\n";
+		$js .= "</script>\n";
+		return $js;
+	}
+
 	/**
 	 * Sets the items for the "Predefined" dropdown.
 	 *
 	 * @param array $config
 	 * @return array The config including the items for the dropdown
-	 * @author Reinhard F체hricht
+	 * @author Reinhard F웘richt
 	 */
 	function addFields_predefined ($config) {
 
@@ -77,7 +98,7 @@ class tx_dynaflex_mailformplusplus {
 	 *
 	 * @param int $pageUid
 	 * @return array The TypoScript setup
-	 * @author Reinhard F체hricht
+	 * @author Reinhard F웘richt
 	 */
 	function loadTS($pageUid) {
 		$sysPageObj = t3lib_div::makeInstance('t3lib_pageSelect');
