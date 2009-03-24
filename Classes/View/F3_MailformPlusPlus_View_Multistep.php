@@ -56,7 +56,11 @@ class F3_MailformPlusPlus_View_Multistep extends F3_MailformPlusPlus_View_Defaul
 	 */
 	protected function fillDefaultMarkers() {
 		parent::fillDefaultMarkers();
-		$path = $this->pi_getPageLink($GLOBALS['TSFE']->id);
+		$parameters = t3lib_div::_GET();
+		if (isset($parameters['id'])) {
+			unset($parameters['id']);
+		}
+		$path = $this->pi_getPageLink($GLOBALS['TSFE']->id, '',$parameters);
 		$markers = array();
 		$markers['###REL_URL###'] = $path;
 		$markers['###ABS_URL###'] = t3lib_div::locationHeaderUrl('').$path;
