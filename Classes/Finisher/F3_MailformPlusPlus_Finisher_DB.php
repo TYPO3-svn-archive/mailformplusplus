@@ -148,7 +148,10 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 
 		//insert query
 		if(!$this->doUpdate) {
-			$GLOBALS['TYPO3_DB']->exec_INSERTquery($this->table,$queryFields);
+
+			$query = $GLOBALS['TYPO3_DB']->INSERTquery($this->table,$queryFields);
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('sql_request',$query);
+			$res = $GLOBALS['TYPO3_DB']->sql_query($query);
 				
 			//update query
 		} else {
@@ -159,7 +162,10 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 				$uid = $this->gp[$this->key];
 			}
 			if($uid) {
-				$GLOBALS['TYPO3_DB']->exec_UPDATEquery($this->table,$this->key."=".$uid,$queryFields);
+
+				$query = $GLOBALS['TYPO3_DB']->UPDATEquery($this->table, $this->key . "=" . $uid, $queryFields);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('sql_request',$query);
+				$res = $GLOBALS['TYPO3_DB']->sql_query($query);
 			} else {
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('no_update_possible');
 			}
@@ -211,12 +217,18 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 			$fieldname = str_replace(".","",$fieldname);
 				
 			if(isset($options) && is_array($options) && !isset($options['special'])) {
-					
+
 				//if no mapping default to the name of the form field
 				if(!$options['mapping']) {
 					$options['mapping'] = $fieldname;
 				}
-				$queryFields[$fieldname] = $this->gp[$options['mapping']];
+
+				if($options['mapping.']) {
+					$queryFields[$fieldname] = $this->cObj->cObjGetSingle($options['mapping'],$options['mapping.']);
+				}
+				else {
+					$queryFields[$fieldname] = $this->gp[$options['mapping']];
+				}
 
 				//process empty value handling
 				if($options['ifIsEmpty'] && strlen($this->gp[$options['mapping']]) == 0) {
