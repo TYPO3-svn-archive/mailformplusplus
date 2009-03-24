@@ -6,6 +6,7 @@
  */
 
 Event.observe(window, 'load', function() {
+	
 	var requiredFieldsDefault = 'firstname, lastname';
 	var langFileDefault = 'EXT:mailformplusplus/Examples/Default/lang.xml';
 	var templateFileDefault = 'EXT:mailformplusplus/Examples/Default/template.html';
@@ -17,12 +18,10 @@ Event.observe(window, 'load', function() {
 	var templateFileHiddenName = 'data[tt_content][' + uid + '][pi_flexform][data][sDEF][lDEF][template_file][vDEF]';
 	var langFileHiddenName = 'data[tt_content][' + uid + '][pi_flexform][data][sDEF][lDEF][lang_file][vDEF]';
 	var requiredFieldsHiddenName = 'data[tt_content][' + uid + '][pi_flexform][data][sMISC][lDEF][required_fields][vDEF]';
-
 	// Initializes variables
 	var templateFile, langFile, predefined, requiredFields, templateFileHidden, langFileHidden, requiredFieldsHidden;
-
 	// Searches <select> reference
-	$$('#' + flexformBoxId + ' select').each(function(element){
+	$$(flexformBoxId + ' select').each(function(element){
 		switch(element.readAttribute('name')) {
 			case templateFileName :
 				templateFile = element;
@@ -37,9 +36,9 @@ Event.observe(window, 'load', function() {
 				break;
 		}
 	});
-
+	
 	// Searches <input> reference
-	$$('#' + flexformBoxId + ' input').each(function(element){
+	$$(flexformBoxId + ' input').each(function(element){
 		switch(element.readAttribute('name')) {
 			case requiredFieldsName :
 				requiredFields = element;
@@ -73,7 +72,7 @@ Event.observe(window, 'load', function() {
 			}
 		}
 	}
-
+	
 	// Handles the even change
 	Event.observe(predefined, 'change', function(){
 		if (this.value != 'default.') {

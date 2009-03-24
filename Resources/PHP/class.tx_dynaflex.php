@@ -20,7 +20,7 @@ require_once(PATH_t3lib."class.t3lib_tsparser_ext.php");
  * Flexform class for MailformPlusPlus spcific needs
  *
  * @author Thomas Hempel <thomas@typo3-unleashed.net>
- * @author Reinhard F�hricht <rf@typoheads.at>
+ * @author Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Resources
  */
@@ -31,7 +31,6 @@ class tx_dynaflex_mailformplusplus {
 	 *
 	 * @param array $config
 	 * @return array The config including the items for the dropdown
-	 * @author Reinhard F�hricht
 	 */
 	function addFields_controller($config) {
 		$optionList[0] = array(0 => "Single Page", 1 => "F3_MailformPlusPlus_Controller_Default");
@@ -57,13 +56,26 @@ class tx_dynaflex_mailformplusplus {
 				$newRecord = 'false';
 			}
 		}
-
 		$uid = key($GLOBALS['SOBE']->editconf['tt_content']);
+		if($uid < 0 || empty($uid) || !strstr($uid,'NEW')) {
+			$uid = $GLOBALS['SOBE']->elementsData[0]['uid'];
+		}
+		//print_r($GLOBALS['SOBE']->elementsData[0]);
+		
 		$js = "<script>\n";
 		$js .= "/*<![CDATA[*/\n";
-		$js .= "var uid = '$uid'\n";
-		$js .= "var flexformBoxId = '" . $GLOBALS['SOBE']->tceforms->dynNestedStack[0][1] . "-DIV'\n";
-		$js .= "var newRecord = $newRecord\n";
+		
+		$divId = $GLOBALS['SOBE']->tceforms->dynNestedStack[0][1];
+		if(!$divId) {
+			//$divId = 'DTM-' . $uid;
+			$divId = "DIV.c-tablayer";
+		} else {
+			$divId .= "-DIV";
+		}
+		$js .= "var uid = '" . $uid . "'\n";
+		$js .= "var flexformBoxId = '" . $divId . "'\n";
+		//$js .= "var flexformBoxId = 'DIV.c-tablayer'\n";
+		$js .= "var newRecord = " . $newRecord . "\n";
 		$js .= file_get_contents(t3lib_extMgm::extPath('mailformplusplus') . 'Resources/JS/addFields_predefinedJS.js');
 		$js .= "/*]]>*/\n";
 		$js .= "</script>\n";
