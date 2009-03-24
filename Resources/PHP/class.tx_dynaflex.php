@@ -20,7 +20,7 @@ require_once(PATH_t3lib."class.t3lib_tsparser_ext.php");
  * Flexform class for MailformPlusPlus spcific needs
  *
  * @author Thomas Hempel <thomas@typo3-unleashed.net>
- * @author Reinhard FŸhricht <rf@typoheads.at>
+ * @author Reinhard Fï¿½hricht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	Resources
  */
@@ -31,7 +31,7 @@ class tx_dynaflex_mailformplusplus {
 	 *
 	 * @param array $config
 	 * @return array The config including the items for the dropdown
-	 * @author Reinhard FŸhricht
+	 * @author Reinhard Fï¿½hricht
 	 */
 	function addFields_controller($config) {
 		$optionList[0] = array(0 => "Single Page", 1 => "F3_MailformPlusPlus_Controller_Default");
@@ -75,14 +75,24 @@ class tx_dynaflex_mailformplusplus {
 	 *
 	 * @param array $config
 	 * @return array The config including the items for the dropdown
-	 * @author Reinhard FŸhricht
 	 */
 	function addFields_predefined ($config) {
 
 		global $LANG;
 
-		$ts = $this->loadTS($config['row']['pid']);
-
+		
+		$pid = $config['row']['pid'];
+		if($pid < 0) {
+			$contentUid = str_replace('-','',$pid);
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('pid','tt_content','uid='.$contentUid);
+			if($res) {
+				$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+				$pid = $row['pid'];
+				$GLOBALS['TYPO3_DB']->sql_free_result($res);
+			}
+		}
+		$ts = $this->loadTS($pid);
+		
 		$predef = array();
 
 		# no config available
@@ -114,7 +124,6 @@ class tx_dynaflex_mailformplusplus {
 	 *
 	 * @param int $pageUid
 	 * @return array The TypoScript setup
-	 * @author Reinhard FŸhricht
 	 */
 	function loadTS($pageUid) {
 		$sysPageObj = t3lib_div::makeInstance('t3lib_pageSelect');
