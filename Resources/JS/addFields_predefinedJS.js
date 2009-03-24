@@ -21,7 +21,11 @@ Event.observe(window, 'load', function() {
 	// Initializes variables
 	var templateFile, langFile, predefined, requiredFields, templateFileHidden, langFileHidden, requiredFieldsHidden;
 	// Searches <select> reference
-	$$(flexformBoxId + ' select').each(function(element){
+	var elements = $$('#' + flexformBoxId + ' select');
+	if (elements.length == 0) {
+		elements = $$(flexformBoxId + ' select');
+	}
+	elements.each(function(element){
 		switch(element.readAttribute('name')) {
 			case templateFileName :
 				templateFile = element;
@@ -38,7 +42,11 @@ Event.observe(window, 'load', function() {
 	});
 	
 	// Searches <input> reference
-	$$(flexformBoxId + ' input').each(function(element){
+	elements = $$('#' + flexformBoxId + ' input');
+	if (elements.length == 0) {
+		elements = $$(flexformBoxId + ' input');
+	}
+	elements.each(function(element){
 		switch(element.readAttribute('name')) {
 			case requiredFieldsName :
 				requiredFields = element;
