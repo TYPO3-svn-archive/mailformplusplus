@@ -423,11 +423,16 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		if($flexformValue) {
 			$fields = t3lib_div::trimExplode(',',$flexformValue);
 
-			// Searches the index of F3_MailformPlusPlus_Validator_Default
-			foreach ($settings['validators.'] as $index => $validator) {
-				if ($validator['class'] == 'F3_MailformPlusPlus_Validator_Default') {
-					break;
+			if(is_array($settings['validators.'])) {
+				
+				// Searches the index of F3_MailformPlusPlus_Validator_Default
+				foreach ($settings['validators.'] as $index => $validator) {
+					if ($validator['class'] == 'F3_MailformPlusPlus_Validator_Default') {
+						break;
+					}
 				}
+			} else {
+				$index = 1;
 			}
 
 			// Adds the value.
