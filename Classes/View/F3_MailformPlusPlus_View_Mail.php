@@ -71,7 +71,7 @@ class F3_MailformPlusPlus_View_Mail extends F3_MailformPlusPlus_View_Default {
 		$content = F3_MailformPlusPlus_StaticFuncs::removeUnfilledMarkers($this->template);
 
 
-		return $this->pi_wrapInBaseClass($content);
+		return $content;
 	}
 
 }
