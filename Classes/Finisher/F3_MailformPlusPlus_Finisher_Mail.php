@@ -572,7 +572,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 							}
 							$file = tempnam('typo3temp/','/'.$prefix).'.pdf';
 							$file = str_replace('.tmp','',$file);
-							$generator->generateFrontendPDF($this->gp,$this->settings['langFile'],$exportFields,$file,true);
+							$generator->generateFrontendPDF($this->gp,$this->langFile,$exportFields,$file,true);
 							$emailSettings['attachPDF'] = $file;
 						} elseif ($currentSettings['attachPDF']) {
 							$emailSettings['attachPDF'] = $currentSettings['attachPDF'];

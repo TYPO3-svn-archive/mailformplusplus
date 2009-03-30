@@ -92,41 +92,41 @@ class F3_MailformPlusPlus_Generator_PDF {
 					$this->pdf->Cell($standardWidth,"15",$data['pid'],0,1);
 				}
 				if(count($exportFields) == 0 || in_array("submission_date",$exportFields)) {
-					$this->pdf->Cell($standardWidth,"15","Submission date:",0,0);
-					$this->pdf->Cell($standardWidth,"15",date("d.m.Y H:i:s",$data['crdate']),0,1);
+					$this->pdf->MultiCell($standardWidth,"15","Submission date:",0,0);
+					$this->pdf->MultiCell($standardWidth,"15",date("d.m.Y H:i:s",$data['crdate']),0,1);
 				}
 				if(count($exportFields) == 0 || in_array("ip",$exportFields)) {
-					$this->pdf->Cell($standardWidth,"15","IP address:",0,0);
-					$this->pdf->Cell($standardWidth,"15",$data['ip'],0,1);
+					$this->pdf->MultiCell($standardWidth,"15","IP address:",0,0);
+					$this->pdf->MultiCell($standardWidth,"15",$data['ip'],0,1);
 				}
 					
-				$this->pdf->Cell($standardWidth,"15","Submitted values:",0,1);
+				$this->pdf->MultiCell($standardWidth,"15","Submitted values:",0,1);
 				$this->pdf->SetLineWidth(.3);
-				$this->pdf->Cell($feedWidth);
+				$this->pdf->MultiCell($feedWidth);
 				$this->pdf->SetFillColor(255,255,255);
-				$this->pdf->Cell($nameWidth,"6","Name",'B',0,'C',true);
-				$this->pdf->Cell($valueWidth,"6","Value",'B',0,'C',true);
+				$this->pdf->MultiCell($nameWidth,"6","Name",'B',0,'C',true);
+				$this->pdf->MultiCell($valueWidth,"6","Value",'B',0,'C',true);
 				$this->pdf->Ln();
 				$this->pdf->SetFillColor(200,200,200);
 				$fill = false;
 					
 				foreach($data['params'] as $key=>$value) {
 					if(is_array($value) && (count($exportFields) == 0 || in_array($key,$exportFields))) {
-						$this->pdf->Cell($feedWidth);
-						$this->pdf->Cell($nameWidth,"6",$key,0,0,'L',$fill);
-						$this->pdf->Cell($valueWidth,"6",array_shift($value),0,0,'L',$fill);
+						$this->pdf->MultiCell($feedWidth);
+						$this->pdf->MultiCell($nameWidth,"6",$key,0,0,'L',$fill);
+						$this->pdf->MultiCell($valueWidth,"6",array_shift($value),0,0,'L',$fill);
 						$this->pdf->Ln();
 						foreach($value as $v) {
-							$this->pdf->Cell($feedWidth);
-							$this->pdf->Cell($nameWidth,"6","",0,0,'L',$fill);
-							$this->pdf->Cell($valueWidth,"6",$v,0,0,'L',$fill);
+							$this->pdf->MultiCell($feedWidth);
+							$this->pdf->MultiCell($nameWidth,"6","",0,0,'L',$fill);
+							$this->pdf->MultiCell($valueWidth,"6",$v,0,0,'L',$fill);
 							$this->pdf->Ln();
 						}
 						$fill = !$fill;
 					} elseif(count($exportFields) == 0 || in_array($key,$exportFields)) {
-						$this->pdf->Cell($feedWidth);
-						$this->pdf->Cell($nameWidth,"6",$key,0,0,'L',$fill);
-						$this->pdf->Cell($valueWidth,"6",$value,0,0,'L',$fill);
+						$this->pdf->MultiCell($feedWidth);
+						$this->pdf->MultiCell($nameWidth,"6",$key,0,0,'L',$fill);
+						$this->pdf->MultiCell($valueWidth,"6",$value,0,0,'L',$fill);
 						$this->pdf->Ln();
 						$fill = !$fill;
 					}
@@ -140,7 +140,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 			$this->pdf->AliasNbPages();
 			$this->pdf->AddPage();
 			$this->pdf->SetFont('Arial','',12);
-			$this->pdf->Cell(300,100,"No valid records found! Try to select more fields to export!",0,0,'L');
+			$this->pdf->MultiCell(300,100,"No valid records found! Try to select more fields to export!",0,0,'L');
 		}
 		$this->pdf->Output();
 
@@ -168,45 +168,45 @@ class F3_MailformPlusPlus_Generator_PDF {
 		$valueWidth = 70;
 		$feedWidth = 30;
 		if(count($exportFields) == 0 || in_array("pid",$exportFields)) {
-			$this->pdf->Cell($standardWidth,"15","Page-ID:",0,0);
-			$this->pdf->Cell($standardWidth,"15",$GLOBALS['TSFE']->id,0,1);
+			$this->pdf->MultiCell($standardWidth,"15","Page-ID:",0,0);
+			$this->pdf->MultiCell($standardWidth,"15",$GLOBALS['TSFE']->id,0,1);
 		}
 		if(count($exportFields) == 0 || in_array("submission_date",$exportFields)) {
-			$this->pdf->Cell($standardWidth,"15","Submission date:",0,0);
-			$this->pdf->Cell($standardWidth,"15",date("d.m.Y H:i:s",time()),0,1);
+			$this->pdf->MultiCell($standardWidth,"15","Submission date:",0,0);
+			$this->pdf->MultiCell($standardWidth,"15",date("d.m.Y H:i:s",time()),0,1);
 		}
 		if(count($exportFields) == 0 || in_array("ip",$exportFields)) {
-			$this->pdf->Cell($standardWidth,"15","IP address:",0,0);
-			$this->pdf->Cell($standardWidth,"15",t3lib_div::getIndpEnv('REMOTE_ADDR'),0,1);
+			$this->pdf->MultiCell($standardWidth,"15","IP address:",0,0);
+			$this->pdf->MultiCell($standardWidth,"15",t3lib_div::getIndpEnv('REMOTE_ADDR'),0,1);
 		}
 		$this->pdf->Cell($standardWidth,"15","Submitted values:",0,1);
 		if(isset($gp) && is_array($gp)) {
 			$this->pdf->SetLineWidth(.3);
-			$this->pdf->Cell($feedWidth);
+			$this->pdf->MultiCell($feedWidth);
 			$this->pdf->SetFillColor(255,255,255);
-			$this->pdf->Cell($nameWidth,"6","Name",'B',0,'C',true);
-			$this->pdf->Cell($valueWidth,"6","Value",'B',0,'C',true);
+			$this->pdf->MultiCell($nameWidth,"6","Name",'B',0,'C',true);
+			$this->pdf->MultiCell($valueWidth,"6","Value",'B',0,'C',true);
 			$this->pdf->Ln();
 			$this->pdf->SetFillColor(200,200,200);
 			$fill = false;
 			unset($gp['renderMethod']);
 			foreach($gp as $key=>$value) {
 				if(is_array($value) && (count($exportFields) == 0 || in_array($key,$exportFields))) {
-					$this->pdf->Cell($feedWidth);
-					$this->pdf->Cell($nameWidth,"6",trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key)),0,0,'L',$fill);
-					$this->pdf->Cell($valueWidth,"6",array_shift($value),0,0,'L',$fill);
+					$this->pdf->MultiCell($feedWidth);
+					$this->pdf->MultiCell($nameWidth,"6",trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key)),0,0,'L',$fill);
+					$this->pdf->MultiCell($valueWidth,"6",array_shift($value),0,0,'L',$fill);
 					$this->pdf->Ln();
 					foreach($value as $v) {
-						$this->pdf->Cell($feedWidth);
-						$this->pdf->Cell($nameWidth,"6","",0,0,'L',$fill);
-						$this->pdf->Cell($valueWidth,"6",$v,0,0,'L',$fill);
+						$this->pdf->MultiCell($feedWidth);
+						$this->pdf->MultiCell($nameWidth,"6","",0,0,'L',$fill);
+						$this->pdf->MultiCell($valueWidth,"6",$v,0,0,'L',$fill);
 						$this->pdf->Ln();
 					}
 					$fill = !$fill;
 				} elseif(count($exportFields) == 0 || in_array($key,$exportFields)) {
-					$this->pdf->Cell($feedWidth);
-					$this->pdf->Cell($nameWidth,"6",trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key)),0,0,'L',$fill);
-					$this->pdf->Cell($valueWidth,"6",$value,0,0,'L',$fill);
+					$this->pdf->MultiCell($feedWidth);
+					$this->pdf->MultiCell($nameWidth,"6",trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key)),0,0,'L',$fill);
+					$this->pdf->MultiCell($valueWidth,"6",'<p>'.$value.'</p>',0,0,'L',$fill);
 					$this->pdf->Ln();
 					$fill = !$fill;
 				}
