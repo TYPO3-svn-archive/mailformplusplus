@@ -283,6 +283,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 					if($this->currentStep >= $this->lastStep) {
 						F3_MailformPlusPlus_StaticFuncs::debugMessage('Storing GP in session');
 						$this->storeGPinSession($settings);
+						$this->mergeGPWithSession();
 					}
 						
 					//display form
@@ -397,7 +398,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		if(!is_array($_SESSION['mailformplusplusValues'])) {
 			$_SESSION['mailformplusplusValues'] = array();
 		}
-
+		
 		foreach($_SESSION['mailformplusplusValues'] as $step=>&$params) {
 			if(is_array($params)) {
 				unset($params['submitted']);
@@ -451,6 +452,8 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 				}
 			}
 		}
+		
+		
 	}
 
 
