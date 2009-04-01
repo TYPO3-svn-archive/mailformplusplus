@@ -6,6 +6,8 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
+			<label index="wizard_pi1.title">MailformPlus MVC</label>
+			<label index="wizard_pi2.title">MailformPlus MVC list</label>
 			<label index="tt_content.list_type_pi1">Mailformplus</label>
 			<label index="tt_content.list_type_pi2">Mailformplus list</label>
 			<label index="tx_mailformplusplus_main">Mailformplus</label>
@@ -26,10 +28,12 @@
 			<label index="tt_content.tx_mailformplusplus_contenttype">Type of data display</label>
 			<label index="be_missing_config">No forms predefined</label>
 			<label index="be_please_select">Choose a predefined form</label>
-			<label index="tt_content.pi1_plus_wiz_description">Advanced form with many TypoScript configuration options. Very flexible.</label>
+			<label index="tt_content.pi1_plus_wiz_description">Advanced form system with many typoscript options which bring a lot of flexibiliy.</label>
 			<label index="tt_content.pi2_plus_wiz_description">Frontend Listing of Mailformplus</label>
 		</languageKey>
 		<languageKey index="de" type="array">
+			<label index="wizard_pi1.title">MailformPlus MVC</label>
+			<label index="wizard_pi2.title">MailformPlus MVC Liste</label>
 			<label index="tt_content.list_type_pi1">MailformPlusPlus</label>
 			<label index="tt_content.list_type_pi2">Mailformplus Liste</label>
 			<label index="tx_mailformplusplus_main">mailformplus</label>
@@ -52,6 +56,8 @@
 			<label index="be_please_select">waehlen Sie eine Vorlage</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
+			<label index="wizard_pi1.title">MailformPlus MVC</label>
+			<label index="wizard_pi2.title">MailformPlus MVC liste</label>
 			<label index="tt_content.list_type_pi1">Mailformplus</label>
 			<label index="tt_content.list_type_pi2">Mailformplus liste</label>
 			<label index="tx_mailformplusplus_main">Mailformplus</label>
