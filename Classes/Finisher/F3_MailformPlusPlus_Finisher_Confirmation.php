@@ -50,6 +50,10 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 
 		//read template file
 		if(!$this->templateFile) {
+			if (!isset($this->settings['templateFile'])) {
+				t3lib_div::debug($this->settings);
+				F3_MailformPlusPlus_StaticFuncs::throwException('no_config_confirmation','F3_MailformPlusPlus_Finisher_Confirmation','templateFile');
+			}
 			$templateFile = $this->settings['templateFile'];
 			if(isset($this->settings['templateFile.']) && is_array($this->settings['templateFile.'])) {
 				$this->templateFile = $this->cObj->cObjGetSingle($this->settings['templateFile'],$this->settings['templateFile.']);

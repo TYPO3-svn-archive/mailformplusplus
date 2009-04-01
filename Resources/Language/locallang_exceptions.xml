@@ -7,6 +7,7 @@
 			<label index="extension_required">The extension "%s" is required for %s!</label>
 			<label index="missing_component">Missing %s! The flexform contains '%s' but typoscript configuration is incomplete. Please add : %s</label>
 			<label index="no_config">Missing config for %s!</label>
+			<label index="no_config_confirmation">Missing config for %s! Please provide a '%s' either in the TypoScript configuration or in the flexfom.</label>
 			<label index="insufficient_config">Insufficient config for %s!</label>
 		</languageKey>
 	</data>
