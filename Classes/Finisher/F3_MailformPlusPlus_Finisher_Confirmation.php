@@ -92,6 +92,7 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 				//using random numbered file for now
 				$file = 'typo3temp/mailformplusplus__'.rand(0,getrandmax()).".pdf";
 			}
+			$generator->setTemplateCode($this->templateFile);
 			$generator->generateFrontendPDF($this->gp,$langFile,$exportFields,$file);
 				
 			//render csv

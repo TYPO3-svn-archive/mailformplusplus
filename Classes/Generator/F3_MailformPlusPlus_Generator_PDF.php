@@ -82,7 +82,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 				$addedOneRecord = true;
 				$this->pdf->AliasNbPages();
 				$this->pdf->AddPage();
-				$this->pdf->SetFont('Freesans','',12);
+				$this->pdf->SetFont('Arial','',12);
 				$standardWidth = 100;
 				$nameWidth = 70;
 				$valueWidth = 70;
@@ -139,7 +139,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 		if(!$addedOneRecord) {
 			$this->pdf->AliasNbPages();
 			$this->pdf->AddPage();
-			$this->pdf->SetFont('Freesans','',12);
+			$this->pdf->SetFont('Arial','',12);
 			$this->pdf->Cell(300,100,"No valid records found! Try to select more fields to export!",0,0,'L');
 		}
 		$this->pdf->Output();
@@ -162,7 +162,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 		$this->pdf = $this->componentManager->getComponent("F3_MailformPlusPlus_Template_PDF");
 		$this->pdf->AliasNbPages();
 		$this->pdf->AddPage();
-		$this->pdf->SetFont('Freesans','',12);
+		$this->pdf->SetFont('Arial','',12);
 		$standardWidth = 100;
 		$nameWidth = 70;
 		$valueWidth = 70;
