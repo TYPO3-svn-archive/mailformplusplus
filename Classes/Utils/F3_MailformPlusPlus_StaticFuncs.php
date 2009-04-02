@@ -60,7 +60,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return string
 	 */
 	public static function prepareClassName($className) {
-		if(!strstr($className,'F3_MailformPlusPlus_')) {
+		if(!preg_match('^F3_',$className)) {
 			$className = 'F3_MailformPlusPlus_'.$className;
 		}
 		return $className;
