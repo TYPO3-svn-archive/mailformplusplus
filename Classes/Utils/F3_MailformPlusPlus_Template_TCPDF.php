@@ -31,6 +31,8 @@ class F3_MailformPlusPlus_Template_TCPDF extends TCPDF {
 
 	//Page footer
 	public function Footer() {
+		global $LANG;
+		$LANG->includeLLFile($this->sysLangFile);
 	  
 		//Position at 1.5 cm from bottom
 		$this->SetY(-15);
@@ -38,10 +40,10 @@ class F3_MailformPlusPlus_Template_TCPDF extends TCPDF {
 		//Arial italic 8
 		$this->SetFont('Freesans','I',8);
 	    
-		$text = trim($GLOBALS['TSFE']->sL('LLL:'.$this->sysLangFile.':footer_text'));
+		$text = trim($LANG->getLL('footer_text'));
 		$text = sprintf($text,date("d.m.Y H:i:s",time()));
 		$this->Cell(0,10,$text,'T',0,'C');
-		$this->Cell(0,10,trim($GLOBALS['TSFE']->sL('LLL:'.$this->sysLangFile.':page')).' '.$this->PageNo().'/'.$this->numpages,'T',0,'R');
+		$this->Cell(0,10,trim($LANG->getLL('page')).' '.$this->PageNo().'/'.$this->numpages,'T',0,'R');
 	}
 
 }

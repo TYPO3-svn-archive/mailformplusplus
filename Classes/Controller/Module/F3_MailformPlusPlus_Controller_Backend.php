@@ -242,7 +242,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 
 			//if fields were chosen in selection view, export the records using the selected fields
 			if(isset($gp['exportParams'])) {
-				$generator = $this->componentManager->getComponent("F3_MailformPlusPlus_Generator_PDF");
+				$generator = $this->componentManager->getComponent("F3_MailformPlusPlus_Generator_TCPDF");
 				$generator->generateModulePDF($records,$gp['exportParams']);
 
 				/*
