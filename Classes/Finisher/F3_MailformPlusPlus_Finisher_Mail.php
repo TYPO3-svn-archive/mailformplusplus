@@ -445,6 +445,8 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	 */
 	public function loadConfig($gp,$tsConfig) {
 		$this->gp = $gp;
+		$this->settings = $tsConfig;
+		$this->init();
 		$this->settings = $this->parseEmailSettings($tsConfig);
 
 		// Defines default values
@@ -572,6 +574,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 							}
 							$file = tempnam('typo3temp/','/'.$prefix).'.pdf';
 							$file = str_replace('.tmp','',$file);
+							$generator->setTemplateCode($this->getTemplate());
 							$generator->generateFrontendPDF($this->gp,$this->langFile,$exportFields,$file,true);
 							$emailSettings['attachPDF'] = $file;
 						} elseif ($currentSettings['attachPDF']) {

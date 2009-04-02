@@ -30,6 +30,8 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @var tslib_cObj
 	 */
 	public static $cObj;
+	
+	public static $predefined;
 
 	/**
 	 * Returns the absolute path to the document root

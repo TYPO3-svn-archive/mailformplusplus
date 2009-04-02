@@ -573,6 +573,8 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 				$markers['###total_uploadedFiles###'] = str_replace("|",$markers['###total_uploadedFiles###'],$totalMarkersTotalWrap);
 			}
 			$markers['###TOTAL_UPLOADEDFILES###'] = $markers['###total_uploadedFiles###'];
+			
+			$markers['###required###'] = (isset($settings['requiredSign']))?$settings['requiredSign']:"*";
 		}
 	}
 	
