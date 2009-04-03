@@ -34,48 +34,50 @@ class F3_MailformPlusPlus_ErrorCheck_DateRange extends F3_MailformPlusPlus_Error
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
 
-		$min = $check['params']['min'];
-		$max = $check['params']['max'];
-		$pattern = $check['params']['pattern'];
-		eregi('^[d|m|y]*(.)[d|m|y]*', $pattern, $res);
-		$sep = $res[1];
-
-		// normalisation of format
-		$pattern = $this->normalizeDatePattern($pattern,$sep);
-
-		// find out correct positioins of "d","m","y"
-		$pos1 = strpos($pattern, 'd');
-		$pos2 = strpos($pattern, 'm');
-		$pos3 = strpos($pattern, 'y');
-		$date = $gp[$name];
-		$checkdate = explode($sep,$date);
-		$check_day = $checkdate[$pos1];
-		$check_month = $checkdate[$pos2];
-		$check_year = $checkdate[$pos3];
-		if($min != "") {
-			$min_date = explode($sep,$min);
-			$min_day = $min_date[$pos1];
-			$min_month = $min_date[$pos2];
-			$min_year = $min_date[$pos3];
-			if($check_year<$min_year) {
-				$checkFailed = $this->getCheckFailed($check);
-			} elseif ($check_year == $min_year && $check_month < $min_month) {
-				$checkFailed = $this->getCheckFailed($check);
-			} elseif ($check_year == $min_year && $check_month == $min_month && $check_day < $min_day) {
-				$checkFailed = $this->getCheckFailed($check);
+		if(isset($gp[$name]) && !empty($gp[$name])) {
+			$min = $check['params']['min'];
+			$max = $check['params']['max'];
+			$pattern = $check['params']['pattern'];
+			eregi('^[d|m|y]*(.)[d|m|y]*', $pattern, $res);
+			$sep = $res[1];
+	
+			// normalisation of format
+			$pattern = $this->normalizeDatePattern($pattern,$sep);
+	
+			// find out correct positioins of "d","m","y"
+			$pos1 = strpos($pattern, 'd');
+			$pos2 = strpos($pattern, 'm');
+			$pos3 = strpos($pattern, 'y');
+			$date = $gp[$name];
+			$checkdate = explode($sep,$date);
+			$check_day = $checkdate[$pos1];
+			$check_month = $checkdate[$pos2];
+			$check_year = $checkdate[$pos3];
+			if($min != "") {
+				$min_date = explode($sep,$min);
+				$min_day = $min_date[$pos1];
+				$min_month = $min_date[$pos2];
+				$min_year = $min_date[$pos3];
+				if($check_year<$min_year) {
+					$checkFailed = $this->getCheckFailed($check);
+				} elseif ($check_year == $min_year && $check_month < $min_month) {
+					$checkFailed = $this->getCheckFailed($check);
+				} elseif ($check_year == $min_year && $check_month == $min_month && $check_day < $min_day) {
+					$checkFailed = $this->getCheckFailed($check);
+				}
 			}
-		}
-		if($max != "") {
-			$max_date = explode($sep,$max);
-			$max_day = $max_date[$pos1];
-			$max_month = $max_date[$pos2];
-			$max_year = $max_date[$pos3];
-			if($check_year > $max_year) {
-				$checkFailed = $this->getCheckFailed($check);
-			} elseif ($check_year == $max_year && $check_month > $max_month) {
-				$checkFailed = $this->getCheckFailed($check);
-			} elseif ($check_year == $max_year && $check_month == $max_month && $check_day > $max_day) {
-				$checkFailed = $this->getCheckFailed($check);
+			if($max != "") {
+				$max_date = explode($sep,$max);
+				$max_day = $max_date[$pos1];
+				$max_month = $max_date[$pos2];
+				$max_year = $max_date[$pos3];
+				if($check_year > $max_year) {
+					$checkFailed = $this->getCheckFailed($check);
+				} elseif ($check_year == $max_year && $check_month > $max_month) {
+					$checkFailed = $this->getCheckFailed($check);
+				} elseif ($check_year == $max_year && $check_month == $max_month && $check_day > $max_day) {
+					$checkFailed = $this->getCheckFailed($check);
+				}
 			}
 		}
 

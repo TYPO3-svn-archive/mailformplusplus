@@ -33,9 +33,12 @@ class F3_MailformPlusPlus_ErrorCheck_PregMatch extends F3_MailformPlusPlus_Abstr
 	 */
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
-		$regex = $check['params']['value'];
-		if($regex && !preg_match($regex, $gp[$name])) {
-			$checkFailed = $this->getCheckFailed($check);
+		
+		if(isset($gp[$name]) && !empty($gp[$name])) {
+			$regex = $check['params']['value'];
+			if($regex && !preg_match($regex, $gp[$name])) {
+				$checkFailed = $this->getCheckFailed($check);
+			}
 		}
 		return $checkFailed;
 	}

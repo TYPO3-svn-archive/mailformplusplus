@@ -33,13 +33,16 @@ class F3_MailformPlusPlus_ErrorCheck_MinItems extends F3_MailformPlusPlus_Abstra
 	 */
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
-		$value = $check['params']['value'];
-		if(is_array($gp[$name])) {
-			if(count($gp[$name]) < $value) {
+		
+		if(isset($gp[$name]) && !empty($gp[$name])) {
+			$value = $check['params']['value'];
+			if(is_array($gp[$name])) {
+				if(count($gp[$name]) < $value) {
+					$checkFailed = $this->getCheckFailed($check);
+				}
+			} else {
 				$checkFailed = $this->getCheckFailed($check);
 			}
-		} else {
-			$checkFailed = $this->getCheckFailed($check);
 		}
 		return $checkFailed;
 	}

@@ -34,12 +34,15 @@ class F3_MailformPlusPlus_ErrorCheck_Equals extends F3_MailformPlusPlus_Abstract
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
 		$formValue = trim($gp[$name]);
-		$checkValue = $this->getCheckValue($check['params']['word'],$check['params']['word.']);
-		if(strcasecmp($formValue,$checkValue)) {
-				
-			//remove userfunc settings
-			unset($check['params']['word.']);
-			$checkFailed = $this->getCheckFailed($check);
+		
+		if(isset($gp[$name]) && !empty($formValue)) {
+			$checkValue = $this->getCheckValue($check['params']['word'],$check['params']['word.']);
+			if(strcasecmp($formValue,$checkValue)) {
+					
+				//remove userfunc settings
+				unset($check['params']['word.']);
+				$checkFailed = $this->getCheckFailed($check);
+			}
 		}
 		return $checkFailed;
 	}

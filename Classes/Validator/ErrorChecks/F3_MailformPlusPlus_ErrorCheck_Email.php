@@ -33,9 +33,12 @@ class F3_MailformPlusPlus_ErrorCheck_Email extends F3_MailformPlusPlus_AbstractE
 	 */
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
-		$valid = t3lib_div::validEmail($gp[$name]);
-		if(!$valid) {
-			$checkFailed = $this->getCheckFailed($check);
+		
+		if(isset($gp[$name]) && !empty($gp[$name])) {
+			$valid = t3lib_div::validEmail($gp[$name]);
+			if(!$valid) {
+				$checkFailed = $this->getCheckFailed($check);
+			}
 		}
 		return $checkFailed;
 	}

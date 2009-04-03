@@ -35,10 +35,12 @@ class F3_MailformPlusPlus_ErrorCheck_EqualsField extends F3_MailformPlusPlus_Abs
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
 
-		$comparisonValue = $gp[$check['params']['field']];
-
-		if (strcmp($comparisonValue,$gp[$name]) != 0) {
-			$checkFailed = $this->getCheckFailed($check);
+		if(isset($gp[$name]) && !empty($gp[$name])) {
+			$comparisonValue = $gp[$check['params']['field']];
+	
+			if (strcmp($comparisonValue,$gp[$name]) != 0) {
+				$checkFailed = $this->getCheckFailed($check);
+			}
 		}
 		return $checkFailed;
 	}

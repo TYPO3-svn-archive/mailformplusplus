@@ -34,27 +34,29 @@ class F3_MailformPlusPlus_ErrorCheck_Date extends F3_MailformPlusPlus_AbstractEr
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
 
-		# find out separator
-		$pattern = $check['params']['pattern'];
-		eregi('^[d|m|y]*(.)[d|m|y]*', $pattern, $res);
-		$sep = $res[1];
-
-		# normalisation of format
-		$pattern = $this->normalizeDatePattern($pattern,$sep);
-
-		# find out correct positioins of "d","m","y"
-		$pos1 = strpos($pattern, 'd');
-		$pos2 = strpos($pattern, 'm');
-		$pos3 = strpos($pattern, 'y');
-		$dateCheck = explode($sep, $gp[$name]);
-		if (sizeof($dateCheck) != 3) {
-			$checkFailed = $this->getCheckFailed($check);
-		} elseif (intval($dateCheck[0]) == 0 || intval($dateCheck[1]) == 0 || intval($dateCheck[2]) == 0) {
-			$checkFailed = $this->getCheckFailed($check);
-		} elseif (!checkdate($dateCheck[$pos2], $dateCheck[$pos1], $dateCheck[$pos3])) {
-			$checkFailed = $this->getCheckFailed($check);
-		} elseif (strlen($dateCheck[$pos3]) != 4) {
-			$checkFailed = $this->getCheckFailed($check);
+		if(isset($gp[$name]) && !empty($gp[$name])) {
+			# find out separator
+			$pattern = $check['params']['pattern'];
+			eregi('^[d|m|y]*(.)[d|m|y]*', $pattern, $res);
+			$sep = $res[1];
+	
+			# normalisation of format
+			$pattern = $this->normalizeDatePattern($pattern,$sep);
+	
+			# find out correct positioins of "d","m","y"
+			$pos1 = strpos($pattern, 'd');
+			$pos2 = strpos($pattern, 'm');
+			$pos3 = strpos($pattern, 'y');
+			$dateCheck = explode($sep, $gp[$name]);
+			if (sizeof($dateCheck) != 3) {
+				$checkFailed = $this->getCheckFailed($check);
+			} elseif (intval($dateCheck[0]) == 0 || intval($dateCheck[1]) == 0 || intval($dateCheck[2]) == 0) {
+				$checkFailed = $this->getCheckFailed($check);
+			} elseif (!checkdate($dateCheck[$pos2], $dateCheck[$pos1], $dateCheck[$pos3])) {
+				$checkFailed = $this->getCheckFailed($check);
+			} elseif (strlen($dateCheck[$pos3]) != 4) {
+				$checkFailed = $this->getCheckFailed($check);
+			}
 		}
 		return $checkFailed;
 	}

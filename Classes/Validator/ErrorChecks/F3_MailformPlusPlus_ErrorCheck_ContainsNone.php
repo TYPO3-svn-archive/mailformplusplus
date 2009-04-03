@@ -34,19 +34,22 @@ class F3_MailformPlusPlus_ErrorCheck_ContainsNone extends F3_MailformPlusPlus_Ab
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
 		$formValue = trim($gp[$name]);
-		$checkValue = $this->getCheckValue($check['params']['words'],$check['params']['words.']);
-		if(!is_array($checkValue)) {
-			$checkValue = t3lib_div::trimExplode(",",$checkValue);
-		}
-		$found = false;
-		foreach($checkValue as $word) {
-			if(stristr($formValue,$word) && !$found) {
-
-				//remove userfunc settings and only store comma seperated words
-				$check['params']['words'] = implode(",",$checkValue);
-				unset($check['params']['words.']);
-				$checkFailed = $this->getCheckFailed($check);
-				$found = true;
+		
+		if(!empty($formValue)) {
+			$checkValue = $this->getCheckValue($check['params']['words'],$check['params']['words.']);
+			if(!is_array($checkValue)) {
+				$checkValue = t3lib_div::trimExplode(",",$checkValue);
+			}
+			$found = false;
+			foreach($checkValue as $word) {
+				if(stristr($formValue,$word) && !$found) {
+	
+					//remove userfunc settings and only store comma seperated words
+					$check['params']['words'] = implode(",",$checkValue);
+					unset($check['params']['words.']);
+					$checkFailed = $this->getCheckFailed($check);
+					$found = true;
+				}
 			}
 		}
 		return $checkFailed;

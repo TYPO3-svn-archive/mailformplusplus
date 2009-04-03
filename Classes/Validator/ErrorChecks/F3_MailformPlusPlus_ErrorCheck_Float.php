@@ -33,9 +33,12 @@ class F3_MailformPlusPlus_ErrorCheck_Float extends F3_MailformPlusPlus_AbstractE
 	 */
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
-		$valid = is_float($gp[$name]);
-		if(!$valid) {
-			$checkFailed = $this->getCheckFailed($check);
+		
+		if(isset($gp[$name]) && !empty($gp[$name])) {
+			$valid = is_float($gp[$name]);
+			if(!$valid) {
+				$checkFailed = $this->getCheckFailed($check);
+			}
 		}
 		return $checkFailed;
 	}

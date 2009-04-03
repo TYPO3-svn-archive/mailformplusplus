@@ -33,9 +33,12 @@ class F3_MailformPlusPlus_ErrorCheck_Ereg extends F3_MailformPlusPlus_AbstractEr
 	 */
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
-		$ereg = $check['params']['value'];
-		if($ereg && !ereg($ereg, $gp[$name])) {
-			$checkFailed = $this->getCheckFailed($check);
+		
+		if(isset($gp[$name]) && !empty($gp[$name])) {
+			$ereg = $check['params']['value'];
+			if($ereg && !ereg($ereg, $gp[$name])) {
+				$checkFailed = $this->getCheckFailed($check);
+			}
 		}
 		return $checkFailed;
 	}

@@ -34,22 +34,25 @@ class F3_MailformPlusPlus_ErrorCheck_ContainsOne extends F3_MailformPlusPlus_Abs
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
 		$formValue = trim($gp[$name]);
-		$checkValue = $this->getCheckValue($check['params']['words'],$check['params']['words.']);
-		if(!is_array($checkValue)) {
-			$checkValue = t3lib_div::trimExplode(",",$checkValue);
-		}
-		$found = false;
-		foreach($checkValue as $word) {
-			if(stristr($formValue,$word) && !$found) {
-				$found = true;
+		
+		if(!empty($formValue)) {
+			$checkValue = $this->getCheckValue($check['params']['words'],$check['params']['words.']);
+			if(!is_array($checkValue)) {
+				$checkValue = t3lib_div::trimExplode(",",$checkValue);
 			}
-		}
-		if(!$found) {
-				
-			//remove userfunc settings and only store comma seperated words
-			$check['params']['words'] = implode(",",$checkValue);
-			unset($check['params']['words.']);
-			$checkFailed = $this->getCheckFailed($check);
+			$found = false;
+			foreach($checkValue as $word) {
+				if(stristr($formValue,$word) && !$found) {
+					$found = true;
+				}
+			}
+			if(!$found) {
+					
+				//remove userfunc settings and only store comma seperated words
+				$check['params']['words'] = implode(",",$checkValue);
+				unset($check['params']['words.']);
+				$checkFailed = $this->getCheckFailed($check);
+			}
 		}
 		return $checkFailed;
 	}

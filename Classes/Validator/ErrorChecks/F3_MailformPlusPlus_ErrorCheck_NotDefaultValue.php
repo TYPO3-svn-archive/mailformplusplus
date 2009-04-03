@@ -35,14 +35,15 @@ class F3_MailformPlusPlus_ErrorCheck_NotDefaultValue extends F3_MailformPlusPlus
 	 */
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
-
-		$defaultValue = $check['params']['defaultValue'];
-		if(is_array($check['params']['defaultValue.'])) {
-			$defaultValue = $this->cObj->cObjGetSingle($check['params']['defaultValue'],$check['params']['defaultValue.']);
-		}
-		if ($defaultValue != '') {
-			if (!strcmp($defaultValue,$gp[$name])) {
-				$checkFailed = $this->getCheckFailed($check);
+		if(isset($gp[$name]) && !empty($gp[$name])) {
+			$defaultValue = $check['params']['defaultValue'];
+			if(is_array($check['params']['defaultValue.'])) {
+				$defaultValue = $this->cObj->cObjGetSingle($check['params']['defaultValue'],$check['params']['defaultValue.']);
+			}
+			if ($defaultValue != '') {
+				if (!strcmp($defaultValue,$gp[$name])) {
+					$checkFailed = $this->getCheckFailed($check);
+				}
 			}
 		}
 		return $checkFailed;

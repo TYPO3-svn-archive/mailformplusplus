@@ -33,18 +33,21 @@ class F3_MailformPlusPlus_ErrorCheck_Time extends F3_MailformPlusPlus_AbstractEr
 	 */
 	public function check(&$check,$name,&$gp) {
 		$checkFailed = "";
-		$pattern = $check['params']['pattern'];
-		eregi('^[h|m]*(.)[h|m]*', $pattern, $res);
-		$sep = $res[1];
-		$timeCheck = explode($sep, $gp[$name]);
-		if (is_array($timeCheck)) {
-			$hours = $tc[0];
-			if (!is_numeric($hours) || $hours < 0 || $hours > 23) {
-				$checkFailed = $this->getCheckFailed($check);
-			}
-			$minutes = $tc[1];
-			if (!is_numeric($minutes) || $minutes < 0 || $minutes > 59) {
-				$checkFailed = $this->getCheckFailed($check);
+		
+		if(isset($gp[$name]) && !empty($gp[$name])) {
+			$pattern = $check['params']['pattern'];
+			eregi('^[h|m]*(.)[h|m]*', $pattern, $res);
+			$sep = $res[1];
+			$timeCheck = explode($sep, $gp[$name]);
+			if (is_array($timeCheck)) {
+				$hours = $tc[0];
+				if (!is_numeric($hours) || $hours < 0 || $hours > 23) {
+					$checkFailed = $this->getCheckFailed($check);
+				}
+				$minutes = $tc[1];
+				if (!is_numeric($minutes) || $minutes < 0 || $minutes > 59) {
+					$checkFailed = $this->getCheckFailed($check);
+				}
 			}
 		}
 		return $checkFailed;
