@@ -35,10 +35,12 @@ class F3_MailformPlusPlus_View_PDF extends F3_MailformPlusPlus_View_Default {
 	 */
 	public function render($gp,$errors) {
 		$content = parent::render($gp,$errors);
+		$markers = array();
+		$markers['###ip###'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
+		$markers['###submission_date###'] = date("d.m.Y H:i:s",time());
+		$markers['###pid###'] = $GLOBALS['TSFE']->id;
 		
-		
-		
-
+		$content = $this->cObj->substituteMarkerArray($content, $markers);
 
 		return $this->pi_wrapInBaseClass($content);
 	}
