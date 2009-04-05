@@ -111,8 +111,6 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 		$fileext = '.'.$fileparts[count($fileparts)-1];
 		array_pop($fileparts);
 		$filename = implode('.',$fileparts);
-		//remove ',' from filename, would be handled as file seperator 
-		$filename = str_replace(',', '', $filename);
 
 		$namingScheme = $this->settings['renameScheme'];
 		if(!$namingScheme) {
@@ -127,13 +125,27 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 			foreach($this->settings['schemeMarkers.'] as $markerName=>$options) {
 				if(!(strpos($markerName,'.') > 0)) {
 					$value = $options;
-					if(isset($this->settings['schemeMarkers.'][$markerName.'.'])) {
+
+					//use field value
+					if(isset($this->settings['schemeMarkers.'][$markerName.'.']) && !strcmp($options,"fieldValue")) {
+						
+						$value = $this->gp[$this->settings['schemeMarkers.'][$markerName.'.']['field']];
+
+					}elseif(isset($this->settings['schemeMarkers.'][$markerName.'.'])) {
+
+						//pass gp to the plugin 
+						if(!strcmp($options,"USER") || !strcmp($options,"USER_INT")) {
+							$this->settings['schemeMarkers.'][$markerName.'.']['gp'] = $this->gp;
+						}
 						$value = $this->cObj->cObjGetSingle($this->settings['schemeMarkers.'][$markerName],$this->settings['schemeMarkers.'][$markerName.'.']);
 					}
 					$newFilename = str_replace('['.$markerName.']',$value,$newFilename);
 				}
 			}
 		}
+		//remove ',' from filename, would be handled as file seperator 
+		$newFilename = str_replace(',', '', $newFilename);
+
 		$newFilename .= $fileext;
 		return $newFilename;
 	}

@@ -61,13 +61,13 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		$this->pi_USER_INT_obj = 1;
 		$this->componentManager = F3_GimmeFive_Component_Manager::getInstance();
 
+		F3_MailformPlusPlus_StaticFuncs::$cObj = $this->cObj;
+
 		//handle AJAX stuff
 		$this->handleAjax();
 
 		//init flexform
 		$this->pi_initPIflexForm();
-
-		F3_MailformPlusPlus_StaticFuncs::$cObj = $this->cObj;
 		
 		/*
 		 * set controller:

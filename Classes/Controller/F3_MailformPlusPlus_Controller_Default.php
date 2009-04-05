@@ -451,11 +451,6 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 			//if submitted
 		} else {
 
-			// Stores GET / POST in the session addording to user defined
-			if ($settings['storeGP'] == 1 || F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],'store_gp', 'sMISC')) {
-				$this->storeUserGPinSession();
-			}
-
 			//run init interceptors
 			if(!$_SESSION['submitted_ok']) {
 				$this->runClasses($settings['initInterceptors.']);
@@ -500,6 +495,12 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 				if(isset($settings['finishers.']) && is_array($settings['finishers.'])) {
 
 					ksort($settings['finishers.']);
+
+					//if storeGP is set include Finisher_storeGP, Stores GET / POST in the session
+					if(!$_SESSION['submitted_ok'] && ($settings['storeGP'] == 1 || F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],'store_gp', 'sMISC'))){
+						$this->addFinisherStoreGP(&$settings);
+					}
+
 					foreach($settings['finishers.'] as $tsConfig) {
 						$className = F3_MailformPlusPlus_StaticFuncs::prepareClassName($tsConfig['class']);
 						$finisher = $this->componentManager->getComponent($className);
@@ -551,17 +552,6 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		}
 
 
-	}
-
-	/**
-	 * Stores the GP in session.
-	 *
-	 * @return void
-	 */
-	protected function storeUserGPinSession() {
-		foreach ($this->gp as $key => $value) {
-			$GLOBALS['TSFE']->fe_user->setKey('ses',$key , $value);
-		}
 	}
 
 	/**
@@ -783,6 +773,29 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 */
 	protected function initializeController($value='') {
 		$this->piVars = t3lib_div::GParrayMerged($this->configuration->getPrefixedPackageKey());
+	}
+
+	/**
+	 * Adds the Finisher_StoreGP
+	 * 
+	 * @return void
+	 * @param object Reference to $settings 
+	 */
+	protected function addFinisherStoreGP(&$settings){
+		//add Finisher_StoreGP to the end of Finisher array
+		$settings['finishers.'][] = array('class'=>'F3_MailformPlusPlus_Finisher_StoreGP');
+		
+		//search for Finisher_Confirmation (finishers with config.returns), put them at the very end
+		foreach($settings['finishers.'] as $key => $tsConfig) {
+			if($tsConfig['config.']['returns']){
+
+				//push it to the end
+				$settings['finishers.'][] = $settings['finishers.'][$key];
+
+				//unset on the previous position
+				unset($settings['finishers.'][$key]);							
+			}
+		}
 	}
 
 }

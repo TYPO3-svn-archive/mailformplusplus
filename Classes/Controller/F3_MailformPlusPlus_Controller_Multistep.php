@@ -161,11 +161,6 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 			//if submitted
 		} else {
 
-			// Stores GET / POST in the session addording to user defined
-			if ($settings['storeGP'] == 1 || F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],'store_gp', 'sMISC')) {
-				$this->storeUserGPinSession();
-			}
-				
 			//save settings because they have to be changed for error validation
 			$oldSettings = $settings;
 				
@@ -239,6 +234,12 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 					if(isset($settings['finishers.']) && is_array($settings['finishers.'])) {
 
 						ksort($settings['finishers.']);
+						
+						//if storeGP is set include Finisher_storeGP, stores GET / POST in the session
+						if(!$_SESSION['submitted_ok'] && ($settings['storeGP'] == 1 || F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],'store_gp', 'sMISC'))){
+							$this->addFinisherStoreGP(&$settings);
+						}
+
 						foreach($settings['finishers.'] as $tsConfig) {
 							$className = F3_MailformPlusPlus_StaticFuncs::prepareClassName($tsConfig['class']);
 							$finisher = $this->componentManager->getComponent($className);
