@@ -6,6 +6,38 @@
 
  * @package	F3_MailformPlusPlus
  */
+ 
+ /**
+	\mainpage 	
+	
+	 @version V1.0.0 Beta
+
+	Released under the terms of the GNU General Public License version 2 as published by
+	the Free Software Foundation.
+	
+	The swiss army knife for all kinds of mailforms, completely new written using the MVC concept. 
+	Result: Flexibility, Flexibility, Flexibility. MailformPlus MVC is a total redesign of the getting-old
+	MailformPlus (aka th_mailformplus). MailformPlus MVC has now a new core, new architecture, new features.
+
+	Beside the reach set of features provided by MailformPlus MVC, you may like the flexibility in the sense
+	of possible different configuration. Projects have all their own specificities. One customer want this 
+	component while the other one want to have this other one. I think it is very challenging to come up 
+	with an extension that is features reach without overloading the code basis.
+	
+	MailformPlus MVC solves the problem by having a very modular approach. The extension is piloted 
+	mainly by some nice TypoScript where is is possible to define exactly what to implement. You may
+	want to play with some interceptor, finisher, logger, validators etc... For more information,
+	you should have a look into the folder "Examples" of the extension which refers many interesting samples.
+	
+	When installing the extension, you will notice it has a dependency to "gimmefive". MailformPlus MVC
+	definitely looks into the future as it integrate some bricks from the branch v5 of TYPO3. For the 
+	moment, "gimmefive" is a transition framework for us. Our plans is to upgrade our code to use "ExtBase" 
+	eventually when this one will be enough stable.
+	
+	Latest development version on
+	http://forge.typo3.org/repositories/show/extension-mailformplusplus
+	  
+ */
 
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
