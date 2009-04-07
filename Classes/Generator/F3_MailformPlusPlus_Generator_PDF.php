@@ -159,6 +159,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 	 * @return void|filename
 	 */
 	function generateFrontendPDF($gp,$langFile,$exportFields = array(),$file = "",$returns = false) {
+		
 		$this->pdf = $this->componentManager->getComponent("F3_MailformPlusPlus_Template_PDF");
 		$this->pdf->AliasNbPages();
 		$this->pdf->AddPage();
@@ -167,6 +168,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 		$nameWidth = 70;
 		$valueWidth = 70;
 		$feedWidth = 30;
+		
 		if(count($exportFields) == 0 || in_array("pid",$exportFields)) {
 			$this->pdf->Cell($standardWidth,"15","Page-ID:",0,0);
 			$this->pdf->Cell($standardWidth,"15",$GLOBALS['TSFE']->id,0,1);
@@ -180,6 +182,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 			$this->pdf->Cell($standardWidth,"15",t3lib_div::getIndpEnv('REMOTE_ADDR'),0,1);
 		}
 		$this->pdf->Cell($standardWidth,"15","Submitted values:",0,1);
+		
 		if(isset($gp) && is_array($gp)) {
 			$this->pdf->SetLineWidth(.3);
 			$this->pdf->Cell($feedWidth);
@@ -190,38 +193,59 @@ class F3_MailformPlusPlus_Generator_PDF {
 			$this->pdf->SetFillColor(200,200,200);
 			$fill = false;
 			unset($gp['renderMethod']);
-			foreach($gp as $key=>$value) {
-				if(is_array($value) && (count($exportFields) == 0 || in_array($key,$exportFields))) {
-					$this->pdf->Cell($feedWidth);
-					$this->pdf->Cell($nameWidth,"6",trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key)),0,0,'L',$fill);
-					$this->pdf->Cell($valueWidth,"6",array_shift($value),0,0,'L',$fill);
-					$this->pdf->Ln();
-					foreach($value as $v) {
-						$this->pdf->Cell($feedWidth);
-						$this->pdf->Cell($nameWidth,"6","",0,0,'L',$fill);
-						$this->pdf->Cell($valueWidth,"6",$v,0,0,'L',$fill);
-						$this->pdf->Ln();
-					}
-					$fill = !$fill;
-				} elseif(count($exportFields) == 0 || in_array($key,$exportFields)) {
-					$this->pdf->Cell($feedWidth);
-					$this->pdf->Cell($nameWidth,"6",trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key)),0,0,'L',$fill);
-					$this->pdf->Cell($valueWidth,"6",$value,0,0,'L',$fill);
-					$this->pdf->Ln();
-					$fill = !$fill;
+			
+			foreach($exportFields as $key=>$field) {
+					
+				if(	strcmp($field,'pid') == FALSE ||
+					strcmp($field,'submission_date') == FALSE ||
+					strcmp($field,'ip') == FALSE) {
+					
+						
+					unset($exportFields[$key]);
 				}
-
+			}
+			if(count($exportFields) == 0) {
+				$exportFields = array_keys($gp);
+			}
+			
+		
+			foreach($exportFields as $idx=>$key) {
+				if(isset($gp[$key])) {
+					$value = $gp[$key];
+					if(is_array($value)) {
+						$this->pdf->Cell($feedWidth);
+						$this->pdf->Cell($nameWidth,"6",trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key)),0,0,'L',$fill);
+						$this->pdf->Cell($valueWidth,"6",array_shift($value),0,0,'L',$fill);
+						$this->pdf->Ln();
+						foreach($value as $v) {
+							$this->pdf->Cell($feedWidth);
+							$this->pdf->Cell($nameWidth,"6","",0,0,'L',$fill);
+							$this->pdf->Cell($valueWidth,"6",$v,0,0,'L',$fill);
+							$this->pdf->Ln();
+						}
+						$fill = !$fill;
+					} else {
+						$this->pdf->Cell($feedWidth);
+						$this->pdf->Cell($nameWidth,"6",trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key)),0,0,'L',$fill);
+						$this->pdf->Cell($valueWidth,"6",$value,0,0,'L',$fill);
+						$this->pdf->Ln();
+						$fill = !$fill;
+					}
+				}
 			}
 		}
-
+	
 		if(strlen($file) > 0) {
 			$this->pdf->Output($file, 'F');
 			$downloadpath = $file;
+	
 			if($returns) {
 				return $downloadpath;
 			}
+			
 			header('Location: '.$downloadpath);
 		} else {
+
 			$this->pdf->Output();
 		}
 

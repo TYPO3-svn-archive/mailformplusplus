@@ -72,7 +72,7 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 			if(isset($this->settings['langFile.']) && is_array($this->settings['langFile.'])) {
 				$langFile = $this->cObj->cObjGetSingle($this->settings['langFile'],$this->settings['langFile.']);
 			} else {
-				$langFile = F3_MailformPlusPlus_StaticFuncs::resolvePath($this->settings['langFile']);
+				$langFile = F3_MailformPlusPlus_StaticFuncs::resolveRelPathFromSiteRoot($this->settings['langFile']);
 			}
 			$generatorClass = $this->settings['pdf.']['class'];
 			if(!$generatorClass) {

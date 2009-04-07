@@ -109,27 +109,43 @@ class F3_MailformPlusPlus_Generator_TCPDF {
 				$this->pdf->Ln();
 				$this->pdf->SetFillColor(200,200,200);
 				$fill = false;
+				
+				foreach($exportFields as $key=>$field) {
 					
-				foreach($data['params'] as $key=>$value) {
-					if(is_array($value) && (count($exportFields) == 0 || in_array($key,$exportFields))) {
-						$this->pdf->Cell($feedWidth);
-						$this->pdf->Cell($nameWidth,"6",$key,0,0,'L',$fill);
-						$this->pdf->Cell($valueWidth,"6",array_shift($value),0,0,'L',$fill);
-						$this->pdf->Ln();
-						foreach($value as $v) {
-							$this->pdf->Cell($feedWidth);
-							$this->pdf->Cell($nameWidth,"6","",0,0,'L',$fill);
-							$this->pdf->Cell($valueWidth,"6",$v,0,0,'L',$fill);
-							$this->pdf->Ln();
-						}
-						$fill = !$fill;
-					} elseif(count($exportFields) == 0 || in_array($key,$exportFields)) {
-						$this->pdf->Cell($feedWidth);
-						$this->pdf->Cell($nameWidth,"6",$key,0,0,'L',$fill);
-						$this->pdf->Cell($valueWidth,"6",$value,0,0,'L',$fill);
-						$this->pdf->Ln();
-						$fill = !$fill;
+					if(	strcmp($field,'pid') == FALSE ||
+						strcmp($field,'submission_date') == FALSE ||
+						strcmp($field,'ip') == FALSE) {
+						
+							
+						unset($exportFields[$key]);
 					}
+				}
+				if(count($exportFields) == 0) {
+					$exportFields = array_keys($data['params']);
+				}
+				foreach($exportFields as $idx=>$key) {
+					if(isset($data['params'][$key])) {
+						$value = $data['params'][$key];
+						if(is_array($value)) {
+							$this->pdf->Cell($feedWidth);
+							$this->pdf->Cell($nameWidth,"6",$key,0,0,'L',$fill);
+							$this->pdf->Cell($valueWidth,"6",array_shift($value),0,0,'L',$fill);
+							$this->pdf->Ln();
+							foreach($value as $v) {
+								$this->pdf->Cell($feedWidth);
+								$this->pdf->Cell($nameWidth,"6","",0,0,'L',$fill);
+								$this->pdf->Cell($valueWidth,"6",$v,0,0,'L',$fill);
+								$this->pdf->Ln();
+							}
+							$fill = !$fill;
+						} else {
+							$this->pdf->Cell($feedWidth);
+							$this->pdf->Cell($nameWidth,"6",$key,0,0,'L',$fill);
+							$this->pdf->Cell($valueWidth,"6",$value,0,0,'L',$fill);
+							$this->pdf->Ln();
+							$fill = !$fill;
+						}
+				}
 						
 				}
 			}
@@ -179,6 +195,7 @@ class F3_MailformPlusPlus_Generator_TCPDF {
 			if($returns) {
 				return $downloadpath;
 			}
+			
 			header('Location: '.$downloadpath);
 		} else {
 			$pdf->Output();
