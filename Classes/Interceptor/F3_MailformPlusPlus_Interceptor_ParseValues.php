@@ -11,7 +11,7 @@
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *
- * $Id: F3_MailformPlusPlus_Interceptor_Filtreatment.php 17657 2009-03-10 11:17:52Z reinhardfuehricht $
+ * $Id:$
  *                                                                       
  */
 

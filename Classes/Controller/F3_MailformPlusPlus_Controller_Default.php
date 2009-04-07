@@ -527,7 +527,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 							}
 
 							//if the form was finished before, only show the output of the F3_MailformPlusPlus_Finisher_Confirmation
-						} elseif((is_a($finisher,"F3_MailformPlusPlus_Finisher_Confirmation") || is_subclass_of($finisher,"F3_MailformPlusPlus_Finisher_Confirmation"))) {
+						} elseif($finisher instanceof F3_MailformPlusPlus_Finisher_Confirmation) {
 							$className = F3_MailformPlusPlus_StaticFuncs::prepareClassName($tsConfig['class']);
 							F3_MailformPlusPlus_StaticFuncs::debugMessage('calling finisher '.$className);
 							$finisher = $this->componentManager->getComponent($className);
@@ -787,7 +787,11 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 		
 		//search for Finisher_Confirmation (finishers with config.returns), put them at the very end
 		foreach($settings['finishers.'] as $key => $tsConfig) {
-			if($tsConfig['config.']['returns']){
+
+			$className = F3_MailformPlusPlus_StaticFuncs::prepareClassName($tsConfig['class']);
+			$finisher = $this->componentManager->getComponent($className);
+
+			if($tsConfig['config.']['returns'] || ($finisher instanceof F3_MailformPlusPlus_Finisher_Redirect)){
 
 				//push it to the end
 				$settings['finishers.'][] = $settings['finishers.'][$key];

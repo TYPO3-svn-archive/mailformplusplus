@@ -264,7 +264,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 								}
 
 								//if the form was finished before, only show the output of the F3_MailformPlusPlus_Finisher_Confirmation
-							} elseif((is_a($finisher,"F3_MailformPlusPlus_Finisher_Confirmation") || is_subclass_of($finisher,"F3_MailformPlusPlus_Finisher_Confirmation"))) {
+							} elseif($finisher instanceof F3_MailformPlusPlus_Finisher_Confirmation) {
 								$className = F3_MailformPlusPlus_StaticFuncs::prepareClassName($tsConfig['class']);
 								F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_finisher',$className);
 								$finisher = $this->componentManager->getComponent($className);

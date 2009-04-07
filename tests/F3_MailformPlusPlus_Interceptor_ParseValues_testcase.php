@@ -15,7 +15,7 @@
 require_once (t3lib_extMgm::extPath('gimmefive') . 'Classes/Component/F3_GimmeFive_Component_Manager.php');
 
 /**
- * Test for the Component "F3_MailformPlusPlus_Logger_DB" of the extension 'mailformplusplus'
+ * Test for the Component "F3_MailformPlusPlus_Interceptor_ParseValues" of the extension 'mailformplusplus'
  *
  * @package	F3_MailformPlusPlus
  * @subpackage	Tests
