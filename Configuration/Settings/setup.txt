@@ -2,7 +2,6 @@ includeLibs.F3_MailformPlusPlus_default = EXT:mailformplusplus/Classes/Controlle
 plugin.F3_MailformPlusPlus = USER_INT
 plugin.F3_MailformPlusPlus.userFunc = tx_MailformPlusPlus_Dispatcher->main
 tt_content.list.20.mailformplusplus_pi1 < plugin.F3_MailformPlusPlus
-tt_content.list.20.mailformplusplus_pi1.controller = F3_MailformPlusPlus_Controller_Default
 
 plugin.F3_MailformPlusPlus.settings.predef.default {
 
