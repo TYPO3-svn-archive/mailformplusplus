@@ -504,7 +504,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 						$imgConf['image.']['altText'] = $filename;
 						$imgConf['image.']['titleText'] = $filename;
 
-						$relPath = substr($fileInfo['uploaded_folder'].$filename,1);
+						$relPath = substr($fileInfo['uploaded_folder'].$fileInfo['uploaded_name'],1);
 						$imgConf['image.']['file'] = $relPath;
 						if($settings['singleFileMarkerTemplate.']['thumbnailWidth']) {
 							$imgConf['image.']['file.']['width'] = $settings['singleFileMarkerTemplate.']['thumbnailWidth'];
@@ -536,7 +536,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 						$imgConf['image.']['altText'] = $filename;
 						$imgConf['image.']['titleText'] = $filename;
 
-						$relPath = substr($fileInfo['uploaded_folder'].$filename,1);
+						$relPath = substr($fileInfo['uploaded_folder'].$fileInfo['uploaded_name'],1);
 						$imgConf['image.']['file'] = $relPath;
 						if($settings['totalFilesMarkerTemplate.']['thumbnailWidth']) {
 							$imgConf['image.']['file.']['width'] = $settings['totalFilesMarkerTemplate.']['thumbnailWidth'];
