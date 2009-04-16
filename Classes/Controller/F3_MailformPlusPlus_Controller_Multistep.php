@@ -38,7 +38,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
 	public function process() {
-		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller','F3_MailformPlusPlus_Controller_Multistep');
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller', get_class($this));
 		session_start();
 		
 		//read global settings

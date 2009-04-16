@@ -33,8 +33,42 @@ class tx_dynaflex_mailformplusplus {
 	 * @return array The config including the items for the dropdown
 	 */
 	function addFields_controller($config) {
+		
+		global $LANG;
+
 		$optionList[0] = array(0 => "Single Page", 1 => "F3_MailformPlusPlus_Controller_Default");
 		$optionList[1] = array(0 => "Multi Page", 1 => "F3_MailformPlusPlus_Controller_Multistep");
+
+		$pid = $config['row']['pid'];
+		if($pid < 0) {
+			$contentUid = str_replace('-','',$pid);
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('pid','tt_content','uid='.$contentUid);
+			if($res) {
+				$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+				$pid = $row['pid'];
+				$GLOBALS['TYPO3_DB']->sql_free_result($res);
+			}
+		}
+		$ts = $this->loadTS($pid);
+
+		//add Controller defined by TS
+		if($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['controller'] ) {
+			$optionList[] = array(
+				0 => $LANG->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_db.xml:be_defined_by_TS') . ": " . $ts['plugin.']['F3_MailformPlusPlus.']['settings.']['controller'],
+				1 => $ts['plugin.']['F3_MailformPlusPlus.']['settings.']['controller'],
+			);
+		}
+
+		//search for controller defintions in predefs
+		foreach($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.'] as $key=>$view) {
+			if($ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.'][$key]['controller'] ) {
+				$optionList[] = array(
+					0 => $LANG->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_db.xml:be_defined_by_TS') . ": " . $ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.'][$key]['controller'],
+					1 => $ts['plugin.']['F3_MailformPlusPlus.']['settings.']['predef.'][$key]['controller'],
+				);
+			}
+		}
+
 		$config['items'] = $optionList;
 		return $config;
 	}
@@ -91,7 +125,6 @@ class tx_dynaflex_mailformplusplus {
 	function addFields_predefined ($config) {
 
 		global $LANG;
-
 		
 		$pid = $config['row']['pid'];
 		if($pid < 0) {

@@ -33,7 +33,7 @@
 			<label index="mailformplusplus.pi_flexform.emailConfirm">Send E-mail to address entered in form (enter name of form field here)</label>
 			<label index="mailformplusplus.pi_flexform.emailConfirmSubject">Subject of the mail to the user:</label>
 			<label index="mailformplusplus.pi_flexform.template_predefined">Predefined forms:</label>
-			<label index="mailformplusplus.pi_flexform.template_controller">Type:</label>
+			<label index="mailformplusplus.pi_flexform.template_controller">Controller:</label>
 			<label index="mailformplusplus.pi_flexform.template_file">Template File</label>
 			<label index="mailformplusplus.pi_flexform.lang_file">Translation File</label>
 		</languageKey>
@@ -58,7 +58,7 @@
 			<label index="mailformplusplus.pi_flexform.emailConfirm">Sende E-mail an eine Adresse, die im Formular eingegeben wurde (Name des Formularfelds eingeben)</label>
 			<label index="mailformplusplus.pi_flexform.emailConfirmSubject">Betreff dieser E-Mail</label>
 			<label index="mailformplusplus.pi_flexform.template_predefined">Vordefinierte Formulare</label>
-			<label index="mailformplusplus.pi_flexform.template_controller">Typ</label>
+			<label index="mailformplusplus.pi_flexform.template_controller">Controller</label>
 			<label index="mailformplusplus.pi_flexform.template_file">Template-Datei</label>
 			<label index="mailformplusplus.pi_flexform.lang_file">Übersetzungsdatei</label>
 		</languageKey>
@@ -81,7 +81,7 @@
 			<label index="mailformplusplus.pi_flexform.emailConfirm">Send E-mail to address entered in form (enter name of form field here)</label>
 			<label index="mailformplusplus.pi_flexform.emailConfirmSubject">Subject of the mail to the user:</label>
 			<label index="mailformplusplus.pi_flexform.template_predefined">Predefined forms:</label>
-			<label index="mailformplusplus.pi_flexform.template_controller">Type:</label>
+			<label index="mailformplusplus.pi_flexform.template_controller">Controller:</label>
 			<label index="mailformplusplus.pi_flexform.template_file">Template File</label>
 			<label index="mailformplusplus.pi_flexform.lang_file">Translation File</label>
 		</languageKey>
@@ -108,7 +108,7 @@
 			<label index="mailformplusplus.pi_flexform.emailConfirm">Envoyer un email à l'adresse inscrite dans le formulaire (saisir le nom des champs ici)</label>
 			<label index="mailformplusplus.pi_flexform.emailConfirmSubject">Sujet de l'email pour l'utilisateur:</label>
 			<label index="mailformplusplus.pi_flexform.template_predefined">Formulaire prédéfini:</label>
-			<label index="mailformplusplus.pi_flexform.template_controller">Type:</label>
+			<label index="mailformplusplus.pi_flexform.template_controller">Contrôleur:</label>
 			<label index="mailformplusplus.pi_flexform.template_file">Fichier de template</label>
 			<label index="mailformplusplus.pi_flexform.lang_file">Fichier de traduction</label>
 		</languageKey>

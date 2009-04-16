@@ -30,6 +30,7 @@
 			<label index="be_please_select">Choose a predefined form</label>
 			<label index="tt_content.pi1_plus_wiz_description">Advanced form system with many typoscript options which bring a lot of flexibiliy.</label>
 			<label index="tt_content.pi2_plus_wiz_description">Frontend Listing of Mailformplus</label>
+			<label index="be_defined_by_TS">Defined by TypoScript</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="wizard_pi1.title">MailformPlus MVC</label>
@@ -53,7 +54,10 @@
 			<label index="tt_content.tx_mailformplusplus_contenttype.I.1">Einzelansicht</label>
 			<label index="tt_content.tx_mailformplusplus_contenttype">Art der Darstellung</label>
 			<label index="be_missing_config">keine Vorlagen vorhanden</label>
-			<label index="be_please_select">waehlen Sie eine Vorlage</label>
+			<label index="be_please_select">wählen Sie eine Vorlage</label>
+			<label index="tt_content.pi1_plus_wiz_description">Advanced form system with many typoscript options which bring a lot of flexibiliy.</label>
+			<label index="tt_content.pi2_plus_wiz_description">Frontend Listing of Mailformplus</label>
+			<label index="be_defined_by_TS">Definiert durch TypoScript</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="wizard_pi1.title">MailformPlus MVC</label>
@@ -80,6 +84,7 @@
 			<label index="be_please_select">Choisir un formulaire prédéfini</label>
 			<label index="tt_content.pi1_plus_wiz_description">Formulaires avancés avec de nombreuses possibilité de configuration TypoScript. Très flexible.</label>
 			<label index="tt_content.pi2_plus_wiz_description">Frontend Listing de Mailformplus</label>
+			<label index="be_defined_by_TS">Défini par TypoScript</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -68,7 +68,7 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 
 		//init flexform
 		$this->pi_initPIflexForm();
-		
+
 		/*
 		 * set controller:
 		 * 1. Flexform

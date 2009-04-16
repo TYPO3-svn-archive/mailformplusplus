@@ -368,7 +368,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	 * @return rendered view
 	 */
 	public function process() {
-		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller','F3_MailformPlusPlus_Controller_Default');
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller', get_class($this));
 		
 		session_start();
 
