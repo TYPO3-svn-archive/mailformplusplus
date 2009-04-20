@@ -9,7 +9,7 @@ if (TYPO3_MODE=="BE")   {
 }
 
 /**
- * A PDF Template class for MailformPlusPlus generated PDF files
+ * A PDF Template class for Mailformplus MVC generated PDF files
  *
  * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
@@ -17,6 +17,12 @@ if (TYPO3_MODE=="BE")   {
  */
 class F3_MailformPlusPlus_Template_PDF extends FPDF {
 
+	/**
+	 * Path to language file
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $sysLangFile;
 	
 	public function __construct() {
@@ -25,23 +31,31 @@ class F3_MailformPlusPlus_Template_PDF extends FPDF {
 		
 	}
 
-	//Page header
+	/**
+	 * Generates the header of the page
+	 * 
+	 * @return void
+	 */
 	public function Header() {
 		global $LANG;
 		$LANG->includeLLFile($this->sysLangFile);
 	  
 		//Arial bold 15
-		$this->SetFont('Arial','B',15);
+		$this->SetFont('Arial', 'B', 15);
 	  
 		
 		//Title
-		$this->Cell(0,10,trim($LANG->getLL('submission_details')),'B',0,'C');
+		$this->Cell(0, 10, trim($LANG->getLL('submission_details')), 'B', 0, 'C');
 	  
 		//Line break
 		$this->Ln(20);
 	}
 
-	//Page footer
+	/**
+	 * Generates the footer of the page
+	 * 
+	 * @return void
+	 */
 	public function Footer() {
 		global $LANG;
 		$LANG->includeLLFile($this->sysLangFile);
@@ -50,12 +64,13 @@ class F3_MailformPlusPlus_Template_PDF extends FPDF {
 		$this->SetY(-15);
 	  
 		//Arial italic 8
-		$this->SetFont('Arial','I',8);
+		$this->SetFont('Arial', 'I', 8);
 	    
 		$text = trim($LANG->getLL('footer_text'));
-		$text = sprintf($text,date("d.m.Y H:i:s",time()));
+		$text = sprintf($text,date('d.m.Y H:i:s', time()));
 		$this->Cell(0,10,$text,'T',0,'C');
-		$this->Cell(0,10,trim($LANG->getLL('page')).' '.$this->PageNo().'/{nb}','T',0,'R');
+		$pageNumbers = trim($LANG->getLL('page')) . ' ' . $this->PageNo() . '/{nb}';
+		$this->Cell(0, 10, $pageNumbers, 'T', 0, 'R');
 	}
 
 }

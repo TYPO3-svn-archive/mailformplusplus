@@ -77,7 +77,6 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	 */
 	public function process() {
 
-
 		$this->init();
 
 		//send emails
@@ -94,26 +93,18 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	 * @param string $suffix plain/html
 	 * @return string The template code
 	 */
-	protected function parseTemplate($mode,$suffix) {
+	protected function parseTemplate($mode, $suffix) {
 		$view = $this->componentManager->getComponent('F3_MailformPlusPlus_View_Mail');
 		$view->setLangFile($this->langFile);
 		$view->setPredefined($this->predefined);
 		
 		$templateCode = $this->getTemplate();
-		$view->setTemplate($templateCode, 'EMAIL_'.strtoupper($mode).'_'.strtoupper($suffix));
+		$view->setTemplate($templateCode, ('EMAIL_' . strtoupper($mode) . '_' . strtoupper($suffix)));
 		if(!$view->hasTemplate()) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('no_mail_template',$mode,$suffix);
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('no_mail_template', $mode, $suffix);
 		}
-		
 
-		
-		/*$markers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($template,$this->langFile);
-		$valueMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledValueMarkers($this->gp);
-		$markers = array_merge($valueMarkers,$markers);
-		$this->sanitizeMarkers($markers);
-		$template = $this->cObj->substituteMarkerArray($template, $markers);
-		$template = F3_MailformPlusPlus_StaticFuncs::removeUnfilledMarkers($template);*/
-		return $view->render($this->gp,array());
+		return $view->render($this->gp, array());
 	}
 
 	/**
@@ -125,23 +116,23 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	protected function sanitizeMarkers(&$markers) {
 		$checkBinaryCrLf = $this->settings['checkBinaryCrLf'];
 		if ($checkBinaryCrLf != '') {
-			$markersToCheck = t3lib_div::trimExplode(',',$checkBinaryCrLf);
+			$markersToCheck = t3lib_div::trimExplode(',', $checkBinaryCrLf);
 			foreach($markersToCheck as $idx=>$val) {
 				if(substr($val,0,3) != '###') {
-					$val = '###'.$markersToCheck[$idx];
+					$val = '###' . $markersToCheck[$idx];
 				}
 
 				if(substr($val,-3) != '###') {
 					$val .= '###';
 				}
 				$iStr = $markers[$val];
-				$iStr = str_replace (chr(13),'<br />', $iStr);
-				$iStr = str_replace ('\\','', $iStr);
+				$iStr = str_replace (chr(13), '<br />', $iStr);
+				$iStr = str_replace ('\\', '', $iStr);
 				$markers[$val] = $iStr;
 
 			}
 		}
-		foreach($markers as $field=>&$value) {
+		foreach($markers as $field => &$value) {
 			$value = nl2br($value);
 		}
 	}
@@ -156,7 +147,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	protected function getTemplate() {
 		$templateFile = $this->settings['templateFile'];
 		if(isset($this->settings['templateFile.']) && is_array($this->settings['templateFile.'])) {
-			$templateFile = $this->cObj->cObjGetSingle($this->settings['templateFile'],$this->settings['templateFile.']);
+			$templateFile = $this->cObj->cObjGetSingle($this->settings['templateFile'], $this->settings['templateFile.']);
 		} else {
 			$templateFile = F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile);
 		}
@@ -173,18 +164,16 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	 */
 	protected function sendMail($type) {
 		if($this->settings[$type]['disable'] == '1') {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_disabled',$type);
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_disabled', $type);
 			return;
 		} 
 		
 		$mailSettings = $this->settings[$type];
-		$template['plain'] = $this->parseTemplate($type,"plain");
-		$template['html'] = $this->parseTemplate($type,"html");
-		//F3_MailformPlusPlus_StaticFuncs::debugMessage('E-Mail settings for '.$type);
-		//F3_MailformPlusPlus_StaticFuncs::debugArray($mailSettings);
+		$template['plain'] = $this->parseTemplate($type, 'plain');
+		$template['html'] = $this->parseTemplate($type, 'html');
 
 		//init mailer object
-		require_once(PATH_t3lib.'class.t3lib_htmlmail.php');
+		require_once(PATH_t3lib . 'class.t3lib_htmlmail.php');
 		$emailObj = t3lib_div::makeInstance('t3lib_htmlmail');
 		$emailObj->start();
 
@@ -193,25 +182,23 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 
 		$sender = $mailSettings['sender_email'];
 		if(isset($mailSettings['sender_email']) && is_array($mailSettings['sender_email'])) {
-			$sender = implode(",",$mailSettings['sender_email']);
+			$sender = implode(',', $mailSettings['sender_email']);
 		}
 		$emailObj->from_email = $sender;
 		$emailObj->from_name = $mailSettings['sender_name'];
 
 		$replyto = $mailSettings['replyto_email'];
 		if(isset($mailSettings['replyto_email']) && is_array($mailSettings['replyto_email'])) {
-			$replyto = implode(",",$mailSettings['replyto_email']);
+			$replyto = implode(',', $mailSettings['replyto_email']);
 		}
 		$emailObj->replyto_email = $replyto;
 		$emailObj->replyto_name = $mailSettings['replyto_name'];
 		
 		$cc = $mailSettings['cc_email'];
 		if(isset($mailSettings['cc_email']) && is_array($mailSettings['cc_email'])) {
-			$cc = implode(",",$mailSettings['cc_email']);
+			$cc = implode(',', $mailSettings['cc_email']);
 		}
 		$emailObj->recipient_copy = $cc;
-		
-		
 		
 		$emailObj->returnPath = '';
 		if($mailSettings['email_header']) {
@@ -229,13 +216,13 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 				} elseif(isset($emailSettings['filePrefix'])) {
 					$prefix = $emailSettings['filePrefix'];
 				}
-				$tmphtml = tempnam('typo3temp/','/'.$prefix).'.html';
-				$tmphtml = str_replace('.tmp','',$tmphtml);
-				$tmphandle = fopen($tmphtml,"wb");
+				$tmphtml = tempnam('typo3temp/', ('/' . $prefix)) . '.html';
+				$tmphtml = str_replace('.tmp', '', $tmphtml);
+				$tmphandle = fopen($tmphtml, 'wb');
 				if ($tmphandle) {
 					fwrite($tmphandle,$template['html']);
 					fclose($tmphandle);
-					F3_MailformPlusPlus_StaticFuncs::debugMessage('Adding HTML: '.$tmphtml);
+					F3_MailformPlusPlus_StaticFuncs::debugMessage('Adding HTML: ' . $tmphtml);
 					$emailObj->addAttachment($tmphtml);
 				}
 			} else {
@@ -252,7 +239,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			}
 		}
 		if($mailSettings['attachPDF']) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('Adding PDF: '.$mailSettings['attachPDF']);
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('Adding PDF: ' . $mailSettings['attachPDF']);
 			$emailObj->addAttachment($mailSettings['attachPDF']);
 		}
 
@@ -267,33 +254,31 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		}
 		reset($mailSettings['to_email']);
 
-		
-
 		//send e-mails
 		foreach($mailSettings['to_email'] as $mailto) {
 
 			if($count < $max) {
-				if (strstr($mailto, '@') && !eregi("\r",$mailto) && !eregi("\n",$mailto)) {
+				if (strstr($mailto, '@') && !eregi("\r", $mailto) && !eregi("\n", $mailto)) {
 					$sent = $emailObj->send($mailto);
 				}
 				$count++;
 			}
 			if($sent) {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sent',$mailto);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_subject',$emailObj->subject);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sender',$emailObj->from_name." <".$emailObj->from_email.">",false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_replyto',$emailObj->replyto_name." <".$emailObj->replyto_email.">",false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_cc',$emailObj->recipient_copy,false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_plain',$template['plain'],false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_html',$template['html'],false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sent', $mailto);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_subject', $emailObj->subject);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sender', ($emailObj->from_name . ' <' . $emailObj->from_email . '>'), false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_replyto', ($emailObj->replyto_name . ' <' . $emailObj->replyto_email . '>'), false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_cc', $emailObj->recipient_copy, false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_plain', $template['plain'], false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_html', $template['html'], false);
 			} else {
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_not_sent',$mailto);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_subject',$emailObj->subject);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sender',$emailObj->from_name." <".$emailObj->from_email.">",false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_replyto',$emailObj->replyto_name." <".$emailObj->replyto_email.">",false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_cc',$emailObj->recipient_copy,false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_plain',$template['plain'],false);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_html',$template['html'],false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_subject', $emailObj->subject);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sender', ($emailObj->from_name . ' <' . $emailObj->from_email . '>'), false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_replyto', ($emailObj->replyto_name . ' <' . $emailObj->replyto_email . '>'), false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_cc', $emailObj->recipient_copy, false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_plain', $template['plain'], false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_html', $template['html'], false);
 			}
 		}
 		if($tmphtml) {
@@ -308,14 +293,14 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	 * @param string $sep
 	 * @return array
 	 */
-	private function explodeList($list,$sep = ",") {
-		$items = t3lib_div::trimExplode($sep,$list);
+	private function explodeList($list, $sep = ',') {
+		$items = t3lib_div::trimExplode($sep, $list);
 		$splitArray = array();
 		foreach($items as $item) {
 			if(isset($this->gp[$item])) {
-				array_push($splitArray,$this->gp[$item]);
+				array_push($splitArray, $this->gp[$item]);
 			} else {
-				array_push($splitArray,$item);
+				array_push($splitArray, $item);
 			}
 		}
 		return $splitArray;
@@ -349,8 +334,8 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	private function parseValue($settings,$type,$key) {
 		if(isset($this->emailSettings[$type][$key])) {
 			$parsed = $this->parseSettingValue($this->emailSettings[$type][$key]);
-		} else if(isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
-			$parsed = $this->cObj->cObjGetSingle($settings[$key],$settings[$key.'.']);
+		} else if(isset($settings[$key . '.']) && is_array($settings[$key . '.'])) {
+			$parsed = $this->cObj->cObjGetSingle($settings[$key], $settings[$key . '.']);
 		} else {
 			$parsed = $this->parseSettingValue($settings[$key]);
 		}
@@ -366,11 +351,11 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	 * @param string $key The key to parse in the settings array
 	 * @return string|array
 	 */
-	private function parseList($settings,$type,$key) {
+	private function parseList($settings, $type, $key) {
 		if(isset($this->emailSettings[$type][$key])) {
 			$parsed = $this->explodeList($this->emailSettings[$type][$key]);
-		} else if(isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
-			$parsed = $this->cObj->cObjGetSingle($settings[$key],$settings[$key.'.']);
+		} else if(isset($settings[$key . '.']) && is_array($settings[$key . '.'])) {
+			$parsed = $this->cObj->cObjGetSingle($settings[$key],$settings[$key . '.']);
 		} else {
 			$parsed = $this->explodeList($settings[$key]);
 		}
@@ -385,22 +370,20 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	 * @param string $key The key to parse in the settings array
 	 * @return string
 	 */
-	private function parseFilesList($settings,$type,$key) {
-		if(isset($settings[$key.'.']) && is_array($settings[$key.'.'])) {
-			$parsed = $this->cObj->cObjGetSingle($settings[$key],$settings[$key.'.']);
+	private function parseFilesList($settings ,$type, $key) {
+		if(isset($settings[$key . '.']) && is_array($settings[$key . '.'])) {
+			$parsed = $this->cObj->cObjGetSingle($settings[$key],$settings[$key . '.']);
 		} elseif($settings[$key]) {
-			$files = t3lib_div::trimExplode(",",$settings[$key]);
+			$files = t3lib_div::trimExplode(',', $settings[$key]);
 			$parsed = array();
 			session_start();
 			foreach($files as $file) {
-				#print $file.":";
-				#print_r($_SESSION['mailformplusplusFiles']);
 				if(isset($_SESSION['mailformplusplusFiles'][$file])) {
 					foreach($_SESSION['mailformplusplusFiles'][$file] as $uploadedFile) {
-						array_push($parsed,$uploadedFile['uploaded_path'].$uploadedFile['uploaded_name']);
+						array_push($parsed,$uploadedFile['uploaded_path'] . $uploadedFile['uploaded_name']);
 					}
 				} else {
-					array_push($parsed,$file);
+					array_push($parsed, $file);
 				}
 			}
 		}
@@ -418,7 +401,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			if(isset($value) && is_array($value)) {
 				$this->fillLangMarkersInSettings($value);
 			} else {
-				$langMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($value,$this->langFile);
+				$langMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($value, $this->langFile);
 				if(!empty($langMarkers)) {
 					$value = $this->cObj->substituteMarkerArray($value, $langMarkers);
 				}
@@ -444,7 +427,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 
 		//set language file
 		if(isset($this->settings['langFile.']) && is_array($this->settings['langFile.'])) {
-			$this->langFile = $this->cObj->cObjGetSingle($this->settings['langFile'],$this->settings['langFile.']);
+			$this->langFile = $this->cObj->cObjGetSingle($this->settings['langFile'], $this->settings['langFile.']);
 		} else {
 			$this->langFile = F3_MailformPlusPlus_StaticFuncs::resolvePath($this->settings['langFile']);
 		}
@@ -469,7 +452,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			'langFile' => 'lang_file',
 		);
 		foreach ($defaultOptions as $key => $option) {
-			$_fileName = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],$option);
+			$_fileName = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'], $option);
 			if ($_fileName !== '') {
 				$this->settings[$key] = $_fileName;
 			}
@@ -511,20 +494,12 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			'attachment',
 			'attachPDF',
 			'htmlEmailAsAttachment'
-			
-			);
+		);
 
-			//*************************
-			//ADMIN settings
-			//*************************
-			$emailSettings['admin'] = $this->parseEmailSettingsByType($emailSettings['admin.'],'admin',$options);
+		$emailSettings['admin'] = $this->parseEmailSettingsByType($emailSettings['admin.'], 'admin', $options);
+		$emailSettings['user'] = $this->parseEmailSettingsByType($emailSettings['user.'], 'user', $options);
 
-			//*************************
-			//USER settings
-			//*************************
-			$emailSettings['user'] = $this->parseEmailSettingsByType($emailSettings['user.'],'user',$options);
-
-			return $emailSettings;
+		return $emailSettings;
 	}
 
 	/**
@@ -535,13 +510,13 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	 * @param array $optionsToParse Array containing all option names to parse.
 	 * @return array The parsed email settings
 	 */
-	private function parseEmailSettingsByType($currentSettings,$type,$optionsToParse = array()) {
+	private function parseEmailSettingsByType($currentSettings, $type, $optionsToParse = array()) {
 		$typeLower = strtolower($type);
 		$typeUpper = strtoupper($type);
-		$section = 'sEMAIL'.$typeUpper;
+		$section = 'sEMAIL' . $typeUpper;
 		$emailSettings = $currentSettings;
 		foreach($optionsToParse as $option) {
-			$value = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],$option,$section);
+			$value = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'], $option, $section);
 			if(strlen($value) > 0) {
 				$emailSettings[$option] = $value;
 				if(isset($this->gp[$value])) {
@@ -555,13 +530,13 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 					case 'sender_email':
 					case 'replyto_email':
 					case 'cc_email':
-						$emailSettings[$option] = $this->parseList($currentSettings,$type,$option);
+						$emailSettings[$option] = $this->parseList($currentSettings, $type, $option);
 						break;
 
 					case 'subject':
 					case 'sender_name':
 					case 'replyto_name':
-						$emailSettings[$option] = $this->parseValue($currentSettings,$type,$option);
+						$emailSettings[$option] = $this->parseValue($currentSettings, $type, $option);
 						break;
 
 					case 'attachment':
@@ -570,28 +545,26 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 
 					case 'attachPDF':
 						if(isset($currentSettings['attachPDF.']) && is_array($currentSettings['attachPDF.'])) {
-							#print "call";
 							$generatorClass = $currentSettings['attachPDF.']['class'];
 							if(!$generatorClass) {
-								$generatorClass = "F3_MailformPlusPlus_Generator_PDF";
+								$generatorClass = 'F3_MailformPlusPlus_Generator_PDF';
 							}
 							$generatorClass = F3_MailformPlusPlus_StaticFuncs::prepareClassName($generatorClass);
 							$generator = $this->componentManager->getComponent($generatorClass);
 							$exportFields = array();
 							if($emailSettings['attachPDF.']['exportFields']) {
-								$exportFields = t3lib_div::trimExplode(",",$currentSettings['attachPDF.']['exportFields']);
+								$exportFields = t3lib_div::trimExplode(',', $currentSettings['attachPDF.']['exportFields']);
 							}
-							#print_r($exportFields);
 							$prefix = 'mailformplusplus_';
 							if(isset($emailSettings['filePrefix.']['pdf'])) {
 								$prefix = $emailSettings['filePrefix.']['pdf'];
 							} elseif(isset($emailSettings['filePrefix'])) {
 								$prefix = $emailSettings['filePrefix'];
 							}
-							$file = tempnam('typo3temp/','/'.$prefix).'.pdf';
-							$file = str_replace('.tmp','',$file);
+							$file = tempnam('typo3temp/', '/'. $prefix) . '.pdf';
+							$file = str_replace('.tmp', '', $file);
 							$generator->setTemplateCode($this->getTemplate());
-							$generator->generateFrontendPDF($this->gp,$this->langFile,$exportFields,$file,true);
+							$generator->generateFrontendPDF($this->gp, $this->langFile, $exportFields, $file, true);
 							$emailSettings['attachPDF'] = $file;
 						} elseif ($currentSettings['attachPDF']) {
 							$emailSettings['attachPDF'] = $currentSettings['attachPDF'];
@@ -599,7 +572,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 						break;
 
 					case 'htmlEmailAsAttachment':
-						if(isset($currentSettings['htmlEmailAsAttachment']) && !strcmp($currentSettings['htmlEmailAsAttachment'],"1")) {
+						if(isset($currentSettings['htmlEmailAsAttachment']) && !strcmp($currentSettings['htmlEmailAsAttachment'], '1')) {
 							$emailSettings['htmlEmailAsAttachment'] = 1;
 						}
 

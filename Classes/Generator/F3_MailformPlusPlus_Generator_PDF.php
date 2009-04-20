@@ -59,10 +59,10 @@ class F3_MailformPlusPlus_Generator_PDF {
 	 * @see F3_MailformPlusPlus_Controller_Backend::generatePDF()
 	 * @return void
 	 */
-	function generateModulePDF($records,$exportFields = array()) {
+	function generateModulePDF($records, $exportFields = array()) {
 
 		//init pdf object
-		$this->pdf = $this->componentManager->getComponent("F3_MailformPlusPlus_Template_PDF");
+		$this->pdf = $this->componentManager->getComponent('F3_MailformPlusPlus_Template_PDF');
 		$addedOneRecord = false;
 
 		//for all records,
@@ -72,8 +72,8 @@ class F3_MailformPlusPlus_Generator_PDF {
 		foreach($records as $data) {
 			$valid = false;
 			if(isset($data['params']) && is_array($data['params'])) {
-				foreach($data['params'] as $key=>$value) {
-					if(count($exportFields) == 0 || in_array($key,$exportFields)) {
+				foreach($data['params'] as $key => $value) {
+					if(count($exportFields) == 0 || in_array($key, $exportFields)) {
 						$valid = true;
 					}
 				}
@@ -82,51 +82,51 @@ class F3_MailformPlusPlus_Generator_PDF {
 				$addedOneRecord = true;
 				$this->pdf->AliasNbPages();
 				$this->pdf->AddPage();
-				$this->pdf->SetFont('Arial','',12);
+				$this->pdf->SetFont('Arial', '', 12);
 				$standardWidth = 100;
 				$nameWidth = 70;
 				$valueWidth = 70;
 				$feedWidth = 30;
-				if(count($exportFields) == 0 || in_array("pid",$exportFields)) {
-					$this->pdf->Cell($standardWidth,"15","Page-ID:",0,0);
-					$this->pdf->Cell($standardWidth,"15",$data['pid'],0,1);
+				if(count($exportFields) == 0 || in_array('pid', $exportFields)) {
+					$this->pdf->Cell($standardWidth, '15', 'Page-ID:', 0, 0);
+					$this->pdf->Cell($standardWidth, '15', $data['pid'], 0, 1);
 				}
-				if(count($exportFields) == 0 || in_array("submission_date",$exportFields)) {
-					$this->pdf->Cell($standardWidth,"15","Submission date:",0,0);
-					$this->pdf->Cell($standardWidth,"15",date("d.m.Y H:i:s",$data['crdate']),0,1);
+				if(count($exportFields) == 0 || in_array('submission_date', $exportFields)) {
+					$this->pdf->Cell($standardWidth, '15', 'Submission date:', 0, 0);
+					$this->pdf->Cell($standardWidth, '15', date('d.m.Y H:i:s', $data['crdate']), 0, 1);
 				}
-				if(count($exportFields) == 0 || in_array("ip",$exportFields)) {
-					$this->pdf->Cell($standardWidth,"15","IP address:",0,0);
-					$this->pdf->Cell($standardWidth,"15",$data['ip'],0,1);
+				if(count($exportFields) == 0 || in_array('ip', $exportFields)) {
+					$this->pdf->Cell($standardWidth,'15', 'IP address:', 0, 0);
+					$this->pdf->Cell($standardWidth, '15', $data['ip'], 0, 1);
 				}
 					
-				$this->pdf->Cell($standardWidth,"15","Submitted values:",0,1);
+				$this->pdf->Cell($standardWidth, '15', 'Submitted values:', 0, 1);
 				$this->pdf->SetLineWidth(.3);
 				$this->pdf->Cell($feedWidth);
-				$this->pdf->SetFillColor(255,255,255);
-				$this->pdf->Cell($nameWidth,"6","Name",'B',0,'C',true);
-				$this->pdf->Cell($valueWidth,"6","Value",'B',0,'C',true);
+				$this->pdf->SetFillColor(255, 255, 255);
+				$this->pdf->Cell($nameWidth, '6', 'Name', 'B', 0, 'C', true);
+				$this->pdf->Cell($valueWidth, '6', 'Value', 'B', 0, 'C', true);
 				$this->pdf->Ln();
-				$this->pdf->SetFillColor(200,200,200);
+				$this->pdf->SetFillColor(200, 200, 200);
 				$fill = false;
 					
-				foreach($data['params'] as $key=>$value) {
-					if(is_array($value) && (count($exportFields) == 0 || in_array($key,$exportFields))) {
+				foreach($data['params'] as $key => $value) {
+					if(is_array($value) && (count($exportFields) == 0 || in_array($key, $exportFields))) {
 						$this->pdf->Cell($feedWidth);
-						$this->pdf->Cell($nameWidth,"6",$key,0,0,'L',$fill);
-						$this->pdf->Cell($valueWidth,"6",array_shift($value),0,0,'L',$fill);
+						$this->pdf->Cell($nameWidth, '6', $key, 0, 0, 'L', $fill);
+						$this->pdf->Cell($valueWidth, '6', array_shift($value), 0, 0, 'L', $fill);
 						$this->pdf->Ln();
 						foreach($value as $v) {
 							$this->pdf->Cell($feedWidth);
-							$this->pdf->Cell($nameWidth,"6","",0,0,'L',$fill);
-							$this->pdf->Cell($valueWidth,"6",$v,0,0,'L',$fill);
+							$this->pdf->Cell($nameWidth, '6', '', 0, 0, 'L', $fill);
+							$this->pdf->Cell($valueWidth, '6', $v, 0, 0, 'L', $fill);
 							$this->pdf->Ln();
 						}
 						$fill = !$fill;
-					} elseif(count($exportFields) == 0 || in_array($key,$exportFields)) {
+					} elseif(count($exportFields) == 0 || in_array($key, $exportFields)) {
 						$this->pdf->Cell($feedWidth);
-						$this->pdf->Cell($nameWidth,"6",$key,0,0,'L',$fill);
-						$this->pdf->Cell($valueWidth,"6",$value,0,0,'L',$fill);
+						$this->pdf->Cell($nameWidth, '6', $key, 0, 0, 'L', $fill);
+						$this->pdf->Cell($valueWidth, '6', $value, 0, 0, 'L', $fill);
 						$this->pdf->Ln();
 						$fill = !$fill;
 					}
@@ -139,8 +139,8 @@ class F3_MailformPlusPlus_Generator_PDF {
 		if(!$addedOneRecord) {
 			$this->pdf->AliasNbPages();
 			$this->pdf->AddPage();
-			$this->pdf->SetFont('Arial','',12);
-			$this->pdf->Cell(300,100,"No valid records found! Try to select more fields to export!",0,0,'L');
+			$this->pdf->SetFont('Arial', '', 12);
+			$this->pdf->Cell(300, 100, 'No valid records found! Try to select more fields to export!', 0, 0, 'L');
 		}
 		$this->pdf->Output();
 
@@ -158,49 +158,46 @@ class F3_MailformPlusPlus_Generator_PDF {
 	 * @see F3_MailformPlusPlus_Finisher_Mail::parseMailSettings()
 	 * @return void|filename
 	 */
-	function generateFrontendPDF($gp,$langFile,$exportFields = array(),$file = "",$returns = false) {
+	function generateFrontendPDF($gp, $langFile, $exportFields = array(), $file = '', $returns = false) {
 		
-		$this->pdf = $this->componentManager->getComponent("F3_MailformPlusPlus_Template_PDF");
+		$this->pdf = $this->componentManager->getComponent('F3_MailformPlusPlus_Template_PDF');
 		$this->pdf->AliasNbPages();
 		$this->pdf->AddPage();
-		$this->pdf->SetFont('Arial','',12);
+		$this->pdf->SetFont('Arial', '', 12);
 		$standardWidth = 100;
 		$nameWidth = 70;
 		$valueWidth = 70;
 		$feedWidth = 30;
 		
-		if(count($exportFields) == 0 || in_array("pid",$exportFields)) {
-			$this->pdf->Cell($standardWidth,"15","Page-ID:",0,0);
-			$this->pdf->Cell($standardWidth,"15",$GLOBALS['TSFE']->id,0,1);
+		if(count($exportFields) == 0 || in_array('pid', $exportFields)) {
+			$this->pdf->Cell($standardWidth, '15', 'Page-ID:', 0, 0);
+			$this->pdf->Cell($standardWidth, '15', $GLOBALS['TSFE']->id, 0, 1);
 		}
-		if(count($exportFields) == 0 || in_array("submission_date",$exportFields)) {
-			$this->pdf->Cell($standardWidth,"15","Submission date:",0,0);
-			$this->pdf->Cell($standardWidth,"15",date("d.m.Y H:i:s",time()),0,1);
+		if(count($exportFields) == 0 || in_array('submission_date', $exportFields)) {
+			$this->pdf->Cell($standardWidth, '15', 'Submission date:', 0, 0);
+			$this->pdf->Cell($standardWidth, '15', date('d.m.Y H:i:s', time()), 0, 1);
 		}
-		if(count($exportFields) == 0 || in_array("ip",$exportFields)) {
-			$this->pdf->Cell($standardWidth,"15","IP address:",0,0);
-			$this->pdf->Cell($standardWidth,"15",t3lib_div::getIndpEnv('REMOTE_ADDR'),0,1);
+		if(count($exportFields) == 0 || in_array('ip',$exportFields)) {
+			$this->pdf->Cell($standardWidth, '15', 'IP address:', 0, 0);
+			$this->pdf->Cell($standardWidth, '15', t3lib_div::getIndpEnv('REMOTE_ADDR'), 0, 1);
 		}
-		$this->pdf->Cell($standardWidth,"15","Submitted values:",0,1);
+		$this->pdf->Cell($standardWidth, '15', 'Submitted values:', 0, 1);
 		
 		if(isset($gp) && is_array($gp)) {
 			$this->pdf->SetLineWidth(.3);
 			$this->pdf->Cell($feedWidth);
-			$this->pdf->SetFillColor(255,255,255);
-			$this->pdf->Cell($nameWidth,"6","Name",'B',0,'C',true);
-			$this->pdf->Cell($valueWidth,"6","Value",'B',0,'C',true);
+			$this->pdf->SetFillColor(255, 255, 255);
+			$this->pdf->Cell($nameWidth, '6', 'Name', 'B', 0, 'C', true);
+			$this->pdf->Cell($valueWidth, '6', 'Value', 'B', 0, 'C', true);
 			$this->pdf->Ln();
-			$this->pdf->SetFillColor(200,200,200);
+			$this->pdf->SetFillColor(200, 200, 200);
 			$fill = false;
 			unset($gp['renderMethod']);
-			
-			foreach($exportFields as $key=>$field) {
+			foreach($exportFields as $key => $field) {
+				if(	strcmp($field, 'pid') == FALSE ||
+					strcmp($field, 'submission_date') == FALSE ||
+					strcmp($field, 'ip') == FALSE) {
 					
-				if(	strcmp($field,'pid') == FALSE ||
-					strcmp($field,'submission_date') == FALSE ||
-					strcmp($field,'ip') == FALSE) {
-					
-						
 					unset($exportFields[$key]);
 				}
 			}
@@ -208,26 +205,25 @@ class F3_MailformPlusPlus_Generator_PDF {
 				$exportFields = array_keys($gp);
 			}
 			
-		
-			foreach($exportFields as $idx=>$key) {
+			foreach($exportFields as $idx => $key) {
 				if(isset($gp[$key])) {
 					$value = $gp[$key];
 					if(is_array($value)) {
 						$this->pdf->Cell($feedWidth);
-						$this->pdf->Cell($nameWidth,"6",trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key)),0,0,'L',$fill);
-						$this->pdf->Cell($valueWidth,"6",array_shift($value),0,0,'L',$fill);
+						$this->pdf->Cell($nameWidth, '6', trim($GLOBALS['TSFE']->sL('LLL:' . $langFile . ':' . $key)), 0, 0, 'L', $fill);
+						$this->pdf->Cell($valueWidth,'6', array_shift($value), 0, 0, 'L', $fill);
 						$this->pdf->Ln();
 						foreach($value as $v) {
 							$this->pdf->Cell($feedWidth);
-							$this->pdf->Cell($nameWidth,"6","",0,0,'L',$fill);
-							$this->pdf->Cell($valueWidth,"6",$v,0,0,'L',$fill);
+							$this->pdf->Cell($nameWidth, '6', '', 0, 0, 'L', $fill);
+							$this->pdf->Cell($valueWidth, '6', $v, 0, 0, 'L', $fill);
 							$this->pdf->Ln();
 						}
 						$fill = !$fill;
 					} else {
 						$this->pdf->Cell($feedWidth);
-						$this->pdf->Cell($nameWidth,"6",trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':'.$key)),0,0,'L',$fill);
-						$this->pdf->Cell($valueWidth,"6",$value,0,0,'L',$fill);
+						$this->pdf->Cell($nameWidth, '6',trim($GLOBALS['TSFE']->sL('LLL:' . $langFile . ':' . $key)), 0, 0, 'L', $fill);
+						$this->pdf->Cell($valueWidth, '6', $value, 0, 0, 'L', $fill);
 						$this->pdf->Ln();
 						$fill = !$fill;
 					}
@@ -243,7 +239,7 @@ class F3_MailformPlusPlus_Generator_PDF {
 				return $downloadpath;
 			}
 			
-			header('Location: '.$downloadpath);
+			header('Location: ' . $downloadpath);
 		} else {
 
 			$this->pdf->Output();

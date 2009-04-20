@@ -31,10 +31,10 @@ class F3_MailformPlusPlus_ErrorCheck_Captcha extends F3_MailformPlusPlus_Abstrac
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 
-		// get captcha sting
+			// get captcha sting
 		session_start();
 		$captchaStr = $_SESSION['tx_captcha_string'];
 		$_SESSION['tx_captcha_string'] = '';

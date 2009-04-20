@@ -30,7 +30,7 @@ class F3_MailformPlusPlus_Finisher_ClearCache extends F3_MailformPlusPlus_Abstra
 	 */
 	public function process() {
 
-		require_once("t3lib/class.t3lib_tcemain.php");
+		require_once('t3lib/class.t3lib_tcemain.php');
 		$tce = t3lib_div::makeInstance('t3lib_tcemain');
 		$tce->clear_cacheCmd($GLOBALS['TSFE']->id);
 		return $this->gp;

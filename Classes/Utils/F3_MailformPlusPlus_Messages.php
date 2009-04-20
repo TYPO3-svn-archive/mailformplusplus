@@ -31,7 +31,7 @@ class F3_MailformPlusPlus_Messages {
 	 * @return string
 	 */
 	public static function getDebugMessage($key) {
-		return trim($GLOBALS['TSFE']->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_debug.xml:'.$key));
+		return trim($GLOBALS['TSFE']->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_debug.xml:' . $key));
 	}
 
 	/**
@@ -41,7 +41,7 @@ class F3_MailformPlusPlus_Messages {
 	 * @return string
 	 */
 	public static function getExceptionMessage($key) {
-		return trim($GLOBALS['TSFE']->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_exceptions.xml:'.$key));
+		return trim($GLOBALS['TSFE']->sL('LLL:EXT:mailformplusplus/Resources/Language/locallang_exceptions.xml:' . $key));
 	}
 
 }

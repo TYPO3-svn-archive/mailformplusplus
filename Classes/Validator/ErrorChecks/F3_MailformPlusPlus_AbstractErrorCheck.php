@@ -15,11 +15,11 @@
  *                                                                        */
 
 /**
- * Abstract class for validators for MailformPlusPlus
+ * Abstract class for error checks for Mailformplus MVC
  *
  * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
- * @subpackage	Validator
+ * @subpackage	ErrorChecks
  */
 abstract class F3_MailformPlusPlus_AbstractErrorCheck {
 
@@ -78,7 +78,7 @@ abstract class F3_MailformPlusPlus_AbstractErrorCheck {
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	abstract public function check(&$check,$name,&$gp);
+	abstract public function check(&$check, $name, &$gp);
 
 	
 	/**
@@ -90,11 +90,11 @@ abstract class F3_MailformPlusPlus_AbstractErrorCheck {
 	protected function getCheckFailed($check) {
 		$checkFailed = $check['check'];
 		if(is_array($check['params'])) {
-			$checkFailed .= ";";
-			foreach($check['params'] as $key=>$value) {
-				$checkFailed .= $key."::".$value.";";
+			$checkFailed .= ';';
+			foreach($check['params'] as $key => $value) {
+				$checkFailed .= $key . '::' . $value . ';';
 			}
-			$checkFailed = substr($checkFailed,0,strlen($checkFailed)-1);
+			$checkFailed = substr($checkFailed, 0, (strlen($checkFailed) - 1));
 		}
 		return $checkFailed;
 	}
@@ -106,10 +106,10 @@ abstract class F3_MailformPlusPlus_AbstractErrorCheck {
 	 * @param array $params If TypoScript object, this is the parameter array
 	 * @return string The parsed value
 	 */
-	protected function getCheckValue($obj,$params) {
+	protected function getCheckValue($obj, $params) {
 		$checkValue = $obj;
 		if(is_array($params)) {
-			$checkValue = $this->cObj->cObjGetSingle($obj,$params);
+			$checkValue = $this->cObj->cObjGetSingle($obj, $params);
 		}
 		return $checkValue;
 	}

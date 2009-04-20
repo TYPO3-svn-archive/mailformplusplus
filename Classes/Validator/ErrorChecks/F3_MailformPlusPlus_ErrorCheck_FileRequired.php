@@ -32,10 +32,10 @@ class F3_MailformPlusPlus_ErrorCheck_FileRequired extends F3_MailformPlusPlus_Ab
 	 * @return string The error string
 	 */
 	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+		$checkFailed = '';
 		session_start();
 		$found = false;
-		foreach($_FILES as $sthg=>&$files) {
+		foreach($_FILES as $sthg => &$files) {
 			if(strlen($files['name'][$name]) > 0) {
 				$found = true;
 			}

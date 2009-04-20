@@ -30,42 +30,40 @@ class F3_MailformPlusPlus_View_Confirmation extends F3_MailformPlusPlus_View_Def
 	 * @param array $errors The errors occurred in validation
 	 * @return string content
 	 */
-	public function render($gp,$errors) {
+	public function render($gp, $errors) {
 
-		//set GET/POST parameters
+			//set GET/POST parameters
 		$this->gp = $gp;
 
-		//set template
+			//set template
 		$this->template = $this->subparts['template'];
 
-		//set settings
+			//set settings
 		$this->settings = $this->parseSettings();
 
-		#print_r($this->settings);
-
-		//set language file
+			//set language file
 		if(!$this->langFile) {
 			$this->readLangFile();
 		}
 
-		//substitute ISSET markers
+			//substitute ISSET markers
 		$this->substituteIssetSubparts();
 
-		//fill Typoscript markers
+			//fill Typoscript markers
 		if(is_array($this->settings['markers.'])) {
 			$this->fillTypoScriptMarkers();
 		}
 
-		//fill default markers
+			//fill default markers
 		$this->fillDefaultMarkers();
 
-		//fill value_[fieldname] markers
+			//fill value_[fieldname] markers
 		$this->fillValueMarkers();
 
-		//fill LLL:[language_key] markers
+			//fill LLL:[language_key] markers
 		$this->fillLangMarkers();
 
-		//remove markers that were not substituted
+			//remove markers that were not substituted
 		$content = F3_MailformPlusPlus_StaticFuncs::removeUnfilledMarkers($this->template);
 
 		return $this->pi_wrapInBaseClass($content);
@@ -88,20 +86,34 @@ class F3_MailformPlusPlus_View_Confirmation extends F3_MailformPlusPlus_View_Def
 			$params = $this->gp;
 		}
 		$params['type'] = 98;
-		$markers['###PRINT_LINK###'] = $this->cObj->getTypolink("Print",$GLOBALS['TSFE']->id,$params);
+		$label = trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':print'));
+		if(strlen($label) == 0) {
+			$label = 'print';
+		}
+		$markers['###PRINT_LINK###'] = $this->cObj->getTypolink($label, $GLOBALS['TSFE']->id, $params);
 		unset($params['type']);
 		if($this->settings['formValuesPrefix']) {
-			$params[$this->settings['formValuesPrefix']]['renderMethod'] = "pdf";
+			$params[$this->settings['formValuesPrefix']]['renderMethod'] = 'pdf';
 		} else {
-			$params['renderMethod'] = "pdf";
+			$params['renderMethod'] = 'pdf';
 		}
-		$markers['###PDF_LINK###'] = $this->cObj->getTypolink("Save as PDF",$GLOBALS['TSFE']->id,$params);
+		
+		$label = trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':pdf'));
+		if(strlen($label) == 0) {
+			$label = 'pdf';
+		}
+		$markers['###PDF_LINK###'] = $this->cObj->getTypolink($label, $GLOBALS['TSFE']->id, $params);
 		if($this->settings['formValuesPrefix']) {
-			$params[$this->settings['formValuesPrefix']]['renderMethod'] = "csv";
+			$params[$this->settings['formValuesPrefix']]['renderMethod'] = 'csv';
 		} else {
-			$params['renderMethod'] = "csv";
+			$params['renderMethod'] = 'csv';
 		}
-		$markers['###CSV_LINK###'] = $this->cObj->getTypolink("Save as CSV",$GLOBALS['TSFE']->id,$params);
+		
+		$label = trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':csv'));
+		if(strlen($label) == 0) {
+			$label = 'csv';
+		}
+		$markers['###CSV_LINK###'] = $this->cObj->getTypolink($label, $GLOBALS['TSFE']->id, $params);
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 	}
 }

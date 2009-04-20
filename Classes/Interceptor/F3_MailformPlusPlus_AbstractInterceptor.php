@@ -76,7 +76,7 @@ abstract class F3_MailformPlusPlus_AbstractInterceptor {
 	 * @param array $settings The defined TypoScript settings for the finisher
 	 * @return array The probably modified GET/POST parameters
 	 */
-	abstract public function process($gp,$settings);
+	abstract public function process($gp, $settings);
 
 }
 ?>

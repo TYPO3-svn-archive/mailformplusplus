@@ -31,10 +31,10 @@ class F3_MailformPlusPlus_ErrorCheck_Integer extends F3_MailformPlusPlus_Abstrac
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 		if(isset($gp[$name]) && !empty($gp[$name])) {
-			$ereg = "^-{0,1}[0-9]+$";
+			$ereg = '^-{0,1}[0-9]+$'';
 			$valid = ereg($ereg, $gp[$name]);
 			if(!$valid) {
 				$checkFailed = $this->getCheckFailed($check);

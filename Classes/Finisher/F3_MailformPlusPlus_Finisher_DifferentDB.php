@@ -97,7 +97,7 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 
 		//if adodb is installed
 		if(t3lib_extMgm::isLoaded('adodb')) {
-			require_once(t3lib_extMgm::extPath('adodb').'adodb/adodb.inc.php');
+			require_once(t3lib_extMgm::extPath('adodb') . 'adodb/adodb.inc.php');
 				
 			//build sql
 				
@@ -106,10 +106,10 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 				foreach($queryFields as $dbfield=>$value) {
 					$fields[$dbfield] = $value;
 					if(!is_numeric($value)) {
-						$fields[$dbfield] = "'".$value."'";
+						$fields[$dbfield] = "'" . $value . "'";
 					}
 				}
-				$sql = "INSERT INTO ".$this->table." (".(implode(',',array_keys($fields))).") VALUES (".(implode(',',$fields)).")";
+				$sql = 'INSERT INTO ' . $this->table . ' (' . (implode(',', array_keys($fields))) . ') VALUES (' . (implode(',', $fields)) . ')';
 
 				//update query
 			} else {
@@ -121,15 +121,15 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 				}
 				if($uid) {
 					$fields = array();
-					foreach($queryFields as $dbfield=>$value) {
+					foreach($queryFields as $dbfield => $value) {
 						if(is_numeric($value)) {
-							$fields[] = $dbfield."=".$value;
+							$fields[] = $dbfield . '=' . $value;
 						} else {
-							$fields[] = $dbfield."='".$value."'";
+							$fields[] = $dbfield . "='" . $value . "'";
 						}
 					}
-					$fields = implode(",",$fields);
-					$sql = "UPDATE ".$this->table." SET (".$fields.") WHERE ".$this->key."=".$uid;
+					$fields = implode(',', $fields);
+					$sql = 'UPDATE ' . $this->table . ' SET (' . $fields . ') WHERE ' . $this->key . '=' . $uid;
 				} else {
 					F3_MailformPlusPlus_StaticFuncs::debugMessage('no_update_possible');
 				}
@@ -139,7 +139,7 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 			$conn = &NewADOConnection($this->driver);
 			$host = $this->host;
 			if($this->port) {
-				$host .= ":".$this->port;
+				$host .= ':' . $this->port;
 			}
 			if($this->db) {
 				$conn->Connect($host, $this->user, $this->password, $this->db);
@@ -153,7 +153,7 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 			//close connection
 			$conn->Close();
 		} else {
-			F3_MailformPlusPlus_StaticFuncs::throwException('extension_required','adodb','F3_MailformPlsuPlus_Finisher_DifferentDB');
+			F3_MailformPlusPlus_StaticFuncs::throwException('extension_required', 'adodb', 'F3_MailformPlsuPlus_Finisher_DifferentDB');
 		}
 	}
 
@@ -172,7 +172,7 @@ class F3_MailformPlusPlus_Finisher_DifferentDB extends F3_MailformPlusPlus_Finis
 		$this->user = $this->settings['username'];
 		$this->password = $this->settings['password'];
 		if(!$this->driver) {
-			throw new Exception("No driver given!");
+			throw new Exception('No driver given!');
 		}
 	}
 

@@ -45,7 +45,7 @@ class F3_MailformPlusPlus_Finisher_Redirect extends F3_MailformPlusPlus_Abstract
 		//read redirect page
 		$emailRedirect = $this->settings['redirectPage'];
 
-		$url = "";
+		$url = '';
 
 		if(!isset($emailRedirect)) {
 			return;
@@ -56,11 +56,11 @@ class F3_MailformPlusPlus_Finisher_Redirect extends F3_MailformPlusPlus_Abstract
 
 			// these parameters have to be added to the redirect url
 			$addparams = array();
-			if (t3lib_div::_GP("L")) {
-				$addparams["L"] = t3lib_div::_GP("L");
+			if (t3lib_div::_GP('L')) {
+				$addparams['L'] = t3lib_div::_GP('L');
 			}
 				
-			$url = $this->cObj->getTypoLink_URL($emailRedirect, '',$addparams);
+			$url = $this->cObj->getTypoLink_URL($emailRedirect, '', $addparams);
 				
 			//else it may be a full URL
 		} else {
@@ -73,7 +73,7 @@ class F3_MailformPlusPlus_Finisher_Redirect extends F3_MailformPlusPlus_Abstract
 		}
 
 		if($url) {
-			header("Location: ".t3lib_div::locationHeaderUrl($url));
+			header('Location: ' . t3lib_div::locationHeaderUrl($url));
 		}
 		exit();
 	}
@@ -88,7 +88,7 @@ class F3_MailformPlusPlus_Finisher_Redirect extends F3_MailformPlusPlus_Abstract
 	public function loadConfig($gp,$tsConfig) {
 		$this->gp = $gp;
 		$this->settings = $tsConfig;
-		$redirect = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'], 'redirect_page','sMISC');
+		$redirect = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'], 'redirect_page', 'sMISC');
 		if($redirect) {
 			$this->settings['redirectPage'] = $redirect;
 		}

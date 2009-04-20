@@ -135,7 +135,6 @@ abstract class F3_MailformPlusPlus_AbstractController implements F3_MailformPlus
 
 		if($this->predefined) {
 				
-				
 			$settings = $settings['predef.'][$this->predefined];
 		}
 		return $settings;

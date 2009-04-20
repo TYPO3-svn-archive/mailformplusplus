@@ -122,7 +122,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 		//read settings
 		$settings = $this->configuration->getSettings();
 		if(!$settings['fe_listing.']) {
-			throw new Exception('no_config','F3_MailformPlusPlus_Controller_Listing');
+			throw new Exception('no_config', 'F3_MailformPlusPlus_Controller_Listing');
 		}
 		$settings = $settings['fe_listing.'];
 
@@ -130,7 +130,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 		$table = $settings['table'];
 
 		if($this->gp['deleteId']) {
-			$GLOBALS['TYPO3_DB']->exec_DELETEquery($table,"uid=".$this->gp['deleteId']);
+			$GLOBALS['TYPO3_DB']->exec_DELETEquery($table, ('uid=' . $this->gp['deleteId']));
 		}
 
 		//set pid field
@@ -138,7 +138,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 		if($settings['pidField']) {
 			$pidField = $settings['pidField'];
 		}
-		$pids = t3lib_div::trimExplode(",",$settings['pid']);
+		$pids = t3lib_div::trimExplode(',', $settings['pid']);
 
 		//parse mapping
 		$this->getMapping($settings);
@@ -146,19 +146,19 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 		//set template file
 		$templateFile = $settings['templateFile'];
 		if(isset($settings['templateFile.']) && is_array($settings['templateFile.'])) {
-			$this->templateFile = $this->cObj->cObjGetSingle($settings['templateFile'],$settings['templateFile.']);
+			$this->templateFile = $this->cObj->cObjGetSingle($settings['templateFile'], $settings['templateFile.']);
 		} else {
 			$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
 		}
 
 		if(!$table || !$this->mapping) {
-			throw new Exception('insufficient_config','F3_MailformPlusPlus_Controller_Listing');
+			throw new Exception('insufficient_config', 'F3_MailformPlusPlus_Controller_Listing');
 		}
 
 		//set view
 		$viewClass = $settings['view'];
 		if(!$viewClass) {
-			$viewClass = "F3_MailformPlusPlus_View_Listing";
+			$viewClass = 'F3_MailformPlusPlus_View_Listing';
 		}
 		$viewClass = F3_MailformPlusPlus_StaticFuncs::prepareClassName($viewClass);
 
@@ -173,23 +173,23 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 
 		//build WHERE clause
 		if($pids) {
-			$where = $pidField." IN (".implode(",",$pids).")";
+			$where = $pidField. ' IN (' . (implode(',', $pids)) . ')';
 		}
 
 		//set ORDER BY
 		$orderby = $settings['orderby'];
 
 		//Select records
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery("uid,".implode(",",array_keys($this->mapping)),$table,$where,'',$orderby);
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(('uid,' . implode(',', array_keys($this->mapping))), $table, $where, '', $orderby);
 
 		//buid items array
 		$listItems = array();
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 				if(!$this->gp['detailId']) {
-					array_push($listItems,$row);
+					array_push($listItems, $row);
 				} elseif($row['uid'] == $this->gp['detailId']) {
-					array_push($listItems,$row);
+					array_push($listItems, $row);
 				}
 			}
 		}
@@ -198,7 +198,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 
 		//render view
 		$view->setModel($listItems);
-		return $view->render(array(),array());
+		return $view->render(array(), array());
 
 
 	}
@@ -215,7 +215,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 			return array();
 		}
 		$mapping = array();
-		foreach($settings['mapping.'] as $dbfield=>$formfield) {
+		foreach($settings['mapping.'] as $dbfield => $formfield) {
 			$mapping[$dbfield] = $formfield;
 		}
 		$this->mapping = $mapping;
@@ -227,7 +227,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 	 * @return void
 	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
-	protected function initializeController($value='') {
+	protected function initializeController($value = '') {
 		$this->piVars = t3lib_div::GParrayMerged($this->configuration->getPrefixedPackageKey());
 	}
 

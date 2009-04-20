@@ -30,7 +30,7 @@ class F3_MailformPlusPlus_Interceptor_RemoveXSS extends F3_MailformPlusPlus_Abst
 	 * @param array $settings The defined TypoScript settings for the finisher
 	 * @return array The probably modified GET/POST parameters
 	 */
-	public function process($gp,$settings) {
+	public function process($gp, $settings) {
 
 		return $this->sanitizeValues($gp);
 	}
@@ -53,19 +53,19 @@ class F3_MailformPlusPlus_Interceptor_RemoveXSS extends F3_MailformPlusPlus_Abst
 				if(is_array($value)) {
 					$sanitizedArray[$key] = $this->sanitizeValues($value);
 				} else {
-					$value = str_replace("\t","",$value);
+					$value = str_replace("\t", '', $value);
 					$sanitizedArray[$key] = t3lib_div::removeXSS($value);
 				}
 			}
 				
 		//use the class provided by MailformPlusPlus
 		} else {
-			require_once(t3lib_extMgm::extPath('mailformplusplus')."Resources/PHP/RemoveXSS.php");
+			require_once(t3lib_extMgm::extPath('mailformplusplus') . 'Resources/PHP/RemoveXSS.php');
 			foreach ($values as $key => $value) {
 				if(is_array($value)) {
 					$sanitizedArray[$key] = $this->sanitizeValues($value);
 				} else {
-					$value = str_replace("\t","",$value);
+					$value = str_replace("\t", '', $value);
 					$sanitizedArray[$key] = RemoveXSS::doRemoveXSS($value);
 						
 				}

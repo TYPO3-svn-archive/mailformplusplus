@@ -32,13 +32,13 @@ class F3_MailformPlusPlus_ErrorCheck_NotEqualsField extends F3_MailformPlusPlus_
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 
 		if(isset($gp[$name]) && !empty($gp[$name])) {
 			$comparisonValue = $gp[$check['params']['field']];
 	
-			if (strcmp($comparisonValue,$gp[$name]) == 0) {
+			if (strcmp($comparisonValue, $gp[$name]) == 0) {
 				$checkFailed = $this->getCheckFailed($check);
 			}
 		}

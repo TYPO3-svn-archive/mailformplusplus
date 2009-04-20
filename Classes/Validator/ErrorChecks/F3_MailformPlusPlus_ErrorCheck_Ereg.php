@@ -32,7 +32,7 @@ class F3_MailformPlusPlus_ErrorCheck_Ereg extends F3_MailformPlusPlus_AbstractEr
 	 * @return string The error string
 	 */
 	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+		$checkFailed = '';
 		
 		if(isset($gp[$name]) && !empty($gp[$name])) {
 			$ereg = $check['params']['value'];

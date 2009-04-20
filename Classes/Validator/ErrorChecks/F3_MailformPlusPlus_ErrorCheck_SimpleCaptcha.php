@@ -31,10 +31,10 @@ class F3_MailformPlusPlus_ErrorCheck_SimpleCaptcha extends F3_MailformPlusPlus_A
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 		if (t3lib_extMgm::isLoaded('simple_captcha')) {
-			require_once(t3lib_extMgm::extPath('simple_captcha', 'class.tx_simplecaptcha.php'));
+			require_once(t3lib_extMgm::extPath('simple_captcha') . 'class.tx_simplecaptcha.php');
 			$simpleCaptcha_className = t3lib_div::makeInstanceClassName('tx_simplecaptcha');
 			$this->simpleCaptcha = new $simpleCaptcha_className();
 			if (!$this->simpleCaptcha->checkCaptcha()) {

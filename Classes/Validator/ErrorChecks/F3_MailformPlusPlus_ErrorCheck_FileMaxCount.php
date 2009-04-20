@@ -31,27 +31,25 @@ class F3_MailformPlusPlus_ErrorCheck_FileMaxCount extends F3_MailformPlusPlus_Ab
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 
 		session_start();
-		#print_r($_SESSION['mailformplusplusFiles'][$name]);
 		$maxCount = $check['params']['maxCount'];
-		#print $maxCount.' == '.count($_SESSION['mailformplusplusFiles'][$name]);
 		if(	is_array($_SESSION['mailformplusplusFiles'][$name]) &&
 		count($_SESSION['mailformplusplusFiles'][$name]) >= $maxCount &&
 		$_SESSION['mailformplusplusSettings']['currentStep'] == $_SESSION['mailformplusplusSettings']['lastStep']) {
-				
+
 			$checkFailed = $this->getCheckFailed($check);
 		} elseif (is_array($_SESSION['mailformplusplusFiles'][$name]) &&
 		$_SESSION['mailformplusplusSettings']['currentStep'] > $_SESSION['mailformplusplusSettings']['lastStep']) {
-				
+
 			foreach($_FILES as $idx=>$info) {
 				if(strlen($info['name'][$name]) > 0 && count($_SESSION['mailformplusplusFiles'][$name]) >= $maxCount) {
 					$checkFailed = $this->getCheckFailed($check);
 				}
 			}
-				
+
 		}
 		return $checkFailed;
 	}

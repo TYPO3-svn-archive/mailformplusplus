@@ -138,8 +138,6 @@ abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {
 		parent::__construct();
 		$this->componentManager = $componentManager;
 		$this->configuration = $configuration;
-		#$this->cObj = t3lib_div::makeInstance('tslib_cObj');
-		#$this->cObj->setCurrentVal($GLOBALS['TSFE']->id);
 		$this->cObj = F3_MailformPlusPlus_StaticFuncs::$cObj;
 		$this->typolinkConf['parameter.']['current'] = 1;
 		$this->typolinkConf['additionalParams'] = $this->cObj->stdWrap($typolinkConf['additionalParams'], $typolinkConf['additionalParams.']);
@@ -147,8 +145,6 @@ abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {
 
 		$this->pi_loadLL();
 		$this->initializeView();
-
-
 	}
 
 	/**
@@ -210,7 +206,7 @@ abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {
 	 */
 	public function setTemplate($templateCode, $templateName, $forceTemplate = FALSE) {
 		$this->subparts['template'] = $this->cObj->getSubpart($templateCode,'###TEMPLATE_' . $templateName . '###');
-		$this->subparts['item'] = $this->cObj->getSubpart($this->subparts['template'],'###ITEM###');
+		$this->subparts['item'] = $this->cObj->getSubpart($this->subparts['template'], '###ITEM###');
 	}
 	
 	/**
@@ -230,7 +226,7 @@ abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {
 	 * @return rendered view
 	 * @abstract
 	 */
-	abstract public function render($gp,$errors);
+	abstract public function render($gp, $errors);
 
 	/**
 	 * Overwrite this method to extend the initialization of the View
@@ -252,7 +248,7 @@ abstract class F3_MailformPlusPlus_AbstractView extends tslib_pibase {
 		foreach ($term as $property => $value) {
 			// TODO Improve pre-processing of property-values
 			if (is_array($value)) {
-				$value = implode(', ', $value);
+				$value = implode(',' , $value);
 			}
 			$propertyMarker = '###' . $this->getUpperCase($property) . '###';
 			$markerArray[$propertyMarker] = $term[$property] ? $value : $this->pi_getLL('na');

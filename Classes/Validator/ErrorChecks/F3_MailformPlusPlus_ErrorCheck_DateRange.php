@@ -31,8 +31,8 @@ class F3_MailformPlusPlus_ErrorCheck_DateRange extends F3_MailformPlusPlus_Error
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 
 		if(isset($gp[$name]) && !empty($gp[$name])) {
 			$min = $check['params']['min'];
@@ -53,21 +53,21 @@ class F3_MailformPlusPlus_ErrorCheck_DateRange extends F3_MailformPlusPlus_Error
 			$check_day = $checkdate[$pos1];
 			$check_month = $checkdate[$pos2];
 			$check_year = $checkdate[$pos3];
-			if($min != "") {
-				$min_date = explode($sep,$min);
+			if(strlen($min) > 0) {
+				$min_date = t3lib_div::trimExplode($sep, $min);
 				$min_day = $min_date[$pos1];
 				$min_month = $min_date[$pos2];
 				$min_year = $min_date[$pos3];
-				if($check_year<$min_year) {
+				if($check_year < $min_year) {
 					$checkFailed = $this->getCheckFailed($check);
-				} elseif ($check_year == $min_year && $check_month < $min_month) {
+				} elseif($check_year == $min_year && $check_month < $min_month) {
 					$checkFailed = $this->getCheckFailed($check);
-				} elseif ($check_year == $min_year && $check_month == $min_month && $check_day < $min_day) {
+				} elseif($check_year == $min_year && $check_month == $min_month && $check_day < $min_day) {
 					$checkFailed = $this->getCheckFailed($check);
 				}
 			}
-			if($max != "") {
-				$max_date = explode($sep,$max);
+			if(strlen($max) > 0) {
+				$max_date = t3lib_div::trimExplode($sep, $max);
 				$max_day = $max_date[$pos1];
 				$max_month = $max_date[$pos2];
 				$max_year = $max_date[$pos3];

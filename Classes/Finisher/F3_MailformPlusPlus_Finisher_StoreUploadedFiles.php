@@ -77,23 +77,23 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 
 		$newFolder = $this->settings['finishedUploadFolder'];
 		$newFolder = F3_MailformPlusPlus_StaticFuncs::sanitizePath($newFolder);
-		$uploadPath = F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$newFolder;
+		$uploadPath = F3_MailformPlusPlus_StaticFuncs::getDocumentRoot() . $newFolder;
 	
 		session_start();
 		if(isset($_SESSION['mailformplusplusFiles']) && is_array($_SESSION['mailformplusplusFiles']) && strlen($newFolder) > 0 ) {
-			foreach($_SESSION['mailformplusplusFiles'] as $field=>$files) {
+			foreach($_SESSION['mailformplusplusFiles'] as $field => $files) {
 				foreach($files as $key => $file) {
 					if($file['uploaded_path'] != $uploadPath) {
 						$newFilename = $this->getNewFilename($file['uploaded_name']);
 	
-						F3_MailformPlusPlus_StaticFuncs::debugMessage('copy_file',$file['uploaded_path'].$file['uploaded_name'],$uploadPath.$newFilename);
-						copy($file['uploaded_path'].$file['uploaded_name'],$uploadPath.$newFilename);
-						unlink($file['uploaded_path'].$file['uploaded_name']);
+						F3_MailformPlusPlus_StaticFuncs::debugMessage('copy_file', ($file['uploaded_path'] . $file['uploaded_name']), ($uploadPath . $newFilename));
+						copy(($file['uploaded_path'] . $file['uploaded_name']), ($uploadPath . $newFilename));
+						unlink(($file['uploaded_path'] . $file['uploaded_name']));
 	
 						$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_path'] = $uploadPath;
 						$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_name'] = $newFilename;
 						$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_folder'] = $newFolder;
-						$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_url'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL').$newFolder.$newFilename;
+						$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_url'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $newFolder . $newFilename;
 					}
 				}
 			}
@@ -108,39 +108,39 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 	 *
 	 **/
 	protected function getNewFilename($oldName) {
-		$fileparts = explode('.',$oldName);
-		$fileext = '.'.$fileparts[count($fileparts)-1];
+		$fileparts = explode('.', $oldName);
+		$fileext = '.'  .$fileparts[count($fileparts)-1];
 		array_pop($fileparts);
-		$filename = implode('.',$fileparts);
+		$filename = implode('.', $fileparts);
 
 		$namingScheme = $this->settings['renameScheme'];
 		if(!$namingScheme) {
 			$namingScheme = '[filename]_[time]';
 		}
 		$newFilename = $namingScheme;
-		$newFilename = str_replace('[filename]',$filename,$newFilename);
-		$newFilename = str_replace('[time]',time(),$newFilename);
-		$newFilename = str_replace('[md5]',md5($filename),$newFilename);
-		$newFilename = str_replace('[pid]',$GLOBALS['TSFE']->id,$newFilename);
+		$newFilename = str_replace('[filename]', $filename, $newFilename);
+		$newFilename = str_replace('[time]', time(), $newFilename);
+		$newFilename = str_replace('[md5]', md5($filename), $newFilename);
+		$newFilename = str_replace('[pid]', $GLOBALS['TSFE']->id, $newFilename);
 		if(is_array($this->settings['schemeMarkers.'])) {
-			foreach($this->settings['schemeMarkers.'] as $markerName=>$options) {
-				if(!(strpos($markerName,'.') > 0)) {
+			foreach($this->settings['schemeMarkers.'] as $markerName => $options) {
+				if(!(strpos($markerName, '.') > 0)) {
 					$value = $options;
 
 					//use field value
-					if(isset($this->settings['schemeMarkers.'][$markerName.'.']) && !strcmp($options,"fieldValue")) {
+					if(isset($this->settings['schemeMarkers.'][$markerName.'.']) && !strcmp($options, 'fieldValue')) {
 						
-						$value = $this->gp[$this->settings['schemeMarkers.'][$markerName.'.']['field']];
+						$value = $this->gp[$this->settings['schemeMarkers.'][$markerName . '.']['field']];
 
-					}elseif(isset($this->settings['schemeMarkers.'][$markerName.'.'])) {
+					} elseif(isset($this->settings['schemeMarkers.'][$markerName . '.'])) {
 
 						//pass gp to the plugin 
-						if(!strcmp($options,"USER") || !strcmp($options,"USER_INT")) {
-							$this->settings['schemeMarkers.'][$markerName.'.']['gp'] = $this->gp;
+						if(!strcmp($options,'USER') || !strcmp($options,'USER_INT')) {
+							$this->settings['schemeMarkers.'][$markerName . '.']['gp'] = $this->gp;
 						}
-						$value = $this->cObj->cObjGetSingle($this->settings['schemeMarkers.'][$markerName],$this->settings['schemeMarkers.'][$markerName.'.']);
+						$value = $this->cObj->cObjGetSingle($this->settings['schemeMarkers.'][$markerName], $this->settings['schemeMarkers.'][$markerName . '.']);
 					}
-					$newFilename = str_replace('['.$markerName.']',$value,$newFilename);
+					$newFilename = str_replace('[' . $markerName . ']', $value, $newFilename);
 				}
 			}
 		}

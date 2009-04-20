@@ -31,13 +31,11 @@ class F3_MailformPlusPlus_ErrorCheck_FileMinCount extends F3_MailformPlusPlus_Ab
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 
 		session_start();
-		#print_r($_SESSION['mailformplusplusFiles'][$name]);
 		$minCount = $check['params']['minCount'];
-		#print $maxCount.' == '.count($_SESSION['mailformplusplusFiles'][$name]);
 		if(	is_array($_SESSION['mailformplusplusFiles'][$name]) &&
 		count($_SESSION['mailformplusplusFiles'][$name]) < $minCount &&
 		$_SESSION['mailformplusplusSettings']['currentStep'] == $_SESSION['mailformplusplusSettings']['lastStep']) {
@@ -46,7 +44,7 @@ class F3_MailformPlusPlus_ErrorCheck_FileMinCount extends F3_MailformPlusPlus_Ab
 		} elseif (is_array($_SESSION['mailformplusplusFiles'][$name]) &&
 		$_SESSION['mailformplusplusSettings']['currentStep'] > $_SESSION['mailformplusplusSettings']['lastStep']) {
 				
-			foreach($_FILES as $idx=>$info) {
+			foreach($_FILES as $idx => $info) {
 				if(strlen($info['name'][$name]) > 0 && count($_SESSION['mailformplusplusFiles'][$name]) < $minCount) {
 					$checkFailed = $this->getCheckFailed($check);
 				}

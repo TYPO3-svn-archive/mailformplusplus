@@ -31,8 +31,8 @@ class F3_MailformPlusPlus_ErrorCheck_PregMatch extends F3_MailformPlusPlus_Abstr
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 		
 		if(isset($gp[$name]) && !empty($gp[$name])) {
 			$regex = $check['params']['value'];

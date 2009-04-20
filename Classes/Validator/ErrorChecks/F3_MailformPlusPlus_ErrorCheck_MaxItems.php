@@ -31,8 +31,8 @@ class F3_MailformPlusPlus_ErrorCheck_MaxItems extends F3_MailformPlusPlus_Abstra
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 		$value = $check['params']['value'];
 		
 		if(isset($gp[$name]) && !empty($gp[$name])) {

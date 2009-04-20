@@ -38,11 +38,9 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		if(t3lib_extMgm::isLoaded('xajax')) {
 			require (t3lib_extMgm::extPath('xajax') . 'class.tx_xajax.php');
 			$this->xajax = t3lib_div::makeInstance('tx_xajax');
-			#$this->xajax->statusMessagesOn();
-			#$this->xajax->debugOn();
-			$this->prefixId = "F3_MailformPlusPlus";
-			$view = $this->componentManager->getComponent("F3_MailformPlusPlus_View_Default");
-			$this->xajax->registerFunction(array($this->prefixId.'_removeUploadedFile', &$view, 'removeUploadedFile'));
+			$this->prefixId = 'F3_MailformPlusPlus';
+			$view = $this->componentManager->getComponent('F3_MailformPlusPlus_View_Default');
+			$this->xajax->registerFunction(array($this->prefixId . '_removeUploadedFile', &$view, 'removeUploadedFile'));
 			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId] = $this->xajax->getJavascript(t3lib_extMgm::siteRelPath('xajax'));
 			$this->xajax->processRequests();
 		}
@@ -91,9 +89,9 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		 * - Required fields
 		 * - Redirect page
 		 */
-		$templateFile = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'template_file','sDEF');
-		$langFile = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'lang_file','sDEF');
-		$predef = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'predefined','sDEF');
+		$templateFile = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'template_file', 'sDEF');
+		$langFile = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'lang_file', 'sDEF');
+		$predef = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'predefined', 'sDEF');
 
 		if (isset($content)) {
 			$controller->setContent($this->componentManager->getComponent('F3_MailformPlusPlus_Content', $content));

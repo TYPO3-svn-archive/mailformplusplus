@@ -31,11 +31,11 @@ class F3_MailformPlusPlus_Interceptor_ParseValues extends F3_MailformPlusPlus_Ab
 	 * @param array $settings The defined TypoScript settings for the interceptor
 	 * @return array The probably modified GET/POST parameters
 	 */
-	public function process($gp,$settings) {
+	public function process($gp, $settings) {
 		$this->gp = $gp;
 
 		//parse as float
-		$fields = t3lib_div::trimExplode(",", $settings['parseFloatFields'], true);
+		$fields = t3lib_div::trimExplode(',', $settings['parseFloatFields'], true);
 		$this->parseFloats($fields);
 		
 		return $this->gp;

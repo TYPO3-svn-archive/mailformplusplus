@@ -49,7 +49,7 @@ class F3_MailformPlusPlus_Finisher_StoreGP extends F3_MailformPlusPlus_AbstractF
 	 */
 	protected function storeUserGPinSession() {
 		foreach ($this->gp as $key => $value) {
-			$GLOBALS['TSFE']->fe_user->setKey('ses',$key , $value);
+			$GLOBALS['TSFE']->fe_user->setKey('ses', $key, $value);
 		}
 	}
 
@@ -67,7 +67,7 @@ class F3_MailformPlusPlus_Finisher_StoreGP extends F3_MailformPlusPlus_AbstractF
 
 		//set the variables in session
 		//no need to seperate steps in finishers, so simply store to step 1
-		foreach($this->gp as $key=>$value) {
+		foreach($this->gp as $key => $value) {
 			$_SESSION['mailformplusplusValues'][1][$key] = $value;
 		}
 	}

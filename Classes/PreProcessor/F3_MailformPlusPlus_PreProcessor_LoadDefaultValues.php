@@ -46,7 +46,7 @@
 
 class F3_MailformPlusPlus_PreProcessor_LoadDefaultValues extends F3_MailformPlusPlus_AbstractPreProcessor {
 
-	public function process($gp,$settings) {
+	public function process($gp, $settings) {
 		$this->gp = $gp;
 
 		foreach ($settings as $step => $stepSettings){
@@ -96,7 +96,7 @@ class F3_MailformPlusPlus_PreProcessor_LoadDefaultValues extends F3_MailformPlus
 	 * @param Array $settings
 	 * @param int $step
 	 */
-	private function loadDefaultValuesToSession($settings,$step){
+	private function loadDefaultValuesToSession($settings, $step){
 
 		session_start();
 
@@ -104,10 +104,10 @@ class F3_MailformPlusPlus_PreProcessor_LoadDefaultValues extends F3_MailformPlus
 			foreach (array_keys($settings) as $fN) {
 				$fN = preg_replace('/\.$/', '', $fN);
 				if (!isset($_SESSION['mailformplusplusValues'][$step][$fN])) {
-					if($settings[$fN.'.']['defaultValue'] && $settings[$fN . '.']['defaultValue.']) {
+					if($settings[$fN . '.']['defaultValue'] && $settings[$fN . '.']['defaultValue.']) {
 						$_SESSION['mailformplusplusValues'][$step][$fN] =  $this->cObj->cObjGetSingle($settings[$fN . '.']['defaultValue'],$settings[$fN.'.']['defaultValue.']);
 					} elseif($settings[$fN . '.']['defaultValue.']) {
-						$_SESSION['mailformplusplusValues'][$step][$fN] =  $this->cObj->TEXT($settings[$fN.'.']['defaultValue.']);
+						$_SESSION['mailformplusplusValues'][$step][$fN] =  $this->cObj->TEXT($settings[$fN . '.']['defaultValue.']);
 					} elseif ($settings[$fN . '.']['defaultValue'] || $settings[$fN . '.']['defaultValue'] == 0) {
 						$_SESSION['mailformplusplusValues'][$step][$fN] =  $settings[$fN . '.']['defaultValue'];
 					}

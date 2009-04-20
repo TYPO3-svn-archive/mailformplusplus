@@ -95,7 +95,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 			$condition = $this->parseCondition($this->settings['condition']);
 			eval('$evaluation = ' . $condition . ';');
 			$evaluationMessage = ($evaluation === TRUE) ?  'TRUE' : 'FALSE';
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('condition',$evaluationMessage,$condition);
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('condition', $evaluationMessage, $condition);
 				
 		}
 
@@ -154,8 +154,8 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 		//insert query
 		if(!$this->doUpdate) {
 
-			$query = $GLOBALS['TYPO3_DB']->INSERTquery($this->table,$queryFields);
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('sql_request',$query);
+			$query = $GLOBALS['TYPO3_DB']->INSERTquery($this->table, $queryFields);
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('sql_request', $query);
 			$res = $GLOBALS['TYPO3_DB']->sql_query($query);
 				
 			//update query
@@ -168,8 +168,8 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 			}
 			if($uid) {
 
-				$query = $GLOBALS['TYPO3_DB']->UPDATEquery($this->table, $this->key . "=" . $uid, $queryFields);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('sql_request',$query);
+				$query = $GLOBALS['TYPO3_DB']->UPDATEquery($this->table, $this->key . '=' . $uid, $queryFields);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('sql_request', $query);
 				$res = $GLOBALS['TYPO3_DB']->sql_query($query);
 			} else {
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('no_update_possible');
@@ -191,7 +191,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 		//set table
 		$this->table = $this->settings['table'];
 		if(!$this->table || !is_array($this->settings['fields.'])) {
-			F3_MailformPlusPlus_StaticFuncs::throwException('no_table','F3_MailformPlusPlus_Finisher_DB');
+			F3_MailformPlusPlus_StaticFuncs::throwException('no_table', 'F3_MailformPlusPlus_Finisher_DB');
 			return;
 		}
 
@@ -218,8 +218,8 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 		session_start();		
 
 		//parse mapping
-		foreach($this->settings['fields.'] as $fieldname=>$options) {
-			$fieldname = str_replace(".","",$fieldname);
+		foreach($this->settings['fields.'] as $fieldname => $options) {
+			$fieldname = str_replace('.', '', $fieldname);
 				
 			if(isset($options) && is_array($options) && !isset($options['special'])) {
 
@@ -229,7 +229,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 				}
 
 				if($options['mapping.']) {
-					$queryFields[$fieldname] = $this->cObj->cObjGetSingle($options['mapping'],$options['mapping.']);
+					$queryFields[$fieldname] = $this->cObj->cObjGetSingle($options['mapping'], $options['mapping.']);
 				}
 				else {
 					$queryFields[$fieldname] = $this->gp[$options['mapping']];
@@ -240,7 +240,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 						
 					//if given settings is a TypoScript object
 					if(isset($options['if_is_empty.']) && is_array($options['if_is_empty.'])) {
-						$queryFields[$fieldname] = $this->cObj->cObjGetSingle($options['ifIsEmpty'],$options['ifIsEmpty.']);
+						$queryFields[$fieldname] = $this->cObj->cObjGetSingle($options['ifIsEmpty'], $options['ifIsEmpty.']);
 					} else {
 						$queryFields[$fieldname] = $options['ifIsEmpty'];
 					}
@@ -248,11 +248,11 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 
 				//process array handling
 				if(isset($this->gp[$options['mapping']]) && is_array($this->gp[$options['mapping']])) {
-					$seperator = ",";
+					$seperator = ',';
 					if($options['seperator']) {
 						$seperator = $options['seperator'];
 					}
-					$queryFields[$fieldname] = implode($seperator,$this->gp[$options['mapping']]);
+					$queryFields[$fieldname] = implode($seperator, $this->gp[$options['mapping']]);
 				}
 
 				//process uploaded files
@@ -263,14 +263,14 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 				//special mapping
 			} elseif(isset($options) && is_array($options) && isset($options['special'])) {
 				switch($options['special']) {
-					case "sub_datetime":
-						$now = date("Y-m-d H:i:s", time());
+					case 'sub_datetime':
+						$now = date('Y-m-d H:i:s', time());
 						$queryFields[$fieldname] = $now;
 						break;
-					case "sub_tstamp":
+					case 'sub_tstamp':
 						$queryFields[$fieldname] = time();
 						break;
-					case "ip":
+					case 'ip':
 						$queryFields[$fieldname] = t3lib_div::getIndpEnv('REMOTE_ADDR');
 						break;
 				}
@@ -291,7 +291,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 		foreach ($_SESSION['mailformplusplusFiles'][$fieldname] as $file) {
 			array_push($filenames, $file['uploaded_name']);
 		}
-		return implode(',',$filenames);
+		return implode(',', $filenames);
 	}
 
 }

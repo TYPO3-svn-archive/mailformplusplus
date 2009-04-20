@@ -31,16 +31,16 @@ class F3_MailformPlusPlus_ErrorCheck_FileAllowedTypes extends F3_MailformPlusPlu
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 		$allowed = $check['params']['allowedTypes'];
-		foreach($_FILES as $sthg=>&$files) {
+		foreach($_FILES as $sthg => &$files) {
 			if(strlen($files['name'][$name]) > 0) {
 				if($allowed) {
-					$types = t3lib_div::trimExplode(",",$allowed);
+					$types = t3lib_div::trimExplode(',', $allowed);
 					$fileext = substr($files['name'][$name], strrpos($files['name'][$name], '.') + 1);
 					$fileext = strtolower($fileext);
-					if(!in_array($fileext,$types)) {
+					if(!in_array($fileext, $types)) {
 						unset($files);
 						$checkFailed = $this->getCheckFailed($check);
 					}

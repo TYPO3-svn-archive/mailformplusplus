@@ -26,11 +26,19 @@ class F3_MailformPlusPlus_StaticFuncs {
 	/**
 	 * The cObj
 	 *
-	 * @access protected
+	 * @access public
+	 * @static
 	 * @var tslib_cObj
 	 */
 	static public $cObj;
-	
+
+	/**
+	 * Identifier of the selected predefined form
+	 *
+	 * @access public
+	 * @static
+	 * @var string
+	 */
 	static public $predefined;
 
 	/**
@@ -49,24 +57,24 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 */
 	static public function getTYPO3Root() {
 		$path = t3lib_div::getIndpEnv('SCRIPT_FILENAME');
-		$path = str_replace("/index.php","",$path);
+		$path = str_replace('/index.php', '', $path);
 		return $path;
 	}
 
-	
+
 	/**
 	 * Adds needed prefix to class name if not set in TS
 	 *
 	 * @return string
 	 */
 	static public function prepareClassName($className) {
-		if(!preg_match('/^F3_/',$className)) {
-			$className = 'F3_MailformPlusPlus_'.$className;
+		if(!preg_match('/^F3_/', $className)) {
+			$className = 'F3_MailformPlusPlus_' . $className;
 		}
 		return $className;
 	}
 
-	
+
 
 	/**
 	 * copied from class tslib_content
@@ -80,8 +88,8 @@ class F3_MailformPlusPlus_StaticFuncs {
 	static public function substituteMarkerArray($content,$markContentArray) {
 		if (is_array($markContentArray))	{
 			reset($markContentArray);
-			while(list($marker,$markContent) = each($markContentArray))	{
-				$content = str_replace($marker,$markContent,$content);
+			foreach($markContentArray as $marker => $markContent) {
+				$content = str_replace($marker, $markContent, $content);
 			}
 		}
 		return $content;
@@ -96,24 +104,24 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @param	string		Marker string, eg. "###CONTENT_PART###"
 	 * @return	string
 	 */
-	static public function getSubpart($content,$marker)	{
+	static public function getSubpart($content, $marker)	{
 		$start = strpos($content, $marker);
-		if ($start===false)	{ return ''; }
+		if ($start === FALSE)	{
+			return '';
+		}
 		$start += strlen($marker);
 		$stop = strpos($content, $marker, $start);
-		// Q: What shall get returned if no stop marker is given /*everything till the end*/ or nothing
-		if ($stop===false)	{ return /*substr($content, $start)*/ ''; }
-		$content = substr($content, $start, $stop-$start);
+		$content = substr($content, $start, ($stop - $start));
 		$matches = array();
-		if (preg_match('/^([^\<]*\-\-\>)(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches)===1)	{
+		if (preg_match('/^([^\<]*\-\-\>)(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches) === 1)	{
 			return $matches[2];
 		}
 		$matches = array();
-		if (preg_match('/(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches)===1)	{
+		if (preg_match('/(.*)(\<\!\-\-[^\>]*)$/s', $content, $matches) === 1)	{
 			return $matches[1];
 		}
 		$matches = array();
-		if (preg_match('/^([^\<]*\-\-\>)(.*)$/s', $content, $matches)===1)	{
+		if (preg_match('/^([^\<]*\-\-\>)(.*)$/s', $content, $matches) === 1)	{
 			return $matches[2];
 		}
 		return $content;
@@ -129,10 +137,15 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @param	string		Value pointer, eg. "vDEF"
 	 * @return	string		The content.
 	 */
-	static public function pi_getFFvalue($T3FlexForm_array,$fieldName,$sheet='sDEF',$lang='lDEF',$value='vDEF')	{
-		$sheetArray = is_array($T3FlexForm_array) ? $T3FlexForm_array['data'][$sheet][$lang] : '';
+	static public function pi_getFFvalue($T3FlexForm_array, $fieldName, $sheet='sDEF', $lang='lDEF', $value='vDEF')	{
+		$sheetArray = '';
+		if(is_array($T3FlexForm_array)) {
+			$sheetArray = $T3FlexForm_array['data'][$sheet][$lang];
+		} else {
+			$sheetArray = '';
+		}
 		if (is_array($sheetArray))	{
-			return F3_MailformPlusPlus_StaticFuncs::pi_getFFvalueFromSheetArray($sheetArray,explode('/',$fieldName),$value);
+			return F3_MailformPlusPlus_StaticFuncs::pi_getFFvalueFromSheetArray($sheetArray, t3lib_div::trimExplode('/', $fieldName), $value);
 		}
 	}
 
@@ -146,17 +159,16 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @access private
 	 * @see pi_getFFvalue()
 	 */
-	static public function pi_getFFvalueFromSheetArray($sheetArray,$fieldNameArr,$value)	{
+	static public function pi_getFFvalueFromSheetArray($sheetArray, $fieldNameArr, $value) {
 
-		$tempArr=$sheetArray;
+		$tempArr = $sheetArray;
 		foreach($fieldNameArr as $k => $v)	{
 			if (t3lib_div::testInt($v))	{
 				if (is_array($tempArr))	{
-					$c=0;
-					foreach($tempArr as $values)	{
-						if ($c==$v)	{
-							#debug($values);
-							$tempArr=$values;
+					$c = 0;
+					foreach($tempArr as $values) {
+						if ($c == $v) {
+							$tempArr = $values;
 							break;
 						}
 						$c++;
@@ -178,11 +190,11 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
 	static public function dateToTimestamp($date,$end = false) {
-		$dateArr = explode(".",$date);
+		$dateArr = t3lib_div::trimExplode('.', $date);
 		if($end) {
-			return mktime(23,59,59,$dateArr[1],$dateArr[0],$dateArr[2]);
+			return mktime(23, 59, 59, $dateArr[1], $dateArr[0], $dateArr[2]);
 		}
-		return mktime(0,0,0,$dateArr[1],$dateArr[0],$dateArr[2]);
+		return mktime(0, 0, 0, $dateArr[1], $dateArr[0], $dateArr[2]);
 	}
 
 	/**
@@ -207,11 +219,11 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return string Sanitized path
 	 */
 	static public function sanitizePath($path) {
-		if(substr($path,0,1) != "/") {
-			$path = "/".$path;
+		if(substr($path, 0, 1) != '/') {
+			$path = '/' . $path;
 		}
-		if(substr($path,strlen($path)-1) != "/" && !strstr($path,".")) {
-			$path = $path."/";
+		if(substr($path, (strlen($path) - 1)) != '/' && !strstr($path, '.')) {
+			$path = $path . '/';
 		}
 		return $path;
 	}
@@ -235,9 +247,9 @@ class F3_MailformPlusPlus_StaticFuncs {
 		$scriptPath =  t3lib_div::getIndpEnv('SCRIPT_FILENAME');
 
 		//C:/xampp/htdocs/typo3/
-		$rootPath = str_replace('index.php','',$scriptPath);
+		$rootPath = str_replace('index.php', '', $scriptPath);
 
-		return str_replace($rootPath,'',$absPath);
+		return str_replace($rootPath, '', $absPath);
 
 	}
 
@@ -252,12 +264,12 @@ class F3_MailformPlusPlus_StaticFuncs {
 	static public function getFilledLangMarkers(&$template,$langFile) {
 		$GLOBALS['TSFE']->readLLfile($langFile);
 		$langMarkers = array();
-		if ($langFile != '') {
+		if (strlen($langFile) > 0) {
 			$aLLMarkerList = array();
 			preg_match_all('/###LLL:.+?###/Ssm', $template, $aLLMarkerList);
 
 			foreach($aLLMarkerList[0] as $LLMarker){
-				$llKey =  substr($LLMarker,7,strlen($LLMarker)-10);
+				$llKey =  substr($LLMarker, 7, strlen($LLMarker) - 10);
 				$marker = $llKey;
 				$langMarkers['###LLL:'.$marker.'###'] = trim($GLOBALS['TSFE']->sL('LLL:' . $langFile. ':' . $llKey));
 			}
@@ -280,7 +292,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 						$v = implode(',', $v);
 					}
 					$v = trim($v);
-					if ($v != "") {
+					if (strlen($v) > 0) {
 						if(get_magic_quotes_gpc()) {
 							$markers['###value_'.$k.'###'] = stripslashes(self::reverse_htmlspecialchars($v));
 						} else {
@@ -306,7 +318,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	static public function reverse_htmlspecialchars($mixed) {
 		$htmltable = get_html_translation_table(HTML_ENTITIES);
 		foreach($htmltable as $key => $value) {
-			$mixed = ereg_replace(addslashes($value),$key,$mixed);
+			$mixed = ereg_replace(addslashes($value), $key, $mixed);
 		}
 		return $mixed;
 	}
@@ -324,14 +336,14 @@ class F3_MailformPlusPlus_StaticFuncs {
 		if($_SESSION['mailformplusplusSettings']['debugMode']) {
 			$message = F3_MailformPlusPlus_Messages::getDebugMessage($key);
 			if(strlen($message) == 0) {
-				print $key.'<br />';
+				print $key . '<br />';
 			} else {
 				if(func_num_args() > 1) {
 					$args = func_get_args();
 					array_shift($args);
-					$message = vsprintf($message,$args);
+					$message = vsprintf($message, $args);
 				}
-				print $message.'<br />';
+				print $message . '<br />';
 			}
 		}
 	}
@@ -351,7 +363,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 			if(func_num_args() > 1) {
 				$args = func_get_args();
 				array_shift($args);
-				$message = vsprintf($message,$args);
+				$message = vsprintf($message, $args);
 			}
 			throw new Exception($message);
 		}
@@ -370,13 +382,13 @@ class F3_MailformPlusPlus_StaticFuncs {
 			return;
 		}
 		$fields = array();
-		foreach($arr as $key=>$value) {
+		foreach($arr as $key => $value) {
 			if(is_array($value)) {
-				$value = implode(",",$value);
+				$value = implode(',', $value);
 			}
-			array_push($fields,$key."=".$value);
+			array_push($fields, $key . '=' . $value);
 		}
-		print implode("<br />",$fields);
+		print implode('<br />', $fields);
 	}
 
 
@@ -400,13 +412,13 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @static
 	 */
 	static public function resolvePath($path) {
-		$path = explode("/",$path);
-		if(strpos($path[0],"EXT") > -1) {
-			$parts = explode(":",$path[0]);
+		$path = explode('/', $path);
+		if(strpos($path[0], 'EXT') > -1) {
+			$parts = explode(':', $path[0]);
 			$path[0] = t3lib_extMgm::extPath($parts[1]);
 		}
-		$path = implode("/",$path);
-		$path = str_replace("//","/",$path);
+		$path = implode('/', $path);
+		$path = str_replace('//', '/', $path);
 		return $path;
 	}
 
@@ -418,13 +430,13 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @static
 	 */
 	static public function resolveRelPath($path) {
-		$path = explode("/",$path);
-		if(strpos($path[0],"EXT") > -1) {
-			$parts = explode(":",$path[0]);
+		$path = explode('/', $path);
+		if(strpos($path[0], 'EXT') > -1) {
+			$parts = explode(':', $path[0]);
 			$path[0] = t3lib_extMgm::extRelPath($parts[1]);
 		}
-		$path = implode("/",$path);
-		$path = str_replace("//","/",$path);
+		$path = implode('/', $path);
+		$path = str_replace('//', '/', $path);
 		return $path;
 	}
 
@@ -436,17 +448,17 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @static
 	 */
 	static public function resolveRelPathFromSiteRoot($path) {
-		$path = explode("/",$path);
-		if(strpos($path[0],"EXT") > -1) {
-			$parts = explode(":",$path[0]);
+		$path = explode('/', $path);
+		if(strpos($path[0], 'EXT') > -1) {
+			$parts = explode(':', $path[0]);
 			$path[0] = t3lib_extMgm::extRelPath($parts[1]);
 		}
-		$path = implode("/",$path);
-		$path = str_replace("//","/",$path);
-		$path = str_replace("../","",$path);
+		$path = implode('/', $path);
+		$path = str_replace('//', '/', $path);
+		$path = str_replace('../', '', $path);
 		return $path;
 	}
-	
+
 	/**
 	 * Searches for upload folder settings in TypoScript setup.
 	 * If no settings is found, the default upload folder is set.
@@ -477,12 +489,12 @@ class F3_MailformPlusPlus_StaticFuncs {
 		#if(!is_dir(F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder)) {
 		#		F3_MailformPlusPlus_StaticFuncs::debugMessage("Folder: '".F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder."' doesn't exist!");
 		#	}
-		if(!is_dir(F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder)) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('folder_doesnt_exist',F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder);
+		if(!is_dir(F3_MailformPlusPlus_StaticFuncs::getTYPO3Root() . $uploadFolder)) {
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('folder_doesnt_exist', F3_MailformPlusPlus_StaticFuncs::getTYPO3Root() . $uploadFolder);
 		}
 		return $uploadFolder;
 	}
-	
+
 	/**
 	 * Parses given value and unit and creates a timestamp now-timebase.
 	 *
@@ -495,17 +507,17 @@ class F3_MailformPlusPlus_StaticFuncs {
 		$now = time();
 		$convertedValue = 0;
 		switch($unit) {
-			case "days":
+			case 'days':
 				$convertedValue = $value * 24 * 60 * 60;
 				break;
-			case "hours":
+			case 'hours':
 				$convertedValue = $value * 60 * 60;
 				break;
-			case "minutes":
+			case 'minutes':
 				$convertedValue = $value * 60;
 				break;
 		}
-		return $now-$convertedValue;
+		return $now - $convertedValue;
 	}
 }
 

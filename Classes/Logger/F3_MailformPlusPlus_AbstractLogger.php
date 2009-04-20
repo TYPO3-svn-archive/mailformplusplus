@@ -67,7 +67,7 @@ abstract class F3_MailformPlusPlus_AbstractLogger {
 	 * @param array $settings The settings for the logger
 	 * @return void
 	 */
-	abstract public function log($gp,$settings);
+	abstract public function log($gp, $settings);
 
 }
 ?>

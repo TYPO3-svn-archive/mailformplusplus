@@ -61,8 +61,8 @@ class F3_MailformPlusPlus_Controller_BackendClearLogs extends F3_MailformPlusPlu
 	protected function init() {
 		global $LANG;
 		$LANG->includeLLFile('EXT:mailformplusplus/Resources/Language/locallang.xml');
-		$templatePath = t3lib_extMgm::extPath('mailformplusplus').'Resources/HTML/backend/';
-		$templateFile = $templatePath.'template.html';
+		$templatePath = t3lib_extMgm::extPath('mailformplusplus') . 'Resources/HTML/backend/';
+		$templateFile = $templatePath . 'template.html';
 		$this->templateCode = t3lib_div::getURL($templateFile);
 	}
 
@@ -73,7 +73,6 @@ class F3_MailformPlusPlus_Controller_BackendClearLogs extends F3_MailformPlusPlu
 	 */
 	public function process() {
 		
-
 		//init
 		$this->init();
 
@@ -95,7 +94,7 @@ class F3_MailformPlusPlus_Controller_BackendClearLogs extends F3_MailformPlusPlu
 	 */
 	protected function clearTables($tablesArray) {
 		foreach($tablesArray as $table) {
-			$GLOBALS['TYPO3_DB']->sql_query('TRUNCATE '.$table);
+			$GLOBALS['TYPO3_DB']->sql_query('TRUNCATE ' . $table);
 		}
 	}
 	
@@ -108,33 +107,32 @@ class F3_MailformPlusPlus_Controller_BackendClearLogs extends F3_MailformPlusPlu
 	protected function getOverview() {
 		global $LANG;
 		$existingTables = $GLOBALS['TYPO3_DB']->admin_get_tables();
-		$code = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###CLEAR_LOGS###');
+		$code = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode, '###CLEAR_LOGS###');
 		$markers = array();
 		$markers['###URL###'] = $_SERVER['PHP_SELF'];
 		$markers['###LLL:table###'] = $LANG->getLL('table');
 		$markers['###LLL:total_rows###'] = $LANG->getLL('total_rows');
 		
 		$markers['###TABLES###'] = '';
-		foreach($existingTables as $table=>$tableSettings) {
+		foreach($existingTables as $table => $tableSettings) {
 			
-			
-			if(strpos($table,'tx_mailformplusplus_') > -1) {
-				$res = $GLOBALS['TYPO3_DB']->sql_query('SELECT COUNT(*) as rowCount FROM '.$table);
+			if(strpos($table, 'tx_mailformplusplus_') > -1) {
+				$res = $GLOBALS['TYPO3_DB']->sql_query('SELECT COUNT(*) as rowCount FROM ' . $table);
 				if($res) {
-					$rowCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode,'###CLEAR_LOGS_TABLE###');
+					$rowCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode, '###CLEAR_LOGS_TABLE###');
 					$tableMarkers = array();
 					$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 					$tableMarkers['###TABLE###'] = $table;
 					$tableMarkers['###ROW_COUNT###'] = $row['rowCount'];
 					$GLOBALS['TYPO3_DB']->sql_free_result($res);
-					$markers['###TABLES###'] .= F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($rowCode,$tableMarkers);
+					$markers['###TABLES###'] .= F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($rowCode, $tableMarkers);
 				}
 				
 			}
 			
 		}
 		$markers['###LLL:clear###'] = $LANG->getLL('clear_selected_tables');
-		return F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($code,$markers);
+		return F3_MailformPlusPlus_StaticFuncs::substituteMarkerArray($code, $markers);
 	}
 
 }

@@ -89,24 +89,6 @@ abstract class F3_MailformPlusPlus_AbstractValidator {
 		$this->settings = $tsConfig;
 		$this->gp = $gp;
 	}
-	
-	/**
-	 * Sets the suitable string for the checkFailed message parsed in view.
-	 *
-	 * @param array $check The parsed check settings
-	 * @return string The check failed string
-	 */
-	protected function getCheckFailed($check) {
-		$checkFailed = $check['check'];
-		if(is_array($check['params'])) {
-			$checkFailed .= ";";
-			foreach($check['params'] as $key=>$value) {
-				$checkFailed .= $key."::".$value.";";
-			}
-			$checkFailed = substr($checkFailed,0,strlen($checkFailed)-1);
-		}
-		return $checkFailed;
-	}
 
 }
 ?>

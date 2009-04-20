@@ -31,25 +31,25 @@ class F3_MailformPlusPlus_ErrorCheck_ContainsOne extends F3_MailformPlusPlus_Abs
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 		$formValue = trim($gp[$name]);
 		
 		if(!empty($formValue)) {
-			$checkValue = $this->getCheckValue($check['params']['words'],$check['params']['words.']);
+			$checkValue = $this->getCheckValue($check['params']['words'], $check['params']['words.']);
 			if(!is_array($checkValue)) {
-				$checkValue = t3lib_div::trimExplode(",",$checkValue);
+				$checkValue = t3lib_div::trimExplode(',', $checkValue);
 			}
 			$found = false;
 			foreach($checkValue as $word) {
-				if(stristr($formValue,$word) && !$found) {
+				if(stristr($formValue, $word) && !$found) {
 					$found = true;
 				}
 			}
 			if(!$found) {
 					
 				//remove userfunc settings and only store comma seperated words
-				$check['params']['words'] = implode(",",$checkValue);
+				$check['params']['words'] = implode(',', $checkValue);
 				unset($check['params']['words.']);
 				$checkFailed = $this->getCheckFailed($check);
 			}

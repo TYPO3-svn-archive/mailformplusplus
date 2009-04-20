@@ -30,7 +30,7 @@ class F3_MailformPlusPlus_View_Listing extends F3_MailformPlusPlus_AbstractView 
 	 * @param array $errors The errors occurred in validation
 	 * @return string content
 	 */
-	public function render($gp,$errors) {
+	public function render($gp, $errors) {
 
 		$this->gp = t3lib_div::_GP('mailformplusplus');
 
@@ -40,7 +40,7 @@ class F3_MailformPlusPlus_View_Listing extends F3_MailformPlusPlus_AbstractView 
 		//read settings
 		$settings = $this->configuration->getSettings();
 		if(!$settings['fe_listing.']) {
-			throw new Exception("No config found!");
+			throw new Exception('No config found!');
 		}
 		$settings = $settings['fe_listing.'];
 		$this->settings = $settings;
@@ -49,17 +49,17 @@ class F3_MailformPlusPlus_View_Listing extends F3_MailformPlusPlus_AbstractView 
 
 		$this->getMapping();
 		$markers = array();
-		foreach($this->model as $key=>$row) {
-				
+		foreach($this->model as $key => $row) {
+
 			$markers = $this->getValueMarkers($row);
-			$this->fillDefaultMarkers($markers,$row);
-			$markerArray['###LIST###'] .= $this->cObj->substituteMarkerArray($subpart,$markers);
+			$this->fillDefaultMarkers($markers, $row);
+			$markerArray['###LIST###'] .= $this->cObj->substituteMarkerArray($subpart, $markers);
 		}
-		$content = $this->cObj->substituteMarkerArray($this->template,$markerArray);
+		$content = $this->cObj->substituteMarkerArray($this->template, $markerArray);
 		if($this->gp['detailId']) {
 			$markerArray = $markers;
 			$this->fillDefaultMarkers($markerArray);
-			$content = $this->cObj->substituteMarkerArray($content,$markerArray);
+			$content = $this->cObj->substituteMarkerArray($content, $markerArray);
 		}
 
 		//remove markers that were not substituted
@@ -77,18 +77,18 @@ class F3_MailformPlusPlus_View_Listing extends F3_MailformPlusPlus_AbstractView 
 	 * @param array &$row reference to the current record
 	 * @return void
 	 */
-	protected function fillDefaultMarkers(&$markers,&$row = array()) {
+	protected function fillDefaultMarkers(&$markers, &$row = array()) {
 		if($row['uid']) {
-			$markers["###LINK2SHOW###"] = $this->cObj->getTypolink("Detail",$GLOBALS['TSFE']->id,array("mailformplusplus" => array("detailId"=>$row['uid'])));
+			$markers["###LINK2SHOW###"] = $this->cObj->getTypolink('Detail', $GLOBALS['TSFE']->id, array('mailformplusplus' => array('detailId' => $row['uid'])));
 			if($this->settings['enableDelete'] == 1) {
-				$markers['###DELETE###'] = $this->cObj->getTypolink("X",$GLOBALS['TSFE']->id,array("mailformplusplus" => array("deleteId"=>$row['uid'])));
+				$markers['###DELETE###'] = $this->cObj->getTypolink('X', $GLOBALS['TSFE']->id, array('mailformplusplus' => array('deleteId' => $row['uid'])));
 			}
 		} elseif($this->settings['enableDelete'] == 1) {
-			$markers['###DELETE###'] = $this->cObj->getTypolink("X",$GLOBALS['TSFE']->id,array("mailformplusplus" => array("deleteId"=>$this->gp['detailId'])));
+			$markers['###DELETE###'] = $this->cObj->getTypolink('X', $GLOBALS['TSFE']->id, array('mailformplusplus' => array('deleteId' => $this->gp['detailId'])));
 		}
 			
 
-		$markers["###BACK_LINK###"] = $this->cObj->getTypolink("Back",$GLOBALS['TSFE']->id);
+		$markers["###BACK_LINK###"] = $this->cObj->getTypolink('Back', $GLOBALS['TSFE']->id);
 	}
 
 	/**
@@ -102,7 +102,7 @@ class F3_MailformPlusPlus_View_Listing extends F3_MailformPlusPlus_AbstractView 
 		}
 
 		$mapping = array();
-		foreach($this->settings['mapping.'] as $dbfield=>$formfield) {
+		foreach($this->settings['mapping.'] as $dbfield => $formfield) {
 			$mapping[$dbfield] = $formfield;
 		}
 		$this->mapping = $mapping;
@@ -116,10 +116,10 @@ class F3_MailformPlusPlus_View_Listing extends F3_MailformPlusPlus_AbstractView 
 	 */
 	protected function getValueMarkers(&$row) {
 		$markers = array();
-		foreach($row as $field=>$value) {
-			if(strcmp("uid",$field)) {
+		foreach($row as $field => $value) {
+			if(strcmp('uid', $field)) {
 				$mapping = $this->mapping[$field];
-				$markers['###value_'.$mapping.'###'] = $value;
+				$markers['###value_' . $mapping . '###'] = $value;
 			}
 		}
 		return $markers;

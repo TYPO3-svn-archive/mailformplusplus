@@ -9,7 +9,7 @@ if (TYPO3_MODE=="BE")   {
 }
 
 /**
- * A PDF Template class for MailformPlusPlus generated PDF files
+ * A PDF Template class for MailformPlusPlus generated PDF files for usage with Generator_TCPDF.
  *
  * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
@@ -17,6 +17,12 @@ if (TYPO3_MODE=="BE")   {
  */
 class F3_MailformPlusPlus_Template_TCPDF extends TCPDF {
 
+	/**
+	 * Path to language file
+	 *
+	 * @access protected
+	 * @var string
+	 */
 	protected $sysLangFile;
 	
 	public function __construct() {
@@ -24,12 +30,20 @@ class F3_MailformPlusPlus_Template_TCPDF extends TCPDF {
 		$this->sysLangFile = 'EXT:mailformplusplus/Resources/Language/locallang.xml';
 	}
 	
-	//Page header
+	/**
+	 * Generates the header of the page
+	 * 
+	 * @return void
+	 */
 	public function Header() {
 		
 	}
 
-	//Page footer
+	/**
+	 * Generates the footer
+	 * 
+	 * @return void
+	 */
 	public function Footer() {
 		global $LANG;
 		$LANG->includeLLFile($this->sysLangFile);
@@ -38,12 +52,13 @@ class F3_MailformPlusPlus_Template_TCPDF extends TCPDF {
 		$this->SetY(-15);
 	  
 		//Arial italic 8
-		$this->SetFont('Freesans','I',8);
+		$this->SetFont('Freesans', 'I', 8);
 	    
 		$text = trim($LANG->getLL('footer_text'));
-		$text = sprintf($text,date("d.m.Y H:i:s",time()));
-		$this->Cell(0,10,$text,'T',0,'C');
-		$this->Cell(0,10,trim($LANG->getLL('page')).' '.$this->PageNo().'/'.$this->numpages,'T',0,'R');
+		$text = sprintf($text,date('d.m.Y H:i:s', time()));
+		$this->Cell(0, 10, $text, 'T', 0, 'C');
+		$pageNumbers = trim($LANG->getLL('page')) . ' ' . $this->PageNo() . '/' . $this->numpages;
+		$this->Cell(0, 10, $pageNumbers, 'T', 0, 'R');
 	}
 
 }

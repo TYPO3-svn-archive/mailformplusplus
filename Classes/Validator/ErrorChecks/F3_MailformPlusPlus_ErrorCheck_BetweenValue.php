@@ -31,8 +31,8 @@ class F3_MailformPlusPlus_ErrorCheck_BetweenValue extends F3_MailformPlusPlus_Ab
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 		$min = $check['params']['minValue'];
 		$max = $check['params']['maxValue'];
 		if(	isset($gp[$name]) &&

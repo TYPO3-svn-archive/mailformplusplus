@@ -38,18 +38,18 @@ class F3_MailformPlusPlus_PreProcessor_ClearTempFiles extends F3_MailformPlusPlu
 	 * @param array $settings The defined TypoScript settings for the finisher
 	 * @return array The probably modified GET/POST parameters
 	 */
-	public function process($gp,$settings) {
-		$this->init($gp,$settings);
+	public function process($gp, $settings) {
+		$this->init($gp, $settings);
 		$this->olderThanValue = $this->settings['clearTempFilesOlderThan.']['value'];
 		$this->olderThanUnit = $this->settings['clearTempFilesOlderThan.']['unit'];
 		if(!empty($this->olderThanValue) && is_numeric($this->olderThanValue)) {
 			$uploadFolder = F3_MailformPlusPlus_StaticFuncs::getTempUploadFolder();
-			$this->clearTempFiles($uploadFolder,$this->olderThanValue,$this->olderThanValue);
+			$this->clearTempFiles($uploadFolder, $this->olderThanValue, $this->olderThanValue);
 		}
 		return $this->gp;
 	}
 	
-	protected function init($gp,$settings) {
+	protected function init($gp, $settings) {
 		$this->gp = $gp;
 		$this->settings = $settings;
 	}
@@ -68,35 +68,35 @@ class F3_MailformPlusPlus_PreProcessor_ClearTempFiles extends F3_MailformPlusPlu
 	 * @return void
 	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
-	protected function clearTempFiles($uploadFolder,$olderThanValue,$olderThanUnit) {
+	protected function clearTempFiles($uploadFolder, $olderThanValue, $olderThanUnit) {
 		if(!$olderThanValue) {
 			return;
 		}
 
 		//build absolute path to upload folder
-		$path = F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder;
+		$path = F3_MailformPlusPlus_StaticFuncs::getDocumentRoot() . $uploadFolder;
 
 		//read files in directory
 		$tmpFiles = t3lib_div::getFilesInDir($path);
 
-		F3_MailformPlusPlus_StaticFuncs::debugMessage('cleaning_temp_files',$path);
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('cleaning_temp_files', $path);
 
 		//calculate threshold timestamp
 		//hours * 60 * 60 = millseconds
-		$threshold = F3_MailformPlusPlus_StaticFuncs::getTimestamp($olderThanValue,$olderThanUnit);
+		$threshold = F3_MailformPlusPlus_StaticFuncs::getTimestamp($olderThanValue, $olderThanUnit);
 
 		//for all files in temp upload folder
 		foreach($tmpFiles as $file) {
 
 			//if creation timestamp is lower than threshold timestamp
 			//delete the file
-			$creationTime = filemtime($path.$file);
+			$creationTime = filemtime($path . $file);
 
 			//fix for different timezones
-			$creationTime += date("O")/100*60;
+			$creationTime += date('O') / 100 * 60;
 			if($creationTime < $threshold) {
-				unlink($path.$file);
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('deleting_file',$file);
+				unlink($path . $file);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('deleting_file', $file);
 			}
 		}
 	}

@@ -14,6 +14,7 @@
  * $Id: F3_MailformPlusPlus_AbstractValidator.php 17657 2009-03-10 11:17:52Z reinhardfuehricht $
  *                                                                        */
 
+
 /**
  * Validates that a specified field's value matches the generated word of the extension "wt_calculating_captcha"
  *
@@ -31,13 +32,24 @@ class F3_MailformPlusPlus_ErrorCheck_CalculatingCaptcha extends F3_MailformPlusP
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		require_once(t3lib_extMgm::extPath('wt_calculating_captcha').'class.tx_wtcalculatingcaptcha.php'); // include captcha class
-		$captcha = t3lib_div::makeInstance('tx_wtcalculatingcaptcha'); // generate object
-		if (!$captcha->correctCode($gp[$name])) { // check if code is correct
-			$checkFailed = $this->getCheckFailed($check);
+	public function check(&$check, $name, &$gp) {
+		
+		$checkFailed = '';
+		if(t3lib_extMgm::isLoaded('wt_calculating_captcha')) {
+			
+				// include captcha class
+			require_once(t3lib_extMgm::extPath('wt_calculating_captcha') . 'class.tx_wtcalculatingcaptcha.php');
+			
+				// generate object
+			$captcha = t3lib_div::makeInstance('tx_wtcalculatingcaptcha');
+			
+				// check if code is correct
+			if (!$captcha->correctCode($gp[$name])) {
+				$checkFailed = $this->getCheckFailed($check);
+			}
+			unset($GLOBALS['TSFE']->fe_user->sesData['wt_calculating_captcha_value']);
 		}
-		unset($GLOBALS['TSFE']->fe_user->sesData['wt_calculating_captcha_value']);
+		
 		return $checkFailed;
 	}
 

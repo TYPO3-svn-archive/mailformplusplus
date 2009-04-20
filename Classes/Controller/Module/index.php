@@ -34,12 +34,12 @@
 // DEFAULT initialization of a module [BEGIN]
 unset($MCONF);
 require_once('conf.php');
-require_once($BACK_PATH.'/init.php');
-require_once($BACK_PATH.'/template.php');
+require_once($BACK_PATH . '/init.php');
+require_once($BACK_PATH . '/template.php');
 
 $LANG->includeLLFile('EXT:mailformplusplus/Resources/Language/locallang.xml');
-require_once(PATH_t3lib.'class.t3lib_scbase.php');
-$BE_USER->modAccess($MCONF,1);	// This checks permissions and exits if the users has no permission for entry.
+require_once(PATH_t3lib . 'class.t3lib_scbase.php');
+$BE_USER->modAccess($MCONF, 1);	// This checks permissions and exits if the users has no permission for entry.
 // DEFAULT initialization of a module [END]
 
 require_once (t3lib_extMgm::extPath('gimmefive') . 'Classes/Component/F3_GimmeFive_Component_Manager.php');
@@ -59,7 +59,7 @@ class  tx_mailformplusplus_module1 extends t3lib_SCbase {
 	 * @return	void
 	 */
 	function init()	{
-		global $BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
+		global $BE_USER, $LANG, $BACK_PATH, $TCA_DESCR, $TCA, $CLIENT, $TYPO3_CONF_VARS;
 
 		parent::init();
 
@@ -94,11 +94,11 @@ class  tx_mailformplusplus_module1 extends t3lib_SCbase {
 	 * @return	[type]		...
 	 */
 	function main()	{
-		global $BE_USER,$LANG,$BACK_PATH,$TCA_DESCR,$TCA,$CLIENT,$TYPO3_CONF_VARS;
+		global $BE_USER, $LANG, $BACK_PATH, $TCA_DESCR, $TCA, $CLIENT, $TYPO3_CONF_VARS;
 
 		// Access check!
 		// The page will show only if there is a valid page and if this page may be viewed by the user
-		$this->pageinfo = t3lib_BEfunc::readPageAccess($this->id,$this->perms_clause);
+		$this->pageinfo = t3lib_BEfunc::readPageAccess($this->id, $this->perms_clause);
 		$access = is_array($this->pageinfo) ? 1 : 0;
 
 		if (($this->id && $access) || ($BE_USER->user['admin'] && !$this->id))	{
@@ -129,7 +129,7 @@ class  tx_mailformplusplus_module1 extends t3lib_SCbase {
 			$this->content.=$this->doc->startPage($LANG->getLL('title'));
 			$this->content.=$this->doc->header($LANG->getLL('title'));
 			$this->content.=$this->doc->spacer(5);
-			$this->content.=$this->doc->section('',$this->doc->funcMenu('',t3lib_BEfunc::getFuncMenu($this->id,'SET[function]',$this->MOD_SETTINGS['function'],$this->MOD_MENU['function'])));
+			$this->content.=$this->doc->section('', $this->doc->funcMenu('', t3lib_BEfunc::getFuncMenu($this->id, 'SET[function]', $this->MOD_SETTINGS['function'], $this->MOD_MENU['function'])));
 			$this->content.=$this->doc->divider(5);
 
 
@@ -138,7 +138,7 @@ class  tx_mailformplusplus_module1 extends t3lib_SCbase {
 
 			// ShortCut
 			if ($BE_USER->mayMakeShortcut())	{
-				$this->content.=$this->doc->spacer(20).$this->doc->section('',$this->doc->makeShortcutIcon('id',implode(',',array_keys($this->MOD_MENU)),$this->MCONF['name']));
+				$this->content.=$this->doc->spacer(20).$this->doc->section('', $this->doc->makeShortcutIcon('id', implode(',', array_keys($this->MOD_MENU)), $this->MCONF['name']));
 			}
 
 			$this->content.=$this->doc->spacer(10);
@@ -176,24 +176,24 @@ class  tx_mailformplusplus_module1 extends t3lib_SCbase {
 			case 1:
 				// Render content:
 				$componentManager = F3_GimmeFive_Component_Manager::getInstance();
-				$controllerClass = "F3_MailformPlusPlus_Controller_Backend";
+				$controllerClass = 'F3_MailformPlusPlus_Controller_Backend';
 				$controller = $componentManager->getComponent($controllerClass);
 	
 				$content = $controller->process();
-				$this->content.=$this->doc->section('',$content,0,1);
+				$this->content .= $this->doc->section('', $content, 0, 1);
 				break;
 			case 2:
 				// Render content:
 				$componentManager = F3_GimmeFive_Component_Manager::getInstance();
-				$controllerClass = "F3_MailformPlusPlus_Controller_BackendClearLogs";
+				$controllerClass = 'F3_MailformPlusPlus_Controller_BackendClearLogs';
 				$controller = $componentManager->getComponent($controllerClass);
 	
 				$content = $controller->process();
-				$this->content.=$this->doc->section('',$content,0,1);
+				$this->content .= $this->doc->section('', $content, 0, 1);
 				break;
 			case 3:
 				$content='<div align=center><strong>Menu item #3...</strong></div>';
-				$this->content.=$this->doc->section('Message #3:',$content,0,1);
+				$this->content .= $this->doc->section('Message #3:', $content, 0, 1);
 				break;
 		}
 	}

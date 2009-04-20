@@ -52,37 +52,37 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 		if(!$this->templateFile) {
 			if (!isset($this->settings['templateFile'])) {
 				t3lib_div::debug($this->settings);
-				F3_MailformPlusPlus_StaticFuncs::throwException('no_config_confirmation','F3_MailformPlusPlus_Finisher_Confirmation','templateFile');
+				F3_MailformPlusPlus_StaticFuncs::throwException('no_config_confirmation', 'F3_MailformPlusPlus_Finisher_Confirmation', 'templateFile');
 			}
 			$templateFile = $this->settings['templateFile'];
 			if(isset($this->settings['templateFile.']) && is_array($this->settings['templateFile.'])) {
-				$this->templateFile = $this->cObj->cObjGetSingle($this->settings['templateFile'],$this->settings['templateFile.']);
+				$this->templateFile = $this->cObj->cObjGetSingle($this->settings['templateFile'], $this->settings['templateFile.']);
 			} else {
 				$this->templateFile = t3lib_div::getURL(F3_MailformPlusPlus_StaticFuncs::resolvePath($templateFile));
 			}
 		}
 
 		//set view
-		$view = $this->componentManager->getComponent("F3_MailformPlusPlus_View_Confirmation");
+		$view = $this->componentManager->getComponent('F3_MailformPlusPlus_View_Confirmation');
 			
 		//render pdf
-		if(!strcasecmp($this->gp['renderMethod'],"pdf")) {
+		if(!strcasecmp($this->gp['renderMethod'], 'pdf')) {
 				
 			//set language file
 			if(isset($this->settings['langFile.']) && is_array($this->settings['langFile.'])) {
-				$langFile = $this->cObj->cObjGetSingle($this->settings['langFile'],$this->settings['langFile.']);
+				$langFile = $this->cObj->cObjGetSingle($this->settings['langFile'], $this->settings['langFile.']);
 			} else {
 				$langFile = F3_MailformPlusPlus_StaticFuncs::resolveRelPathFromSiteRoot($this->settings['langFile']);
 			}
 			$generatorClass = $this->settings['pdf.']['class'];
 			if(!$generatorClass) {
-				$generatorClass = "F3_MailformPlusPlus_Generator_PDF";
+				$generatorClass = 'F3_MailformPlusPlus_Generator_PDF';
 			}
 			$generatorClass = F3_MailformPlusPlus_StaticFuncs::prepareClassName($generatorClass);
 			$generator = $this->componentManager->getComponent($generatorClass);
 			$exportFields = array();
 			if($this->settings['pdf.']['exportFields']) {
-				$exportFields = t3lib_div::trimExplode(",",$this->settings['pdf.']['exportFields']);
+				$exportFields = t3lib_div::trimExplode(',', $this->settings['pdf.']['exportFields']);
 			}
 			$file = "";
 			if($this->settings['pdf.']['export2File']) {
@@ -90,24 +90,24 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 				//$file = tempnam("typo3temp/","/mailformplusplus_").".pdf";
 
 				//using random numbered file for now
-				$file = 'typo3temp/mailformplusplus__'.rand(0,getrandmax()).".pdf";
+				$file = 'typo3temp/mailformplusplus__' . rand(0,getrandmax()) . '.pdf';
 			}
 			$generator->setTemplateCode($this->templateFile);
-			$generator->generateFrontendPDF($this->gp,$langFile,$exportFields,$file);
+			$generator->generateFrontendPDF($this->gp, $langFile, $exportFields, $file);
 				
 			//render csv
 		} elseif(!strcasecmp($this->gp['renderMethod'],"csv")) {
 			$generatorClass = $this->settings['csv.']['class'];
 			if(!$generatorClass) {
-				$generatorClass = "F3_MailformPlusPlus_Generator_CSV";
+				$generatorClass = 'F3_MailformPlusPlus_Generator_CSV';
 			}
 			$generatorClass = F3_MailformPlusPlus_StaticFuncs::prepareClassName($generatorClass);
 			$generator = $this->componentManager->getComponent($generatorClass);
 			$exportFields = array();
 			if($this->settings['csv.']['exportFields']) {
-				$exportFields = t3lib_div::trimExplode(",",$this->settings['csv.']['exportFields']);
+				$exportFields = t3lib_div::trimExplode(',', $this->settings['csv.']['exportFields']);
 			}
-			$generator->generateFrontendCSV($this->gp,$exportFields);
+			$generator->generateFrontendCSV($this->gp, $exportFields);
 		}
 
 		//show TEMPLATE_CONFIRMATION

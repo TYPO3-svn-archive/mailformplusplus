@@ -59,10 +59,10 @@ class F3_MailformPlusPlus_Generator_CSV {
 	 * @see F3_MailformPlusPlus_Controller_Backend::generateCSV()
 	 * @return void
 	 */
-	public function generateModuleCSV($records,$exportParams = array()) {
+	public function generateModuleCSV($records, $exportParams = array()) {
 
 		//require class for $this->csv
-		require_once("../../../Resources/PHP/csv.lib.php");
+		require_once('../../../Resources/PHP/csv.lib.php');
 		$data = array();
 
 		//build data array
@@ -72,15 +72,15 @@ class F3_MailformPlusPlus_Generator_CSV {
 			}
 			foreach($record['params'] as &$param) {
 				if(is_array($param)) {
-					$param = implode(";",$param);
+					$param = implode(';', $param);
 				}
 			}
 			$data[] = $record['params'];
 		}
 		if(count($exportParams) > 0) {
 			foreach($data as &$params) {
-				foreach($params as $key=>$value) {
-					if(!in_array($key,$exportParams)) {
+				foreach($params as $key => $value) {
+					if(!in_array($key, $exportParams)) {
 						unset($params[$key]);
 					}
 				}
@@ -88,12 +88,12 @@ class F3_MailformPlusPlus_Generator_CSV {
 		}
 
 		//init csv object
-		$this->csv = new export2CSV(",","\n");
+		$this->csv = new export2CSV(',', "\n");
 
 		//generate file
 		$this->csv = $this->csv->create_csv_file($data);
-		header("Content-type: application/eml");
-		header("Content-Disposition: attachment; filename=mailformplusplus.csv");
+		header('Content-type: application/eml');
+		header('Content-Disposition: attachment; filename=mailformplusplus.csv');
 		echo $this->csv;
 		die();
 	}
@@ -106,29 +106,29 @@ class F3_MailformPlusPlus_Generator_CSV {
 	 * @see F3_MailformPlusPlus_Finisher_Confirmation::process()
 	 * @return void
 	 */
-	function generateFrontendCSV($params,$exportParams = array()) {
+	public function generateFrontendCSV($params, $exportParams = array()) {
 		//require class for $this->csv
-		require_once("typo3conf/ext/mailformplusplus/Resources/PHP/csv.lib.php");
+		require_once('typo3conf/ext/mailformplusplus/Resources/PHP/csv.lib.php');
 
 		//build data
-		foreach($params as $key=>&$value) {
+		foreach($params as $key => &$value) {
 			if(is_array($value)) {
-				$value = implode(",",$value);
+				$value = implode(',', $value);
 			}
-			if(count($exportParams) > 0 && !in_array($key,$exportParams)) {
+			if(count($exportParams) > 0 && !in_array($key, $exportParams)) {
 				unset($params[$key]);
 			}
-			$value = str_replace('"','""',$value);
+			$value = str_replace('"', '""', $value);
 		}
 
 		//init csv object
-		$this->csv = new export2CSV(",","\n");
+		$this->csv = new export2CSV(',', "\n");
 		$data[0] = $params;
 
 		//generate file
 		$this->csv = $this->csv->create_csv_file($data);
-		header("Content-type: application/eml");
-		header("Content-Disposition: attachment; filename=mailformplusplus.csv");
+		header('Content-type: application/eml');
+		header('Content-Disposition: attachment; filename=mailformplusplus.csv'');
 		echo $this->csv;
 		die();
 	}

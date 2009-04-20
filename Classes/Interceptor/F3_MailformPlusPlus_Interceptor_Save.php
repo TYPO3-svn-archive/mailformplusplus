@@ -30,7 +30,7 @@ class F3_MailformPlusPlus_Interceptor_Save extends F3_MailformPlusPlus_AbstractI
 	 * @param array $settings The defined TypoScript settings for the finisher
 	 * @return array The probably modified GET/POST parameters
 	 */
-	public function process($gp,$settings) {
+	public function process($gp, $settings) {
 		$this->gp = $gp;
 
 		return $this->gp;

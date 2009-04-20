@@ -30,7 +30,7 @@ class F3_MailformPlusPlus_View_Mail extends F3_MailformPlusPlus_View_Default {
 	 * @param array $errors The errors occurred in validation
 	 * @return string content
 	 */
-	public function render($gp,$errors) {
+	public function render($gp, $errors) {
 
 
 		session_start();

@@ -31,10 +31,10 @@ class F3_MailformPlusPlus_ErrorCheck_JmRecaptcha extends F3_MailformPlusPlus_Abs
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 		if(t3lib_extMgm::isLoaded('jm_recaptcha')) {
-			require_once(t3lib_extMgm::extPath('jm_recaptcha')."class.tx_jmrecaptcha.php");
+			require_once(t3lib_extMgm::extPath('jm_recaptcha') . 'class.tx_jmrecaptcha.php');
 			$this->recaptcha = new tx_jmrecaptcha();
 			$status = $this->recaptcha->validateReCaptcha();
 			if (!$status['verified']) {

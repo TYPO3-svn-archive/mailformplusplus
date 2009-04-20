@@ -31,16 +31,16 @@ class F3_MailformPlusPlus_ErrorCheck_IsNotInDBTable extends F3_MailformPlusPlus_
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 		
 		if(isset($gp[$name]) && !empty($gp[$name])) {
 			$checkTable = $check['params']['table'];
 			$checkField = $check['params']['field'];
 			$where = $check['params']['additionalWhere'];
 			if (!empty($checkTable) && !empty($checkField)) {
-				$where = $checkField.'='.$GLOBALS['TYPO3_DB']->fullQuoteStr($gp[$name],$checkTable).' '.$additionalWhere;
-				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($checkField,$checkTable,$where);
+				$where = $checkField . '=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($gp[$name], $checkTable) . ' ' . $additionalWhere;
+				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($checkField, $checkTable, $where);
 				if ($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 					$checkFailed = $this->getCheckFailed($check);
 				}

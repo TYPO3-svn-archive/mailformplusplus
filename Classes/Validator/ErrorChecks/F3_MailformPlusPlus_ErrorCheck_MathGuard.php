@@ -31,10 +31,10 @@ class F3_MailformPlusPlus_ErrorCheck_MathGuard extends F3_MailformPlusPlus_Abstr
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
-		require_once(t3lib_extMgm::extPath('mailformplusplus')."Resources/PHP/mathguard/ClassMathGuard.php");
-		if (!MathGuard :: checkResult($_REQUEST['mathguard_answer'], $_REQUEST['mathguard_code'])) {
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
+		require_once(t3lib_extMgm::extPath('mailformplusplus') . 'Resources/PHP/mathguard/ClassMathGuard.php');
+		if (!MathGuard::checkResult($_REQUEST['mathguard_answer'], $_REQUEST['mathguard_code'])) {
 			$checkFailed = $this->getCheckFailed($check);
 		}
 		return $checkFailed;

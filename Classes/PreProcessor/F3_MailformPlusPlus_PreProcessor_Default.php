@@ -30,7 +30,7 @@ class F3_MailformPlusPlus_PreProcessor_Default extends F3_MailformPlusPlus_Abstr
 	 * @param array $settings The settings for the logger
 	 * @return array The probably modified GET/POST parameters
 	 */
-	public function process($gp,$settings) {
+	public function process($gp, $settings) {
 		$this->gp = $gp;
 		return $this->gp;
 	}

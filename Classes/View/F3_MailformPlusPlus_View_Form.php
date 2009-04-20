@@ -33,7 +33,6 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	public function removeUploadedFile($fieldname,$filename) {
 		if(!t3lib_extMgm::isLoaded('xajax')) {
 			return;
-				
 		}
 
 		// Instantiate the tx_xajax_response object
@@ -44,11 +43,11 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		session_start();
 
 		if(is_array($_SESSION['mailformplusplusFiles'])) {
-			foreach($_SESSION['mailformplusplusFiles'] as $field=>$files) {
+			foreach($_SESSION['mailformplusplusFiles'] as $field => $files) {
 
 				if(!strcmp($field,$fieldname)) {
 					foreach($files as $key=>&$fileInfo) {
-						if(!strcmp($fileInfo['uploaded_name'],$filename)) {
+						if(!strcmp($fileInfo['uploaded_name'], $filename)) {
 							unset($_SESSION['mailformplusplusFiles'][$field][$key]);
 						}
 					}
@@ -60,11 +59,11 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		if(is_array($_SESSION['mailformplusplusFiles'])) {
 			$markers = array();
 			$this->fillFileMarkers($markers);
-			$content = $markers['###'.$fieldname.'_uploadedFiles###'];
-			$objResponse->addAssign("F3_MailformPlusPlus_UploadedFiles_".$fieldname, "innerHTML", $content);
-				
+			$content = $markers['###'. $fieldname. '_uploadedFiles###'];
+			$objResponse->addAssign('F3_MailformPlusPlus_UploadedFiles_' . $fieldname, 'innerHTML', $content);
+
 		} else {
-			$objResponse->addAssign("F3_MailformPlusPlus_UploadedFiles_".$fieldname, "innerHTML", "");
+			$objResponse->addAssign('F3_MailformPlusPlus_UploadedFiles_' . $fieldname, 'innerHTML', '');
 		}
 
 		//return the XML response
@@ -80,7 +79,6 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	 * @return string content
 	 */
 	public function render($gp,$errors) {
-
 
 		session_start();
 
@@ -100,13 +98,12 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 			$this->readLangFile();
 		}
 
-
 		if(!$this->gp['submitted']) {
 			$this->storeStartEndBlock();
 		} else {
 			$this->fillStartEndBlock();
 		}
-		
+
 		//substitute ISSET markers
 		$this->substituteIssetSubparts();
 
@@ -127,8 +124,6 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		//fill LLL:[language_key] markers
 		$this->fillLangMarkers();
 
-		#print_r($this->template);
-
 		//fill error_[fieldname] markers
 		if(!empty($errors)) {
 			$this->fillErrorMarkers($errors);
@@ -137,7 +132,6 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 
 		//remove markers that were not substituted
 		$content = F3_MailformPlusPlus_StaticFuncs::removeUnfilledMarkers($this->template);
-
 
 		return $this->pi_wrapInBaseClass($content);
 	}
@@ -149,12 +143,12 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	 */
 	protected function readLangFile() {
 		if(is_array($this->settings['langFile.'])) {
-			$this->langFile = $this->cObj->cObjGetSingle($this->settings['langFile'],$this->settings['langFile.']);
+			$this->langFile = $this->cObj->cObjGetSingle($this->settings['langFile'], $this->settings['langFile.']);
 		} else {
 			$this->langFile = F3_MailformPlusPlus_StaticFuncs::resolveRelPathFromSiteRoot($this->settings['langFile']);
 		}
 	}
-	
+
 	/**
 	 * Helper method used by substituteIssetSubparts()
 	 *
@@ -166,7 +160,7 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 
 		// Find first || or && or !
 		$pattern = '/(_*([A-Za-z0-9]+)_*(\|\||&&)_*([^_]+)_*)|(_*(!)_*([A-Za-z0-9]+))/';
-		
+
 		session_start();
 		// recurse if there are more
 		if( preg_match($pattern, $conditionValue, $matches) ){
@@ -182,17 +176,16 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 			} elseif($matches[6] == '!' && !$isset) {
 				return !(isset($this->gp[$matches[7]]) && $this->gp[$matches[7]] != '');
 			} elseif($_SESSION['mailformplusplusSettings']['debugMode'] == 1) {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('invalid_isset',$matches[2]);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('invalid_isset', $matches[2]);
 			}
 		} else {
 
 			// end of recursion
-			
 			$return = isset($this->gp[$conditionValue]) && ($this->gp[$conditionValue] != '');
 		}
 		return $return;
 	}
-	
+
 	/**
 	 * Use or remove subparts with ISSET_[fieldname] patterns (thx to Stephan Bauer <stephan_bauer(at)gmx.de>)
 	 *
@@ -232,7 +225,7 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		}
 
 		$out = implode(chr(10),$out);
-		
+
 		$this->template = $out;
 	}
 
@@ -276,8 +269,8 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		session_start();
 		return $_SESSION['mailformplusplusSettings']['settings'];
 	}
-	
-/**
+
+	/**
 	 * Adds the values stored in $_SESSION as hidden fields in marker ###ADDITIONAL_MULTISTEP###.
 	 *
 	 * Needed in conditional forms.
@@ -287,20 +280,20 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	 */
 	protected function addHiddenFields(&$markers) {
 		session_start();
-		$hiddenFields = "";
+		$hiddenFields = '';
 
 		if(is_array($_SESSION['mailformplusplusValues'])) {
-			foreach($_SESSION['mailformplusplusValues'] as $step=>$params) {
+			foreach($_SESSION['mailformplusplusValues'] as $step => $params) {
 				if($step != $_SESSION['mailformplusplusSettings']['currentStep']) {
 					foreach($params as $key=>$value) {
 						$name = $key;
 						if($_SESSION['mailformplusplusSettings']['formValuesPrefix']) {
-							$name = $_SESSION['mailformplusplusSettings']['formValuesPrefix']."[".$key."]";
+							$name = $_SESSION['mailformplusplusSettings']['formValuesPrefix'] . '[' . $key . ']';
 						}
 						if(is_array($value)) {
-							foreach($value as $k=>$v) {
+							foreach($value as $k => $v) {
 
-								$hiddenFields .= '<input type="hidden" name="'.$name.'[]" value="'.$v.'" />';
+								$hiddenFields .= '<input type="hidden" name="' . $name . '[]" value="' . $v . '" />';
 							}
 						} else {
 							$hiddenFields .= '<input type="hidden" name="'.$name.'" value="'.$value.'" />';
@@ -322,15 +315,15 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	 */
 	protected function fillSelectedMarkers() {
 		if (is_array($this->gp)) {
-			foreach($this->gp as $k=>$v) {
+			foreach($this->gp as $k => $v) {
 				if (is_array($v)) {
-					foreach ($v as $field=>$value) {
-						$markers['###checked_'.$k.'_'.$value.'###'] = 'checked="checked"';
-						$markers['###selected_'.$k.'_'.$value.'###'] = 'selected="selected"';
+					foreach ($v as $field => $value) {
+						$markers['###checked_' . $k . '_' . $value . '###'] = 'checked="checked"';
+						$markers['###selected_' . $k . '_' . $value . '###'] = 'selected="selected"';
 					}
 				} else {
-					$markers['###checked_'.$k.'_'.$v.'###'] = 'checked="checked"';
-					$markers['###selected_'.$k.'_'.$v.'###'] = 'selected="selected"';
+					$markers['###checked_' . $k  .'_' . $v . '###'] = 'checked="checked"';
+					$markers['###selected_' . $k . '_' . $v . '###'] = 'selected="selected"';
 				}
 			}
 			$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
@@ -348,10 +341,10 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		if (isset($parameters['id'])) {
 			unset($parameters['id']);
 		}
-		$path = $this->pi_getPageLink($GLOBALS['TSFE']->id, '',$parameters);
+		$path = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $parameters);
 		$markers = array();
 		$markers['###REL_URL###'] = $path;
-		$markers['###ABS_URL###'] = t3lib_div::locationHeaderUrl('').$path;
+		$markers['###ABS_URL###'] = t3lib_div::locationHeaderUrl('') . $path;
 		session_start();
 
 		// current step
@@ -363,27 +356,27 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		// the last step shown
 		$markers['###lastStep###'] = $_SESSION['mailformplusplusSettings']['lastStep'];
 
-		$name = "step-";
+		$name = 'step-';
 		if($_SESSION['mailformplusplusSettings']['formValuesPrefix']) {
-			$name = $_SESSION['mailformplusplusSettings']['formValuesPrefix']."[".$name."#step#]";
+			$name = $_SESSION['mailformplusplusSettings']['formValuesPrefix'] . '[' . $name . '#step#]';
 		} else {
-			$name = "step-#step#";
+			$name = 'step-#step#';
 		}
 
 		// submit name for next page
-		$markers['###submit_nextStep###'] = ' name="'.str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']+1),$name).'" ';
+		$markers['###submit_nextStep###'] = ' name="' . str_replace('#step#', ($_SESSION['mailformplusplusSettings']['currentStep'] + 1), $name) . '" ';
 
 		// submit name for previous page
-		$markers['###submit_prevStep###'] = ' name="'.str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']-1),$name).'" ';
+		$markers['###submit_prevStep###'] = ' name="' . str_replace('#step#', ($_SESSION['mailformplusplusSettings']['currentStep'] - 1), $name) . '" ';
 
 		// submit name for reloading the same page/step
-		$markers['###submit_reload###'] = ' name="'.str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']),$name).'" ';
-		
+		$markers['###submit_reload###'] = ' name="' . str_replace('#step#',($_SESSION['mailformplusplusSettings']['currentStep']), $name) . '" ';
+
 		$this->addHiddenFields($markers);
 		$this->fillCaptchaMarkers($markers);
 		$this->fillFEUserMarkers($markers);
 		$this->fillFileMarkers($markers);
-		
+
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 	}
 
@@ -396,43 +389,43 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	protected function fillCaptchaMarkers(&$markers) {
 		global $LANG;
 		if (t3lib_extMgm::isLoaded('captcha')){
-			$markers["###CAPTCHA###"] = '<img src="'.t3lib_extMgm::siteRelPath('captcha').'captcha/captcha.php" alt="" />';
-			$markers["###captcha###"] = $markers['###CAPTCHA###'];
+			$markers['###CAPTCHA###'] = '<img src="' . t3lib_extMgm::siteRelPath('captcha') . 'captcha/captcha.php" alt="" />';
+			$markers['###captcha###'] = $markers['###CAPTCHA###'];
 		}
 		if (t3lib_extMgm::isLoaded('simple_captcha')) {
-			require_once(t3lib_extMgm::extPath('simple_captcha', 'class.tx_simplecaptcha.php'));
+			require_once(t3lib_extMgm::extPath('simple_captcha') . 'class.tx_simplecaptcha.php');
 			$simpleCaptcha_className = t3lib_div::makeInstanceClassName('tx_simplecaptcha');
 			$this->simpleCaptcha = new $simpleCaptcha_className();
 			$captcha = $this->simpleCaptcha->getCaptcha();
-			$markers["###simple_captcha###"] = $captcha;
-			$markers["###SIMPLE_CAPTCHA###"] = $captcha;
+			$markers['###simple_captcha###'] = $captcha;
+			$markers['###SIMPLE_CAPTCHA###'] = $captcha;
 		}
 		if (t3lib_extMgm::isLoaded('sr_freecap')){
-			require_once(t3lib_extMgm::extPath('sr_freecap').'pi2/class.tx_srfreecap_pi2.php');
+			require_once(t3lib_extMgm::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
 			$this->freeCap = t3lib_div::makeInstance('tx_srfreecap_pi2');
 			$markers = array_merge($markers,$this->freeCap->makeCaptcha());
 		}
 		if (t3lib_extMgm::isLoaded('jm_recaptcha')) {
-			require_once(t3lib_extMgm::extPath('jm_recaptcha')."class.tx_jmrecaptcha.php");
+			require_once(t3lib_extMgm::extPath('jm_recaptcha') . 'class.tx_jmrecaptcha.php');
 			$this->recaptcha = new tx_jmrecaptcha();
-			$markers["###RECAPTCHA###"] = $this->recaptcha->getReCaptcha();
-			$markers["###recaptcha###"] = $markers['###RECAPTCHA###'];
+			$markers['###RECAPTCHA###'] = $this->recaptcha->getReCaptcha();
+			$markers['###recaptcha###'] = $markers['###RECAPTCHA###'];
 		}
 
 		if (t3lib_extMgm::isLoaded('wt_calculating_captcha')) {
-			require_once(t3lib_extMgm::extPath('wt_calculating_captcha').'class.tx_wtcalculatingcaptcha.php');
+			require_once(t3lib_extMgm::extPath('wt_calculating_captcha') . 'class.tx_wtcalculatingcaptcha.php');
 
 			$captcha = t3lib_div::makeInstance('tx_wtcalculatingcaptcha');
 
-			$markers["###WT_CALCULATING_CAPTCHA###"] = $captcha->generateCaptcha();
-			$markers["###wt_calculating_captcha###"] = $markers['###WT_CALCULATING_CAPTCHA###'];
+			$markers['###WT_CALCULATING_CAPTCHA###'] = $captcha->generateCaptcha();
+			$markers['###wt_calculating_captcha###'] = $markers['###WT_CALCULATING_CAPTCHA###'];
 		}
 
-		require_once(t3lib_extMgm::extPath('mailformplusplus')."Resources/PHP/mathguard/ClassMathGuard.php");
-		$langFile = "EXT:mailformplusplus/Resources/Language/locallang.xml";
-		$question = trim($GLOBALS['TSFE']->sL('LLL:'.$langFile.':mathguard_question'));
-		$markers["###MATHGUARD###"] = MathGuard::returnQuestion($question,"red");
-		$markers["###mathguard###"] = $markers["###MATHGUARD###"];
+		require_once(t3lib_extMgm::extPath('mailformplusplus') . 'Resources/PHP/mathguard/ClassMathGuard.php');
+		$langFile = 'EXT:mailformplusplus/Resources/Language/locallang.xml';
+		$question = trim($GLOBALS['TSFE']->sL('LLL:' . $langFile . ':mathguard_question'));
+		$markers['###MATHGUARD###'] = MathGuard::returnQuestion($question, 'red');
+		$markers['###mathguard###'] = $markers['###MATHGUARD###'];
 	}
 
 	/**
@@ -443,11 +436,11 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	 */
 	protected function fillFEUserMarkers(&$markers) {
 		if (is_array($GLOBALS["TSFE"]->fe_user->user)) {
-			foreach($GLOBALS["TSFE"]->fe_user->user as $k=>$v) {
-				$markers['###FEUSER_'.strtoupper($k).'###'] = $v;
-				$markers['###FEUSER_'.strtolower($k).'###'] = $v;
-				$markers['###feuser_'.strtoupper($k).'###'] = $v;
-				$markers['###feuser_'.strtolower($k).'###'] = $v;
+			foreach($GLOBALS["TSFE"]->fe_user->user as $k => $v) {
+				$markers['###FEUSER_' . strtoupper($k) . '###'] = $v;
+				$markers['###FEUSER_' . strtolower($k) . '###'] = $v;
+				$markers['###feuser_' . strtoupper($k) . '###'] = $v;
+				$markers['###feuser_' . strtolower($k) . '###'] = $v;
 			}
 		}
 	}
@@ -472,12 +465,12 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		session_start();
 		$settings = $this->parseSettings();
 
-		$flexformValue = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],'required_fields','sMISC');
+		$flexformValue = F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'], 'required_fields', 'sMISC');
 		if($flexformValue) {
-			$fields = t3lib_div::trimExplode(',',$flexformValue);
+			$fields = t3lib_div::trimExplode(',', $flexformValue);
 
 			if(is_array($settings['validators.'])) {
-				
+
 				// Searches the index of F3_MailformPlusPlus_Validator_Default
 				foreach ($settings['validators.'] as $index => $validator) {
 					if ($validator['class'] == 'F3_MailformPlusPlus_Validator_Default') {
@@ -490,8 +483,8 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 
 			// Adds the value.
 			foreach($fields as $field) {
-				$settings['validators.'][$index . '.']['config.']['fieldConf.'][$field."."]['errorCheck.'] = array();
-				$settings['validators.'][$index . '.']['config.']['fieldConf.'][$field."."]['errorCheck.']['1'] = "required";
+				$settings['validators.'][$index . '.']['config.']['fieldConf.'][$field . '.']['errorCheck.'] = array();
+				$settings['validators.'][$index . '.']['config.']['fieldConf.'][$field . '.']['errorCheck.']['1'] = 'required';
 			}
 		}
 
@@ -499,38 +492,43 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		if(is_array($settings['validators.'])) {
 			foreach($settings['validators.'] as $key=>$validatorSettings) {
 				if(is_array($validatorSettings['config.']['fieldConf.'])) {
-					foreach($validatorSettings['config.']['fieldConf.'] as $fieldname=>$fieldSettings) {
+					foreach($validatorSettings['config.']['fieldConf.'] as $fieldname => $fieldSettings) {
+						$replacedFieldname = str_replace('.', '', $fieldname);
 						if(is_array($fieldSettings['errorCheck.'])) {
-							foreach($fieldSettings['errorCheck.'] as $key=>$check) {
+							foreach($fieldSettings['errorCheck.'] as $key => $check) {
 								switch($check) {
-									case "fileMinSize":
-										$minSize = $fieldSettings['errorCheck.'][$key."."]['minSize'];
-										$markers["###".str_replace(".","",$fieldname)."_minSize###"] = t3lib_div::formatSize($minSize,' Bytes | KB | MB | GB');
+									case 'fileMinSize':
+										$minSize = $fieldSettings['errorCheck.'][$key . '.']['minSize'];
+										$markers['###' . $replacedFieldname . '_minSize###'] = t3lib_div::formatSize($minSize, ' Bytes | KB | MB | GB');
 										break;
-									case "fileMaxSize":
-										$maxSize = $fieldSettings['errorCheck.'][$key."."]['maxSize'];
-										$markers["###".str_replace(".","",$fieldname)."_maxSize###"] = t3lib_div::formatSize($maxSize,' Bytes | KB | MB | GB');
+									case 'fileMaxSize':
+										$maxSize = $fieldSettings['errorCheck.'][$key . '.']['maxSize'];
+										$markers['###' . $replacedFieldname . '_maxSize####'] = t3lib_div::formatSize($maxSize, ' Bytes | KB | MB | GB');
 										break;
-									case "fileAllowedTypes":
-										$types = $fieldSettings['errorCheck.'][$key."."]['allowedTypes'];
-										$markers["###".str_replace(".","",$fieldname)."_allowedTypes###"] = $types;
+									case 'fileAllowedTypes':
+										$types = $fieldSettings['errorCheck.'][$key . '.']['allowedTypes'];
+										$markers['###' . $replacedFieldname . '_allowedTypes###'] = $types;
 										break;
-									case "fileMaxCount":
-										$maxCount = $fieldSettings['errorCheck.'][$key."."]['maxCount'];
-										$markers["###".str_replace(".","",$fieldname)."_maxCount###"] = $maxCount;
+									case 'fileMaxCount':
+										$maxCount = $fieldSettings['errorCheck.'][$key . '.']['maxCount'];
+										$markers['###' . $replacedFieldname . '_maxCount###'] = $maxCount;
 											
-										$fileCount = count($_SESSION['mailformplusplusFiles'][str_replace(".","",$fieldname)]);
-										$markers["###".str_replace(".","",$fieldname)."_fileCount###"] = $fileCount;
+										$fileCount = count($_SESSION['mailformplusplusFiles'][str_replace( '.', '', $fieldname)]);
+										$markers['###' . $replacedFieldname . '_fileCount###'] = $fileCount;
 											
 										$remaining = $maxCount - $fileCount;
-										$markers["###".str_replace(".","",$fieldname)."_remainingCount###"] = $remaining;
+										$markers['###' . $replacedFieldname . '_remainingCount###'] = $remaining;
 										break;
-									case "fileMinCount":
-										$maxCount = $fieldSettings['errorCheck.'][$key."."]['minCount'];
-										$markers["###".str_replace(".","",$fieldname)."_minCount###"] = $minCount;
+									case 'fileMinCount':
+										$maxCount = $fieldSettings['errorCheck.'][$key.'.']['minCount'];
+										$markers['###' . $replacedFieldname . '_minCount###'] = $minCount;
 										break;
-									case "required":
-										$markers['###required_'.str_replace(".","",$fieldname).'###'] = (isset($settings['requiredSign']))?$settings['requiredSign']:"*";
+									case 'required':
+										$requiredSign = '*';
+										if(isset($settings['requiredSign'])) {
+											$requiredSign = $settings['requiredSign'];
+										}
+										$markers['###required_' . $replacedFieldname . '###'] = $requiredSign;
 										break;
 								}
 							}
@@ -544,7 +542,7 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 			$totalMarkerSingleWrap = $settings['totalFilesMarkerTemplate.']['singleWrap'];
 			$totalWrap = $settings['singleFileMarkerTemplate.']['totalWrap'];
 			$totalMarkersTotalWrap = $settings['totalFilesMarkerTemplate.']['totalWrap'];
-			foreach($_SESSION['mailformplusplusFiles'] as $field=>$files) {
+			foreach($_SESSION['mailformplusplusFiles'] as $field => $files) {
 				foreach($files as $fileInfo) {
 					$filename = $fileInfo['name'];
 					$thumb = '';
@@ -553,7 +551,7 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 						$imgConf['image.']['altText'] = $filename;
 						$imgConf['image.']['titleText'] = $filename;
 
-						$relPath = substr($fileInfo['uploaded_folder'].$fileInfo['uploaded_name'],1);
+						$relPath = substr(($fileInfo['uploaded_folder'] . $fileInfo['uploaded_name']), 1);
 						$imgConf['image.']['file'] = $relPath;
 						if($settings['singleFileMarkerTemplate.']['thumbnailWidth']) {
 							$imgConf['image.']['file.']['width'] = $settings['singleFileMarkerTemplate.']['thumbnailWidth'];
@@ -564,28 +562,28 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 						$thumb = $this->cObj->IMAGE($imgConf['image.']);
 					}
 					if(t3lib_extMgm::isLoaded('xajax') && $settings['files.']['enableAjaxFileRemoval']) {
-						$filename .= '<a href="javascript:void(0)" class="mailformplusplus_removelink" onclick="xajax_'.$this->prefixId.'_removeUploadedFile(\''.$field.'\',\''.$fileInfo['uploaded_name'].'\')">X</a>';
-						$thumb .= '<a href="javascript:void(0)" class="mailformplusplus_removelink" onclick="xajax_'.$this->prefixId.'_removeUploadedFile(\''.$field.'\',\''.$fileInfo['uploaded_name'].'\')">X</a>';
+						$filename .= '<a href="javascript:void(0)" class="mailformplusplus_removelink" onclick="xajax_' . $this->prefixId . '_removeUploadedFile(\'' . $field . '\',\'' . $fileInfo['uploaded_name'] . '\')">X</a>';
+						$thumb .= '<a href="javascript:void(0)" class="mailformplusplus_removelink" onclick="xajax_' . $this->prefixId . '_removeUploadedFile(\'' . $field . '\',\'' . $fileInfo['uploaded_name'] . '\')">X</a>';
 					}
-					if(strlen($singleWrap) > 0 && strstr($singleWrap,"|")) {
-						$wrappedFilename = str_replace("|",$filename,$singleWrap);
-						$wrappedThumb = str_replace("|",$thumb,$singleWrap);
+					if(strlen($singleWrap) > 0 && strstr($singleWrap, '|')) {
+						$wrappedFilename = str_replace('|', $filename, $singleWrap);
+						$wrappedThumb = str_replace('|', $thumb, $singleWrap);
 					} else {
 						$wrappedFilename = $filename;
 						$wrappedThumb = $thumb;
 					}
 					if($settings['singleFileMarkerTemplate.']['showThumbnails'] == '1') {
-						$markers['###'.$field.'_uploadedFiles###'] .= $wrappedThumb;
+						$markers['###' . $field . '_uploadedFiles###'] .= $wrappedThumb;
 					} else {
-						$markers['###'.$field.'_uploadedFiles###'] .= $wrappedFilename;
+						$markers['###' . $field . '_uploadedFiles###'] .= $wrappedFilename;
 					}
-						
+
 					if($settings['totalFilesMarkerTemplate.']['showThumbnails'] == '1') {
 						$imgConf['image'] = 'IMAGE';
 						$imgConf['image.']['altText'] = $filename;
 						$imgConf['image.']['titleText'] = $filename;
 
-						$relPath = substr($fileInfo['uploaded_folder'].$fileInfo['uploaded_name'],1);
+						$relPath = substr(($fileInfo['uploaded_folder'] . $fileInfo['uploaded_name']), 1);
 						$imgConf['image.']['file'] = $relPath;
 						if($settings['totalFilesMarkerTemplate.']['thumbnailWidth']) {
 							$imgConf['image.']['file.']['width'] = $settings['totalFilesMarkerTemplate.']['thumbnailWidth'];
@@ -595,40 +593,44 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 						}
 						$thumb = $this->cObj->IMAGE($imgConf['image.']);
 					}
-						
-					if(strlen($totalMarkerSingleWrap) > 0 && strstr($totalMarkerSingleWrap,"|")) {
 
-						$wrappedFilename = str_replace("|",$filename,$totalMarkerSingleWrap);
-						$wrappedThumb = str_replace("|",$thumb,$totalMarkerSingleWrap);
+					if(strlen($totalMarkerSingleWrap) > 0 && strstr($totalMarkerSingleWrap, '|')) {
+
+						$wrappedFilename = str_replace('|', $filename, $totalMarkerSingleWrap);
+						$wrappedThumb = str_replace('|', $thumb, $totalMarkerSingleWrap);
 					} else {
 						$wrappedFilename = $filename;
 						$wrappedThumb = $thumb;
 					}
-						
+
 					if($settings['totalFilesMarkerTemplate.']['showThumbnails'] == '1') {
 						$markers['###total_uploadedFiles###'] .= $wrappedThumb;
 					} else {
 						$markers['###total_uploadedFiles###'] .= $wrappedFilename;
 					}
-						
-						
+
+
 				}
-				if(strlen($totalWrap) > 0 && strstr($totalWrap,"|")) {
-					$markers['###'.$field.'_uploadedFiles###'] = str_replace("|",$markers['###'.$field.'_uploadedFiles###'],$totalWrap);
+				if(strlen($totalWrap) > 0 && strstr($totalWrap,'|')) {
+					$markers['###' . $field . '_uploadedFiles###'] = str_replace('|', $markers['###' . $field . '_uploadedFiles###'],$totalWrap);
 				}
-				$markers['###'.$field.'_uploadedFiles###'] = '<div id="F3_MailformPlusPlus_UploadedFiles_'.$field.'">'.$markers['###'.$field.'_uploadedFiles###'].'</div>';
+				$markers['###' . $field . '_uploadedFiles###'] = '<div id="F3_MailformPlusPlus_UploadedFiles_' . $field . '">' . $markers['###' . $field . '_uploadedFiles###'] . '</div>';
 			}
-			if(strlen($totalMarkersTotalWrap) > 0 && strstr($totalMarkersTotalWrap,"|")) {
-				$markers['###total_uploadedFiles###'] = str_replace("|",$markers['###total_uploadedFiles###'],$totalMarkersTotalWrap);
+			if(strlen($totalMarkersTotalWrap) > 0 && strstr($totalMarkersTotalWrap, '|')) {
+				$markers['###total_uploadedFiles###'] = str_replace('|', $markers['###total_uploadedFiles###'], $totalMarkersTotalWrap);
 			}
 			$markers['###TOTAL_UPLOADEDFILES###'] = $markers['###total_uploadedFiles###'];
 			$markers['###total_uploadedfiles###'] = $markers['###total_uploadedFiles###'];
-			
-			$markers['###required###'] = (isset($settings['requiredSign']))?$settings['requiredSign']:"*";
+				
+			$requiredSign = '*';
+			if(isset($settings['requiredSign'])) {
+				$requiredSign = $settings['requiredSign'];
+			}
+			$markers['###required###'] = $requiredSign;
 			$markers['###REQUIRED###'] = $markers['###required###'];
 		}
 	}
-	
+
 	/**
 	 * Substitutes markers
 	 * 		###is_error_[fieldname]###
@@ -638,40 +640,40 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	 * @return void
 	 */
 	protected function fillIsErrorMarkers(&$errors) {
-		
+
 		$markers = array();
-		foreach($errors as $field=>$types) {
-			
+		foreach($errors as $field => $types) {
+				
 			if($this->settings['isErrorMarker.'][$field]) {
-				if($this->settings['isErrorMarker.'][$field.'.']) {
-					$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.'][$field],$this->settings['isErrorMarker.'][$field.'.']);
+				if($this->settings['isErrorMarker.'][$field . '.']) {
+					$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.'][$field], $this->settings['isErrorMarker.'][$field . '.']);
 				} else {
 					$errorMessage = $this->settings['isErrorMarker.'][$field];
 				}
-			} elseif(strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error_'.$field))) > 0) {
-				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error_'.$field));
-			} elseif (strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'))) > 0) {
-				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'));
+			} elseif(strlen(trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':is_error_' . $field))) > 0) {
+				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':is_error_' . $field));
+			} elseif (strlen(trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':is_error'))) > 0) {
+				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':is_error'));
 			} elseif($this->settings['isErrorMarker.']['global']) {
 				if($this->settings['isErrorMarker.']['global.']) {
-					$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.']['global'],$this->settings['isErrorMarker.']['global.']);
+					$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.']['global'], $this->settings['isErrorMarker.']['global.']);
 				} else {
 					$errorMessage = $this->settings['isErrorMarker.']['global'];
 				}
 			}
-			$markers['###is_error_'.$field.'###'] = $errorMessage;
+			$markers['###is_error_' . $field . '###'] = $errorMessage;
 		}
 		if($this->settings['isErrorMarker.']['global']) {
 			if($this->settings['isErrorMarker.']['global.']) {
-				$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.']['global'],$this->settings['isErrorMarker.']['global.']);
+				$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.']['global'], $this->settings['isErrorMarker.']['global.']);
 			} else {
 				$errorMessage = $this->settings['isErrorMarker.']['global'];
 			}
-		} elseif (strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'))) > 0) {
-			$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'));
+		} elseif (strlen(trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':is_error'))) > 0) {
+			$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':is_error'));
 		}
 		$markers['###is_error###'] = $errorMessage;
-		
+
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 	}
 
@@ -686,16 +688,16 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	protected function fillErrorMarkers(&$errors) {
 		$markers = array();
 		$singleWrap = $this->settings['singleErrorTemplate.']['singleWrap'];
-		foreach($errors as $field=>$types) {
+		foreach($errors as $field => $types) {
 			$errorMessages = array();
 			$clearErrorMessages = array();
-			if(strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':error_'.$field))) > 0) {
-				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':error_'.$field));
+			if(strlen(trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':error_' . $field))) > 0) {
+				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':error_' . $field));
 				if($errorMessage) {
-					if(strlen($singleWrap) > 0 && strstr($singleWrap,"|")) {
-						$errorMessage = str_replace("|",$errorMessage,$singleWrap);
+					if(strlen($singleWrap) > 0 && strstr($singleWrap, '|')) {
+						$errorMessage = str_replace('|', $errorMessage, $singleWrap);
 					}
-						
+
 					$errorMessages[] = $errorMessage;
 				}
 			}
@@ -704,65 +706,65 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 			}
 			foreach($types as $type) {
 
-				$temp = explode(";",$type);
+				$temp = t3lib_div::trimExplode(';', $type);
 				$type = array_shift($temp);
 				foreach($temp as $item) {
-					$item = explode("::",$item);
+					$item = t3lib_div::trimExplode('::', $item);
 					$values[$item[0]] = $item[1];
 				}
 
-				//try to load specific error message with key like error_fieldname_integer
-				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':error_'.$field.'_'.$type));
+					//try to load specific error message with key like error_fieldname_integer
+				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':error_' . $field . '_' . $type));
 				if(strlen($errorMessage) == 0) {
 					$type = strtolower($type);
-					$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':error_'.$field.'_'.$type));
+					$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':error_' . $field . '_' . $type));
 				}
 				if($errorMessage) {
 					if(is_array($values)) {
-						foreach($values as $key=>$value) {
-							$errorMessage = str_replace("###".$key."###",$value,$errorMessage);
+						foreach($values as $key => $value) {
+							$errorMessage = str_replace('###' . $key . '###', $value, $errorMessage);
 						}
 					}
-					if(strlen($singleWrap) > 0 && strstr($singleWrap,"|")) {
-						$errorMessage = str_replace("|",$errorMessage,$singleWrap);
+					if(strlen($singleWrap) > 0 && strstr($singleWrap,'|')) {
+						$errorMessage = str_replace('|', $errorMessage, $singleWrap);
 					}
 					$errorMessages[] = $errorMessage;
 				} else {
-					F3_MailformPlusPlus_StaticFuncs::debugMessage('no_error_message','error_'.$field.'_'.$type);
+					F3_MailformPlusPlus_StaticFuncs::debugMessage('no_error_message', 'error_' . $field . '_' . $type);
 				}
 			}
-			$errorMessage = implode("",$errorMessages);
+			$errorMessage = implode('', $errorMessages);
 			$totalWrap = $this->settings['singleErrorTemplate.']['totalWrap'];
-			if(strlen($totalWrap) > 0 && strstr($totalWrap,"|")) {
-				$errorMessage = str_replace("|",$errorMessage,$totalWrap);
+			if(strlen($totalWrap) > 0 && strstr($totalWrap, '|')) {
+				$errorMessage = str_replace('|', $errorMessage, $totalWrap);
 			}
 			$clearErrorMessage = $errorMessage;
 			if($this->settings['addErrorAnchors']) {
-				$errorMessage = '<a name="'.$field.'">'.$errorMessage.'</a>';
+				$errorMessage = '<a name="' . $field . '">' . $errorMessage . '</a>';
 
 			}
-			$langMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($errorMessage,$this->langFile);
+			$langMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($errorMessage, $this->langFile);
 			$errorMessage = $this->cObj->substituteMarkerArray($errorMessage, $langMarkers);
-			$markers['###error_'.$field.'###'] = $errorMessage;
-			$markers['###ERROR_'.strtoupper($field).'###'] = $errorMessage;
+			$markers['###error_' . $field . '###'] = $errorMessage;
+			$markers['###ERROR_' . strtoupper($field) . '###'] = $errorMessage;
 			$errorMessage = $clearErrorMessage;
 			if($this->settings['addErrorAnchors']) {
-				$errorMessage = '<a href="' . t3lib_div::getIndpEnv('REQUEST_URI') . '#'.$field.'">'.$errorMessage.'</a>';
+				$errorMessage = '<a href="' . t3lib_div::getIndpEnv('REQUEST_URI') . '#' . $field . '">' . $errorMessage . '</a>';
 
 			}
 			//list settings
 			$listSingleWrap = $this->settings['errorListTemplate.']['singleWrap'];
-			if(strlen($listSingleWrap) > 0 && strstr($listSingleWrap,"|")) {
-				$errorMessage = str_replace("|",$errorMessage,$listSingleWrap);
+			if(strlen($listSingleWrap) > 0 && strstr($listSingleWrap, '|')) {
+				$errorMessage = str_replace('|', $errorMessage, $listSingleWrap);
 			}
-				
+
 			$markers['###ERROR###'] .= $errorMessage;
 		}
 		$totalWrap = $this->settings['errorListTemplate.']['totalWrap'];
-		if(strlen($totalWrap) > 0 && strstr($totalWrap,"|")) {
-			$markers['###ERROR###'] = str_replace("|",$markers['###ERROR###'],$totalWrap);
+		if(strlen($totalWrap) > 0 && strstr($totalWrap, '|')) {
+			$markers['###ERROR###'] = str_replace('|', $markers['###ERROR###'], $totalWrap);
 		}
-		$langMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($markers['###ERROR###'],$this->langFile);
+		$langMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($markers['###ERROR###'], $this->langFile);
 		$markers['###ERROR###'] = $this->cObj->substituteMarkerArray($markers['###ERROR###'], $langMarkers);
 		$markers['###error###'] = $markers['###ERROR###'];
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
@@ -775,18 +777,15 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	 */
 	protected function fillTypoScriptMarkers() {
 		$markers = array();
-		foreach($this->settings['markers.'] as $name=>$options) {
-			
-			if(!strstr($name,".")) {
-				if(!strcmp($options,"USER") || !strcmp($options,"USER_INT")) {
-					$this->settings['markers.'][$name.'.']['gp'] = $this->gp;
-					//$markers['###'.$name.'###'] = t3lib_div::callUserFunction($this->settings['markers.'][$name.'.']['userFunc'],$this->settings['markers.'][$name.'.'],$this,"");
-				} // else {
-				$markers['###'.$name.'###'] = $this->cObj->cObjGetSingle($this->settings['markers.'][$name],$this->settings['markers.'][$name.'.']);
-				//}
+		foreach($this->settings['markers.'] as $name => $options) {
+			if(!strstr($name, '.')) {
+				if(!strcmp($options,'USER') || !strcmp($options,'USER_INT')) {
+					$this->settings['markers.'][$name . '.']['gp'] = $this->gp;
+				} 
+				$markers['###' . $name . '###'] = $this->cObj->cObjGetSingle($this->settings['markers.'][$name], $this->settings['markers.'][$name . '.']);
 			}
 		}
-		
+
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 	}
 
@@ -803,24 +802,24 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	protected function fillValueMarkers() {
 		$markers = array();
 		if (is_array($this->gp)) {
-			foreach($this->gp as $k=>$v) {
+			foreach($this->gp as $k => $v) {
 				if (!ereg('EMAIL_', $k)) {
 					if (is_array($v)) {
 						$v = implode(',', $v);
 					}
 					$v = trim($v);
-					if ($v != "") {
+					if ($v != '') {
 						if(get_magic_quotes_gpc()) {
-							$markers['###value_'.$k.'###'] = stripslashes(F3_MailformPlusPlus_StaticFuncs::reverse_htmlspecialchars($v));
+							$markers['###value_' . $k . '###'] = stripslashes(F3_MailformPlusPlus_StaticFuncs::reverse_htmlspecialchars($v));
 						} else {
-							$markers['###value_'.$k.'###'] = F3_MailformPlusPlus_StaticFuncs::reverse_htmlspecialchars($v);
+							$markers['###value_' . $k . '###'] = F3_MailformPlusPlus_StaticFuncs::reverse_htmlspecialchars($v);
 						}
 					} else {
-						$markers['###value_'.$k.'###'] = '';
+						$markers['###value_' . $k . '###'] = '';
 					}
-					$markers['###'.$k.'###'] = $markers['###value_'.$k.'###'];
-					$markers['###'.strtoupper($k).'###'] = $markers['###value_'.$k.'###'];
-					$markers['###'.strtoupper("VALUE_".$k).'###'] = $markers['###value_'.$k.'###'];
+					$markers['###' . $k . '###'] = $markers['###value_' . $k . '###'];
+					$markers['###' . strtoupper($k) . '###'] = $markers['###value_' . $k . '###'];
+					$markers['###' . (strtoupper('VALUE_' . $k)) . '###'] = $markers['###value_' . $k . '###'];
 				} //if end
 			} // foreach end
 		} // if end
@@ -845,9 +844,9 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 			$aLLMarkerList = array();
 			preg_match_all('/###LLL:.+?###/Ssm', $this->template, $aLLMarkerList);
 			foreach($aLLMarkerList[0] as $LLMarker){
-				$llKey = substr($LLMarker,7,strlen($LLMarker)-10);
+				$llKey = substr($LLMarker, 7, (strlen($LLMarker) - 10));
 				$marker = $llKey;
-				$langMarkers['###LLL:'.$marker.'###'] = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':'.$llKey));
+				$langMarkers['###LLL:' . $marker . '###'] = trim($GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':' . $llKey));
 			}
 		}
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $langMarkers);

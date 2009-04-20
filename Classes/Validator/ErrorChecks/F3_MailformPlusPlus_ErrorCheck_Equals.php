@@ -31,15 +31,15 @@ class F3_MailformPlusPlus_ErrorCheck_Equals extends F3_MailformPlusPlus_Abstract
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 		$formValue = trim($gp[$name]);
 		
 		if(isset($gp[$name]) && !empty($formValue)) {
-			$checkValue = $this->getCheckValue($check['params']['word'],$check['params']['word.']);
-			if(strcasecmp($formValue,$checkValue)) {
+			$checkValue = $this->getCheckValue($check['params']['word'], $check['params']['word.']);
+			if(strcasecmp($formValue, $checkValue)) {
 					
-				//remove userfunc settings
+					//remove userfunc settings
 				unset($check['params']['word.']);
 				$checkFailed = $this->getCheckFailed($check);
 			}

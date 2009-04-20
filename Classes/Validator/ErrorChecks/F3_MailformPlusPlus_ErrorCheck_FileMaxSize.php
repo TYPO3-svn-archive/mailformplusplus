@@ -31,10 +31,10 @@ class F3_MailformPlusPlus_ErrorCheck_FileMaxSize extends F3_MailformPlusPlus_Abs
 	 * @param array &$gp The current GET/POST parameters
 	 * @return string The error string
 	 */
-	public function check(&$check,$name,&$gp) {
-		$checkFailed = "";
+	public function check(&$check, $name, &$gp) {
+		$checkFailed = '';
 		$maxSize = $check['params']['maxSize'];
-		foreach($_FILES as $sthg=>&$files) {
+		foreach($_FILES as $sthg => &$files) {
 			if(	strlen($files['name'][$name]) > 0 &&
 			$maxSize &&
 			$files['size'][$name] > $maxSize) {
