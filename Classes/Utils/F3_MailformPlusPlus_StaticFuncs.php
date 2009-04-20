@@ -29,16 +29,16 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @access protected
 	 * @var tslib_cObj
 	 */
-	public static $cObj;
+	static public $cObj;
 	
-	public static $predefined;
+	static public $predefined;
 
 	/**
 	 * Returns the absolute path to the document root
 	 *
 	 * @return string
 	 */
-	public static function getDocumentRoot() {
+	static public function getDocumentRoot() {
 		return t3lib_div::getIndpEnv('TYPO3_DOCUMENT_ROOT');
 	}
 
@@ -47,7 +47,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 *
 	 * @return string
 	 */
-	public static function getTYPO3Root() {
+	static public function getTYPO3Root() {
 		$path = t3lib_div::getIndpEnv('SCRIPT_FILENAME');
 		$path = str_replace("/index.php","",$path);
 		return $path;
@@ -59,7 +59,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 *
 	 * @return string
 	 */
-	public static function prepareClassName($className) {
+	static public function prepareClassName($className) {
 		if(!preg_match('/^F3_/',$className)) {
 			$className = 'F3_MailformPlusPlus_'.$className;
 		}
@@ -77,7 +77,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @param	array
 	 * @return	string
 	 */
-	public static function substituteMarkerArray($content,$markContentArray) {
+	static public function substituteMarkerArray($content,$markContentArray) {
 		if (is_array($markContentArray))	{
 			reset($markContentArray);
 			while(list($marker,$markContent) = each($markContentArray))	{
@@ -96,7 +96,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @param	string		Marker string, eg. "###CONTENT_PART###"
 	 * @return	string
 	 */
-	public static function getSubpart($content,$marker)	{
+	static public function getSubpart($content,$marker)	{
 		$start = strpos($content, $marker);
 		if ($start===false)	{ return ''; }
 		$start += strlen($marker);
@@ -129,7 +129,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @param	string		Value pointer, eg. "vDEF"
 	 * @return	string		The content.
 	 */
-	public static function pi_getFFvalue($T3FlexForm_array,$fieldName,$sheet='sDEF',$lang='lDEF',$value='vDEF')	{
+	static public function pi_getFFvalue($T3FlexForm_array,$fieldName,$sheet='sDEF',$lang='lDEF',$value='vDEF')	{
 		$sheetArray = is_array($T3FlexForm_array) ? $T3FlexForm_array['data'][$sheet][$lang] : '';
 		if (is_array($sheetArray))	{
 			return F3_MailformPlusPlus_StaticFuncs::pi_getFFvalueFromSheetArray($sheetArray,explode('/',$fieldName),$value);
@@ -146,7 +146,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @access private
 	 * @see pi_getFFvalue()
 	 */
-	private static function pi_getFFvalueFromSheetArray($sheetArray,$fieldNameArr,$value)	{
+	static public function pi_getFFvalueFromSheetArray($sheetArray,$fieldNameArr,$value)	{
 
 		$tempArr=$sheetArray;
 		foreach($fieldNameArr as $k => $v)	{
@@ -177,7 +177,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return string formatted date
 	 * @author Reinhard Führicht <rf@typoheads.at>
 	 */
-	public static function dateToTimestamp($date,$end = false) {
+	static public function dateToTimestamp($date,$end = false) {
 		$dateArr = explode(".",$date);
 		if($end) {
 			return mktime(23,59,59,$dateArr[1],$dateArr[0],$dateArr[2]);
@@ -190,7 +190,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 *
 	 * @return string
 	 */
-	public static function getHostname() {
+	static public function getHostname() {
 		return t3lib_div::getIndpEnv('TYPO3_SITE_URL');
 	}
 
@@ -206,7 +206,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @param string $path
 	 * @return string Sanitized path
 	 */
-	public static function sanitizePath($path) {
+	static public function sanitizePath($path) {
 		if(substr($path,0,1) != "/") {
 			$path = "/".$path;
 		}
@@ -229,7 +229,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return array The filled language markers
 	 * @static
 	 */
-	public static function convertToRelativePath($absPath) {
+	static public function convertToRelativePath($absPath) {
 
 		//C:/xampp/htdocs/typo3/index.php
 		$scriptPath =  t3lib_div::getIndpEnv('SCRIPT_FILENAME');
@@ -249,7 +249,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return array The filled language markers
 	 * @static
 	 */
-	public static function getFilledLangMarkers(&$template,$langFile) {
+	static public function getFilledLangMarkers(&$template,$langFile) {
 		$GLOBALS['TSFE']->readLLfile($langFile);
 		$langMarkers = array();
 		if ($langFile != '') {
@@ -272,7 +272,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return array The filled value markers
 	 * @static
 	 */
-	public static function getFilledValueMarkers(&$gp) {
+	static public function getFilledValueMarkers(&$gp) {
 		if (isset($gp) && is_array($gp)) {
 			foreach($gp as $k=>$v) {
 				if (!ereg('EMAIL_', $k)) {
@@ -303,7 +303,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return string The processed value
 	 * @static
 	 */
-	public static function reverse_htmlspecialchars($mixed) {
+	static public function reverse_htmlspecialchars($mixed) {
 		$htmltable = get_html_translation_table(HTML_ENTITIES);
 		foreach($htmltable as $key => $value) {
 			$mixed = ereg_replace(addslashes($value),$key,$mixed);
@@ -319,7 +319,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return void
 	 * @static
 	 */
-	public static function debugMessage($key) {
+	static public function debugMessage($key) {
 		session_start();
 		if($_SESSION['mailformplusplusSettings']['debugMode']) {
 			$message = F3_MailformPlusPlus_Messages::getDebugMessage($key);
@@ -343,7 +343,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return void
 	 * @static
 	 */
-	public static function throwException($key) {
+	static public function throwException($key) {
 		$message = F3_MailformPlusPlus_Messages::getExceptionMessage($key);
 		if(strlen($message) == 0) {
 			throw new Exception($key);
@@ -365,7 +365,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return void
 	 * @static
 	 */
-	public static function debugArray($arr) {
+	static public function debugArray($arr) {
 		if(!is_array($arr)) {
 			return;
 		}
@@ -388,7 +388,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return string The template code without markers
 	 * @static
 	 */
-	public static function removeUnfilledMarkers($content) {
+	static public function removeUnfilledMarkers($content) {
 		return preg_replace('/###.*?###/', '', $content);
 	}
 
@@ -399,7 +399,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return string The resolved path
 	 * @static
 	 */
-	public static function resolvePath($path) {
+	static public function resolvePath($path) {
 		$path = explode("/",$path);
 		if(strpos($path[0],"EXT") > -1) {
 			$parts = explode(":",$path[0]);
@@ -417,7 +417,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return string The resolved path
 	 * @static
 	 */
-	public static function resolveRelPath($path) {
+	static public function resolveRelPath($path) {
 		$path = explode("/",$path);
 		if(strpos($path[0],"EXT") > -1) {
 			$parts = explode(":",$path[0]);
@@ -435,7 +435,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * @return string The resolved path
 	 * @static
 	 */
-	public static function resolveRelPathFromSiteRoot($path) {
+	static public function resolveRelPathFromSiteRoot($path) {
 		$path = explode("/",$path);
 		if(strpos($path[0],"EXT") > -1) {
 			$parts = explode(":",$path[0]);
@@ -459,9 +459,10 @@ class F3_MailformPlusPlus_StaticFuncs {
 	 * The default upload folder is: '/uploads/mailformplusplus/tmp/'
 	 *
 	 * @return void
+	 * @static
 	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
-	public static function getTempUploadFolder() {
+	static public function getTempUploadFolder() {
 
 		//set default upload folder
 		$uploadFolder = '/uploads/mailformplusplus/tmp/';
@@ -480,6 +481,31 @@ class F3_MailformPlusPlus_StaticFuncs {
 			F3_MailformPlusPlus_StaticFuncs::debugMessage('folder_doesnt_exist',F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder);
 		}
 		return $uploadFolder;
+	}
+	
+	/**
+	 * Parses given value and unit and creates a timestamp now-timebase.
+	 *
+	 * @param int Timebase value
+	 * @param string Timebase unit (seconds|minutes|hours|days)
+	 * @static
+	 * @return long The timestamp
+	 */
+	static public function getTimestamp($value,$unit) {
+		$now = time();
+		$convertedValue = 0;
+		switch($unit) {
+			case "days":
+				$convertedValue = $value * 24 * 60 * 60;
+				break;
+			case "hours":
+				$convertedValue = $value * 60 * 60;
+				break;
+			case "minutes":
+				$convertedValue = $value * 60;
+				break;
+		}
+		return $now-$convertedValue;
 	}
 }
 

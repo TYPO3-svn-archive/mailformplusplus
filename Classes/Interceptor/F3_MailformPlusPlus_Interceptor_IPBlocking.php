@@ -103,7 +103,7 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 	 * @return void
 	 */
 	private function check($value,$unit,$maxValue,$addIPToWhere = false) {
-		$timestamp = $this->getTimestamp($value,$unit);
+		$timestamp = F3_MailformPlusPlus_StaticFuncs::getTimestamp($value,$unit);
 		$where = 'crdate >= '.$timestamp;
 		if($addIPToWhere) {
 			$where = 'ip=\''.t3lib_div::getIndpEnv('REMOTE_ADDR').'\' AND '.$where;
@@ -125,7 +125,7 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 				$intervalUnit = $this->settings['report.']['interval.']['unit'];
 				$send = true;
 				if($intervalUnit && $intervalValue) {
-					$intervalTstamp = $this->getTimestamp($intervalValue,$intervalUnit);
+					$intervalTstamp = F3_MailformPlusPlus_StaticFuncs::getTimestamp($intervalValue,$intervalUnit);
 					$where = 'pid='.$GLOBALS['TSFE']->id.' AND crdate>'.$intervalTstamp;
 					if($addIPToWhere) {
 						$where .= ' AND ip=\''.t3lib_div::getIndpEnv('REMOTE_ADDR').'\'';
@@ -267,30 +267,6 @@ class F3_MailformPlusPlus_Interceptor_IPBlocking extends F3_MailformPlusPlus_Abs
 		$dbParams['tstamp'] = $tstamp;
 		$dbParams['crdate'] = $tstamp;
 		$GLOBALS['TYPO3_DB']->exec_INSERTquery($this->reportTable,$dbParams);
-	}
-
-	/**
-	 * Parses given value and unit and creates a timestamp now-timebase.
-	 *
-	 * @param int Timebase value
-	 * @param string Timebase unit (seconds|minutes|hours|days)
-	 * @return long The timestamp
-	 */
-	private function getTimestamp($value,$unit) {
-		$now = time();
-		$convertedValue = 0;
-		switch($unit) {
-			case "days":
-				$convertedValue = $value * 24 * 60 * 60;
-				break;
-			case "hours":
-				$convertedValue = $value * 60 * 60;
-				break;
-			case "minutes":
-				$convertedValue = $value * 60;
-				break;
-		}
-		return $now-$convertedValue;
 	}
 
 }

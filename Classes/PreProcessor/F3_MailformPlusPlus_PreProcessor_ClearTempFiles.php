@@ -15,7 +15,7 @@
  *                                                                        */
 
 /**
- * An interceptor cleaning old files in the temporary upload folder if set.
+ * A pre processor cleaning old files in the temporary upload folder if set.
  * 
  * Example:
  * <code>
@@ -27,7 +27,7 @@
  *
  * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
- * @subpackage	Interceptor
+ * @subpackage	PreProcessor
  */
 class F3_MailformPlusPlus_PreProcessor_ClearTempFiles extends F3_MailformPlusPlus_AbstractPreProcessor {
 
@@ -83,7 +83,7 @@ class F3_MailformPlusPlus_PreProcessor_ClearTempFiles extends F3_MailformPlusPlu
 
 		//calculate threshold timestamp
 		//hours * 60 * 60 = millseconds
-		$threshold = $this->getThreshold($olderThanValue,$olderThanUnit);
+		$threshold = F3_MailformPlusPlus_StaticFuncs::getTimestamp($olderThanValue,$olderThanUnit);
 
 		//for all files in temp upload folder
 		foreach($tmpFiles as $file) {
@@ -99,25 +99,6 @@ class F3_MailformPlusPlus_PreProcessor_ClearTempFiles extends F3_MailformPlusPlu
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('deleting_file',$file);
 			}
 		}
-	}
-	
-	protected function getThreshold($olderThanValue,$olderThanUnit = 'hours') {
-		$threshold = 0;
-		switch($olderThanUnit) {
-			case 'minutes':
-				$threshold = time() - $olderThanValue * 60;
-				break;
-			case 'hours':
-				$threshold = time() - $olderThanValue * 60 * 60;
-				break;
-			case 'days':
-				$threshold = time() - $olderThanValue * 24 * 60 * 60 ;
-				break;
-			default:
-				$threshold = time() - $olderThanValue;
-				break;
-		}
-		return $threshold;
 	}
 
 }
