@@ -122,7 +122,9 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 				
 			} else {
 
-				$this->loadSettingsForStep($this->currentStep - 1);
+				if($this->currentStep > $this->lastStep) {
+					$this->loadSettingsForStep($this->currentStep - 1);
+				}
 
 				//run validation
 				$this->errors = array();
@@ -132,17 +134,22 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 						$className = F3_MailformPlusPlus_StaticFuncs::prepareClassName($tsConfig['class']);
 						F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_validator',$className);
 						$validator = $this->componentManager->getComponent($className);
-
+						if($this->currentStep == $this->lastStep) {
+							$tsConfig['config.']['restrictErrorChecks'] = 'fileAllowedTypes,fileRequired,fileMaxCount,fileMinCount,fileMaxSize,fileMinSize';
+						}
 						$validator->loadConfig($this->gp,$tsConfig['config.']);
 						$res = $validator->validate($this->errors);
 						array_push($valid,$res);
 					}
 				}
 
+				
 				//process files
 				$this->processFiles();
 
-				$this->loadSettingsForStep($this->currentStep);
+				if($this->currentStep > $this->lastStep) {
+					$this->loadSettingsForStep($this->currentStep);
+				}
 
 
 
@@ -231,8 +238,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 					if($this->lastStep < $_SESSION['mailformplusplusSettings']['currentStep']) {
 						$_SESSION['mailformplusplusSettings']['currentStep']--;
 					}
-
-					$this->currentStep--;
+					
 					//load settings from last step again because an error occurred
 					if($this->currentStep > $this->lastStep) {
 						$this->currentStep--;
@@ -339,40 +345,51 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 
 					//for all file names
 					foreach($files['name'] as $field=>$name) {
-						$filename = substr($name, 0, strpos($name, '.'));
-						if(strlen($filename) > 0) {
-							$ext = substr($name, strpos($name, '.'));
-							$suffix = 1;
-
-							//build file name
-							$uploadedFileName = $filename.$ext;
-
-							//rename if exists
-							while(file_exists($uploadPath.$uploadedFileName)) {
-								$uploadedFileName = $filename."_".$suffix.$ext;
-								$suffix++;
-
+						if(!isset($this->errors[$field])) {
+							$exists = false;
+							if(is_array($_SESSION['mailformplusplusFiles'][$field])) {
+								foreach($_SESSION['mailformplusplusFiles'][$field] as $fileOptions) {
+									
+									if($fileOptions['name'] == $name) {
+										$exists = true;
+									}
+								}
 							}
-							$files['name'][$field] = $uploadedFileName;
-
-							//move from temp folder to temp upload folder
-							#print $files['tmp_name'][$field];
-							#print $uploadPath.$uploadedFileName;
-							move_uploaded_file($files['tmp_name'][$field],$uploadPath.$uploadedFileName);
-							$files['uploaded_name'][$field] = $uploadedFileName;
-
-							//set values for $_SESSION
-							$tmp['name'] = $name;
-							$tmp['uploaded_name'] = $uploadedFileName;
-							$tmp['uploaded_path'] = $uploadPath;
-							$tmp['uploaded_folder'] = $uploadFolder;
-							$tmp['uploaded_url'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL').$uploadFolder.$uploadedFileName;
-							$tmp['size'] = $files['size'][$field];
-							$tmp['type'] = $files['type'][$field];
-							if(!is_array($_SESSION['mailformplusplusFiles'][$field]) && strlen($field)) {
-								$_SESSION['mailformplusplusFiles'][$field] = array();
+							if(!$exists) {
+								$filename = substr($name, 0, strpos($name, '.'));
+								if(strlen($filename) > 0) {
+									$ext = substr($name, strpos($name, '.'));
+									$suffix = 1;
+		
+									//build file name
+									$uploadedFileName = $filename.$ext;
+		
+									//rename if exists
+									while(file_exists($uploadPath.$uploadedFileName)) {
+										$uploadedFileName = $filename."_".$suffix.$ext;
+										$suffix++;
+		
+									}
+									$files['name'][$field] = $uploadedFileName;
+		
+									//move from temp folder to temp upload folder
+									move_uploaded_file($files['tmp_name'][$field],$uploadPath.$uploadedFileName);
+									$files['uploaded_name'][$field] = $uploadedFileName;
+		
+									//set values for $_SESSION
+									$tmp['name'] = $name;
+									$tmp['uploaded_name'] = $uploadedFileName;
+									$tmp['uploaded_path'] = $uploadPath;
+									$tmp['uploaded_folder'] = $uploadFolder;
+									$tmp['uploaded_url'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL').$uploadFolder.$uploadedFileName;
+									$tmp['size'] = $files['size'][$field];
+									$tmp['type'] = $files['type'][$field];
+									if(!is_array($_SESSION['mailformplusplusFiles'][$field]) && strlen($field)) {
+										$_SESSION['mailformplusplusFiles'][$field] = array();
+									}
+									array_push($_SESSION['mailformplusplusFiles'][$field],$tmp);
+								}
 							}
-							array_push($_SESSION['mailformplusplusFiles'][$field],$tmp);
 						}
 					}
 				}

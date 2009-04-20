@@ -642,14 +642,14 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		$markers = array();
 		foreach($errors as $field=>$types) {
 			
-			if(strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error_'.$field))) > 0) {
-				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error_'.$field));
-			} elseif($this->settings['isErrorMarker.'][$field]) {
+			if($this->settings['isErrorMarker.'][$field]) {
 				if($this->settings['isErrorMarker.'][$field.'.']) {
 					$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.'][$field],$this->settings['isErrorMarker.'][$field.'.']);
 				} else {
 					$errorMessage = $this->settings['isErrorMarker.'][$field];
 				}
+			} elseif(strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error_'.$field))) > 0) {
+				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error_'.$field));
 			} elseif (strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'))) > 0) {
 				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'));
 			} elseif($this->settings['isErrorMarker.']['global']) {
@@ -661,14 +661,14 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 			}
 			$markers['###is_error_'.$field.'###'] = $errorMessage;
 		}
-		if (strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'))) > 0) {
-			$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'));
-		} elseif($this->settings['isErrorMarker.']['global']) {
+		if($this->settings['isErrorMarker.']['global']) {
 			if($this->settings['isErrorMarker.']['global.']) {
 				$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.']['global'],$this->settings['isErrorMarker.']['global.']);
 			} else {
 				$errorMessage = $this->settings['isErrorMarker.']['global'];
 			}
+		} elseif (strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'))) > 0) {
+			$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'));
 		}
 		$markers['###is_error###'] = $errorMessage;
 		

@@ -83,6 +83,11 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 		if(isset($this->settings['disableErrorCheckFields'])) {
 			$disableErrorCheckFields = t3lib_div::trimExplode(",",$this->settings['disableErrorCheckFields']);
 		}
+		
+		$restrictErrorChecks = array();
+		if(isset($this->settings['restrictErrorChecks'])) {
+			$restrictErrorChecks = t3lib_div::trimExplode(",",$this->settings['restrictErrorChecks']);
+		}
 
 
 		//foreach configured form field
@@ -125,12 +130,16 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 						if(!$errorCheckObject) {
 							F3_MailformPlusPlus_StaticFuncs::debugMessage('Error check "F3_MailformPlusPlus_ErrorCheck_'.$classNameFix.'" not found!');
 						}
-						$checkFailed = $errorCheckObject->check($check,$name,$this->gp);
-						if(strlen($checkFailed) > 0) {
-							if(!is_array($errors[$name])) {
-								$errors[$name] = array();
+						if(empty($restrictErrorChecks) || in_array($check['check'],$restrictErrorChecks)) {
+							$checkFailed = $errorCheckObject->check($check,$name,$this->gp);
+							if(strlen($checkFailed) > 0) {
+								if(!is_array($errors[$name])) {
+									$errors[$name] = array();
+								}
+								array_push($errors[$name],$checkFailed);
 							}
-							array_push($errors[$name],$checkFailed);
+						} else {
+							F3_MailformPlusPlus_StaticFuncs::debugMessage('Skipped error check "'.$check['check'].'"!');
 						}
 					}
 				}

@@ -590,38 +590,86 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 */
 	protected function fillIsErrorMarkers(&$errors) {
 		$markers = array();
+		$singleWrap = $this->settings['singleErrorTemplate.']['singleWrap'];
 		foreach($errors as $field=>$types) {
-			
-			if(strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error_'.$field))) > 0) {
-				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error_'.$field));
-			} elseif($this->settings['isErrorMarker.'][$field]) {
-				if($this->settings['isErrorMarker.'][$field.'.']) {
-					$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.'][$field],$this->settings['isErrorMarker.'][$field.'.']);
-				} else {
-					$errorMessage = $this->settings['isErrorMarker.'][$field];
-				}
-			} elseif (strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'))) > 0) {
-				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'));
-			} elseif($this->settings['isErrorMarker.']['global']) {
-				if($this->settings['isErrorMarker.']['global.']) {
-					$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.']['global'],$this->settings['isErrorMarker.']['global.']);
-				} else {
-					$errorMessage = $this->settings['isErrorMarker.']['global'];
+			$errorMessages = array();
+			$clearErrorMessages = array();
+			if(strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':error_'.$field))) > 0) {
+				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':error_'.$field));
+				if($errorMessage) {
+					if(strlen($singleWrap) > 0 && strstr($singleWrap,"|")) {
+						$errorMessage = str_replace("|",$errorMessage,$singleWrap);
+					}
+						
+					$errorMessages[] = $errorMessage;
 				}
 			}
-			$markers['###is_error_'.$field.'###'] = $errorMessage;
-		}
-		if (strlen(trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'))) > 0) {
-			$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':is_error'));
-		} elseif($this->settings['isErrorMarker.']['global']) {
-			if($this->settings['isErrorMarker.']['global.']) {
-				$errorMessage = $this->cObj->cObjGetSingle($this->settings['isErrorMarker.']['global'],$this->settings['isErrorMarker.']['global.']);
-			} else {
-				$errorMessage = $this->settings['isErrorMarker.']['global'];
+			if(!is_array($types)) {
+				$types = array($types);
 			}
+			foreach($types as $type) {
+
+				$temp = explode(";",$type);
+				$type = array_shift($temp);
+				foreach($temp as $item) {
+					$item = explode("::",$item);
+					$values[$item[0]] = $item[1];
+				}
+
+				//try to load specific error message with key like error_fieldname_integer
+				$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':error_'.$field.'_'.$type));
+				if(strlen($errorMessage) == 0) {
+					$type = strtolower($type);
+					$errorMessage = trim($GLOBALS['TSFE']->sL('LLL:'.$this->langFile.':error_'.$field.'_'.$type));
+				}
+				if($errorMessage) {
+					if(is_array($values)) {
+						foreach($values as $key=>$value) {
+							$errorMessage = str_replace("###".$key."###",$value,$errorMessage);
+						}
+					}
+					if(strlen($singleWrap) > 0 && strstr($singleWrap,"|")) {
+						$errorMessage = str_replace("|",$errorMessage,$singleWrap);
+					}
+					$errorMessages[] = $errorMessage;
+				} else {
+					F3_MailformPlusPlus_StaticFuncs::debugMessage('no_error_message','error_'.$field.'_'.$type);
+				}
+			}
+			$errorMessage = implode("",$errorMessages);
+			$totalWrap = $this->settings['singleErrorTemplate.']['totalWrap'];
+			if(strlen($totalWrap) > 0 && strstr($totalWrap,"|")) {
+				$errorMessage = str_replace("|",$errorMessage,$totalWrap);
+			}
+			$clearErrorMessage = $errorMessage;
+			if($this->settings['addErrorAnchors']) {
+				$errorMessage = '<a name="'.$field.'">'.$errorMessage.'</a>';
+
+			}
+			$langMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($errorMessage,$this->langFile);
+			$errorMessage = $this->cObj->substituteMarkerArray($errorMessage, $langMarkers);
+			$markers['###error_'.$field.'###'] = $errorMessage;
+			$markers['###ERROR_'.strtoupper($field).'###'] = $errorMessage;
+			$errorMessage = $clearErrorMessage;
+			if($this->settings['addErrorAnchors']) {
+				$errorMessage = '<a href="' . t3lib_div::getIndpEnv('REQUEST_URI') . '#'.$field.'">'.$errorMessage.'</a>';
+
+			}
+			//list settings
+			$listSingleWrap = $this->settings['errorListTemplate.']['singleWrap'];
+			if(strlen($listSingleWrap) > 0 && strstr($listSingleWrap,"|")) {
+				$errorMessage = str_replace("|",$errorMessage,$listSingleWrap);
+			}
+				
+			$markers['###ERROR###'] .= $errorMessage;
 		}
-		$markers['###is_error###'] = $errorMessage;
-		
+		$totalWrap = $this->settings['errorListTemplate.']['totalWrap'];
+		if(strlen($totalWrap) > 0 && strstr($totalWrap,"|")) {
+			$markers['###ERROR###'] = str_replace("|",$markers['###ERROR###'],$totalWrap);
+		}
+		$langMarkers = F3_MailformPlusPlus_StaticFuncs::getFilledLangMarkers($markers['###ERROR###'],$this->langFile);
+		$markers['###ERROR###'] = $this->cObj->substituteMarkerArray($markers['###ERROR###'], $langMarkers);
+		$markers['###error###'] = $markers['###ERROR###'];
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 	}
 
