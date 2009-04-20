@@ -59,7 +59,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		
 		
 
-		$this->mergeGPWithSession();
+		
 
 		//set debug mode
 		$this->debugMode = ($settings['debug'] == '1')?TRUE:FALSE;
@@ -102,6 +102,8 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		if($this->currentStep == $this->lastStep) {
 			$disableErrorChecks = true;
 		}
+		
+		$this->mergeGPWithSession();
 
 		//add some JavaScript for fancy form stuff
 		$this->addSpecialJS($settings);
@@ -310,6 +312,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 					$_SESSION['mailformplusplusSettings']['settings'] = $settings;
 				}
 
+				
 				//reset the template because step had probably been decreased
 				$this->setViewSubpart($view,$settings,($this->currentStep-1));
 
@@ -403,11 +406,11 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 		foreach($_SESSION['mailformplusplusValues'] as $step=>&$params) {
 			if(is_array($params)) {
 				unset($params['submitted']);
-				if($step != $this->currentStep) {
+				//if($step != $this->currentStep) {
 					foreach($params as $key=>$value) {
 						$this->gp[$key] = $value;
 					}
-				}
+				//}
 			}
 		}
 	}

@@ -71,18 +71,13 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 
 		/*
 		 * set controller:
-		 * 1. Flexform
+		 * 1. Default controller
 		 * 2. TypoScript
-		 * 3. Default controller
 		 */
-		$controller = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'controller','sDEF');
-		if(!$controller) {
+		$controller = 'F3_MailformPlusPlus_Controller_Form';
+		if($setup['controller']) {
 			$controller = $setup['controller'];
 		}
-		if(!$controller) {
-			$controller = "F3_MailformPlusPlus_Controller_Default";
-		}
-		
 		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller',$controller);
 		$controller = F3_MailformPlusPlus_StaticFuncs::prepareClassName($controller);
 		$controller = $this->componentManager->getComponent($controller);

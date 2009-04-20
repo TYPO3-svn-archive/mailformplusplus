@@ -446,6 +446,41 @@ class F3_MailformPlusPlus_StaticFuncs {
 		$path = str_replace("../","",$path);
 		return $path;
 	}
+	
+	/**
+	 * Searches for upload folder settings in TypoScript setup.
+	 * If no settings is found, the default upload folder is set.
+	 *
+	 * Here is an example:
+	 * <code>
+	 * plugin.F3_MailformPlusPlus.settings.files.tmpUploadFolder = uploads/mailformplusplus/tmp
+	 * </code>
+	 *
+	 * The default upload folder is: '/uploads/mailformplusplus/tmp/'
+	 *
+	 * @return void
+	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 */
+	public static function getTempUploadFolder() {
+
+		//set default upload folder
+		$uploadFolder = '/uploads/mailformplusplus/tmp/';
+
+		//if temp upload folder set in TypoScript, take that setting
+		if($_SESSION['mailformplusplusSettings']['settings']['files.']['uploadFolder']) {
+			$uploadFolder = $_SESSION['mailformplusplusSettings']['settings']['files.']['uploadFolder'];
+			$uploadFolder = F3_MailformPlusPlus_StaticFuncs::sanitizePath($uploadFolder);
+		}
+
+		//if the set directory doesn't exist, print a message
+		#if(!is_dir(F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder)) {
+		#		F3_MailformPlusPlus_StaticFuncs::debugMessage("Folder: '".F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder."' doesn't exist!");
+		#	}
+		if(!is_dir(F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder)) {
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('folder_doesnt_exist',F3_MailformPlusPlus_StaticFuncs::getTYPO3Root().$uploadFolder);
+		}
+		return $uploadFolder;
+	}
 }
 
 ?>

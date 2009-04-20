@@ -11,7 +11,7 @@
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *
- * $Id$
+ * $Id: F3_MailformPlusPlus_View_Default.php 18988 2009-04-14 17:07:35Z erep $
  *                                                                        */
 
 /**
@@ -21,7 +21,7 @@
  * @package	F3_MailformPlusPlus
  * @subpackage	View
  */
-class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView {
+class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 
 	/**
 	 * Removes an uploaded file from $_SESSION. This method is called via an AJAX request.
@@ -273,18 +273,43 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * @return array The settings
 	 */
 	protected function parseSettings() {
-		$settings = $this->configuration->getSettings();
-		if(is_array($this->settings)) {
-			return $this->settings;
-		}
-		if($this->predefined) {
-			$settings = $settings['predef.'][$this->predefined];
-		}
 		session_start();
-		if($_SESSION['mailformplusplusSettings']['settings']) {
-			$settings = $_SESSION['mailformplusplusSettings']['settings'];
+		return $_SESSION['mailformplusplusSettings']['settings'];
+	}
+	
+/**
+	 * Adds the values stored in $_SESSION as hidden fields in marker ###ADDITIONAL_MULTISTEP###.
+	 *
+	 * Needed in conditional forms.
+	 *
+	 * @param	array	&$markers The markers to put the new one into
+	 * @return 	void
+	 */
+	protected function addHiddenFields(&$markers) {
+		session_start();
+		$hiddenFields = "";
+
+		if(is_array($_SESSION['mailformplusplusValues'])) {
+			foreach($_SESSION['mailformplusplusValues'] as $step=>$params) {
+				if($step != $_SESSION['mailformplusplusSettings']['currentStep']) {
+					foreach($params as $key=>$value) {
+						$name = $key;
+						if($_SESSION['mailformplusplusSettings']['formValuesPrefix']) {
+							$name = $_SESSION['mailformplusplusSettings']['formValuesPrefix']."[".$key."]";
+						}
+						if(is_array($value)) {
+							foreach($value as $k=>$v) {
+
+								$hiddenFields .= '<input type="hidden" name="'.$name.'[]" value="'.$v.'" />';
+							}
+						} else {
+							$hiddenFields .= '<input type="hidden" name="'.$name.'" value="'.$value.'" />';
+						}
+					}
+				}
+			}
 		}
-		return $settings;
+		$markers['###ADDITIONAL_MULTISTEP###'] = $hiddenFields;
 	}
 
 	/**
@@ -327,14 +352,38 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 		$markers = array();
 		$markers['###REL_URL###'] = $path;
 		$markers['###ABS_URL###'] = t3lib_div::locationHeaderUrl('').$path;
-		$name = "step-1";
-		if($settings['formValuesPrefix']) {
-			$name = $settings['formValuesPrefix']."[".$name."]";
+		session_start();
+
+		// current step
+		$markers['###curStep###'] = $_SESSION['mailformplusplusSettings']['currentStep'];
+
+		// maximum step/number of steps
+		$markers['###maxStep###'] = $_SESSION['mailformplusplusSettings']['totalSteps'];
+
+		// the last step shown
+		$markers['###lastStep###'] = $_SESSION['mailformplusplusSettings']['lastStep'];
+
+		$name = "step-";
+		if($_SESSION['mailformplusplusSettings']['formValuesPrefix']) {
+			$name = $_SESSION['mailformplusplusSettings']['formValuesPrefix']."[".$name."#step#]";
+		} else {
+			$name = "step-#step#";
 		}
-		$markers['###submit_reload###'] = ' name="'.$name.'" ';
+
+		// submit name for next page
+		$markers['###submit_nextStep###'] = ' name="'.str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']+1),$name).'" ';
+
+		// submit name for previous page
+		$markers['###submit_prevStep###'] = ' name="'.str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']-1),$name).'" ';
+
+		// submit name for reloading the same page/step
+		$markers['###submit_reload###'] = ' name="'.str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']),$name).'" ';
+		
+		$this->addHiddenFields($markers);
 		$this->fillCaptchaMarkers($markers);
 		$this->fillFEUserMarkers($markers);
 		$this->fillFileMarkers($markers);
+		
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 	}
 
@@ -589,6 +638,7 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 	 * @return void
 	 */
 	protected function fillIsErrorMarkers(&$errors) {
+		
 		$markers = array();
 		foreach($errors as $field=>$types) {
 			

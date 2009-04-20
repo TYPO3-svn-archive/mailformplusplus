@@ -31,6 +31,7 @@
  * finishers.2.config.admin.sender_name = lastname
  * finishers.2.config.admin.replyto_email = email
  * finishers.2.config.admin.replyto_name = lastname
+ * finishers.2.config.admin.cc_email = office@host.com
  * finishers.2.config.admin.htmlEmailAsAttachment = 1
  * finishers.2.config.user.header = ...
  * finishers.2.config.user.to_email = email
@@ -41,6 +42,8 @@
  * finishers.2.config.user.replyto_email = rf@typoheads.at
  * finishers.2.config.user.replyto_name = TEXT
  * finishers.2.config.user.replyto_name.value = Reinhard Führicht
+ * finishers.2.config.user.cc_email = controlling@host.com
+ * finishers.2.config.user.cc_name = Contact Request
  *
  * # sends only plain text mails and adds the HTML mail as attachment
  * finishers.2.config.user.htmlEmailAsAttachment = 1
@@ -201,6 +204,15 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		}
 		$emailObj->replyto_email = $replyto;
 		$emailObj->replyto_name = $mailSettings['replyto_name'];
+		
+		$cc = $mailSettings['cc_email'];
+		if(isset($mailSettings['cc_email']) && is_array($mailSettings['cc_email'])) {
+			$cc = implode(",",$mailSettings['cc_email']);
+		}
+		$emailObj->recipient_copy = $cc;
+		
+		
+		
 		$emailObj->returnPath = '';
 		if($mailSettings['email_header']) {
 			$emailObj->add_header($mailSettings['header']);
@@ -271,6 +283,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_subject',$emailObj->subject);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sender',$emailObj->from_name." <".$emailObj->from_email.">",false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_replyto',$emailObj->replyto_name." <".$emailObj->replyto_email.">",false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_cc',$emailObj->recipient_copy,false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_plain',$template['plain'],false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_html',$template['html'],false);
 			} else {
@@ -278,6 +291,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_subject',$emailObj->subject);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_sender',$emailObj->from_name." <".$emailObj->from_email.">",false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_replyto',$emailObj->replyto_name." <".$emailObj->replyto_email.">",false);
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_cc',$emailObj->recipient_copy,false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_plain',$template['plain'],false);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_html',$template['html'],false);
 			}
@@ -492,6 +506,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			'sender_name',
 			'replyto_email',
 			'replyto_name',
+			'cc_email',
 			'to_name',
 			'attachment',
 			'attachPDF',
@@ -535,24 +550,25 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 
 			} else {
 				switch($option) {
-					case "to_email":
-					case "to_name":
-					case "sender_email":
-					case "replyto_email":
+					case 'to_email':
+					case 'to_name':
+					case 'sender_email':
+					case 'replyto_email':
+					case 'cc_email':
 						$emailSettings[$option] = $this->parseList($currentSettings,$type,$option);
 						break;
 
-					case "subject":
-					case "sender_name":
-					case "replyto_name":
+					case 'subject':
+					case 'sender_name':
+					case 'replyto_name':
 						$emailSettings[$option] = $this->parseValue($currentSettings,$type,$option);
 						break;
 
-					case "attachment":
+					case 'attachment':
 						$emailSettings[$option] = $this->parseFilesList($currentSettings,$type,$option);
 						break;
 
-					case "attachPDF":
+					case 'attachPDF':
 						if(isset($currentSettings['attachPDF.']) && is_array($currentSettings['attachPDF.'])) {
 							#print "call";
 							$generatorClass = $currentSettings['attachPDF.']['class'];
@@ -582,13 +598,13 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 						}
 						break;
 
-					case "htmlEmailAsAttachment":
+					case 'htmlEmailAsAttachment':
 						if(isset($currentSettings['htmlEmailAsAttachment']) && !strcmp($currentSettings['htmlEmailAsAttachment'],"1")) {
 							$emailSettings['htmlEmailAsAttachment'] = 1;
 						}
 
 						break;
-					case "filePrefix":
+					case 'filePrefix':
 						if(isset($currentSettings['filePrefix'])) {
 							$emailSettings['filePrefix'] = $currentSettings['filePrefix'];
 						}

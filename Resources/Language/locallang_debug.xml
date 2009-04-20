@@ -26,6 +26,7 @@
 			<label index="mail_subject">Subject: %s</label>
 			<label index="mail_sender">Sender: %s</label>
 			<label index="mail_replyto">Reply to: %s</label>
+			<label index="mail_cc">CC: %s</label>
 			<label index="mail_plain">Message plain: %s</label>
 			<label index="mail_html">Message HTML: %s</label>
 			<label index="mail_message">Message: %s</label>

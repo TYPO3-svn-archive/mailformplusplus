@@ -63,20 +63,6 @@
 					</config>
 				</TCEforms>
 			</predefinedJS>
-			<controller>
-				<TCEforms>
-					<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.template_controller</label>
-					<config>
-					    <type>select</type>
-						<itemsProcFunc>tx_dynaflex_mailformplusplus->addFields_controller</itemsProcFunc>
-					    <maxitems>1</maxitems>
-					    <size>1</size>
-					    <multiple>0</multiple>
-					    <selectedListStyle>width:150px</selectedListStyle>
-					    <itemListStyle>width:150px</itemListStyle>
-					</config>
-				</TCEforms>
-			</controller>
 		</el>
 	</ROOT>
 	</sDEF>
@@ -97,6 +83,8 @@
 					</config>
 					</TCEforms>
 				</to_email>
+				
+				
 
 				<subject>
 					<TCEforms>
@@ -153,7 +141,16 @@
 					</TCEforms>
 				</replyto_name>
 
-				
+				<cc_email>
+					<TCEforms>
+						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.cc</label>
+						<config>
+							<type>input</type>
+							<eval>text</eval>
+							<size>50</size>
+						</config>
+					</TCEforms>
+				</cc_email>
 			</el>
 		</ROOT>
 	</sEMAILADMIN>
@@ -226,6 +223,17 @@
 						</config>
 					</TCEforms>
 				</replyto_name>
+				
+				<cc_email>
+					<TCEforms>
+						<label>LLL:EXT:mailformplusplus/Resources/Language/locallang_tca.xml:mailformplusplus.pi_flexform.cc</label>
+						<config>
+							<type>input</type>
+							<eval>text</eval>
+							<size>50</size>
+						</config>
+					</TCEforms>
+				</cc_email>
 			</el>
 		</ROOT>
 	</sEMAILUSER>

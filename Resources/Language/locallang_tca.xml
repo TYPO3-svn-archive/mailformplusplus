@@ -29,6 +29,7 @@
 			<label index="mailformplusplus.pi_flexform.mandatoryFields">Mandatory fields (enter names of formular fields seperated by ",")</label>
 			<label index="mailformplusplus.pi_flexform.replyTo">Reply-To E-mail (optional, name of input field)</label>
 			<label index="mailformplusplus.pi_flexform.replyToName">Reply-To Name (optional, name of input field)</label>			
+			<label index="mailformplusplus.pi_flexform.cc">Send CC E-mail to (optional, name of input field)</label>
 
 			<label index="mailformplusplus.pi_flexform.emailConfirm">Send E-mail to address entered in form (enter name of form field here)</label>
 			<label index="mailformplusplus.pi_flexform.emailConfirmSubject">Subject of the mail to the user:</label>
@@ -54,7 +55,7 @@
 			<label index="mailformplusplus.pi_flexform.mandatoryFields">Pflichtfelder (Kommaseparierte Liste mit Formularfeldnamen)</label>
 			<label index="mailformplusplus.pi_flexform.replyTo">Reply-To E-mail</label>
 			<label index="mailformplusplus.pi_flexform.replyToName">Reply-To Name</label>			
-
+			<label index="mailformplusplus.pi_flexform.cc">E-Mail-Kopieempfänger</label>
 			<label index="mailformplusplus.pi_flexform.emailConfirm">Sende E-mail an eine Adresse, die im Formular eingegeben wurde (Name des Formularfelds eingeben)</label>
 			<label index="mailformplusplus.pi_flexform.emailConfirmSubject">Betreff dieser E-Mail</label>
 			<label index="mailformplusplus.pi_flexform.template_predefined">Vordefinierte Formulare</label>
@@ -77,7 +78,7 @@
 			<label index="mailformplusplus.pi_flexform.mandatoryFields">Mandatory fields (enter names of formular fields seperated by ",")</label>
 			<label index="mailformplusplus.pi_flexform.replyTo">Reply-To E-mail (optional, name of input field)</label>
 			<label index="mailformplusplus.pi_flexform.replyToName">Reply-To Name (optional, name of input field)</label>			
-
+			<label index="mailformplusplus.pi_flexform.cc">Send CC E-mail to (optional, name of input field)</label>
 			<label index="mailformplusplus.pi_flexform.emailConfirm">Send E-mail to address entered in form (enter name of form field here)</label>
 			<label index="mailformplusplus.pi_flexform.emailConfirmSubject">Subject of the mail to the user:</label>
 			<label index="mailformplusplus.pi_flexform.template_predefined">Predefined forms:</label>

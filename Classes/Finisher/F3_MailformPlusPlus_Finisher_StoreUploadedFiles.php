@@ -83,17 +83,18 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 		if(isset($_SESSION['mailformplusplusFiles']) && is_array($_SESSION['mailformplusplusFiles']) && strlen($newFolder) > 0 ) {
 			foreach($_SESSION['mailformplusplusFiles'] as $field=>$files) {
 				foreach($files as $key => $file) {
-					$newFilename = $this->getNewFilename($file['uploaded_name']);
-
-					F3_MailformPlusPlus_StaticFuncs::debugMessage('copy_file',$file['uploaded_path'].$file['uploaded_name'],$uploadPath.$newFilename);
-					copy($file['uploaded_path'].$file['uploaded_name'],$uploadPath.$newFilename);
-					unlink($file['uploaded_path'].$file['uploaded_name']);
-
-					$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_path'] = $uploadPath;
-					$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_name'] = $newFilename;
-					$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_folder'] = $newFolder;
-					$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_url'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL').$newFolder.$newFilename;
-
+					if($file['uploaded_path'] != $uploadPath) {
+						$newFilename = $this->getNewFilename($file['uploaded_name']);
+	
+						F3_MailformPlusPlus_StaticFuncs::debugMessage('copy_file',$file['uploaded_path'].$file['uploaded_name'],$uploadPath.$newFilename);
+						copy($file['uploaded_path'].$file['uploaded_name'],$uploadPath.$newFilename);
+						unlink($file['uploaded_path'].$file['uploaded_name']);
+	
+						$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_path'] = $uploadPath;
+						$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_name'] = $newFilename;
+						$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_folder'] = $newFolder;
+						$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_url'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL').$newFolder.$newFilename;
+					}
 				}
 			}
 		}
