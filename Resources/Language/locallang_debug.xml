@@ -40,6 +40,8 @@
 			<label index="invalid_isset">"Invalid format of ISSET Marker. Hint: %s</label>
 			<label index="no_error_message">Could not find error message with key "%s"!</label>
 			<label index="sql_request">Executing request "%s";</label>
+			<label index="subparts_missing">Subparts in template missing! Found: %s</label>
+			<label index="total_steps">Highest step subpart found in template file (number of steps): %s</label>
 		</languageKey>
 	</data>
 </T3locallang>

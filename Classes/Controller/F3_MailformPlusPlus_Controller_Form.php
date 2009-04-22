@@ -364,7 +364,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 									$uploadedFileName = $filename . $ext;
 		
 									//rename if exists
-									while(file_exists($uploadPath.$uploadedFileName)) {
+									while(file_exists($uploadPath . $uploadedFileName)) {
 										$uploadedFileName = $filename . '_' . $suffix . $ext;
 										$suffix++;
 		
@@ -534,6 +534,9 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 
 		$this->loadGP();
 
+		//read template file
+		$this->readTemplateFile();
+
 		$this->getStepInformation();
 		$this->loadSettingsForStep($this->currentStep);
 		$this->validateConfig();
@@ -553,9 +556,6 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		//add some JavaScript for fancy form stuff
 		$this->addSpecialJS();
 
-		//read template file
-		$this->readTemplateFile();
-
 		// set stylesheet file
 		$this->setStyleSheet();
 
@@ -566,6 +566,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			$viewClass = 'F3_MailformPlusPlus_View_Form';
 		}
 
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_view',$viewClass);
 		$viewClass = F3_MailformPlusPlus_StaticFuncs::prepareClassName($viewClass);
 		$this->view = $this->componentManager->getComponent($viewClass);
 		$this->view->setLangFile($this->langFile);
@@ -615,6 +616,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		$_SESSION['mailformplusplusSettings']['formValuesPrefix'] = $this->formValuesPrefix;
 		$_SESSION['mailformplusplusSettings']['settings'] = $this->settings;
 		$_SESSION['mailformplusplusSettings']['currentStep'] = $this->currentStep;
+		$_SESSION['mailformplusplusSettings']['totalSteps'] = $this->totalSteps;
 		$_SESSION['mailformplusplusSettings']['lastStep'] = $this->lastStep;
 		$_SESSION['mailformplusplusSettings']['debugMode'] = $this->debugMode;
 	}
@@ -641,7 +643,20 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			$this->lastStep = 1;
 		}
 
-		//TODO total steps
+		//total steps
+		preg_match_all('/(###TEMPLATE_FORM)([0-9]+)(_.*)?(###)/', $this->templateFile, $subparts);
+
+		//get step numbers
+		$subparts = array_unique($subparts[2]);
+		sort($subparts);
+		$countSubparts = count($subparts);
+		$this->totalSteps = $subparts[$countSubparts - 1];
+		
+		if ($this->totalSteps > $countSubparts) {
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('subparts_missing', implode(', ', $subparts));
+		} else {
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('total_steps', $this->totalSteps);
+		}
 	}
 
 	/**

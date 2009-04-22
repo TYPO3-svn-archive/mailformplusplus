@@ -372,6 +372,14 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		// submit name for reloading the same page/step
 		$markers['###submit_reload###'] = ' name="' . str_replace('#step#',($_SESSION['mailformplusplusSettings']['currentStep']), $name) . '" ';
 
+		// step bar
+		$markers['###step_bar###'] = $this->createStepBar(
+			$_SESSION['mailformplusplusSettings']['currentStep'],
+			$_SESSION['mailformplusplusSettings']['totalSteps'],
+			str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']-1),$name),
+			str_replace("#step#",($_SESSION['mailformplusplusSettings']['currentStep']+1),$name)
+		);
+
 		$this->addHiddenFields($markers);
 		$this->fillCaptchaMarkers($markers);
 		$this->fillFEUserMarkers($markers);
@@ -850,6 +858,88 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 			}
 		}
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $langMarkers);
+	}
+	
+	/**
+	 * improved copy from dam_index
+	 * 
+	 * Returns HTML of a box with a step counter and "back" and "next" buttons
+	 * Use label "next"/"prev" or "next_[stepnumber]"/"prev_[stepnumber]" for specific step in language file as button text.
+	 * 
+	 * <code>
+	 * #set background color
+	 * plugin.F3_MailformPlusPlus.settings.stepbar_color = #EAEAEA
+	 * #use default CSS, written to temp file
+	 * plugin.F3_MailformPlusPlus.settings.useDefaultStepBarStyles = 1
+	 * </code>
+	 * 
+	 * @author Johannes Feustel
+	 * @param	integer	$currentStep current step (begins with 1)
+	 * @param	integer	$lastStep last step
+	 * @param	string	$buttonNameBack name attribute of the back button
+	 * @param	string	$buttonNameFwd name attribute of the forward button
+	 * @return 	string	HTML code
+	 */
+	protected function createStepBar($currentStep,$lastStep,$buttonNameBack ="",$buttonNameFwd ="") {
+
+		//colors
+		$bgcolor = '#EAEAEA';
+		$bgcolor = $this->settings['stepbar_color'] ? $this->settings['stepbar_color'] : $bgcolor;
+
+		$nrcolor = t3lib_div::modifyHTMLcolor($bgcolor, 30, 30, 30);
+
+		$errorbgcolor = '#dd7777';
+		$errornrcolor = t3lib_div::modifyHTMLcolor($errorbgcolor, 30, 30, 30);
+		
+		$classprefix = $this->settings['formValuesPrefix'] . '_stepbar';
+		
+		$css = array();
+		$css[] = '.' . $classprefix . ' { background:'  . $bgcolor . '; padding:4px;}';
+		$css[] = '.' . $classprefix . '_error { background: ' . $errorbgcolor . ';}';
+		$css[] = '.' . $classprefix . '_steps { margin-left:50px; margin-right:25px; vertical-align:middle; font-family:Verdana,Arial,Helvetica; font-size:22px; font-weight:bold; }';
+		$css[] = '.' . $classprefix . '_steps span { color:'.$nrcolor.'; margin-left:5px; margin-right:5px; }';
+		$css[] = '.' . $classprefix . '_error .' . $classprefix . '_steps span { color:'.$errornrcolor.'; margin-left:5px; margin-right:5px; }';
+		$css[] = '.' . $classprefix . '_steps .' . $classprefix . '_currentstep { color:  #000;}';
+		$css[] = '#stepsFormButtons { margin-left:25px;vertical-align:middle;}';
+
+		$content = '';
+		$buttons = '';
+
+		for ($i = 1; $i <= $lastStep; $i++) {
+			$class = '';
+			if ($i == $currentStep) {
+				$class =  'class="' . $classprefix . '_currentstep"';
+			}
+			$content.= '<span ' . $class . ' >' . $i . '</span>';
+		}
+		$content = '<span class="' . $classprefix . '_steps' . '" style="">' . $content . '</span>';
+
+		//if not the first step, show back button
+		if ($currentStep > 1) {
+			//check if label for specific step
+			$buttonvalue = $GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':' . 'prev_' . $currentStep) ? $GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':' . "prev_" . $currentStep) : $GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':' . 'prev');
+			$buttons .= '<input type="submit" name="'.$buttonNameBack.'" value="' . trim($buttonvalue) . '" class="button_prev" style="margin-right:10px;" />';
+		}
+
+		$buttonvalue = $GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':' . 'next_' . $currentStep) ? $GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':' . 'next_' . $currentStep) : $GLOBALS['TSFE']->sL('LLL:' . $this->langFile . ':' .'next');
+		$buttons .= '<input type="submit" name="' . $buttonNameFwd . '" value="' . trim($buttonvalue) . '" class="button_next" />';
+
+		$content .= '<span id="stepsFormButtons">' . $buttons . '</span>';
+		
+		//wrap
+		$classes = $classprefix;
+		if($this->errors) {
+			$classes = $classes . ' ' . $classprefix . '_error';
+		}
+		$content = '<div class="' . $classes . '" >' . $content . '</div>';
+		
+		//add default css to page
+		if($this->settings['useDefaultStepBarStyles']){
+			$css = implode("\n" , $css);
+			$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . '_' . $classprefix] = TSpagegen::inline2TempFile($css, 'css');
+		}
+
+		return $content;
 	}
 }
 ?>
