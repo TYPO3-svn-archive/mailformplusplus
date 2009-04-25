@@ -100,7 +100,7 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 
 		if(!$this->gp['submitted']) {
 			$this->storeStartEndBlock();
-		} else {
+		} elseif($_SESSION['mailformplusplusSettings']['currentStep'] != 1) {
 			$this->fillStartEndBlock();
 		}
 

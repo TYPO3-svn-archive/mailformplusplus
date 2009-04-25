@@ -566,7 +566,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			$viewClass = 'F3_MailformPlusPlus_View_Form';
 		}
 
-		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_view',$viewClass);
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_view', $viewClass);
 		$viewClass = F3_MailformPlusPlus_StaticFuncs::prepareClassName($viewClass);
 		$this->view = $this->componentManager->getComponent($viewClass);
 		$this->view->setLangFile($this->langFile);
@@ -731,7 +731,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 	}
 
 	/**
-	 * Returns some JavaScript code used for fany form stuff.
+	 * Returns some JavaScript code used for fancy form stuff.
 	 *
 	 * Example code:
 	 *
