@@ -12,6 +12,7 @@
 			<label index="calling_finisher">Calling finisher "%s"</label>
 			<label index="using_controller">Using controller "%s"</label>
 			<label index="using_view">Using view "%s"</label>
+			<label index="using_prefix">Using prefix for form values: "%s"</label>
 			<label index="using_fancy">Using fancy form stuff!</label>
 			<label index="enabling_help">Enabling help texts!</label>
 			<label index="enabling_auto">Enabling auto complete!</label>
@@ -42,6 +43,7 @@
 			<label index="sql_request">Executing request "%s";</label>
 			<label index="subparts_missing">Subparts in template missing! Found: %s</label>
 			<label index="total_steps">Highest step subpart found in template file (number of steps): %s</label>
+			<label index="current_step">Current step is: %s</label>
 		</languageKey>
 	</data>
 </T3locallang>

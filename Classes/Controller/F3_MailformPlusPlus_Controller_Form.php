@@ -86,7 +86,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		//not submitted
 		if(!$this->submitted) {
 			$this->reset();
-				
+
 			//run preProcessors
 			$this->runClasses($this->settings['preProcessors.']);
 
@@ -96,11 +96,11 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			//display form
 			$content = $this->view->render($this->gp, $this->errors) . $this->additionalJS;
 			return $content;
-				
+
 			//submitted
 		} else {
 			if($this->submittedOK) {
-				
+
 				//run finishers
 				if(isset($this->settings['finishers.']) && is_array($this->settings['finishers.'])) {
 
@@ -119,7 +119,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 						}
 					}
 				}
-				
+
 			} else {
 
 				if($this->currentStep > $this->lastStep) {
@@ -143,7 +143,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 					}
 				}
 
-				
+
 				//process files
 				$this->processFiles();
 
@@ -155,7 +155,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 
 				//if form is valid
 				if($this->isValid($valid)) {
-						
+
 					//if no more steps
 					if($this->finished) {
 
@@ -178,7 +178,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 						if(isset($this->settings['finishers.']) && is_array($this->settings['finishers.'])) {
 
 							ksort($this->settings['finishers.']);
-								
+
 							//if storeGP is set include Finisher_storeGP, stores GET / POST in the session
 							if(!$_SESSION['submitted_ok'] && ($this->settings['storeGP'] == 1 || F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'], 'store_gp', 'sMISC'))){
 								$this->addFinisherStoreGP();
@@ -190,7 +190,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 									
 								//check if the form was finished before. This flag is set by the F3_Finisher_Confirmation
 								if(!$_SESSION['submitted_ok']) {
-										
+
 									F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_finisher', $className);
 									$tsConfig['config.']['templateFile'] = $this->settings['templateFile'];
 									$tsConfig['config.']['langFile'] = $this->settings['langFile'];
@@ -221,6 +221,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 							}
 						}
 					} else {
+
 						//if user clicked "submit"
 						if($this->currentStep >= $this->lastStep) {
 							F3_MailformPlusPlus_StaticFuncs::debugMessage('Storing GP in session');
@@ -238,7 +239,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 					if($this->lastStep < $_SESSION['mailformplusplusSettings']['currentStep']) {
 						$_SESSION['mailformplusplusSettings']['currentStep']--;
 					}
-					
+
 					//load settings from last step again because an error occurred
 					if($this->currentStep > $this->lastStep) {
 						$this->currentStep--;
@@ -248,7 +249,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 
 					//reset the template because step had probably been decreased
 					$this->setViewSubpart($this->currentStep);
-						
+
 					//display form
 					return $this->view->render($this->gp, $this->errors) . $this->additionalJS;;
 				}
@@ -307,7 +308,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('folder_doesnt_exist', $uploadPath);
 				return;
 			}
-			
+
 			//for all file properties
 			/*
 			* $_FILES looks like this:
@@ -348,7 +349,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 							$exists = false;
 							if(is_array($_SESSION['mailformplusplusFiles'][$field])) {
 								foreach($_SESSION['mailformplusplusFiles'][$field] as $fileOptions) {
-									
+
 									if($fileOptions['name'] == $name) {
 										$exists = true;
 									}
@@ -359,22 +360,22 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 								if(strlen($filename) > 0) {
 									$ext = substr($name, strpos($name, '.'));
 									$suffix = 1;
-		
+
 									//build file name
 									$uploadedFileName = $filename . $ext;
-		
+
 									//rename if exists
 									while(file_exists($uploadPath . $uploadedFileName)) {
 										$uploadedFileName = $filename . '_' . $suffix . $ext;
 										$suffix++;
-		
+
 									}
 									$files['name'][$field] = $uploadedFileName;
-		
+
 									//move from temp folder to temp upload folder
 									move_uploaded_file($files['tmp_name'][$field], $uploadPath . $uploadedFileName);
 									$files['uploaded_name'][$field] = $uploadedFileName;
-		
+
 									//set values for $_SESSION
 									$tmp['name'] = $name;
 									$tmp['uploaded_name'] = $uploadedFileName;
@@ -484,6 +485,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		if(!$this->currentStep) {
 			$this->currentStep = 1;
 		}
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('current_step', $this->currentStep);
 	}
 
 	public function validateConfig() {
@@ -532,6 +534,10 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			$this->formValuesPrefix = $this->settings['formValuesPrefix'];
 		}
 
+		//set debug mode
+		$this->debugMode = ($this->settings['debug'] == '1') ? TRUE : FALSE;
+
+
 		$this->loadGP();
 
 		//read template file
@@ -543,6 +549,10 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 
 		//set debug mode
 		$this->debugMode = ($this->settings['debug'] == '1') ? TRUE : FALSE;
+
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_prefix', $this->formValuesPrefix);
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('current_gp');
+		F3_MailformPlusPlus_StaticFuncs::debugArray($this->gp);
 
 		$this->storeSettingsInSession();
 
@@ -596,17 +606,17 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			F3_MailformPlusPlus_StaticFuncs::debugMessage('using_subpart', ('###TEMPLATE_FORM' . $step . $this->settings['templateSuffix'] . '###'));
 			$this->view->setTemplate($this->templateFile, ('FORM' . $step . $this->settings['templateSuffix']));
 
-			//search for ###TEMPLATE_FORM[step]###
+		//search for ###TEMPLATE_FORM[step]###
 		} elseif(strstr($this->templateFile, ('###TEMPLATE_FORM' . $step . '###'))) {
 			F3_MailformPlusPlus_StaticFuncs::debugMessage('using_subpart', ('###TEMPLATE_FORM' . $step . '###'));
 			$this->view->setTemplate($this->templateFile, ('FORM' . $step));
 
-			//search for ###TEMPLATE_FORM###
+		//search for ###TEMPLATE_FORM###
 		} elseif(strstr($this->templateFile, '###TEMPLATE_FORM###')) {
 			F3_MailformPlusPlus_StaticFuncs::debugMessage('using_subpart', '###TEMPLATE_FORM###');
 			$this->view->setTemplate($this->templateFile, 'FORM');
 
-			//mark form as finished
+		//mark form as finished
 		} else {
 			$this->finished = 1;
 		}
@@ -651,7 +661,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		sort($subparts);
 		$countSubparts = count($subparts);
 		$this->totalSteps = $subparts[$countSubparts - 1];
-		
+
 		if ($this->totalSteps > $countSubparts) {
 			F3_MailformPlusPlus_StaticFuncs::debugMessage('subparts_missing', implode(', ', $subparts));
 		} else {
