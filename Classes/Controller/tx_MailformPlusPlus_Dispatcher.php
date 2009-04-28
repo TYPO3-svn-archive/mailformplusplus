@@ -35,12 +35,25 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 	 * @return void
 	 */
 	protected function handleAjax() {
-		if(t3lib_extMgm::isLoaded('xajax')) {
-			require (t3lib_extMgm::extPath('xajax') . 'class.tx_xajax.php');
+		if(t3lib_extMgm::isLoaded('xajax', 0) && !class_exists('tx_xajax') && !$this->xajax) {
+			require_once(t3lib_extMgm::extPath('xajax') . 'class.tx_xajax.php');
+				
+				
+		}
+		if (!$this->xajax && class_exists('tx_xajax')) {
+			$view = $this->componentManager->getComponent('F3_MailformPlusPlus_View_Form');
+
 			$this->xajax = t3lib_div::makeInstance('tx_xajax');
+			$this->xajax->decodeUTF8InputOn();
 			$this->prefixId = 'F3_MailformPlusPlus';
-			$view = $this->componentManager->getComponent('F3_MailformPlusPlus_View_Default');
+			$this->xajax->setCharEncoding('utf-8');
+			#$this->xajax->setWrapperPrefix($this->prefixId);
+				
 			$this->xajax->registerFunction(array($this->prefixId . '_removeUploadedFile', &$view, 'removeUploadedFile'));
+			// Do you wnat messages in the status bar?
+			$this->xajax->statusMessagesOn();
+			// Turn only on during testing
+			$this->xajax->debugOff();
 			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId] = $this->xajax->getJavascript(t3lib_extMgm::siteRelPath('xajax'));
 			$this->xajax->processRequests();
 		}
@@ -76,7 +89,7 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		if($setup['controller']) {
 			$controller = $setup['controller'];
 		}
-		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller', $controller);
+		//F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller', $controller);
 		$controller = F3_MailformPlusPlus_StaticFuncs::prepareClassName($controller);
 		$controller = $this->componentManager->getComponent($controller);
 
