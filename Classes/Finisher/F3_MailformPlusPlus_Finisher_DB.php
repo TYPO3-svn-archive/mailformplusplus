@@ -231,7 +231,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 				$fieldValue = $this->gp[$options['mapping']];
 
 				//pre process the field value. e.g. to format a date
-				if($options['preProcessing.']) {
+				if(is_array($options['preProcessing.'])) {
 					$options['preProcessing.']['value'] = $fieldValue;
 					$fieldValue = $this->cObj->cObjGetSingle($options['preProcessing'], $options['preProcessing.']);
 				}
@@ -286,7 +286,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 			}
 			
 			//post process the field value after mailformplusplus did it's magic.
-			if($options['postProcessing.']) {
+			if(is_array($options['postProcessing.'])) {
 				$options['postProcessing.']['value'] = $queryFields[$fieldname];
 				$queryFields[$fieldname] = $this->cObj->cObjGetSingle($options['preProcessing'], $options['preProcessing.']);
 			}
