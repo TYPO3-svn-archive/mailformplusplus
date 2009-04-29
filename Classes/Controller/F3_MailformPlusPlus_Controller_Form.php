@@ -663,9 +663,9 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		$this->totalSteps = $subparts[$countSubparts - 1];
 
 		if ($this->totalSteps > $countSubparts) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('subparts_missing', implode(', ', $subparts));
+			//F3_MailformPlusPlus_StaticFuncs::debugMessage('subparts_missing', implode(', ', $subparts));
 		} else {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('total_steps', $this->totalSteps);
+			//F3_MailformPlusPlus_StaticFuncs::debugMessage('total_steps', $this->totalSteps);
 		}
 	}
 

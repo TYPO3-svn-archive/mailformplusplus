@@ -557,19 +557,8 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 					$filename = $fileInfo['name'];
 					$thumb = '';
 					if($settings['singleFileMarkerTemplate.']['showThumbnails'] == '1') {
-						$imgConf['image'] = 'IMAGE';
-						$imgConf['image.']['altText'] = $filename;
-						$imgConf['image.']['titleText'] = $filename;
-
-						$relPath = substr(($fileInfo['uploaded_folder'] . $fileInfo['uploaded_name']), 1);
-						$imgConf['image.']['file'] = $relPath;
-						if($settings['singleFileMarkerTemplate.']['thumbnailWidth']) {
-							$imgConf['image.']['file.']['width'] = $settings['singleFileMarkerTemplate.']['thumbnailWidth'];
-						}
-						if($settings['singleFileMarkerTemplate.']['thumbnailHeight']) {
-							$imgConf['image.']['file.']['height'] = $settings['singleFileMarkerTemplate.']['thumbnailHeight'];
-						}
-						$thumb = $this->cObj->IMAGE($imgConf['image.']);
+						$imgConf['image.'] = $settings['singleFileMarkerTemplate.']['image.'];
+						$thumb = $this->getThumbnail($imgConf, $fileInfo);
 					}
 					if(t3lib_extMgm::isLoaded('xajax') && $settings['files.']['enableAjaxFileRemoval']) {
 						$filename .= '<a href="javascript:void(0)" class="mailformplusplus_removelink" onclick="xajax_' . $this->prefixId . '_removeUploadedFile(\'' . $field . '\',\'' . $fileInfo['uploaded_name'] . '\')">X</a>';
@@ -587,23 +576,15 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 					} else {
 						$markers['###' . $field . '_uploadedFiles###'] .= $wrappedFilename;
 					}
-
+					$filename = $fileInfo['name'];
 					if($settings['totalFilesMarkerTemplate.']['showThumbnails'] == '1') {
-						$imgConf['image'] = 'IMAGE';
-						$imgConf['image.']['altText'] = $filename;
-						$imgConf['image.']['titleText'] = $filename;
-
-						$relPath = substr(($fileInfo['uploaded_folder'] . $fileInfo['uploaded_name']), 1);
-						$imgConf['image.']['file'] = $relPath;
-						if($settings['totalFilesMarkerTemplate.']['thumbnailWidth']) {
-							$imgConf['image.']['file.']['width'] = $settings['totalFilesMarkerTemplate.']['thumbnailWidth'];
+						$imgConf['image.'] = $settings['totalFilesMarkerTemplate.']['image.'];
+						if(!$imgconf['image.']) {
+							$imgConf['image.'] = $settings['singleFileMarkerTemplate.']['image.'];
 						}
-						if($settings['totalFilesMarkerTemplate.']['thumbnailHeight']) {
-							$imgConf['image.']['file.']['height'] = $settings['totalFilesMarkerTemplate.']['thumbnailHeight'];
-						}
-						$thumb = $this->cObj->IMAGE($imgConf['image.']);
+						$thumb = $this->getThumbnail($imgConf, $fileInfo);
+						
 					}
-
 					if(strlen($totalMarkerSingleWrap) > 0 && strstr($totalMarkerSingleWrap, '|')) {
 
 						$wrappedFilename = str_replace('|', $filename, $totalMarkerSingleWrap);
@@ -612,14 +593,12 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 						$wrappedFilename = $filename;
 						$wrappedThumb = $thumb;
 					}
-
+				
 					if($settings['totalFilesMarkerTemplate.']['showThumbnails'] == '1') {
 						$markers['###total_uploadedFiles###'] .= $wrappedThumb;
 					} else {
 						$markers['###total_uploadedFiles###'] .= $wrappedFilename;
 					}
-
-
 				}
 				if(strlen($totalWrap) > 0 && strstr($totalWrap,'|')) {
 					$markers['###' . $field . '_uploadedFiles###'] = str_replace('|', $markers['###' . $field . '_uploadedFiles###'],$totalWrap);
@@ -639,6 +618,29 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 			$markers['###required###'] = $requiredSign;
 			$markers['###REQUIRED###'] = $markers['###required###'];
 		}
+	}
+	
+	protected function getThumbnail(&$imgConf, &$fileInfo) {
+		$filename = $fileInfo['name'];
+		$imgConf['image'] = 'IMAGE';
+		if(!$imgConf['image.']['altText']) {
+			$imgConf['image.']['altText'] = $filename;
+		}
+		if(!$imgConf['image.']['titleText']) {
+			$imgConf['image.']['titleText'] = $filename;
+		}
+
+		$relPath = substr(($fileInfo['uploaded_folder'] . $fileInfo['uploaded_name']), 1);
+		
+		$imgConf['image.']['file'] = $relPath;
+		if(!$imgConf['image.']['file.']['width']) {
+			$imgConf['image.']['file.']['width'] = 100;
+		}
+		if(!$imgConf['image.']['file.']['height']) {
+			$imgConf['image.']['file.']['height'] = 100;
+		}
+		$thumb = $this->cObj->IMAGE($imgConf['image.']);
+		return $thumb;
 	}
 
 	/**

@@ -65,7 +65,7 @@ Note: For correct usage of jm_recaptcha, see according section below.
 	  class = F3_MailFormPlusPlus_Validator_Default
 	  config {
 	    fieldConf {
-	      freecapfield.errorCheck.1 = sr_freecap
+	      freecapfield.errorCheck.1 = srFreecap
 	    }
 	  }
 	}
@@ -96,7 +96,7 @@ Note: For correct usage of jm_recaptcha, see according section below.
 	  class = F3_MailFormPlusPlus_Validator_Default
 	  config {
 	    fieldConf {
-	      recaptcha_response_field.errorCheck.1 = jm_recpatcha
+	      recaptcha_response_field.errorCheck.1 = jmRecaptcha
 	    }
 	  }
 	}

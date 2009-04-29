@@ -21,7 +21,7 @@
  * @package	F3_MailformPlusPlus
  * @subpackage	View
  */
-class F3_MailformPlusPlus_View_Confirmation extends F3_MailformPlusPlus_View_Default {
+class F3_MailformPlusPlus_View_Confirmation extends F3_MailformPlusPlus_View_Form {
 
 	/**
 	 * Main method called by the controller.
@@ -114,6 +114,9 @@ class F3_MailformPlusPlus_View_Confirmation extends F3_MailformPlusPlus_View_Def
 			$label = 'csv';
 		}
 		$markers['###CSV_LINK###'] = $this->cObj->getTypolink($label, $GLOBALS['TSFE']->id, $params);
+		
+		$this->fillFEUserMarkers($markers);
+		$this->fillFileMarkers($markers);
 		$this->template = $this->cObj->substituteMarkerArray($this->template, $markers);
 	}
 }

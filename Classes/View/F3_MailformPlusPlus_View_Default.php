@@ -36,8 +36,10 @@ class F3_MailformPlusPlus_View_Default extends F3_MailformPlusPlus_AbstractView 
 				
 		}
 
-		// Instantiate the tx_xajax_response object
-		require (t3lib_extMgm::extPath('xajax') . 'class.tx_xajax.php');
+		if(!class_exists('tx_xajax_response')) {
+			// Instantiate the tx_xajax_response object
+			require (t3lib_extMgm::extPath('xajax') . 'class.tx_xajax_response.php');
+		}
 
 		$objResponse = new tx_xajax_response();
 

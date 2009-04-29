@@ -227,19 +227,26 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 				if(!$options['mapping']) {
 					$options['mapping'] = $fieldname;
 				}
+				
+				$fieldValue = $this->gp[$options['mapping']];
+
+				//pre process the field value. e.g. to format a date
+				if($options['preProcessing.']) {
+					$options['preProcessing.']['value'] = $fieldValue;
+					$fieldValue = $this->cObj->cObjGetSingle($options['preProcessing'], $options['preProcessing.']);
+				}
 
 				if($options['mapping.']) {
 					$queryFields[$fieldname] = $this->cObj->cObjGetSingle($options['mapping'], $options['mapping.']);
-				}
-				else {
-					$queryFields[$fieldname] = $this->gp[$options['mapping']];
+				} else {
+					$queryFields[$fieldname] = $fieldValue;
 				}
 
 				//process empty value handling
 				if($options['ifIsEmpty'] && strlen($this->gp[$options['mapping']]) == 0) {
 						
 					//if given settings is a TypoScript object
-					if(isset($options['if_is_empty.']) && is_array($options['if_is_empty.'])) {
+					if(isset($options['ifIsEmpty.']) && is_array($options['ifIsEmpty.'])) {
 						$queryFields[$fieldname] = $this->cObj->cObjGetSingle($options['ifIsEmpty'], $options['ifIsEmpty.']);
 					} else {
 						$queryFields[$fieldname] = $options['ifIsEmpty'];
@@ -276,6 +283,12 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 				}
 			} else {
 				$queryFields[$fieldname] = $options;
+			}
+			
+			//post process the field value after mailformplusplus did it's magic.
+			if($options['postProcessing.']) {
+				$options['postProcessing.']['value'] = $queryFields[$fieldname];
+				$queryFields[$fieldname] = $this->cObj->cObjGetSingle($options['preProcessing'], $options['preProcessing.']);
 			}
 		}
 		return $queryFields;
