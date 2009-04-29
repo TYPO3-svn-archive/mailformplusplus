@@ -633,11 +633,10 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		$relPath = substr(($fileInfo['uploaded_folder'] . $fileInfo['uploaded_name']), 1);
 		
 		$imgConf['image.']['file'] = $relPath;
-		if(!$imgConf['image.']['file.']['width']) {
-			$imgConf['image.']['file.']['width'] = 100;
-		}
-		if(!$imgConf['image.']['file.']['height']) {
-			$imgConf['image.']['file.']['height'] = 100;
+		
+		if(!$imgConf['image.']['file.']['width'] && !$imgConf['image.']['file.']['height']) {
+			$imgConf['image.']['file.']['width'] = '100m';
+			$imgConf['image.']['file.']['height'] = '100m';
 		}
 		$thumb = $this->cObj->IMAGE($imgConf['image.']);
 		return $thumb;

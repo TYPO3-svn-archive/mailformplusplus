@@ -53,7 +53,7 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 			// Do you wnat messages in the status bar?
 			$this->xajax->statusMessagesOn();
 			// Turn only on during testing
-			$this->xajax->debugOn();
+			$this->xajax->debugOff();
 			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId] = $this->xajax->getJavascript(t3lib_extMgm::siteRelPath('xajax'));
 			$this->xajax->processRequests();
 		}

@@ -30,6 +30,30 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 	 * @var F3_GimmeFive_Component_Manager
 	 */
 	protected $componentManager;
+	
+	/**
+	 * The current GET/POST parameters of the form
+	 *
+	 * @access protected
+	 * @var array
+	 */
+	protected $gp;
+	
+	/**
+	 * Contains all errors occurred while validation
+	 *
+	 * @access protected
+	 * @var array
+	 */
+	protected $errors;
+	
+	/**
+	 * Holds the prefix value of all parameters of this form.
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	protected $formValuesPrefix;
 
 	/**
 	 * The global MailformPlusPlus configuration
@@ -54,7 +78,87 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 	 * @var tslib_cObj
 	 */
 	protected $cObj;
-
+	
+	/**
+	 * Flag indicating if the form got submitted
+	 *
+	 * @access protected
+	 * @var boolean
+	 */
+	protected $submitted;
+	
+	/**
+	 * Flag indicating if the form was already submitted in last step.
+	 * If TRUE no loggers, saveInterceptors or finishers will be called except Finisher_Confirmation
+	 *
+	 * @access protected
+	 * @var boolean
+	 */
+	protected $submittedOK;
+	
+	/**
+	 * The settings array
+	 *
+	 * @access protected
+	 * @var array
+	 */
+	protected $settings;
+	
+	/**
+	 * Flag indicating if debug mode is on
+	 *
+	 * @access protected
+	 * @var boolean
+	 */
+	protected $debugMode;
+	
+	/**
+	 * The view object
+	 *
+	 * @access protected
+	 * @var misc
+	 */
+	protected $view;
+	
+	/**
+	 * The current step of the form
+	 *
+	 * @access protected
+	 * @var integer
+	 */
+	protected $currentStep;
+	
+	/**
+	 * The last step of the form
+	 *
+	 * @access protected
+	 * @var integer
+	 */
+	protected $lastStep;
+	
+	/**
+	 * Total steps of the form
+	 *
+	 * @access protected
+	 * @var integer
+	 */
+	protected $totalSteps;
+	
+	/**
+	 * Flag indicating if form is finished (no more steps)
+	 *
+	 * @access protected
+	 * @var boolean
+	 */
+	protected $finished;
+	
+	/**
+	 * Additional JavaScript code.
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	protected $additionalJS;
 
 	//not used
 	protected $piVars;
@@ -251,7 +355,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 					$this->setViewSubpart($this->currentStep);
 
 					//display form
-					return $this->view->render($this->gp, $this->errors) . $this->additionalJS;;
+					return $this->view->render($this->gp, $this->errors) . $this->additionalJS;
 				}
 			}
 		}
@@ -338,13 +442,13 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			*	 )
 			*)
 			*/
-			foreach($_FILES as $sthg=>&$files) {
+			foreach($_FILES as $sthg => &$files) {
 
 				//if a file was uploaded
 				if(isset($files['name']) && is_array($files['name'])) {
 
 					//for all file names
-					foreach($files['name'] as $field=>$name) {
+					foreach($files['name'] as $field => $name) {
 						if(!isset($this->errors[$field])) {
 							$exists = false;
 							if(is_array($_SESSION['mailformplusplusFiles'][$field])) {
@@ -435,7 +539,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			$fields = t3lib_div::trimExplode(',', $this->settings['radioButtonFields']);
 			foreach($fields as $field) {
 				if(!isset($newGP[$field]) && isset($this->gp[$field])) {
-					$_SESSION['mailformplusplusValues'][($this->currentStep-1)][$field] = array();
+					$_SESSION['mailformplusplusValues'][($this->currentStep - 1)][$field] = array();
 				}
 			}
 		}
@@ -782,25 +886,25 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		 */
 		if($this->settings['fancyForm'] == '1') {
 			F3_MailformPlusPlus_StaticFuncs::debugMessage('using_fancy');
-			$GLOBALS['TSFE']->additionalHeaderData['special_css'] .= '
+			$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .= '
 				<link href="typo3conf/ext/mailformplusplus/Resources/JS/crir/crir.css" rel="stylesheet" type="text/css" media="screen"/>
 			';
-			if(!strstr($GLOBALS['TSFE']->additionalHeaderData['special_js'], '/jquery.js')) {
-				$GLOBALS['TSFE']->additionalHeaderData['special_js'] .=
-				'<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath('mailformplusplus') . 'Resources/JS/jquery/jquery.js"></script>';
+			if(!strstr($GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()], '/jquery.js')) {
+				$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .=
+				'<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/jquery/jquery.js"></script>';
 			}
-			$GLOBALS['TSFE']->additionalHeaderData['special_js'] .= '
-				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath('mailformplusplus') . 'Resources/JS/crir/crir.js"></script>
+			$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .= '
+				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/crir/crir.js"></script>
 			';
 			$parentId = $this->settings['fancyForm.']['parentId'];
 			if($parentId) {
-				$this->additionalJS .= '
+				$additionalJS .= '
 				<script language="JavaScript" type="text/javascript">
 					$("#' . $parentId . ' input[@type=checkbox]").addClass("crirHiddenJS");
 					$("#' . $parentId . ' input[@type=radio]").addClass("crirHiddenJS");
 				</script>';
 			} else {
-				$this->additionalJS .= '
+				$additionalJS .= '
 				<script language="JavaScript" type="text/javascript">
 					$("input[@type=checkbox]").addClass("crirHiddenJS");
 					$("input[@type=radio]").addClass("crirHiddenJS");
@@ -813,9 +917,9 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		 */
 		if(is_array($this->settings['helpTexts.'])) {
 			F3_MailformPlusPlus_StaticFuncs::debugMessage('enabling_help');
-			if(!strstr($GLOBALS['TSFE']->additionalHeaderData['special_js'], '/jquery.js')) {
-				$GLOBALS['TSFE']->additionalHeaderData['special_js'] .=
-				'<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath('mailformplusplus') . 'Resources/JS/jquery/jquery.js"></script>';
+			if(!strstr($GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()], '/jquery.js')) {
+				$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .=
+				'<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/jquery/jquery.js"></script>';
 			}
 			$class = $this->settings['helpTexts.']['className'];
 			$parentId = $this->settings['helpTexts.']['parentId'];
@@ -826,7 +930,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 					$parents .= 'parent().';
 				}
 			}
-			$this->additionalJS .= '
+			$additionalJS .= '
 			<script language="JavaScript" type="text/javascript">
 				$("#' . $parentId . ' .' . $class . '").hide();
 				$("#' . $parentId . ' input[@type=text]").focus(function(){
@@ -844,31 +948,33 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		if(is_array($this->settings['autoComplete.'])) {
 			F3_MailformPlusPlus_StaticFuncs::debugMessage('enabling_auto');
 
-			$GLOBALS['TSFE']->additionalHeaderData['special_css'] .= '
+			$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .= '
 				<link href="typo3conf/ext/mailformplusplus/Resources/JS/autocomplete/jquery.autocomplete.css" rel="stylesheet" type="text/css" media="screen"/>
 				<link href="typo3conf/ext/mailformplusplus/Resources/JS/autocomplete/lib/thickbox.css" rel="stylesheet" type="text/css" media="screen"/>
 			';
-			$GLOBALS['TSFE']->additionalHeaderData['special_js'] .= '
-				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath('mailformplusplus') . 'Resources/JS/autocomplete/lib/jquery.bgiframe.min.js"></script>
-				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath('mailformplusplus') . 'Resources/JS/autocomplete/lib/jquery.ajaxQueue.js"></script>
-				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath('mailformplusplus') . 'Resources/JS/autocomplete/lib/thickbox-compressed.js"></script>
-				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath('mailformplusplus') . 'Resources/JS/autocomplete/jquery.autocomplete.js"></script>
+			$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .= '
+				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/autocomplete/lib/jquery.bgiframe.min.js"></script>
+				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/autocomplete/lib/jquery.ajaxQueue.js"></script>
+				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/autocomplete/lib/thickbox-compressed.js"></script>
+				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/autocomplete/jquery.autocomplete.js"></script>
 				';
-			$this->additionalJS .= '
+			$additionalJS .= '
 				<script language="JavaScript" type="text/javascript">';
 			foreach($this->settings['autoComplete.'] as $key => $options) {
 				$values = t3lib_div::trimExplode(',', $options['values']);
-				$this->additionalJS .= '
+				$additionalJS .= '
 					$(document).ready(function(){
 					    var valuesArray = new Array("' . implode('","', $values) .  '");
 						$("#' . $options['fieldId'] . '").autocomplete(valuesArray,{matchContains: true});
 					  });
 				';
 			}
-			$this->additionalJS .= '
+			$additionalJS .= '
 				</script>
 			';
 		}
+		
+		$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .= TSpagegen::inline2TempFile($additionalJS, 'js');
 	}
 
 	/**
@@ -902,7 +1008,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		if (strlen($stylesheetFile) > 0) {
 
 			// set stylesheet
-			$GLOBALS['TSFE']->additionalHeaderData['special_css'] .=
+			$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .=
 				'<link rel="stylesheet" href="' . F3_MailformPlusPlus_StaticFuncs::resolveRelPathFromSiteRoot($stylesheetFile) . '" type="text/css" media="screen" />';
 		}
 	}
@@ -910,17 +1016,21 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 	/**
 	 * Find out if submitted form was valid. If one of the values in the given array $valid is false the submission was not valid.
 	 *
-	 * @param $valid Array with the return values of each validator
+	 * @param $validArr Array with the return values of each validator
 	 * @return boolean
 	 * @author	Reinhard Führicht <rf@typoheads.at>
 	 */
-	protected function isValid($valid) {
-		foreach($valid as $item) {
-			if(!$item) {
-				return false;
+	protected function isValid($validArr) {
+		
+		$valid = TRUE;
+		if(is_array($validArr)) {
+			foreach($validArr as $item) {
+				if(!$item) {
+					$valid = false;
+				}
 			}
 		}
-		return true;
+		return $valid;
 	}
 
 	/**

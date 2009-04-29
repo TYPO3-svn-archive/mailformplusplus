@@ -117,7 +117,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		$checkBinaryCrLf = $this->settings['checkBinaryCrLf'];
 		if ($checkBinaryCrLf != '') {
 			$markersToCheck = t3lib_div::trimExplode(',', $checkBinaryCrLf);
-			foreach($markersToCheck as $idx=>$val) {
+			foreach($markersToCheck as $idx => $val) {
 				if(substr($val,0,3) != '###') {
 					$val = '###' . $markersToCheck[$idx];
 				}
@@ -163,9 +163,10 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 	 * @return void
 	 */
 	protected function sendMail($type) {
+		$doSend = true;
 		if($this->settings[$type]['disable'] == '1') {
 			F3_MailformPlusPlus_StaticFuncs::debugMessage('mail_disabled', $type);
-			return;
+			$doSend = false;
 		} 
 		
 		$mailSettings = $this->settings[$type];
@@ -259,7 +260,10 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 
 			if($count < $max) {
 				if (strstr($mailto, '@') && !eregi("\r", $mailto) && !eregi("\n", $mailto)) {
-					$sent = $emailObj->send($mailto);
+					$sent = false;
+					if($doSend) {
+						$sent = $emailObj->send($mailto);
+					}
 				}
 				$count++;
 			}

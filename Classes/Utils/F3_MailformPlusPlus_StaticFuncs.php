@@ -391,6 +391,7 @@ class F3_MailformPlusPlus_StaticFuncs {
 				array_push($fields, $key . '=' . $value);
 			}
 			print implode('<br />', $fields);
+			print '<br />';
 		}
 	}
 

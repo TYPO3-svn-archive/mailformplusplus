@@ -77,6 +77,6 @@ if (TYPO3_MODE=="BE")   {
 
 
 t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/Settings/', 'Settings');
-t3lib_extMgm::addPlugin(array('MailformPlusPlus', $_EXTKEY."_pi1"), 'list_type');
-t3lib_extMgm::addPlugin(array('MailformPlusPlus Listing', $_EXTKEY."_pi2"), 'list_type');
+t3lib_extMgm::addPlugin(array('MailformPlus MVC', $_EXTKEY."_pi1"), 'list_type');
+t3lib_extMgm::addPlugin(array('MailformPlus MVC Listing', $_EXTKEY."_pi2"), 'list_type');
 ?>
