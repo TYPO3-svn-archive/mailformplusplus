@@ -938,8 +938,8 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		
 		//add default css to page
 		if($this->settings['useDefaultStepBarStyles']){
-			$css = implode("\n" , $css);
-			$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . '_' . $classprefix] = TSpagegen::inline2TempFile($css, 'css');
+			$css = implode("\n", $css);
+			$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . '_' . $classprefix] .= TSpagegen::inline2TempFile($css, 'css');
 		}
 
 		return $content;

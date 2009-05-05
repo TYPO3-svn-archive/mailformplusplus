@@ -250,7 +250,8 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 
 				//process files
 				$this->processFiles();
-
+				
+		
 				if($this->currentStep > $this->lastStep) {
 					$this->loadSettingsForStep($this->currentStep);
 				}
@@ -485,7 +486,9 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 									$tmp['uploaded_name'] = $uploadedFileName;
 									$tmp['uploaded_path'] = $uploadPath;
 									$tmp['uploaded_folder'] = $uploadFolder;
-									$tmp['uploaded_url'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $uploadFolder . $uploadedFileName;
+									$uploadedUrl = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $uploadFolder . $uploadedFileName;
+									$uploadedUrl = str_replace('//', '/', $uploadedUrl);
+									$tmp['uploaded_url'] = $uploadedUrl;
 									$tmp['size'] = $files['size'][$field];
 									$tmp['type'] = $files['type'][$field];
 									if(!is_array($_SESSION['mailformplusplusFiles'][$field]) && strlen($field)) {
@@ -503,6 +506,9 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 				}
 			}
 		}
+		
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('current_files');
+		F3_MailformPlusPlus_StaticFuncs::debugArray($_SESSION['mailformplusplusFiles']);
 	}
 
 

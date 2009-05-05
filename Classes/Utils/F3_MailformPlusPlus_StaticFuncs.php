@@ -383,19 +383,9 @@ class F3_MailformPlusPlus_StaticFuncs {
 		}
 		session_start();
 		if($_SESSION['mailformplusplusSettings']['debugMode']) {
-			$fields = array();
-			foreach($arr as $key => $value) {
-				if(is_array($value)) {
-					$value = implode(',', $value);
-				}
-				array_push($fields, $key . '=' . $value);
-			}
-			print implode('<br />', $fields);
-			print '<br />';
+				t3lib_div::print_array($arr);
 		}
 	}
-
-
 
 	/**
 	 * Removes unfilled markers from given template code.
