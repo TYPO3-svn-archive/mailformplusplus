@@ -498,7 +498,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 									if(!is_array($this->gp[$field])) {
 										$this->gp[$field] = array();
 									}
-									array_push($this->gp[$field],$tmp[$uploadedFileName]);
+									array_push($this->gp[$field], $uploadedFileName);
 								}
 							}
 						}

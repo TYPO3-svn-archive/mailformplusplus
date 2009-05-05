@@ -98,7 +98,7 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 						if(!is_array($this->gp[$field])) {
 							$this->gp[$field] = array();
 						}
-						array_push($this->gp[$field],$newFolder . $newFilename);
+						array_push($this->gp[$field], $newFilename);
 					}
 				}
 			}
