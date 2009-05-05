@@ -82,6 +82,7 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 		session_start();
 		if(isset($_SESSION['mailformplusplusFiles']) && is_array($_SESSION['mailformplusplusFiles']) && strlen($newFolder) > 0 ) {
 			foreach($_SESSION['mailformplusplusFiles'] as $field => $files) {
+				$this->gp[$field] = array();
 				foreach($files as $key => $file) {
 					if($file['uploaded_path'] != $uploadPath) {
 						$newFilename = $this->getNewFilename($file['uploaded_name']);
@@ -94,6 +95,10 @@ class F3_MailformPlusPlus_Finisher_StoreUploadedFiles extends F3_MailformPlusPlu
 						$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_name'] = $newFilename;
 						$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_folder'] = $newFolder;
 						$_SESSION['mailformplusplusFiles'][$field][$key]['uploaded_url'] = t3lib_div::getIndpEnv('TYPO3_SITE_URL') . $newFolder . $newFilename;
+						if(!is_array($this->gp[$field])) {
+							$this->gp[$field] = array();
+						}
+						array_push($this->gp[$field],$newFolder . $newFilename);
 					}
 				}
 			}

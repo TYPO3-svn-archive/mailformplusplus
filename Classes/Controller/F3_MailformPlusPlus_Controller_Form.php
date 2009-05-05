@@ -492,6 +492,10 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 										$_SESSION['mailformplusplusFiles'][$field] = array();
 									}
 									array_push($_SESSION['mailformplusplusFiles'][$field], $tmp);
+									if(!is_array($this->gp[$field])) {
+										$this->gp[$field] = array();
+									}
+									array_push($this->gp[$field],$tmp[$uploadedFileName]);
 								}
 							}
 						}
@@ -640,7 +644,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 
 		//set debug mode
 		$this->debugMode = ($this->settings['debug'] == '1') ? TRUE : FALSE;
-
+		$_SESSION['mailformplusplusSettings']['debugMode'] = $this->debugMode;
 
 		$this->loadGP();
 
@@ -651,8 +655,9 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		$this->loadSettingsForStep($this->currentStep);
 		$this->validateConfig();
 
-		//set debug mode
+		//set debug mode again cause it may have changed in specific step settings
 		$this->debugMode = ($this->settings['debug'] == '1') ? TRUE : FALSE;
+		$_SESSION['mailformplusplusSettings']['debugMode'] = $this->debugMode;
 
 		F3_MailformPlusPlus_StaticFuncs::debugMessage('using_prefix', $this->formValuesPrefix);
 		F3_MailformPlusPlus_StaticFuncs::debugMessage('current_gp');
@@ -674,7 +679,6 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		$this->setStyleSheet();
 
 		//init view
-
 		$viewClass = $this->settings['view'];
 		if(!$viewClass) {
 			$viewClass = 'F3_MailformPlusPlus_View_Form';
@@ -767,9 +771,9 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		$this->totalSteps = $subparts[$countSubparts - 1];
 
 		if ($this->totalSteps > $countSubparts) {
-			//F3_MailformPlusPlus_StaticFuncs::debugMessage('subparts_missing', implode(', ', $subparts));
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('subparts_missing', implode(', ', $subparts));
 		} else {
-			//F3_MailformPlusPlus_StaticFuncs::debugMessage('total_steps', $this->totalSteps);
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('total_steps', $this->totalSteps);
 		}
 	}
 
