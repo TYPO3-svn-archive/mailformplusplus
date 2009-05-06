@@ -513,7 +513,7 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 										break;
 									case 'fileMaxSize':
 										$maxSize = $fieldSettings['errorCheck.'][$key . '.']['maxSize'];
-										$markers['###' . $replacedFieldname . '_maxSize####'] = t3lib_div::formatSize($maxSize, ' Bytes | KB | MB | GB');
+										$markers['###' . $replacedFieldname . '_maxSize###'] = t3lib_div::formatSize($maxSize, ' Bytes | KB | MB | GB');
 										break;
 									case 'fileAllowedTypes':
 										$types = $fieldSettings['errorCheck.'][$key . '.']['allowedTypes'];
