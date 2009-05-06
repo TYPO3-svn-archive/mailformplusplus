@@ -34,7 +34,7 @@ class F3_MailformPlusPlus_ErrorCheck_Integer extends F3_MailformPlusPlus_Abstrac
 	public function check(&$check, $name, &$gp) {
 		$checkFailed = '';
 		if(isset($gp[$name]) && !empty($gp[$name])) {
-			$ereg = '^-{0,1}[0-9]+$'';
+			$ereg = '^-{0,1}[0-9]+$';
 			$valid = ereg($ereg, $gp[$name]);
 			if(!$valid) {
 				$checkFailed = $this->getCheckFailed($check);

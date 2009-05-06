@@ -227,8 +227,10 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			} else {
 
 				if($this->currentStep > $this->lastStep) {
-					$this->loadSettingsForStep($this->currentStep - 1);
+					$this->loadSettingsForStep($this->lastStep);
 				}
+				
+				
 
 				//run validation
 				$this->errors = array();
@@ -335,7 +337,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 						}
 
 						//display form
-						return $this->view->render($this->gp, $this->errors) . $this->additionalJS;;
+						return $this->view->render($this->gp, $this->errors) . $this->additionalJS;
 
 					}
 				} else {
@@ -347,7 +349,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 
 					//load settings from last step again because an error occurred
 					if($this->currentStep > $this->lastStep) {
-						$this->currentStep--;
+						$this->currentStep = $this->lastStep;
 					}
 					$this->loadSettingsForStep($this->currentStep);
 					$_SESSION['mailformplusplusSettings']['settings'] = $this->settings;
