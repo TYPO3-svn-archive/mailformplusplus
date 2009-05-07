@@ -19,6 +19,7 @@
 			<label index="form_finished">Form is finished!</label>
 			<label index="current_gp">The current GET/POST params are:</label>
 			<label index="current_files">The current uploaded files are:</label>
+			<label index="current_session_params">The current values in session are:</label>
 			<label index="using_subpart">Using subpart "%s"!</label>
 			<label index="condition">Condition was evaluated as %s : $s!</label>
 			<label index="data_stored">Data gets stored!</label>

@@ -229,8 +229,6 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 				if($this->currentStep > $this->lastStep) {
 					$this->loadSettingsForStep($this->lastStep);
 				}
-				
-				
 
 				//run validation
 				$this->errors = array();
@@ -248,7 +246,6 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 						array_push($valid,$res);
 					}
 				}
-			
 
 				//process files
 				$this->processFiles();
@@ -532,7 +529,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		//set the variables in session
 		foreach($newGP as $key=>$value) {
 			if(!strstr($key,"step-") && !strstr($key, 'submitted')) {
-				$_SESSION['mailformplusplusValues'][$this->currentStep-1][$key] = $value;
+				$_SESSION['mailformplusplusValues'][$this->lastStep][$key] = $value;
 			}
 		}
 
@@ -541,7 +538,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			$fields = t3lib_div::trimExplode(',', $this->settings['checkBoxFields']);
 			foreach($fields as $field) {
 				if(!isset($newGP[$field]) && isset($this->gp[$field])) {
-					$_SESSION['mailformplusplusValues'][($this->currentStep - 1)][$field] = array();
+					$_SESSION['mailformplusplusValues'][($this->lastStep)][$field] = array();
 				}
 			}
 		}
@@ -549,12 +546,10 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			$fields = t3lib_div::trimExplode(',', $this->settings['radioButtonFields']);
 			foreach($fields as $field) {
 				if(!isset($newGP[$field]) && isset($this->gp[$field])) {
-					$_SESSION['mailformplusplusValues'][($this->currentStep - 1)][$field] = array();
+					$_SESSION['mailformplusplusValues'][($this->lastStep)][$field] = array();
 				}
 			}
 		}
-
-
 	}
 
 	protected function reset() {
@@ -670,8 +665,13 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 		F3_MailformPlusPlus_StaticFuncs::debugArray($this->gp);
 
 		$this->storeSettingsInSession();
-
-		$this->mergeGPWithSession();
+		
+		if($this->currentStep <= $this->lastStep) {
+			$this->mergeGPWithSession();
+		}
+		
+		F3_MailformPlusPlus_StaticFuncs::debugMessage('current_session_params');
+		F3_MailformPlusPlus_StaticFuncs::debugArray($_SESSION['mailformplusplusValues']);
 
 		//set submitted
 		$this->submitted = $this->gp['submitted'];
@@ -802,6 +802,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			if(is_array($params)) {
 				unset($params['submitted']);
 				foreach($params as $key => $value) {
+					#if
 					$this->gp[$key] = $value;
 				}
 			}
