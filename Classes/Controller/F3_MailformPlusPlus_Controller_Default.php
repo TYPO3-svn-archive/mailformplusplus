@@ -289,17 +289,6 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 	}
 
 	/**
-	 * Sets the template file attribute to $template
-	 *
-	 * @author	Reinhard Führicht <rf@typoheads.at>
-	 * @param string $template
-	 * @return void
-	 */
-	public function setTemplateFile($template) {
-		$this->templateFile = $template;
-	}
-
-	/**
 	 * Runs the class by calling process() method.
 	 *
 	 * @author	Reinhard Führicht <rf@typoheads.at>

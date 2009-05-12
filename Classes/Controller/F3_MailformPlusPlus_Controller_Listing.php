@@ -100,17 +100,6 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 	}
 
 	/**
-	 * Sets the template file attribute to $template
-	 *
-	 * @author	Reinhard Führicht <rf@typoheads.at>
-	 * @param string $template
-	 * @return void
-	 */
-	public function setTemplateFile($template) {
-		$this->templateFile = $template;
-	}
-
-	/**
 	 * Main method of the listing controller.
 	 *
 	 * @author	Reinhard Führicht <rf@typoheads.at>

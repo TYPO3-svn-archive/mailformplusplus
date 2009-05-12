@@ -125,6 +125,17 @@ abstract class F3_MailformPlusPlus_AbstractController implements F3_MailformPlus
 	}
 
 	/**
+	 * Sets the template file attribute to $template
+	 *
+	 * @author	Reinhard Führicht <rf@typoheads.at>
+	 * @param string $template
+	 * @return void
+	 */
+	public function setTemplateFile($template) {
+		$this->templateFile = $template;
+	}
+	
+	/**
 	 * Returns the right settings for the mailformplusplus (Checks if predefined form was selected)
 	 *
 	 * @author Reinhard Führicht <rf@typoheads.at>
