@@ -20,8 +20,9 @@ Event.observe(window, 'load', function() {
 	var requiredFieldsHiddenName = 'data[tt_content][' + uid + '][pi_flexform][data][sMISC][lDEF][required_fields][vDEF]';
 	// Initializes variables
 	var templateFile, langFile, predefined, requiredFields, templateFileHidden, langFileHidden, requiredFieldsHidden;
+
 	// Searches <select> reference
-	var elements = $$('#' + flexformBoxId + ' select');
+	var elements = $$('#' + flexformBoxId + ' select'); // this code has been added for compatibility reasons
 	if (elements.length == 0) {
 		elements = $$(flexformBoxId + ' select');
 	}
@@ -41,6 +42,12 @@ Event.observe(window, 'load', function() {
 		}
 	});
 	
+	// Detect whether static file is loaded
+	if (predefined.options.length <= 1) {
+		alert('Error: Static Typoscript is not loaded.\n1. Close this record without saving it.\n2. Open the main template, on the root page. \n3. Click on tab "Includes". \n4. Select mailfromplus from box "Include static (from extensions)."\n5.Then you can reopen this record.')
+		return;
+	}
+
 	// Searches <input> reference
 	elements = $$('#' + flexformBoxId + ' input');
 	if (elements.length == 0) {
