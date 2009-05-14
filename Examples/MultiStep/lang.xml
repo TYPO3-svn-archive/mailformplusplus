@@ -2,6 +2,7 @@
 <T3locallang>
 	<data type="array">
 		<languageKey index="default" type="array">
+			<label index="picture">Picture</label>
 			<label index="legend">Personal Information</label>
 			<label index="firstname">Firstname</label>
 			<label index="lastname">Lastname</label>
@@ -32,6 +33,7 @@
 			<label index="required_fields">Fields marked with * are required!</label>
 		</languageKey>
 		<languageKey index="en" type="array">
+			<label index="picture">Picture</label>
 			<label index="legend">Personal Information</label>
 			<label index="firstname">Firstname</label>
 			<label index="lastname">Lastname</label>
@@ -62,6 +64,7 @@
 			<label index="required_fields">Fields marked with * are required!</label>
 		</languageKey>
 		<languageKey index="de" type="array">
+			<label index="picture">Foto</label>
 			<label index="legend">Persönliche Daten</label>
 			<label index="firstname">Vorname</label>
 			<label index="lastname">Nachname</label>
@@ -92,6 +95,7 @@
 			<label index="required_fields">Felder mit * sind Pflichtfelder!</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
+			<label index="picture">Photo</label>
 			<label index="legend">Informations personnelles</label>
 			<label index="firstname">Prénom</label>
 			<label index="lastname">Nom</label>

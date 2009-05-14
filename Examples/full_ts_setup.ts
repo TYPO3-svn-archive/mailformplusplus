@@ -198,7 +198,7 @@ plugin.F3_MailformPlusPlus.settings {
   files {
     
     /*
-    *  Parses given tmpUploadFolder and deletes every file older than given
+    *  Parses given uploadFolder and deletes every file older than given
     *  hours.
     */  
     clearTempFilesOlderThanHours = 24
@@ -206,7 +206,7 @@ plugin.F3_MailformPlusPlus.settings {
     /*
     *  Uploaded files will be stored in this folder
     */
-    tmpUploadFolder = uploads/mailformplusplus/tmp2/
+    uploadFolder = uploads/mailformplusplus/tmp2/
     
     /*
     *  Adds a remove link to every filename in ###[fieldname]_uploadedFiles### 

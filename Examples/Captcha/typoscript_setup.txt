@@ -1,35 +1,45 @@
+# Defines here some configuration when using recaptcha services
+# http://recaptcha.net/
 plugin.tx_jmrecaptcha {
-  public_key = xxx
-  private_key = xxx
+	public_key = xxx
+	private_key = xxx
 }
 
+
+# Main configuration
 plugin.F3_MailformPlusPlus.settings.predef.captcha_example {
-  name = Example Captcha
-  addErrorAnchors = 1
-  
-  templateFile = EXT:mailformplusplus/Examples/Captcha/template.html
-  langFile = EXT:mailformplusplus/Examples/Captcha/lang.xml
-  stylesheetFile = EXT:mailformplusplus/Examples/Captcha/styles.css
-  formValuesPrefix = mailformplusplus
-  singleErrorTemplate {
-    singleWrap = <span class="error">|</span><br />
-  }
-  errorListTemplate {
-    totalWrap = <ul>|</ul>
-    singleWrap = <li class="error">|</li>
-  }
-  validators {
-    1 {
-      class = F3_MailformPlusPlus_Validator_Default
-      config {
-	fieldConf {
-	  captchafield.errorCheck.1 = captcha
-	  simple
-	  freecapfield.errorCheck.1 = srFreecap
-	  recaptcha_response_field.errorCheck.1 = jmRecaptcha
-	  mathguard_answer.errorCheck.1 = mathGuard
-	}  
-      }  
-    }
-  }
+
+	# Cummon configuration
+	name = Example Captcha
+	templateFile = EXT:mailformplusplus/Examples/Captcha/template.html
+	langFile = EXT:mailformplusplus/Examples/Captcha/lang.xml
+	stylesheetFile = EXT:mailformplusplus/Examples/Captcha/styles.css
+	formValuesPrefix = mailformplusplus
+	addErrorAnchors = 1
+
+	# HTML wrapping by validation error
+	errorListTemplate {
+		totalWrap = <ul>|</ul>
+		singleWrap = <li class="error">|</li>
+	}
+	singleErrorTemplate {
+		singleWrap = <span class="error">|</span><br />
+	}
+
+	# Validators configuration
+	validators {
+		1 {
+			class = F3_MailformPlusPlus_Validator_Default
+			config {
+				fieldConf {
+					# 4 possible captcha systems.
+					# YOU SHOULD CHOOSE ONE AND REMOVE THE OTHER ONES.
+					captchafield.errorCheck.1 = captcha
+					freecapfield.errorCheck.1 = srFreecap
+					recaptcha_response_field.errorCheck.1 = jmRecaptcha
+					mathguard_answer.errorCheck.1 = mathGuard
+				}
+			}
+		}
+	}
 }

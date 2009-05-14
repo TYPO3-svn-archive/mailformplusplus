@@ -14,6 +14,7 @@
 			<label index="contact_via">Contact via</label>
 			<label index="contact_via_email">E-mail</label>
 			<label index="contact_via_phone">Phone</label>
+			<label index="picture">Picture</label>
 			
 			<label index="submit">Send</label>
 			
@@ -41,6 +42,7 @@
 			<label index="contact_via">Contact via</label>
 			<label index="contact_via_email">E-mail</label>
 			<label index="contact_via_phone">Phone</label>
+			<label index="picture">Picture</label>
 			<label index="submit">Send</label>
 			<label index="error_firstname_required">Firstname is missing!</label>
 			<label index="error_firstname_maxLength">Firstname has to be shorter than ###value### characters!</label>
@@ -66,6 +68,7 @@
 			<label index="contact_via">Bitte kontaktieren Sie mich per</label>
 			<label index="contact_via_email">E-mail</label>
 			<label index="contact_via_phone">Telefon</label>
+			<label index="picture">Foto</label>
 			<label index="submit">Absenden</label>
 			<label index="error_firstname_required">Vorname ist nicht ausgefüllt!</label>
 			<label index="error_firstname_maxLength">Vorname muss kürzer sein als ###value### Zeichen!</label>
@@ -91,6 +94,7 @@
 			<label index="contact_via">Contacter via</label>
 			<label index="contact_via_email">Email</label>
 			<label index="contact_via_phone">Téléphone</label>
+			<label index="picture">Photo</label>
 			<label index="submit">Envoyer</label>
 			<label index="error_firstname_required">Il manque le prénom!</label>
 			<label index="error_firstname_maxLength">Le prénom doit comprendre moins de ###value### caractères!</label>
