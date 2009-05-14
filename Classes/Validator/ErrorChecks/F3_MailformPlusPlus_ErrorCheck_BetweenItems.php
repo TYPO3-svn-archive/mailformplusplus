@@ -33,14 +33,14 @@ class F3_MailformPlusPlus_ErrorCheck_BetweenItems extends F3_MailformPlusPlus_Ab
 	 */
 	public function check(&$check, $name, &$gp) {
 		$checkFailed = '';
-		$min = $check['params']['minValue'];
-		$max = $check['params']['maxValue'];
+		$min = (int) $check['params']['minValue'];
+		$max = (int) $check['params']['maxValue'];
 		if(	isset($gp[$name]) &&
-		!empty($gp[$name]) &&
-		is_array($gp[$name]) &&
-		!empty($min) &&
-		!empty($max) &&
-		(count($gp[$name]) < $min || count($gp[$name]) > $max)) {
+			!empty($gp[$name]) &&
+			is_array($gp[$name]) &&
+			!empty($min) &&
+			!empty($max) &&
+			(count($gp[$name]) < $min || count($gp[$name]) > $max)) {
 
 			$checkFailed = $this->getCheckFailed($check);
 		}
