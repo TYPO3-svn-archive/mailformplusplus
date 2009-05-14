@@ -484,7 +484,8 @@ class F3_MailformPlusPlus_StaticFuncs {
 		#		F3_MailformPlusPlus_StaticFuncs::debugMessage("Folder: '".F3_MailformPlusPlus_StaticFuncs::getDocumentRoot().$uploadFolder."' doesn't exist!");
 		#	}
 		if(!is_dir(F3_MailformPlusPlus_StaticFuncs::getTYPO3Root() . $uploadFolder)) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('folder_doesnt_exist', F3_MailformPlusPlus_StaticFuncs::getTYPO3Root() . $uploadFolder);
+			//F3_MailformPlusPlus_StaticFuncs::debugMessage('folder_doesnt_exist', F3_MailformPlusPlus_StaticFuncs::getTYPO3Root() . $uploadFolder);
+			print t3lib_div::mkdir_deep(F3_MailformPlusPlus_StaticFuncs::getTYPO3Root() . '/',$uploadFolder);
 		}
 		return $uploadFolder;
 	}
