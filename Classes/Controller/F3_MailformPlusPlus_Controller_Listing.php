@@ -123,7 +123,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 		}
 
 		//set pid field
-		$pidField = "pid";
+		$pidField = 'pid';
 		if($settings['pidField']) {
 			$pidField = $settings['pidField'];
 		}
@@ -162,7 +162,7 @@ class F3_MailformPlusPlus_Controller_Listing extends F3_MailformPlusPlus_Abstrac
 
 		//build WHERE clause
 		if($pids) {
-			$where = $pidField. ' IN (' . (implode(',', $pids)) . ')';
+			$where = $pidField . ' IN (' . (implode(',', $pids)) . ')';
 		}
 
 		//set ORDER BY

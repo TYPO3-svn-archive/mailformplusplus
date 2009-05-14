@@ -50,10 +50,13 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 			#$this->xajax->setWrapperPrefix($this->prefixId);
 				
 			$this->xajax->registerFunction(array($this->prefixId . '_removeUploadedFile', &$view, 'removeUploadedFile'));
+			
 			// Do you wnat messages in the status bar?
 			$this->xajax->statusMessagesOn();
+			
 			// Turn only on during testing
 			$this->xajax->debugOff();
+			
 			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId] = $this->xajax->getJavascript(t3lib_extMgm::siteRelPath('xajax'));
 			$this->xajax->processRequests();
 		}
@@ -67,7 +70,6 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 	 * @param array $setup The TypoScript config
 	 */
 	public function main($content, $setup) {
-
 
 		$this->pi_USER_INT_obj = 1;
 		$this->componentManager = F3_GimmeFive_Component_Manager::getInstance();
@@ -89,6 +91,7 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		if($setup['controller']) {
 			$controller = $setup['controller'];
 		}
+		
 		//F3_MailformPlusPlus_StaticFuncs::debugMessage('using_controller', $controller);
 		$controller = F3_MailformPlusPlus_StaticFuncs::prepareClassName($controller);
 		$controller = $this->componentManager->getComponent($controller);

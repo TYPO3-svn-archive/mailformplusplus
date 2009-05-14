@@ -407,8 +407,9 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 			$uploadPath = F3_MailformPlusPlus_StaticFuncs::getTYPO3Root() . $uploadFolder;
 
 			if(!file_exists($uploadPath)) {
-				F3_MailformPlusPlus_StaticFuncs::debugMessage('folder_doesnt_exist', $uploadPath);
-				return;
+				t3lib_div::mkdir_deep(F3_MailformPlusPlus_StaticFuncs::getTYPO3Root(),$uploadFolder);
+				//F3_MailformPlusPlus_StaticFuncs::debugMessage('folder_doesnt_exist', $uploadPath);
+				//return;
 			}
 
 			//for all file properties

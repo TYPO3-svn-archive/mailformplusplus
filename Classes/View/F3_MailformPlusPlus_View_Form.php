@@ -105,6 +105,9 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		} elseif($_SESSION['mailformplusplusSettings']['currentStep'] != 1) {
 			$this->fillStartEndBlock();
 		}
+		
+		//fill LLL:[language_key] markers
+		$this->fillLangMarkers();
 
 		//substitute ISSET markers
 		$this->substituteIssetSubparts();
@@ -123,7 +126,7 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		//fill selected_[fieldname]_value markers and checked_[fieldname]_value markers
 		$this->fillSelectedMarkers();
 
-		//fill LLL:[language_key] markers
+		//fill LLL:[language_key] markers again to make language markers in other markers possible
 		$this->fillLangMarkers();
 
 		//fill error_[fieldname] markers
@@ -500,7 +503,7 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 
 		//parse validation settings
 		if(is_array($settings['validators.'])) {
-			foreach($settings['validators.'] as $key=>$validatorSettings) {
+			foreach($settings['validators.'] as $key => $validatorSettings) {
 				if(is_array($validatorSettings['config.']['fieldConf.'])) {
 					foreach($validatorSettings['config.']['fieldConf.'] as $fieldname => $fieldSettings) {
 						$replacedFieldname = str_replace('.', '', $fieldname);

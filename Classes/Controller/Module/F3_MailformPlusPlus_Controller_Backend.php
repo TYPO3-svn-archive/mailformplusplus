@@ -227,7 +227,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			$allParams = array();
 
 			//loop through records
-			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			while(false !== ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 
 				//unserialize params and save the array
 				$row['params'] = unserialize($row['params']);
@@ -289,7 +289,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 			$availableFormats = array();
 
 			//loop through records
-			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			while(false !== ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 
 				//unserialize the params array
 				$row['params'] = unserialize($row['params']);
@@ -636,7 +636,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		//if records found
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
 			$count = 0;
-			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			while(false !== ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 				$records[$count] = $row;
 				$count++;
 			}
