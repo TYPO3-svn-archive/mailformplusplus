@@ -319,6 +319,7 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	 * @return void
 	 */
 	protected function fillSelectedMarkers() {
+		$markers = array();
 		if (is_array($this->gp)) {
 			foreach($this->gp as $k => $v) {
 				if (is_array($v)) {
