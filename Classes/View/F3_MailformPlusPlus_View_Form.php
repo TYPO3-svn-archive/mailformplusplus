@@ -99,8 +99,8 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		if(!$this->langFile) {
 			$this->readLangFile();
 		}
-
-		if(!$this->gp['submitted'] || (!empty($errors) && $_SESSION['mailformplusplusSettings']['lastStep'] == 2)) {
+		
+		if(!$this->gp['submitted']) {
 			$this->storeStartEndBlock();
 		} elseif($_SESSION['mailformplusplusSettings']['currentStep'] != 1) {
 			$this->fillStartEndBlock();
