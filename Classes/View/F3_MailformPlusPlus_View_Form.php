@@ -100,7 +100,7 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 			$this->readLangFile();
 		}
 
-		if(!$this->gp['submitted']) {
+		if(!$this->gp['submitted'] || (!empty($errors) && $_SESSION['mailformplusplusSettings']['lastStep'] == 2)) {
 			$this->storeStartEndBlock();
 		} elseif($_SESSION['mailformplusplusSettings']['currentStep'] != 1) {
 			$this->fillStartEndBlock();
@@ -402,7 +402,9 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	 */
 	protected function fillCaptchaMarkers(&$markers) {
 		global $LANG;
+		#print "asd";
 		if (t3lib_extMgm::isLoaded('captcha')){
+			
 			$markers['###CAPTCHA###'] = '<img src="' . t3lib_extMgm::siteRelPath('captcha') . 'captcha/captcha.php" alt="" />';
 			$markers['###captcha###'] = $markers['###CAPTCHA###'];
 		}
@@ -434,12 +436,20 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 			$markers['###WT_CALCULATING_CAPTCHA###'] = $captcha->generateCaptcha();
 			$markers['###wt_calculating_captcha###'] = $markers['###WT_CALCULATING_CAPTCHA###'];
 		}
+		
+		if (t3lib_extMgm::isLoaded('mathguard')) {
+			require_once(t3lib_extMgm::extPath('mathguard') . 'class.tx_mathguard.php');
 
-		require_once(t3lib_extMgm::extPath('mailformplusplus') . 'Resources/PHP/mathguard/ClassMathGuard.php');
+			$captcha = t3lib_div::makeInstance('tx_mathguard');
+			$markers['###MATHGUARD###'] = $captcha->getCaptcha();
+			$markers['###mathguard###'] = $markers['###MATHGUARD###'];
+		}
+
+		/*require_once(t3lib_extMgm::extPath('mailformplusplus') . 'Resources/PHP/mathguard/ClassMathGuard.php');
 		$langFile = 'EXT:mailformplusplus/Resources/Language/locallang.xml';
 		$question = trim($GLOBALS['TSFE']->sL('LLL:' . $langFile . ':mathguard_question'));
 		$markers['###MATHGUARD###'] = MathGuard::returnQuestion($question, 'red');
-		$markers['###mathguard###'] = $markers['###MATHGUARD###'];
+		$markers['###mathguard###'] = $markers['###MATHGUARD###'];*/
 	}
 
 	/**
@@ -565,8 +575,17 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 						$thumb = $this->getThumbnail($imgConf, $fileInfo);
 					}
 					if(t3lib_extMgm::isLoaded('xajax') && $settings['files.']['enableAjaxFileRemoval']) {
-						$filename .= '<a href="javascript:void(0)" class="mailformplusplus_removelink" onclick="xajax_' . $this->prefixId . '_removeUploadedFile(\'' . $field . '\',\'' . $fileInfo['uploaded_name'] . '\')">X</a>';
-						$thumb .= '<a href="javascript:void(0)" class="mailformplusplus_removelink" onclick="xajax_' . $this->prefixId . '_removeUploadedFile(\'' . $field . '\',\'' . $fileInfo['uploaded_name'] . '\')">X</a>';
+						$text = 'X';
+						if($settings['files.']['customRemovalText']) {
+							$text = $settings['files.']['customRemovalText'];
+						}
+						$link= '<a 
+								href="javascript:void(0)" 
+								class="mailformplusplus_removelink" 
+								onclick="xajax_' . $this->prefixId . '_removeUploadedFile(\'' . $field . '\',\'' . $fileInfo['uploaded_name'] . '\')"
+								>' . $text . '</a>';
+						$filename .= $link;
+						$thumb .= $link;
 					}
 					if(strlen($singleWrap) > 0 && strstr($singleWrap, '|')) {
 						$wrappedFilename = str_replace('|', $filename, $singleWrap);
