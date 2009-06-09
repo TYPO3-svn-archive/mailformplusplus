@@ -260,7 +260,9 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 
 					//if no more steps
 					if($this->finished) {
-
+						
+						$this->mergeGPWithSession();
+						
 						//run save interceptors
 						if(!$_SESSION['submitted_ok']) {
 							$this->runClasses($this->settings['saveInterceptors.']);
