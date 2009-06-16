@@ -114,6 +114,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 
 		//init gp params
 		$params = t3lib_div::_GP('mailformplusplus');
+		
 
 		//should delete records
 		if($params['delete'] && isset($params['markedUids']) && is_array($params['markedUids'])) {
@@ -217,7 +218,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 
 		//init gp params
 		$gp = t3lib_div::_GP('mailformplusplus');
-
+		
 		//select the records
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,pid,crdate,ip,params', $this->logTable, ('uid IN (' . implode(',', $detailId) . ')'));
 
@@ -239,17 +240,18 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				//sum up all params for selection view
 				$allParams = array_merge($allParams, $row['params']);
 			}
-
+			t3lib_div::devLog('Bla', 'mailformplusplus', 2, $gp);
 			//if fields were chosen in selection view, export the records using the selected fields
 			if(isset($gp['exportParams'])) {
 				$generator = $this->componentManager->getComponent('F3_MailformPlusPlus_Generator_TCPDF');
 				$generator->generateModulePDF($records, $gp['exportParams']);
-
+				
 				/*
 				 * show selection view to find out which fields to export.
 				 * This enables the user to get rid of fields like submitted or mp-step
 				 */
 			} else {
+				
 				return $this->generatePDFExportFieldsSelector($allParams);
 			}
 		}

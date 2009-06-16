@@ -116,7 +116,7 @@
 	  var inputs = form.getElementsByTagName("input");
 	  for(var i=0;i<inputs.length;i++) {
 	    if(inputs[i].type == "checkbox") {
-	      inputs[i].checked = "checked";	
+	      inputs[i].checked = true;	
 		}	
 	  }	
 	}
@@ -126,7 +126,7 @@
 	  var inputs = form.getElementsByTagName("input");
 	  for(var i=0;i<inputs.length;i++) {
 	    if(inputs[i].type == "checkbox") {
-	      inputs[i].checked = null;	
+	      inputs[i].checked = false;	
 		}	
 	  }	
 	}
@@ -225,7 +225,7 @@
 Export selected as: 
 <input type="submit" value="PDF" name="mailformplusplus[renderMethod]" />
 <input type="submit" value="CSV" name="mailformplusplus[renderMethod]" />
-</form>
+
 ###EXPORT_FIELDS###
 
 

@@ -239,7 +239,10 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 						F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_validator',  $className);
 						$validator = $this->componentManager->getComponent($className);
 						if($this->currentStep == $this->lastStep) {
-							$tsConfig['config.']['restrictErrorChecks'] = 'fileAllowedTypes,fileRequired,fileMaxCount,fileMinCount,fileMaxSize,fileMinSize';
+							$userSetting = t3lib_div::trimExplode(',', $tsConfig['config.']['restrictErrorChecks']);
+							$autoSetting = array('fileAllowedTypes','fileRequired','fileMaxCount','fileMinCount','fileMaxSize','fileMinSize');
+							$merged = array_merge($userSetting,$autoSetting);
+							$tsConfig['config.']['restrictErrorChecks'] = implode(',', $merged);
 						}
 						$validator->loadConfig($this->gp,$tsConfig['config.']);
 						$res = $validator->validate($this->errors);

@@ -41,12 +41,12 @@
  *
  * @author	Johannes Feustel
  * @package	F3_MailformPlusPlus
- * @subpackage	PrePrecessor
+ * @subpackage	PreProcessor
  */
 
 class F3_MailformPlusPlus_PreProcessor_LoadDefaultValues extends F3_MailformPlusPlus_AbstractPreProcessor {
 
-	public function process($gp, $settings) {
+	public function process(&$gp, $settings) {
 		$this->gp = $gp;
 
 		foreach ($settings as $step => $stepSettings){

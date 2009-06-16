@@ -128,7 +128,7 @@ class F3_MailformPlusPlus_Generator_CSV {
 		//generate file
 		$this->csv = $this->csv->create_csv_file($data);
 		header('Content-type: application/eml');
-		header('Content-Disposition: attachment; filename=mailformplusplus.csv'');
+		header('Content-Disposition: attachment; filename=mailformplusplus.csv');
 		echo $this->csv;
 		die();
 	}

@@ -158,7 +158,9 @@ class F3_MailformPlusPlus_Generator_TCPDF {
 			$this->pdf->SetFont('Freesans', '', 12);
 			$this->pdf->Cell(300, 100, 'No valid records found! Try to select more fields to export!', 0, 0, 'L');
 		}
-		$this->pdf->Output();
+		
+		$this->pdf->Output('mailformplusplus.pdf','D');
+		
 
 	}
 
@@ -198,8 +200,7 @@ class F3_MailformPlusPlus_Generator_TCPDF {
 			
 			header('Location: ' . $downloadpath);
 		} else {
-			$pdf->Output();
-			$pdf->Close();
+			$pdf->Output('mailformplusplus.pdf','D');
 		}
 
 	}

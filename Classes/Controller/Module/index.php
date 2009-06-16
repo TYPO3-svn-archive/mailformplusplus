@@ -178,7 +178,7 @@ class  tx_mailformplusplus_module1 extends t3lib_SCbase {
 				$componentManager = F3_GimmeFive_Component_Manager::getInstance();
 				$controllerClass = 'F3_MailformPlusPlus_Controller_Backend';
 				$controller = $componentManager->getComponent($controllerClass);
-	
+				
 				$content = $controller->process();
 				$this->content .= $this->doc->section('', $content, 0, 1);
 				break;
