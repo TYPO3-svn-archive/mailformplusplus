@@ -76,7 +76,7 @@ abstract class F3_MailformPlusPlus_AbstractPreProcessor {
 	 * @param array $settings The settings for the logger
 	 * @return array The probably modified GET/POST parameters
 	 */
-	abstract public function process($gp, $settings);
+	abstract public function process(&$gp, $settings);
 
 }
 ?>

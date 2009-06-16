@@ -38,7 +38,7 @@ class F3_MailformPlusPlus_PreProcessor_ClearTempFiles extends F3_MailformPlusPlu
 	 * @param array $settings The defined TypoScript settings for the finisher
 	 * @return array The probably modified GET/POST parameters
 	 */
-	public function process($gp, $settings) {
+	public function process(&$gp, $settings) {
 		$this->init($gp, $settings);
 		$this->olderThanValue = $this->settings['clearTempFilesOlderThan.']['value'];
 		$this->olderThanUnit = $this->settings['clearTempFilesOlderThan.']['unit'];
