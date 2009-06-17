@@ -239,7 +239,7 @@ class F3_MailformPlusPlus_Controller_Multistep extends F3_MailformPlusPlus_Contr
 						
 						//if storeGP is set include Finisher_storeGP, stores GET / POST in the session
 						if(!$_SESSION['submitted_ok'] && ($settings['storeGP'] == 1 || F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],'store_gp', 'sMISC'))){
-							$this->addFinisherStoreGP(&$settings);
+							$this->addFinisherStoreGP($settings);
 						}
 
 						foreach($settings['finishers.'] as $tsConfig) {

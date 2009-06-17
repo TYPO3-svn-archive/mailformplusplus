@@ -487,7 +487,7 @@ class F3_MailformPlusPlus_Controller_Default extends F3_MailformPlusPlus_Abstrac
 
 					//if storeGP is set include Finisher_storeGP, Stores GET / POST in the session
 					if(!$_SESSION['submitted_ok'] && ($settings['storeGP'] == 1 || F3_MailformPlusPlus_StaticFuncs::pi_getFFvalue($this->cObj->data['pi_flexform'],'store_gp', 'sMISC'))){
-						$this->addFinisherStoreGP(&$settings);
+						$this->addFinisherStoreGP($settings);
 					}
 
 					foreach($settings['finishers.'] as $tsConfig) {
