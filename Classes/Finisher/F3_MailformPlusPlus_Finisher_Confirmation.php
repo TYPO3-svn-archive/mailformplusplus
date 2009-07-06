@@ -51,7 +51,7 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 		//read template file
 		if(!$this->templateFile) {
 			if (!isset($this->settings['templateFile'])) {
-				t3lib_div::debug($this->settings);
+				F3_MailformPlusPlus_StaticFuncs::debugArray($this->settings);
 				F3_MailformPlusPlus_StaticFuncs::throwException('no_config_confirmation', 'F3_MailformPlusPlus_Finisher_Confirmation', 'templateFile');
 			}
 			$templateFile = $this->settings['templateFile'];
@@ -111,7 +111,14 @@ class F3_MailformPlusPlus_Finisher_Confirmation extends F3_MailformPlusPlus_Abst
 		}
 
 		//show TEMPLATE_CONFIRMATION
-		$view->setTemplate($this->templateFile, 'CONFIRMATION');
+		$view->setTemplate($this->templateFile, ('CONFIRMATION' . $this->settings['templateSuffix']));
+		if(!$view->hasTemplate()) {
+			$view->setTemplate($this->templateFile, 'CONFIRMATION');
+			if(!$view->hasTemplate()) {
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('no_confirmation_template');
+			}
+		}
+		
 		$view->setSettings($this->settings);
 		return $view->render($this->gp,array());
 	}

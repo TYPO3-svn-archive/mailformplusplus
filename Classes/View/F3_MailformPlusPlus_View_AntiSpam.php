@@ -11,19 +11,17 @@
  * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
  * Public License for more details.                                       *
  *
- * $Id: F3_MailformPlusPlus_View_Default.php 18270 2009-03-24 15:41:29Z fabien_u $
- *          
- *                                                                        
- *                                                                       */
+ * $Id: F3_MailformPlusPlus_View_Default.php 17657 2009-03-10 11:17:52Z reinhardfuehricht $
+ *                                                                        */
 
 /**
- * A default view for MailformPlusPlus
+ * A default view for MailformPlusPlus E-Mails
  *
  * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	View
  */
-class F3_MailformPlusPlus_View_PDF extends F3_MailformPlusPlus_View_Form {
+class F3_MailformPlusPlus_View_AntiSpam extends F3_MailformPlusPlus_View_Form {
 
 	/**
 	 * Main method called by the controller.
@@ -33,15 +31,48 @@ class F3_MailformPlusPlus_View_PDF extends F3_MailformPlusPlus_View_Form {
 	 * @return string content
 	 */
 	public function render($gp, $errors) {
-		$content = parent::render($gp, $errors);
-		$markers = array();
-		$markers['###ip###'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
-		$markers['###submission_date###'] = date('d.m.Y H:i:s', time());
-		$markers['###pid###'] = $GLOBALS['TSFE']->id;
-		
-		$content = $this->cObj->substituteMarkerArray($content, $markers);
 
-		return $this->pi_wrapInBaseClass($content);
+
+		session_start();
+
+		//set GET/POST parameters
+		$this->gp = $gp;
+
+		//set template
+		$this->template = $this->subparts['template'];
+		
+		//set settings
+		$this->settings = $this->parseSettings();
+
+		//set language file
+		if(!$this->langFile) {
+			$this->readLangFile();
+		}
+		
+		//substitute ISSET markers
+		$this->substituteIssetSubparts();
+
+		//fill TypoScript markers
+		if(is_array($this->settings['markers.'])) {
+			$this->fillTypoScriptMarkers();
+		}
+
+		//fill default markers
+		$this->fillDefaultMarkers();
+
+		//fill value_[fieldname] markers
+		$this->fillValueMarkers();
+
+		//fill LLL:[language_key] markers
+		$this->fillLangMarkers();
+
+
+		//remove markers that were not substituted
+		$content = F3_MailformPlusPlus_StaticFuncs::removeUnfilledMarkers($this->template);
+
+
+		return trim($content);
 	}
+
 }
 ?>

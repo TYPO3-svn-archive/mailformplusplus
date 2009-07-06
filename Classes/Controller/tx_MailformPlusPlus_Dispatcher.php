@@ -121,11 +121,11 @@ class tx_MailformPlusPlus_Dispatcher extends tslib_pibase {
 		if(strlen($predef) > 0) {
 			$controller->setPredefined($predef);
 		}
-		try {
+		//try {
 			$result = $controller->process();
-		} catch(Exception $e) {
-			$result = '<div style="color:red; font-weight: bold">Caught exception: ' . $e->getMessage() . '</div>';
-		}
+		//} catch(Exception $e) {
+		//	$result = '<div style="color:red; font-weight: bold">Caught exception: ' . $e->getMessage() . '</div>';
+		//}
 		return $result;
 	}
 }

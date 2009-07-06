@@ -99,9 +99,12 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		$view->setPredefined($this->predefined);
 		
 		$templateCode = $this->getTemplate();
-		$view->setTemplate($templateCode, ('EMAIL_' . strtoupper($mode) . '_' . strtoupper($suffix)));
+		$view->setTemplate($templateCode, ('EMAIL_' . strtoupper($mode) . '_' . strtoupper($suffix) . $this->settings['templateSuffix']));
 		if(!$view->hasTemplate()) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('no_mail_template', $mode, $suffix);
+			$view->setTemplate($templateCode, ('EMAIL_' . strtoupper($mode) . '_' . strtoupper($suffix)));
+			if(!$view->hasTemplate()) {
+				F3_MailformPlusPlus_StaticFuncs::debugMessage('no_mail_template', $mode, $suffix);
+			}
 		}
 
 		return $view->render($this->gp, array());
@@ -223,7 +226,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 				if ($tmphandle) {
 					fwrite($tmphandle,$template['html']);
 					fclose($tmphandle);
-					F3_MailformPlusPlus_StaticFuncs::debugMessage('Adding HTML: ' . $tmphtml);
+					F3_MailformPlusPlus_StaticFuncs::debugMessage('adding_html', $tmphtml);
 					$emailObj->addAttachment($tmphtml);
 				}
 			} else {
@@ -240,7 +243,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			}
 		}
 		if($mailSettings['attachPDF']) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('Adding PDF: ' . $mailSettings['attachPDF']);
+			F3_MailformPlusPlus_StaticFuncs::debugMessage('adding_pdf', $mailSettings['attachPDF']);
 			$emailObj->addAttachment($mailSettings['attachPDF']);
 		}
 

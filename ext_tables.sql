@@ -8,6 +8,7 @@ CREATE TABLE tx_mailformplusplus_log (
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	ip tinytext,
 	params text,
+	is_spam int(11) unsigned DEFAULT '0',
 	key_hash tinytext,
 	PRIMARY KEY (uid),
 	KEY parent (pid)

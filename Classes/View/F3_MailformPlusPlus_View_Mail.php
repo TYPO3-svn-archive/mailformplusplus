@@ -15,13 +15,13 @@
  *                                                                        */
 
 /**
- * A default view for MailformPlusPlus
+ * A default view for MailformPlusPlus E-Mails
  *
  * @author	Reinhard Führicht <rf@typoheads.at>
  * @package	F3_MailformPlusPlus
  * @subpackage	View
  */
-class F3_MailformPlusPlus_View_Mail extends F3_MailformPlusPlus_View_Default {
+class F3_MailformPlusPlus_View_Mail extends F3_MailformPlusPlus_View_Form {
 
 	/**
 	 * Main method called by the controller.

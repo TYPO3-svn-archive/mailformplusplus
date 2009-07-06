@@ -49,6 +49,10 @@ class F3_MailformPlusPlus_Logger_DB {
 		$hash = hash("md5",serialize($keys));
 		$fields['params'] = $serialized;
 		$fields['key_hash'] = $hash;
+		
+		if(intval($settings['markAsSpam']) == 1) {
+			$fields['is_spam'] = 1;
+		}
 
 		#$fields = $GLOBALS['TYPO3_DB']->fullQuoteArray($fields,$table);
 

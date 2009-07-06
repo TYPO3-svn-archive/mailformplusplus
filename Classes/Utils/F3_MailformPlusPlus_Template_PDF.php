@@ -37,15 +37,13 @@ class F3_MailformPlusPlus_Template_PDF extends FPDF {
 	 * @return void
 	 */
 	public function Header() {
-		global $LANG;
-		$LANG->includeLLFile($this->sysLangFile);
 	  
 		//Arial bold 15
 		$this->SetFont('Arial', 'B', 15);
 	  
 		
 		//Title
-		$this->Cell(0, 10, trim($LANG->getLL('submission_details')), 'B', 0, 'C');
+		$this->Cell(0, 10, $this->getLL('submission_details'), 'B', 0, 'C');
 	  
 		//Line break
 		$this->Ln(20);
@@ -57,8 +55,6 @@ class F3_MailformPlusPlus_Template_PDF extends FPDF {
 	 * @return void
 	 */
 	public function Footer() {
-		global $LANG;
-		$LANG->includeLLFile($this->sysLangFile);
 	  
 		//Position at 1.5 cm from bottom
 		$this->SetY(-15);
@@ -66,11 +62,21 @@ class F3_MailformPlusPlus_Template_PDF extends FPDF {
 		//Arial italic 8
 		$this->SetFont('Arial', 'I', 8);
 	    
-		$text = trim($LANG->getLL('footer_text'));
+		$text = $this->getLL('footer_text');
 		$text = sprintf($text,date('d.m.Y H:i:s', time()));
 		$this->Cell(0,10,$text,'T',0,'C');
-		$pageNumbers = trim($LANG->getLL('page')) . ' ' . $this->PageNo() . '/{nb}';
+		$pageNumbers = $this->getLL('page') . ' ' . $this->PageNo() . '/{nb}';
 		$this->Cell(0, 10, $pageNumbers, 'T', 0, 'R');
+	}
+	
+	private function getLL($key) {
+		global $LANG;
+		if (TYPO3_MODE=="BE")   {
+			$LANG->includeLLFile($this->sysLangFile);
+			return trim($LANG->getLL($key));
+		} else {
+			return trim($GLOBALS['TSFE']->sL('LLL:' . $this->sysLangFile . ':' . $key));
+		}
 	}
 
 }

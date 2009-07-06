@@ -633,7 +633,7 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 		$where = $this->buildWhereClause();
 
 		//select the records
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,pid,crdate,ip,params', $this->logTable, $where);
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,pid,crdate,ip,params,is_spam', $this->logTable, $where, '', 'crdate DESC');
 
 		//if records found
 		if($res && $GLOBALS['TYPO3_DB']->sql_num_rows($res) > 0) {
@@ -815,6 +815,9 @@ class F3_MailformPlusPlus_Controller_Backend extends F3_MailformPlusPlus_Abstrac
 				$style = 'class="bgColor3-20"';
 			} else {
 				$style = 'class="bgColor3-40"';
+			}
+			if($record['is_spam'] == 1) {
+				$style = 'style="background-color:#dd7777"';
 			}
 			$rowCode = F3_MailformPlusPlus_StaticFuncs::getSubpart($this->templateCode, '###LIST_TABLE_ROW###');
 			$markers = array();

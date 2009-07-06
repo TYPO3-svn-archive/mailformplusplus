@@ -151,14 +151,6 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 	 * @var boolean
 	 */
 	protected $finished;
-	
-	/**
-	 * Additional JavaScript code.
-	 *
-	 * @access protected
-	 * @var string
-	 */
-	protected $additionalJS;
 
 	//not used
 	protected $piVars;
@@ -186,19 +178,25 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 	public function process() {
 
 		$this->init();
-
+		
 		//not submitted
 		if(!$this->submitted) {
 			$this->reset();
 
 			//run preProcessors
-			$this->runClasses($this->settings['preProcessors.']);
-
+			$output = $this->runClasses($this->settings['preProcessors.']);
+			if(strlen($output) > 0) {
+				return $output;
+			}
+			
 			//run init interceptors
-			$this->runClasses($this->settings['initInterceptors.']);
+			$output = $this->runClasses($this->settings['initInterceptors.']);
+			if(strlen($output) > 0) {
+				return $output;
+			}
 
 			//display form
-			$content = $this->view->render($this->gp, $this->errors) . $this->additionalJS;
+			$content = $this->view->render($this->gp, $this->errors);
 			return $content;
 
 			//submitted
@@ -218,6 +216,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 							$tsConfig['config.']['templateFile'] = $this->settings['templateFile'];
 							$tsConfig['config.']['langFile'] = $this->settings['langFile'];
 							$tsConfig['config.']['formValuesPrefix'] = $this->settings['formValuesPrefix'];
+							$tsConfig['config.']['templateSuffix'] = $this->settings['templateSuffix'];
 							$finisher->loadConfig($this->gp, $tsConfig['config.']);
 							return $finisher->process();
 						}
@@ -268,7 +267,10 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 						
 						//run save interceptors
 						if(!$_SESSION['submitted_ok']) {
-							$this->runClasses($this->settings['saveInterceptors.']);
+							$output = $this->runClasses($this->settings['saveInterceptors.']);
+							if(strlen($output) > 0) {
+								return $output;
+							}
 						}
 							
 						//run loggers
@@ -302,7 +304,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 									$tsConfig['config.']['templateFile'] = $this->settings['templateFile'];
 									$tsConfig['config.']['langFile'] = $this->settings['langFile'];
 									$tsConfig['config.']['formValuesPrefix'] = $this->settings['formValuesPrefix'];
-
+									$tsConfig['config.']['templateSuffix'] = $this->settings['templateSuffix'];
 									$finisher->loadConfig($this->gp,$tsConfig['config.']);
 
 									//if the finisher returns HTML (e.g. F3_MailformPlusPlus_Finisher_Confirmation)
@@ -322,6 +324,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 									$tsConfig['config.']['templateFile'] = $this->settings['templateFile'];
 									$tsConfig['config.']['langFile'] = $this->settings['langFile'];
 									$tsConfig['config.']['formValuesPrefix'] = $this->settings['formValuesPrefix'];
+									$tsConfig['config.']['templateSuffix'] = $this->settings['templateSuffix'];
 									$finisher->loadConfig($this->gp, $tsConfig['config.']);
 									return $finisher->process();
 								}
@@ -331,13 +334,13 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 
 						//if user clicked "submit"
 						if($this->currentStep >= $this->lastStep) {
-							F3_MailformPlusPlus_StaticFuncs::debugMessage('Storing GP in session');
+							F3_MailformPlusPlus_StaticFuncs::debugMessage('store_gp');
 							$this->storeGPinSession();
 							$this->mergeGPWithSession();
 						}
 
 						//display form
-						return $this->view->render($this->gp, $this->errors) . $this->additionalJS;
+						return $this->view->render($this->gp, $this->errors);
 
 					}
 				} else {
@@ -358,7 +361,7 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 					$this->setViewSubpart($this->currentStep);
 
 					//display form
-					return $this->view->render($this->gp, $this->errors) . $this->additionalJS;
+					return $this->view->render($this->gp, $this->errors);
 				}
 			}
 		}
@@ -683,9 +686,6 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 
 		$this->submittedOK = $_SESSION['submitted_ok'];
 
-		//add some JavaScript for fancy form stuff
-		$this->addSpecialJS();
-
 		// set stylesheet file
 		$this->setStyleSheet();
 
@@ -861,139 +861,6 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 	}
 
 	/**
-	 * Returns some JavaScript code used for fancy form stuff.
-	 *
-	 * Example code:
-	 *
-	 * <code>
-	 *
-	 * #enable fancy form
-	 * plugin.F3_MailformPlusPlus.settings.fancyForm = 1
-	 *
-	 * #the id of the parent element (e.g. the form element)
-	 * plugin.F3_MailformPlusPlus.settings.fancyForm.parentId = mailformplusplus_contact_form
-	 *
-	 * #the class name of the help text elements
-	 * plugin.F3_MailformPlusPlus.settings.helpTexts.className = contexthelp
-	 *
-	 * #the id of the parent element (e.g. the form element)
-	 * plugin.F3_MailformPlusPlus.settings.helpTexts.parentId = mailformplusplus_contact_form
-	 *
-	 * #how many times a parent() call has to be added to get from input element on the same level as the help text element again
-	 * plugin.F3_MailformPlusPlus.settings.helpTexts.parentTimes = 2
-	 *
-	 * #autoComplete takes a list of fieldId, values settings. The values option can be any TypoScript object or a comma seperated list of words.
-	 * plugin.F3_MailformPlusPlus.settings.autoComplete.1.fieldId = some_field
-	 * plugin.F3_MailformPlusPlus.settings.autoComplete.1.values = Typoheads, Typoheads Gmbh, TYPO3
-	 * plugin.F3_MailformPlusPlus.settings.autoComplete.1.fieldId = some_other_field
-	 * plugin.F3_MailformPlusPlus.settings.autoComplete.1.values = USER
-	 * plugin.F3_MailformPlusPlus.settings.autoComplete.1.values.userFunc = user_myClass->user_myFunction
-	 * </code>
-	 *
-	 * @param $settings The mailformplusplus settings
-	 * @return string JavaScript
-	 * @author	Reinhard Führicht <rf@typoheads.at>
-	 */
-	protected function addSpecialJS() {
-
-		/*
-		 * do fancy form.
-		 * Adds JavaScript to replace checkboxes and radio buttons with graphics
-		 */
-		if($this->settings['fancyForm'] == '1') {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('using_fancy');
-			$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .= '
-				<link href="typo3conf/ext/mailformplusplus/Resources/JS/crir/crir.css" rel="stylesheet" type="text/css" media="screen"/>
-			';
-			if(!strstr($GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()], '/jquery.js')) {
-				$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .=
-				'<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/jquery/jquery.js"></script>';
-			}
-			$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .= '
-				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/crir/crir.js"></script>
-			';
-			$parentId = $this->settings['fancyForm.']['parentId'];
-			if($parentId) {
-				$additionalJS .= '
-				<script language="JavaScript" type="text/javascript">
-					$("#' . $parentId . ' input[@type=checkbox]").addClass("crirHiddenJS");
-					$("#' . $parentId . ' input[@type=radio]").addClass("crirHiddenJS");
-				</script>';
-			} else {
-				$additionalJS .= '
-				<script language="JavaScript" type="text/javascript">
-					$("input[@type=checkbox]").addClass("crirHiddenJS");
-					$("input[@type=radio]").addClass("crirHiddenJS");
-				</script>';
-			}
-		}
-
-		/*
-		 * Adds JavaScript for help texts. This texts will fade in, when the input fields gets focus and fade out on blur.
-		 */
-		if(is_array($this->settings['helpTexts.'])) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('enabling_help');
-			if(!strstr($GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()], '/jquery.js')) {
-				$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .=
-				'<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/jquery/jquery.js"></script>';
-			}
-			$class = $this->settings['helpTexts.']['className'];
-			$parentId = $this->settings['helpTexts.']['parentId'];
-			$parentTimes = $this->settings['helpTexts.']['parentTimes'];
-			$parent = '';
-			if(is_numeric($parentTimes)) {
-				for($i = 0;$i < $parentTimes; $i++) {
-					$parents .= 'parent().';
-				}
-			}
-			$additionalJS .= '
-			<script language="JavaScript" type="text/javascript">
-				$("#' . $parentId . ' .' . $class . '").hide();
-				$("#' . $parentId . ' input[@type=text]").focus(function(){
-					$(this).'.$parents . 'next().children(".' . $class . '").fadeIn("slow");
-				});
-				$("#' . $parentId . ' input[@type=text]").blur(function(){
-					$(this).' . $parents . 'next().children(".' . $class . '").fadeOut("slow");
-				});
-			</script>';
-		}
-
-		/*
-		 * Adds JavaScript for auto complete. If the user types some letters in a configured field, a list of suggestions will be shown.
-		 */
-		if(is_array($this->settings['autoComplete.'])) {
-			F3_MailformPlusPlus_StaticFuncs::debugMessage('enabling_auto');
-
-			$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .= '
-				<link href="typo3conf/ext/mailformplusplus/Resources/JS/autocomplete/jquery.autocomplete.css" rel="stylesheet" type="text/css" media="screen"/>
-				<link href="typo3conf/ext/mailformplusplus/Resources/JS/autocomplete/lib/thickbox.css" rel="stylesheet" type="text/css" media="screen"/>
-			';
-			$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .= '
-				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/autocomplete/lib/jquery.bgiframe.min.js"></script>
-				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/autocomplete/lib/jquery.ajaxQueue.js"></script>
-				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/autocomplete/lib/thickbox-compressed.js"></script>
-				<script language="JavaScript" type="text/javascript" src="' . t3lib_extMgm::extRelPath($this->configuration->getPackageKeyLowercase()) . 'Resources/JS/autocomplete/jquery.autocomplete.js"></script>
-				';
-			$additionalJS .= '
-				<script language="JavaScript" type="text/javascript">';
-			foreach($this->settings['autoComplete.'] as $key => $options) {
-				$values = t3lib_div::trimExplode(',', $options['values']);
-				$additionalJS .= '
-					$(document).ready(function(){
-					    var valuesArray = new Array("' . implode('","', $values) .  '");
-						$("#' . $options['fieldId'] . '").autocomplete(valuesArray,{matchContains: true});
-					  });
-				';
-			}
-			$additionalJS .= '
-				</script>
-			';
-		}
-		
-		$GLOBALS['TSFE']->additionalHeaderData[$this->configuration->getPackageKeyLowercase()] .= TSpagegen::inline2TempFile($additionalJS, 'js');
-	}
-
-	/**
 	 * Runs the class by calling process() method.
 	 *
 	 * @author	Reinhard Führicht <rf@typoheads.at>
@@ -1001,15 +868,30 @@ class F3_MailformPlusPlus_Controller_Form extends F3_MailformPlusPlus_AbstractCo
 	 * @return void
 	 */
 	protected function runClasses($classesArray) {
+		$output = '';
 		if(isset($classesArray) && is_array($classesArray)) {
 			foreach($classesArray as $tsConfig) {
 				$className = F3_MailformPlusPlus_StaticFuncs::prepareClassName($tsConfig['class']);
 				F3_MailformPlusPlus_StaticFuncs::debugMessage('calling_class', $className);
 
 				$obj = $this->componentManager->getComponent($className);
-				$this->gp = $obj->process($this->gp, $tsConfig['config.']);
+				$tsConfig['config.']['templateFile'] = $this->settings['templateFile'];
+				$tsConfig['config.']['langFile'] = $this->settings['langFile'];
+				$tsConfig['config.']['formValuesPrefix'] = $this->settings['formValuesPrefix'];
+				$tsConfig['config.']['templateSuffix'] = $this->settings['templateSuffix'];
+				$return = $obj->process($this->gp, $tsConfig['config.']);
+				if(is_array($return)) {
+					
+					//return value is an array. Treat it as the probably modified get/post parameters
+					$this->gp = $return;
+				} else {
+					
+					//return value is no array. treat this return value as output.
+					return $return;
+				}
 			}
 		}
+		
 	}
 
 	/**

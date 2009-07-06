@@ -511,8 +511,38 @@ class F3_MailformPlusPlus_StaticFuncs {
 			case 'minutes':
 				$convertedValue = $value * 60;
 				break;
+			case 'seconds':
+				$convertedValue = $value;
+				break;
 		}
 		return $now - $convertedValue;
+	}
+	
+	/**
+	 * Parses given value and unit and returns the seconds.
+	 *
+	 * @param int Timebase value
+	 * @param string Timebase unit (seconds|minutes|hours|days)
+	 * @static
+	 * @return long The seconds
+	 */
+	static public function convertToSeconds($value,$unit) {
+		$convertedValue = 0;
+		switch($unit) {
+			case 'days':
+				$convertedValue = $value * 24 * 60 * 60;
+				break;
+			case 'hours':
+				$convertedValue = $value * 60 * 60;
+				break;
+			case 'minutes':
+				$convertedValue = $value * 60;
+				break;
+			case 'seconds':
+				$convertedValue = $value;
+				break;
+		}
+		return $convertedValue;
 	}
 }
 

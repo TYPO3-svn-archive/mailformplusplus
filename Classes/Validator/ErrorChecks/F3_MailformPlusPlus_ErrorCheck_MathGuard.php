@@ -33,9 +33,14 @@ class F3_MailformPlusPlus_ErrorCheck_MathGuard extends F3_MailformPlusPlus_Abstr
 	 */
 	public function check(&$check, $name, &$gp) {
 		$checkFailed = '';
-		require_once(t3lib_extMgm::extPath('mailformplusplus') . 'Resources/PHP/mathguard/ClassMathGuard.php');
-		if (!MathGuard::checkResult($_REQUEST['mathguard_answer'], $_REQUEST['mathguard_code'])) {
-			$checkFailed = $this->getCheckFailed($check);
+		if (t3lib_extMgm::isLoaded('mathguard')) {
+			require_once(t3lib_extMgm::extPath('mathguard') . 'class.tx_mathguard.php');
+	
+			$captcha = t3lib_div::makeInstance('tx_mathguard');
+			$valid = $captcha->validateCaptcha();
+			if(!$valid) {
+				$checkFailed = $this->getCheckFailed($check);
+			}
 		}
 		return $checkFailed;
 	}

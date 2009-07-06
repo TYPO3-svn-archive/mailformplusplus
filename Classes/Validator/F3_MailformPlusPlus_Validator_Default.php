@@ -128,7 +128,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 						$classNameFix = ucfirst($check['check']);
 						$errorCheckObject = $this->componentManager->getComponent('F3_MailformPlusPlus_ErrorCheck_' . $classNameFix);
 						if(!$errorCheckObject) {
-							F3_MailformPlusPlus_StaticFuncs::debugMessage('Error check "F3_MailformPlusPlus_ErrorCheck_' . $classNameFix . '" not found!');
+							F3_MailformPlusPlus_StaticFuncs::debugMessage('check_not_found', 'F3_MailformPlusPlus_ErrorCheck_' . $classNameFix);
 						}
 						if(empty($restrictErrorChecks) || in_array($check['check'], $restrictErrorChecks)) {
 							$checkFailed = $errorCheckObject->check($check, $name, $this->gp);
@@ -139,7 +139,7 @@ class F3_MailformPlusPlus_Validator_Default extends F3_MailformPlusPlus_Abstract
 								array_push($errors[$name], $checkFailed);
 							}
 						} else {
-							F3_MailformPlusPlus_StaticFuncs::debugMessage('Skipped error check "' . $check['check'] . '"!');
+							F3_MailformPlusPlus_StaticFuncs::debugMessage('check_skipped', $check['check']);
 						}
 					}
 				}

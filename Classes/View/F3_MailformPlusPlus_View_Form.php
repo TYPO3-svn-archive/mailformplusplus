@@ -350,6 +350,7 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		$path = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $parameters);
 		$markers = array();
 		$markers['###REL_URL###'] = $path;
+		$markers['###TIMESTAMP###'] = time();
 		$markers['###ABS_URL###'] = t3lib_div::locationHeaderUrl('') . $path;
 		session_start();
 
@@ -444,12 +445,6 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 			$markers['###MATHGUARD###'] = $captcha->getCaptcha();
 			$markers['###mathguard###'] = $markers['###MATHGUARD###'];
 		}
-
-		/*require_once(t3lib_extMgm::extPath('mailformplusplus') . 'Resources/PHP/mathguard/ClassMathGuard.php');
-		$langFile = 'EXT:mailformplusplus/Resources/Language/locallang.xml';
-		$question = trim($GLOBALS['TSFE']->sL('LLL:' . $langFile . ':mathguard_question'));
-		$markers['###MATHGUARD###'] = MathGuard::returnQuestion($question, 'red');
-		$markers['###mathguard###'] = $markers['###MATHGUARD###'];*/
 	}
 
 	/**
@@ -872,7 +867,6 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 	 * @return void
 	 */
 	protected function fillLangMarkers() {
-		global $LANG;
 		$langMarkers = array();
 		if ($this->langFile != '') {
 			$aLLMarkerList = array();
