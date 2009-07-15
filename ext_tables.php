@@ -41,49 +41,46 @@
 
 if (!defined ('TYPO3_MODE')) die ('Access denied.');
 
+if (TYPO3_MODE == 'BE')   {
 
-
-# dynamic flexform
-include_once(t3lib_extMgm::extPath($_EXTKEY).'/Resources/PHP/class.tx_dynaflex.php');
-
-t3lib_div::loadTCA("tt_content");
-// Add flexform field to plugin options
-$TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY."_pi1"]='pi_flexform';
-
-
-$currentID = t3lib_div::GPVar('id');
-
-if(!is_object($GLOBALS['BE_USER'])) {
-	$GLOBALS['BE_USER'] = t3lib_div::makeInstance('t3lib_beUserAuth');
+	# dynamic flexform
+	include_once(t3lib_extMgm::extPath($_EXTKEY) . '/Resources/PHP/class.tx_dynaflex.php');
 	
-	// New backend user object
-	$GLOBALS['BE_USER']->start(); // Object is initialized
-	$GLOBALS['BE_USER']->backendCheckLogin(); 
-	$GLOBALS['BE_USER']->fetchGroupData();
-}
+	t3lib_div::loadTCA('tt_content');
+	
+	// Add flexform field to plugin options
+	$TCA['tt_content']['types']['list']['subtypes_addlist'][$_EXTKEY . '_pi1'] = 'pi_flexform';
+	
+	if(!is_object($GLOBALS['BE_USER'])) {
+		$GLOBALS['BE_USER'] = t3lib_div::makeInstance('t3lib_beUserAuth');
+		
+		// New backend user object
+		$GLOBALS['BE_USER']->start(); // Object is initialized
+		$GLOBALS['BE_USER']->backendCheckLogin(); 
+		$GLOBALS['BE_USER']->fetchGroupData();
+	}
+	
+	$file = 'FILE:EXT:' . $_EXTKEY . '/Resources/XML/flexform_ds.xml';
 
-$file = 'FILE:EXT:' . $_EXTKEY . '/Resources/XML/flexform_ds.xml';
-//if($currentID) {
-	//$tsConfig = t3lib_BEfunc::getModTSconfig($currentID, 'plugin.F3_MailformPlusPlus');
 	$tsConfig = t3lib_BEfunc::getModTSconfig(0, 'plugin.F3_MailformPlusPlus');
 	$tsConfig = $tsConfig['properties'];
 	if($tsConfig['flexformFile']) {
 		$file = $tsConfig['flexformFile'];
 	}
 	
-//}
-t3lib_div::devLog($file,'mailformplusplus',-1,$GLOBALS['BE_USER']);
-// Add flexform DataStructure
-t3lib_extMgm::addPiFlexFormValue($_EXTKEY."_pi1", $file);
+	// Add flexform DataStructure
+	t3lib_extMgm::addPiFlexFormValue($_EXTKEY . '_pi1', $file);
 
-
-if (TYPO3_MODE=="BE")   {
-	//t3lib_extMgm::addModule('web','txtestingmoduleM1','',t3lib_extMgm::extPath($_EXTKEY).'mod1/');
-	t3lib_extMgm::addModule("web","txmailformplusplusmoduleM1","",t3lib_extMgm::extPath($_EXTKEY)."Classes/Controller/Module/");
-	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_mailformplusplus_wizicon'] = t3lib_extMgm::extPath($_EXTKEY).'Resources/PHP/class.tx_mailformplusplus_wizicon.php';
+	t3lib_extMgm::addModule('web', 'txmailformplusplusmoduleM1', '', t3lib_extMgm::extPath($_EXTKEY) . 'Classes/Controller/Module/');
+	$TBE_MODULES_EXT['xMOD_db_new_content_el']['addElClasses']['tx_mailformplusplus_wizicon'] = t3lib_extMgm::extPath($_EXTKEY) . 'Resources/PHP/class.tx_mailformplusplus_wizicon.php';
 } elseif($GLOBALS['TSFE']->id) {
 
 	$sysPageObj = t3lib_div::makeInstance('t3lib_pageSelect');
+	
+	if(!$GLOBALS['TSFE']->sys_page) {
+		$GLOBALS['TSFE']->sys_page = $sysPageObj;
+	}
+	
 	$rootLine = $sysPageObj->getRootLine($GLOBALS['TSFE']->id);
 	$TSObj = t3lib_div::makeInstance('t3lib_tsparser_ext');
 	$TSObj->tt_track = 0;
@@ -96,8 +93,7 @@ if (TYPO3_MODE=="BE")   {
 
 }
 
-
 t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/Settings/', 'Settings');
-t3lib_extMgm::addPlugin(array('MailformPlus MVC', $_EXTKEY."_pi1"), 'list_type');
-t3lib_extMgm::addPlugin(array('MailformPlus MVC Listing', $_EXTKEY."_pi2"), 'list_type');
+t3lib_extMgm::addPlugin(array('MailformPlus MVC', $_EXTKEY . '_pi1'), 'list_type');
+t3lib_extMgm::addPlugin(array('MailformPlus MVC Listing', $_EXTKEY . '_pi2'), 'list_type');
 ?>
