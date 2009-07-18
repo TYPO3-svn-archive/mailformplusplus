@@ -12,7 +12,7 @@
  * Public License for more details.                                       *
  *                                                                        */
 
-require_once (t3lib_extMgm::extPath('gimmefive') . 'Classes/Component/F3_GimmeFive_Component_Manager.php');
+require_once (t3lib_extMgm::extPath('mailformplusplus') . 'Classes/Component/F3_GimmeFive_Component_Manager.php');
 
 /**
  * Test for the Component "F3_MailformPlusPlus_Logger_DB" of the extension 'mailformplusplus'

@@ -12,7 +12,7 @@
  * Public License for more details.                                       *
  *                                                                        */
 
-require_once (t3lib_extMgm::extPath('gimmefive') . 'Classes/Component/F3_GimmeFive_Component_Manager.php');
+require_once (t3lib_extMgm::extPath('mailformplusplus') . 'Classes/Component/F3_GimmeFive_Component_Manager.php');
 
 /**
  * Test for the Component "F3_MailformPlusPlus_Logger_DB" of the extension 'mailformplusplus'
@@ -20,7 +20,7 @@ require_once (t3lib_extMgm::extPath('gimmefive') . 'Classes/Component/F3_GimmeFi
  * @package	F3_MailformPlusPlus
  * @subpackage	Tests
  */
-class F3_MailformPlusPlus_Validator_Default_testcase extends PHPUnit_Framework_TestCase {
+class F3_MailformPlusPlus_Validator_Default_testcase extends tx_phpunit_testcase {
 
 	/**
 	 *
@@ -50,6 +50,9 @@ class F3_MailformPlusPlus_Validator_Default_testcase extends PHPUnit_Framework_T
 
 	/**
 	 * Test require
+	 *
+	 * @test
+	 * @see t3lib_div::myFunction
 	 */
 	public function testRequired() {
 		$fakeGP = array();

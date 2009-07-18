@@ -14,7 +14,7 @@
  * $Id$
  *                                                                        */
 
-require_once (t3lib_extMgm::extPath('gimmefive') . 'Classes/Component/F3_GimmeFive_Component_Manager.php');
+require_once (t3lib_extMgm::extPath('mailformplusplus') . 'Classes/Component/F3_GimmeFive_Component_Manager.php');
 
 
 require_once(PATH_tslib.'class.tslib_pibase.php');

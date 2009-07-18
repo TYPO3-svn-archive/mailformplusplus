@@ -19,7 +19,6 @@
     </parties>
     <constraints>
         <depends>
-            <package>gimmefive</package>
         </depends>
         <conflicts/>
         <suggests/>

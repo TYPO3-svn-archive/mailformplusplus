@@ -28,12 +28,7 @@
 	mainly by some nice TypoScript where is is possible to define exactly what to implement. You may
 	want to play with some interceptor, finisher, logger, validators etc... For more information,
 	you should have a look into the folder "Examples" of the extension which refers many interesting samples.
-	
-	When installing the extension, you will notice it has a dependency to "gimmefive". MailformPlus MVC
-	definitely looks into the future as it integrate some bricks from the branch v5 of TYPO3. For the 
-	moment, "gimmefive" is a transition framework for us. Our plans is to upgrade our code to use "ExtBase" 
-	eventually when this one will be enough stable.
-	
+		
 	Latest development version on
 	http://forge.typo3.org/repositories/show/extension-mailformplusplus
 	  
