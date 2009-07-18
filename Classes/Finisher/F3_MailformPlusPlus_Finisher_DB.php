@@ -114,6 +114,7 @@ class F3_MailformPlusPlus_Finisher_DB extends F3_MailformPlusPlus_AbstractFinish
 			//get db uid
 			if(!$this->doUpdate) {
 				$this->gp['inserted_uid'] = $GLOBALS['TYPO3_DB']->sql_insert_id();
+				$this->gp[$this->table . '_inserted_uid'] = $this->gp['inserted_uid'];
 			}	
 		}
 
