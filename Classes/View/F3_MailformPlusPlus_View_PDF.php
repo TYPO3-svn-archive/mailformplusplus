@@ -33,15 +33,34 @@ class F3_MailformPlusPlus_View_PDF extends F3_MailformPlusPlus_View_Form {
 	 * @return string content
 	 */
 	public function render($gp, $errors) {
-		$content = parent::render($gp, $errors);
-		$markers = array();
-		$markers['###ip###'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
-		$markers['###submission_date###'] = date('d.m.Y H:i:s', time());
-		$markers['###pid###'] = $GLOBALS['TSFE']->id;
-		
-		$content = $this->cObj->substituteMarkerArray($content, $markers);
+		$this->gp = $gp;
+		session_start();
+		$this->settings = $this->parseSettings();
+		$this->sanitizeMarkers();
+		$content = parent::render($this->gp, $errors);
 
 		return $this->pi_wrapInBaseClass($content);
+	}
+	
+	/**
+	 * Sanitizes GET/POST parameters by processing the 'checkBinaryCrLf' setting in TypoScript
+	 *
+	 * @return void
+	 */
+	protected function sanitizeMarkers() {
+		$checkBinaryCrLf = $this->settings['checkBinaryCrLf'];
+		if ($checkBinaryCrLf != '') {
+			$paramsToCheck = t3lib_div::trimExplode(',', $checkBinaryCrLf);
+			foreach($paramsToCheck as &$val) {
+				
+				$val = str_replace (chr(13), '<br />', $val);
+				$val = str_replace ('\\', '', $val);
+
+			}
+		}
+		foreach($this->gp as $field => &$value) {
+			$value = nl2br($value);
+		}
 	}
 }
 ?>

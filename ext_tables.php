@@ -51,6 +51,7 @@ if (TYPO3_MODE == 'BE')   {
 		
 		// New backend user object
 		$GLOBALS['BE_USER']->start(); // Object is initialized
+		$GLOBALS['BE_USER']->checkCLIuser();
 		$GLOBALS['BE_USER']->backendCheckLogin(); 
 		$GLOBALS['BE_USER']->fetchGroupData();
 	}

@@ -352,6 +352,11 @@ class F3_MailformPlusPlus_View_Form extends F3_MailformPlusPlus_AbstractView {
 		$markers['###REL_URL###'] = $path;
 		$markers['###TIMESTAMP###'] = time();
 		$markers['###ABS_URL###'] = t3lib_div::locationHeaderUrl('') . $path;
+		
+		
+		$markers['###ip###'] = t3lib_div::getIndpEnv('REMOTE_ADDR');
+		$markers['###submission_date###'] = date('d.m.Y H:i:s', time());
+		$markers['###pid###'] = $GLOBALS['TSFE']->id;
 		session_start();
 
 		// current step

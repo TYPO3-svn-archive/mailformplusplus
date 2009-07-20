@@ -107,7 +107,7 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 			}
 		}
 
-		return $view->render($this->gp, array());
+		return $view->render($this->gp, array('mode' => $suffix));
 	}
 
 	/**
@@ -215,10 +215,10 @@ class F3_MailformPlusPlus_Finisher_Mail extends F3_MailformPlusPlus_AbstractFini
 		if($template['html']) {
 			if($mailSettings['htmlEmailAsAttachment']) {
 				$prefix = 'mailformplusplus_';
-				if(isset($emailSettings['filePrefix.']['html'])) {
-					$prefix = $emailSettings['filePrefix.']['html'];
-				} elseif(isset($emailSettings['filePrefix'])) {
-					$prefix = $emailSettings['filePrefix'];
+				if(isset($mailSettings['filePrefix.']['html'])) {
+					$prefix = $mailSettings['filePrefix.']['html'];
+				} elseif(isset($mailSettings['filePrefix'])) {
+					$prefix = $mailSettings['filePrefix'];
 				}
 				$tmphtml = tempnam('typo3temp/', ('/' . $prefix)) . '.html';
 				$tmphtml = str_replace('.tmp', '', $tmphtml);

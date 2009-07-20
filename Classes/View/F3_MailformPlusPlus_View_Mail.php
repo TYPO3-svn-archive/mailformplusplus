@@ -27,7 +27,7 @@ class F3_MailformPlusPlus_View_Mail extends F3_MailformPlusPlus_View_Form {
 	 * Main method called by the controller.
 	 *
 	 * @param array $gp The current GET/POST parameters
-	 * @param array $errors The errors occurred in validation
+	 * @param array $errors In this class the second param is used to pass information about the email mode (HTML|PLAIN)
 	 * @return string content
 	 */
 	public function render($gp, $errors) {
@@ -47,6 +47,10 @@ class F3_MailformPlusPlus_View_Mail extends F3_MailformPlusPlus_View_Form {
 		//set language file
 		if(!$this->langFile) {
 			$this->readLangFile();
+		}
+		
+		if($errors['mode'] != 'plain') {
+			$this->sanitizeMarkers();
 		}
 		
 		//substitute ISSET markers
@@ -72,6 +76,27 @@ class F3_MailformPlusPlus_View_Mail extends F3_MailformPlusPlus_View_Form {
 
 
 		return trim($content);
+	}
+	
+	/**
+	 * Sanitizes GET/POST parameters by processing the 'checkBinaryCrLf' setting in TypoScript
+	 *
+	 * @return void
+	 */
+	protected function sanitizeMarkers() {
+		$checkBinaryCrLf = $this->settings['checkBinaryCrLf'];
+		if ($checkBinaryCrLf != '') {
+			$paramsToCheck = t3lib_div::trimExplode(',', $checkBinaryCrLf);
+			foreach($paramsToCheck as &$val) {
+				
+				$val = str_replace (chr(13), '<br />', $val);
+				$val = str_replace ('\\', '', $val);
+
+			}
+		}
+		foreach($this->gp as $field => &$value) {
+			$value = nl2br($value);
+		}
 	}
 
 }
